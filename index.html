@@ -1,7 +1,7 @@
 <!doctype html><html lang="pt-BR"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#23404A">
 <title>HealthOps Aeronauta</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
-</head><body><div id="versionBadge" class="version-badge">v0.5.2</div><div id="app">
+</head><body><div id="versionBadge" class="version-badge">v0.5.5</div><div id="app">
 <header class="topbar"><div><p class="eyebrow">HealthOps Aeronauta</p><h1 id="todayTitle">—</h1></div><button id="installBtn" class="ghost hidden">Instalar</button></header>
 <main>
 <section id="view-dashboard" class="view active">
@@ -15,7 +15,7 @@
  <div class="grid form-grid"><label>Sono principal (h)<input id="sleepHours" type="number" step="0.1" min="0" max="16"></label><label>Cochilos (min)<input id="napMinutes" type="number" min="0" max="300"></label><label>Energia 0-10<input id="energy" type="range" min="0" max="10"><output id="energyOut"></output></label><label>Foco 0-10<input id="focus" type="range" min="0" max="10"><output id="focusOut"></output></label><label>Água (ml)<input id="waterMl" type="number" min="0" step="100"></label><label>Cafeína total estimada (mg)<input id="caffeineMg" type="number" min="0" step="20"></label></div>
  <section class="panel nested"><h3>Cafeína rápida</h3><div class="checkgrid"><button type="button" data-caf="60">+ Espresso</button><button type="button" data-caf="100">+ Café pequeno</button><button type="button" data-caf="160">+ Café médio</button><button type="button" data-caf="80">+ Energético</button></div></section>
  <section class="panel nested"><h3>Atividades realizadas</h3><div id="trainingChecks" class="checkgrid"></div><label>Intensidade<select id="trainingIntensity"><option>Nenhuma</option><option>Leve</option><option>Moderada</option><option>Intensa</option></select></label><label>Duração total (min)<input id="trainingMinutes" type="number" min="0"></label></section>
- <section class="panel nested"><h3>Alimentação</h3><label>Resumo do dia<textarea id="foodSummary" rows="4" placeholder="Ex.: café reforçado, almoço leve, pouca proteína no jantar, belisquei à noite..."></textarea></label></section>
+ <section class="panel nested"><h3>Alimentação por refeições</h3><div class="grid form-grid"><label>Refeição<select id="mealType"><option>Café da manhã</option><option>Lanche</option><option>Almoço</option><option>Jantar</option><option>Ceia</option><option>Pré-treino</option><option>Pós-treino</option><option>Serviço de bordo</option><option>Outro</option></select></label><label>Descrição<input id="mealDesc" placeholder="Ex.: arroz, frango, salada; café + pão; lanche do voo..."></label></div><button type="button" id="addMealBtn" class="ghost">Adicionar refeição</button><div id="mealsList"></div><label>Resumo geral do dia<textarea id="foodSummary" rows="3" placeholder="Ex.: alimentação regular, pouca proteína, belisquei à noite..."></textarea></label></section>
  <section class="panel nested"><h3>Medicações e suplementos</h3><div id="medChecklist" class="checkgrid"></div></section>
  <button>Salvar check-in</button>
  </form></section>

@@ -1,5 +1,5 @@
-const APP_VERSION='0.5.3';
-const K={roster:'healthops_roster_v053',checkins:'healthops_checkins_v053',meds:'healthops_meds_v053',settings:'healthops_settings_v053'};
+const APP_VERSION='0.5.5';
+const K={roster:'healthops_roster_v055',checkins:'healthops_checkins_v055',meds:'healthops_meds_v055',settings:'healthops_settings_v055'};
 const $=id=>document.getElementById(id);
 const todayISO=()=>new Date().toISOString().slice(0,10);
 const fmtDate=s=>new Date(s+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'});
@@ -9,6 +9,16 @@ const byDate=(a,b)=>a.date.localeCompare(b.date);
 function download(name,content,type='text/plain'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 
 const OpsEngine={
+ activityMap:{ADM:'Admin',API:'No Hotel',BKF:'Breakfast',ASB:'Airport stand by',ASB1:'Airport stand by 1',ASB2:'Airport stand by 2',ASB3:'Airport stand by 3',HSB:'Home Stand by',HSB1:'Home Stand by 1',HSB2:'Home Stand by 2',HSB3:'Home Stand by 3',HSBD:'Home Stand by delay',DO:'Day off',DOA:'Additional Day Off',DOB:'Day off out of base',DOBI:'Day off out of base international',DR:'Requested day off',DOR:'Returned day off',DOR1:'Required day off 1',DOR2:'Required day off 2',DOR3:'Required day off 3',OFF:'OFF',REST:'Rest',REP:'Pos journey rest',RSV:'System Reserved',APR:'APRESENTAÇÃO',APRO_JJ:'APRESENTAÇÃO ORIGINAL',R320:'Periodic A319/320/321',CBF:'COMBATE AO FOGO',EMER:'EMERGÊNCIAS GERAIS',CRM:'CRM Training - corporate',CRMBSB:'CRM Training - corporate',AQP:'AQP training',EFB:'Electronic Flight Bag',TFTG:'Fatigue Training',TFD1:'Initial Fatigue + Safety case',TFD2:'Initial Fatigue',CAF:'Fatigue action',FTG:'Fatigue',OOF:'Out of flight',MOF:'Medical Out of Flight',WEB:'Online training',ONTR:'Online training',LGPD:'E-learning LGPD',INEO_JJ:'APP I FLIGHT NEO',TA:'Stby call out',TAA:'Stby call out B',CNL:'Cancellation',NTF:'Notify',OWC:'Own roster change',IMP:'Unexpected Layover'},
+ regulatoryDayOffCodes:new Set(['DO','DR','DOA','DOB','DOBI','DOR','DOR1','DOR2','DOR3','DC','DBC','DCH','DE','DF','DH','DMO','DOF','DOP','DOPR','DRC','DS','DU','DW','DATL','DB']),
+ restCodes:new Set(['REST','REP','OFF']),
+ standbyCodes:new Set(['ASB','ASB1','ASB2','ASB3','HSB','HSB1','HSB2','HSB3','HSB4','HSBD','HSBE','RSV']),
+ trainingCodes:new Set(['R320','CBF','EMER','CRM','CRMBSB','AQP','AQP-S3','AQP_SS','EFB','TFTG','TFD1','TFD2','WEB','ONTR','LGPD','INEO_JJ','NPO','REG']),
+ isRegulatoryDayOff(code){return this.regulatoryDayOffCodes.has(String(code||'').toUpperCase())},
+ isRest(code){return this.restCodes.has(String(code||'').toUpperCase())},
+ isStandby(code){const c=String(code||'').toUpperCase(); return this.standbyCodes.has(c)||/^ASB\d*$/.test(c)||/^HSB\d*$/.test(c)},
+ isTraining(code){return this.trainingCodes.has(String(code||'').toUpperCase())},
+ describeCode(code){return this.activityMap[String(code||'').toUpperCase()]||''},
  monthMap:{jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12'},
  parseDateToken(token){
   const m=String(token||'').match(/(\d{1,2})[-\/\.](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\d{1,2})[-\/\.](\d{2,4})/i);
@@ -22,9 +32,9 @@ const OpsEngine={
   const raw=((item.raw||'')+' '+(item.summary||'')+' '+(item.code||'')).toUpperCase();
   const start=item.startTime||'', end=item.endTime||'';
   const h=t=>t?parseInt(t.split(':')[0],10):null;
-  if(/\b(DO|DR|FOLGA|OFF)\b/.test(raw)) return {type:'Folga',load:'Sem',summary:'Folga/descanso identificado na escala.'};
+  if(/\b(DO|DR|FOLGA|OFF)\b/.test(raw)) return {type:'Folga',load:'Sem',summary:'Folga regulamentar/descanso identificado na escala.'};
   if(/\b(VC)\b/.test(raw)) return {type:'Viagem/Composição',load:'Operacional',summary:'Item VC identificado. Conferir natureza operacional na escala.'};
-  if(/\b(RES|RSV|SOBREAVISO|ASB|SBY)\b/.test(raw)) return {type:'Reserva/Sobreaviso',load:'Operacional',summary:'Dia de reserva/sobreaviso. Manter prontidão e rotina leve.'};
+  if(/\b(RES|RSV|SOBREAVISO|ASB|HSB|SBY)\b/.test(raw)) return {type:'Reserva/Sobreaviso',load:'Operacional',summary:'Dia de reserva/sobreaviso. Manter prontidão e rotina leve.'};
   if(/\b(CRM|CBF|EMER|R320|TREIN|SIM)\b/.test(raw)) return {type:'Treinamento/Atividade',load:'Operacional',summary:'Atividade operacional/treinamento identificada.'};
   const sh=h(start), eh=h(end);
   if((eh!==null&&eh<8)||(sh!==null&&sh<5)||/\(\+1\)|MADR|RED EYE|NOTUR/.test(raw)) return {type:'Madrugada/Recuperação',load:'Alta',summary:'Operação em madrugada ou chegada cedo. Priorizar sono, hidratação e recuperação.'};
@@ -52,7 +62,7 @@ const OpsEngine={
  parseGroup(g){
   const raw=g.lines.join(' ').replace(/\s+/g,' ').trim();
   const first=(g.lines[0]||'').trim();
-  const code=(first.match(/^([A-Z]{2,5}\d*|LA\d{3,4}|ASB[^\s]*|CRMBSB|R320|CBF|EMER|VC|DO|DR)\b/)||[])[1]||'';
+  const code=(first.match(/^([A-Z]{1,8}(?:[-_][A-Z0-9]+)?\d*|LA\d{3,4})\b/)||[])[1]||'';
   const report=(first.match(/\b(\d{1,2}:\d{2})\b/)||[])[1]||'';
   const legs=[];
   const legRe=/\b(LA\d{3,4})\b[^A-Z0-9]*(?:CC\s+)?(?:OP|PS)?\s*([A-Z]{3})\s+(\d{1,2}:\d{2})\s+([A-Z]{3})\s+(\d{1,2}:\d{2})/g;
@@ -68,12 +78,14 @@ const OpsEngine={
   else if(allTimes.length) endTime=allTimes[allTimes.length-1];
   const sectors=legs.length;
   const route=legs.length?`${legs[0].dep} → ${legs[legs.length-1].arr}`:(airportTimes.length?`${airportTimes[0].apt} → ${airportTimes[airportTimes.length-1].apt}`:'');
-  let item={date:g.date,code,startTime,endTime,raw,legs,sectors,route,summary:''};
+  let description=this.describeCode(code);
+  let item={date:g.date,code,description,startTime,endTime,raw,legs,sectors,route,summary:''};
   Object.assign(item,this.classify(item));
   if(item.type==='Voo/Operacional'||item.type==='Madrugada/Recuperação') item.summary=`${sectors||'—'} setor(es) ${route?('• '+route):''} ${startTime&&endTime?('• '+startTime+' → '+endTime):''}`;
-  else if(item.type==='Folga') item.summary='Folga/descanso identificado na escala.';
-  else if(item.type==='Reserva/Sobreaviso') item.summary=`Reserva/sobreaviso ${startTime&&endTime?startTime+' → '+endTime:''}`;
-  else if(item.type==='Treinamento/Atividade') item.summary=`${code||'Atividade'} ${startTime&&endTime?startTime+' → '+endTime:''}`;
+  else if(item.isRegulatoryDayOff) item.summary=`${description||code||'Folga'} • Folga regulamentar de 24h. Não conta como programação/jornada.`;
+  else if(item.type==='Repouso/Descanso') item.summary=`${description||code||'Repouso'} ${startTime&&endTime?startTime+' → '+endTime:''}`;
+  else if(item.type==='Reserva/Sobreaviso') item.summary=`${description||'Reserva/sobreaviso'} ${startTime&&endTime?startTime+' → '+endTime:''}`;
+  else if(item.type==='Treinamento/Atividade') item.summary=`${description||code||'Atividade'} ${startTime&&endTime?startTime+' → '+endTime:''}`;
   return item;
  },
  mergeByDate(items){
@@ -104,9 +116,12 @@ const OpsEngine={
   const sorted=[...items].sort((a,b)=>(a.startTime||'99:99').localeCompare(b.startTime||'99:99'));
   const legs=sorted.flatMap(i=>i.legs||[]);
   const high=sorted.some(i=>i.load==='Alta');
-  const rest=sorted.every(i=>i.type==='Folga');
+  const rest=sorted.every(i=>i.isRegulatoryDayOff||i.type==='Repouso/Descanso');
+  const allDayOff=sorted.every(i=>i.isRegulatoryDayOff);
   const first=sorted[0], last=sorted[sorted.length-1];
-  return {...first,type:rest?'Folga':(high?'Madrugada/Recuperação':(legs.length?'Voo/Operacional':first.type)),load:rest?'Sem':(high?'Alta':first.load),startTime:first.startTime,endTime:last.endTime,legs,sectors:legs.length,summary:rest?'Folga/descanso identificado na escala.':`${sorted.length} item(ns) no dia${legs.length?`, ${legs.length} setor(es)`:''}. ${first.startTime||'—'} → ${last.endTime||'—'}`};
+  const aggregateType=allDayOff?'Folga Regulamentar':(rest?'Repouso/Descanso':(high?'Madrugada/Recuperação':(legs.length?'Voo/Operacional':first.type))); 
+  const aggregateSummary=allDayOff?'Folga regulamentar de 24h. Não conta como programação/jornada.':(rest?'Repouso/descanso identificado na escala.':`${sorted.length} item(ns) no dia${legs.length?`, ${legs.length} setor(es)`:''}. ${first.startTime||'—'} → ${last.endTime||'—'}`); 
+  return {...first,type:aggregateType,load:(rest||allDayOff)?'Sem':(high?'Alta':first.load),startTime:first.startTime,endTime:last.endTime,legs,sectors:legs.length,summary:aggregateSummary,isRegulatoryDayOff:allDayOff,countsAsDuty:!rest};
  },
  today(roster){return this.aggregateDate(roster.filter(r=>r.date===todayISO()))},
  next(roster,n=4){const t=todayISO(); const dates=[...new Set(roster.filter(r=>r.date>=t).sort(byDate).map(r=>r.date))].slice(0,n); return dates.map(d=>this.aggregateDate(roster.filter(r=>r.date===d))).filter(Boolean)},
@@ -114,21 +129,29 @@ const OpsEngine={
 };
 
 const DutyEngine={
- settings:{maxDutyDay:12,maxDutyNight:10,minRest:12,maxConsecutiveEarlyStarts168h:3},
+ settings:{maxDutyDay:12,maxDutyNight:10,minRest:10,maxConsecutiveEarlyStarts168h:3},
  timeToDate(date,time){if(!date||!time)return null; return new Date(date+'T'+time)},
  hoursBetween(a,b){return (b-a)/36e5},
  calc(item,prev,all=[]){
   const start=item.startTime, end=item.endTime; let dutyHours=null, restHours=null, flags=[];
+  const add=(title,reason,rule='Base Lei/RBAC/ACT')=>flags.push({title,reason,rule});
+  if(item.isRegulatoryDayOff||item.type==='Folga Regulamentar'){
+   add('Folga regulamentar reconhecida', 'DO/DR e demais códigos de day off foram tratados como folga regulamentar de 24h, não como programação ou jornada.', 'Motor semântico IFN');
+   return {...item,dutyHours:null,restHours:null,night:false,flags};
+  }
+  if(item.type==='Repouso/Descanso' && !item.countsAsDuty){
+   return {...item,dutyHours:null,restHours:null,night:false,flags};
+  }
   let s=start?this.timeToDate(item.date,start):null, e=end?this.timeToDate(item.date,end):null;
   if(s&&e){if(e<s)e.setDate(e.getDate()+1); dutyHours=this.hoursBetween(s,e)}
   if(prev?.endTime&&start){let p=this.timeToDate(prev.date,prev.endTime), ss=this.timeToDate(item.date,start); if(p&&ss){if(p>ss)p.setDate(p.getDate()-1); restHours=this.hoursBetween(p,ss)}}
   const night=(start&&parseInt(start)<6)||(end&&parseInt(end)<8)||item.type?.includes('Madrugada');
   const limit=night?this.settings.maxDutyNight:this.settings.maxDutyDay;
-  const add=(title,reason,rule='Base Lei/RBAC/ACT')=>flags.push({title,reason,rule});
   if(dutyHours!==null&&dutyHours>limit) add('Possível extrapolação de jornada',`Jornada estimada de ${dutyHours.toFixed(1)}h acima do limite base configurado de ${limit}h.`, 'Conferir Lei 13.475/17, RBAC 117 e ACT aplicável');
-  if(restHours!==null&&restHours<this.settings.minRest) add('Possível repouso insuficiente',`Repouso estimado de ${restHours.toFixed(1)}h abaixo da referência base de ${this.settings.minRest}h.`, 'Conferir regra de repouso aplicável e ACT');
+  if(restHours!==null&&restHours<this.settings.minRest) add('Possível repouso insuficiente',`Repouso estimado de ${restHours.toFixed(1)}h abaixo da referência operacional de ${this.settings.minRest}h para descanso entre jornadas simples.`, 'Conferir regra de repouso aplicável e ACT');
+  if(restHours!==null&&restHours>=10&&restHours<12&&item.load==='Alta') add('Repouso regulamentar mínimo, atenção à fadiga',`Repouso estimado de ${restHours.toFixed(1)}h: considerar OK para descanso simples de 10h ou mais, mas manter atenção por alta carga/madrugada.`, 'Gerenciamento de fadiga');
   if(item.load==='Alta') add('Alta carga operacional', 'Madrugada, chegada cedo ou operação com impacto potencial em fadiga. Usar como ponto de atenção para sono, hidratação e recuperação.', 'Gerenciamento de fadiga');
-  if(start&&parseInt(start)<10 && prev?.type==='Folga' && restHours!==null && restHours<24){
+  if(start&&parseInt(start)<10 && (prev?.isRegulatoryDayOff||prev?.type==='Folga Regulamentar') && restHours!==null && restHours<24){
    add('Apresentação antes das 10h após monofolga', `Há folga anterior registrada e apresentação às ${start}. Verificar se a folga/repouso cumpriu o ACT aplicável.`, 'ACT/monofolga');
   }
   if(start&&parseInt(start)<6){
@@ -189,11 +212,12 @@ let state={roster:load(K.roster,[]),checkins:load(K.checkins,{}),meds:load(K.med
 
 function render(){renderHeader();renderDashboard();renderRoster();renderDuty();renderCheckin();renderMeds();renderFatigue()}
 function renderHeader(){$('todayTitle').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'}); const vb=$('versionBadge'); if(vb) vb.textContent='v'+APP_VERSION;}
-function renderDashboard(){const day=OpsEngine.today(state.roster), c=state.checkins[todayISO()], f=FatigueEngine.score(day,c); $('dayType').textContent=day?day.type:'Sem dados disponíveis'; $('daySummary').textContent=day?day.summary:'Sem dados disponíveis para a data de hoje. Importe/processa a escala do mês para análise correta.'; $('recoveryScore').textContent=f.score??'--'; $('mDuty').textContent=day?(day.startTime||'—')+' → '+(day.endTime||'—'):'—'; $('mSleep').textContent=c?.sleepHours?c.sleepHours+'h':'—'; $('mEnergy').textContent=c?.energy??'—'; $('mWater').textContent=c?.waterMl?c.waterMl+' ml':'—'; $('todayBadges').innerHTML=day?`<span class="badge">${day.load}</span><span class="badge">${day.date}</span>`:'<span class="badge">Sem escala hoje</span>'; $('upcomingDays').innerHTML=OpsEngine.next(state.roster,4).map(d=>`<div class="mini-day ${d.load}"><strong>${fmtDate(d.date)}</strong><span>${d.type}</span><small>${d.summary}</small></div>`).join('')||'<p class="muted">Sem próximos dias importados.</p>'; const ins=[]; if(!day)ins.push('Importe a escala para liberar recomendações de sono, treino, água e jornada.'); if(day?.load==='Alta')ins.push('Priorize hidratação, alimentação simples e treino leve/mobilidade.'); if(day?.type?.includes('Madrugada'))ins.push('Planeje bloco de sono pós-madrugada e evite treino intenso.'); $('insights').innerHTML=ins.map(x=>`<p class="insight">${x}</p>`).join('')||'<p class="insight">Dia adequado para rotina normal, se o check-in estiver bom.</p>'; renderProtocolCards();}
+function renderDashboard(){const day=OpsEngine.today(state.roster), c=state.checkins[todayISO()], f=FatigueEngine.score(day,c); $('dayType').textContent=day?day.type:'Sem dados disponíveis'; $('daySummary').textContent=day?day.summary:'Sem dados disponíveis para a data de hoje. Importe/processa a escala do mês para análise correta.'; $('recoveryScore').textContent=f.score??'--'; $('mDuty').textContent=day?(day.startTime||'—')+' → '+(day.endTime||'—'):'—'; $('mSleep').textContent=c?.sleepHours?c.sleepHours+'h':'—'; $('mEnergy').textContent=c?.energy??'—'; $('mWater').textContent=c?.waterMl?c.waterMl+' ml':'—'; $('todayBadges').innerHTML=day?`<span class="badge">${day.load}</span><span class="badge">${day.date}</span>`:'<span class="badge">Sem escala hoje</span>'; $('upcomingDays').innerHTML=OpsEngine.next(state.roster,4).map(d=>`<div class="mini-day ${d.load}"><strong>${fmtDate(d.date)}</strong><span>${d.type}</span><small>${d.summary}</small></div>`).join('')||'<p class="muted">Sem próximos dias importados.</p>'; const ins=[]; if(!day)ins.push('Importe a escala para liberar recomendações de sono, treino, água e jornada.'); if(day?.load==='Alta')ins.push('Priorize hidratação, alimentação simples e treino leve/mobilidade.'); if(day?.type?.includes('Madrugada'))ins.push('Planeje bloco de sono pós-madrugada e evite treino intenso.'); const water=Number(c?.waterMl||0), caf=Number(c?.caffeineMg||0); if(c){ if(water<1800) ins.push('Você ainda não ingeriu água suficiente — fique atento à hidratação.'); if(caf>=300) ins.push('Cuidado! Consumo de cafeína elevado hoje. Observe sono, ansiedade, palpitações e hidratação.'); if(!c.training?.length) ins.push('Já fez exercício hoje? Não esqueça de marcar, mesmo que seja mobilidade ou caminhada.'); if(!c.meals?.length && !c.foodSummary) ins.push('Nenhuma refeição registrada hoje. Registre ao menos um resumo da alimentação.'); const pending=state.meds.filter(m=>m.active && !(c.medsTaken||[]).includes(m.id)); if(pending.length) ins.push(`Medicações/suplementos pendentes hoje: ${pending.length} item(ns).`);} else {ins.push('Faça o check-in para ativar alertas de água, cafeína, alimentação, treino e medicações.')} $('insights').innerHTML=ins.map(x=>`<p class="insight">${x}</p>`).join('')||'<p class="insight">Dia adequado para rotina normal, se o check-in estiver bom.</p>'; renderProtocolCards();}
 function renderProtocolCards(){const meds=state.meds.filter(m=>m.active); const groups={Manhã:meds.filter(m=>m.when==='Manhã'),Noite:meds.filter(m=>m.when==='Noite')}; $('todayProtocols').innerHTML=Object.entries(groups).map(([g,items])=>`<div class="protocol-card"><strong>${g}</strong><span>${items.length} itens</span><small>${items.filter(i=>i.risk==='sensitive').length?'Contém item sensível':''}</small></div>`).join('')}
 function renderRoster(){$('rosterList').innerHTML=state.roster.map(r=>`<article class="roster-card ${r.load}"><h3><span>${fmtDate(r.date)}</span><span>${r.type}</span></h3><p>${r.startTime||'—'} → ${r.endTime||'—'}</p><p>${r.summary}</p></article>`).join('')||'<p class="muted">Nenhuma escala processada.</p>'}
 function renderDuty(){const rows=DutyEngine.analyze([...state.roster]); $('dutyList').innerHTML=rows.map(r=>`<article class="roster-card ${r.load}"><h3><span>${fmtDate(r.date)}</span><span>${r.dutyHours? r.dutyHours.toFixed(1)+'h':'sem horário'}</span></h3><p>Repouso anterior: ${r.restHours? r.restHours.toFixed(1)+'h':'—'} | Noturno: ${r.night?'sim':'não'}</p>${r.flags.map(f=>typeof f==='string'?`<div class="rule-alert"><strong>Ponto de atenção</strong><p>${f}</p></div>`:`<div class="rule-alert"><strong>${f.title}</strong><p>${f.reason}</p><small>${f.rule}</small></div>`).join('')||'<p class="muted">Sem ponto de atenção preliminar.</p>'}</article>`).join('')||'<p class="muted">Importe a escala para calcular jornada.</p>'}
-function renderCheckin(){['energy','focus'].forEach(id=>{const el=$(id),out=$(id+'Out'); if(el&&out){out.textContent=el.value; el.oninput=()=>out.textContent=el.value}}); const acts=['Treino curto','Treino completo','Mobilidade','Alongamento','Caminhada','Corrida','Piscina','Bike','Funcional']; $('trainingChecks').innerHTML=acts.map(a=>`<label><input type="checkbox" value="${a}" name="training"> ${a}</label>`).join(''); $('medChecklist').innerHTML=state.meds.filter(m=>m.active).map(m=>`<label><input type="checkbox" value="${m.id}" name="medtaken"> ${m.name}</label>`).join('')||'<p class="muted">Cadastre/carregue medicações.</p>'}
+function renderCheckin(){const cur=state.checkins[todayISO()]||{}; ['sleepHours','napMinutes','energy','focus','waterMl','caffeineMg','trainingIntensity','trainingMinutes','foodSummary'].forEach(id=>{if($(id)&&cur[id]!==undefined) $(id).value=cur[id]}); ['energy','focus'].forEach(id=>{const el=$(id),out=$(id+'Out'); if(el&&out){out.textContent=el.value; el.oninput=()=>out.textContent=el.value}}); const acts=['Treino curto','Treino completo','Mobilidade','Alongamento','Caminhada','Corrida','Piscina','Bike','Funcional']; $('trainingChecks').innerHTML=acts.map(a=>`<label><input type="checkbox" value="${a}" name="training" ${cur.training?.includes(a)?'checked':''}> ${a}</label>`).join(''); renderMeals(); const taken=new Set(cur.medsTaken||[]); $('medChecklist').innerHTML=state.meds.filter(m=>m.active).map(m=>{const done=taken.has(m.id); return `<label class="${done?'done':''}"><input type="checkbox" value="${m.id}" name="medtaken" ${done?'checked disabled':''}> ${done?'✓ ':''}${m.name}<small>${done?'Já tomado hoje':'Pendente'}</small></label>`}).join('')||'<p class="muted">Cadastre/carregue medicações.</p>'}
+function renderMeals(){const c=state.checkins[todayISO()]||{}; const meals=c.meals||[]; const el=$('mealsList'); if(!el)return; el.innerHTML=meals.map((m,i)=>`<div class="meal-item"><strong>${m.type}</strong><p>${m.desc}</p><button type="button" class="ghost" data-remove-meal="${i}">Remover</button></div>`).join('')||'<p class="muted">Nenhuma refeição adicionada hoje.</p>'}
 function renderMeds(){ $('medList').innerHTML=state.meds.map(m=>`<div class="med-group"><div class="med-row"><div><strong>${m.name}</strong><small>${m.kind} • ${m.dose||'dose livre'} • ${m.when}</small></div><span class="tag ${m.risk}">${MedicationEngine.riskLabel(m.risk)}</span></div><div class="reason-box"><strong>Motivo da classificação</strong><p>${MedicationEngine.riskReason(m)}</p></div></div>`).join('')||'<p class="muted">Nenhuma medicação cadastrada.</p>'}
 function renderFatigue(){const f=FatigueEngine.score(OpsEngine.today(state.roster),state.checkins[todayISO()]); $('fatigueScore').textContent=f.score??'--'; $('fatigueBreakdown').innerHTML=f.parts.map(p=>`<p class="insight">${p}</p>`).join('')}
 
@@ -250,7 +274,7 @@ async function readFile(file){
  return await file.text();
 }
 
-document.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; if(b.dataset.view){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active')); $('view-'+b.dataset.view).classList.add('active'); b.classList.add('active')} if(b.dataset.caf){$('caffeineMg').value=Number($('caffeineMg').value||0)+Number(b.dataset.caf)}});
+document.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; if(b.dataset.view){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active')); $('view-'+b.dataset.view).classList.add('active'); b.classList.add('active')} if(b.dataset.caf){$('caffeineMg').value=Number($('caffeineMg').value||0)+Number(b.dataset.caf)} if(b.id==='addMealBtn'){const type=$('mealType').value, desc=$('mealDesc').value.trim(); if(!desc){alert('Descreva a refeição antes de adicionar.'); return;} const key=todayISO(); const c=state.checkins[key]||{date:key}; c.meals=c.meals||[]; c.meals.push({type,desc,at:new Date().toISOString()}); state.checkins[key]=c; save(K.checkins,state.checkins); $('mealDesc').value=''; render()} if(b.dataset.removeMeal!==undefined){const key=todayISO(); const c=state.checkins[key]||{date:key,meals:[]}; c.meals.splice(Number(b.dataset.removeMeal),1); state.checkins[key]=c; save(K.checkins,state.checkins); render()}});
 $('rosterFile').addEventListener('change',async e=>{
  const f=e.target.files[0]; if(!f)return;
  $('parseStatus').textContent='Lendo arquivo: '+f.name+'...';
@@ -269,12 +293,12 @@ $('rosterFile').addEventListener('change',async e=>{
 });
 $('processRoster').onclick=()=>{const parsed=OpsEngine.parseText($('rosterText').value); state.roster=parsed; save(K.roster,state.roster); const st=OpsEngine.stats(parsed); $('parseStatus').textContent=parsed.length?`${st.days} dia(s), ${st.items} item(ns) e ${st.flights} setor(es) processados de ${st.from} a ${st.to}. Dashboard, jornada e exportações atualizados.`:'Nenhum item reconhecido. Confira se o texto contém datas no formato 01-Jun-2026 ou 01/06/2026.'; render()};
 $('clearRoster').onclick=()=>{state.roster=[];save(K.roster,[]);render()};
-$('checkinForm').onsubmit=e=>{e.preventDefault(); const data={date:todayISO(),sleepHours:$('sleepHours').value,napMinutes:$('napMinutes').value,energy:$('energy').value,focus:$('focus').value,waterMl:$('waterMl').value,caffeineMg:$('caffeineMg').value,training:[...document.querySelectorAll('input[name=training]:checked')].map(x=>x.value),trainingIntensity:$('trainingIntensity').value,trainingMinutes:$('trainingMinutes').value,foodSummary:$('foodSummary').value,medsTaken:[...document.querySelectorAll('input[name=medtaken]:checked')].map(x=>x.value)}; state.checkins[todayISO()]=data; save(K.checkins,state.checkins); alert('Check-in salvo.'); render()};
+$('checkinForm').onsubmit=e=>{e.preventDefault(); const prev=state.checkins[todayISO()]||{}; const taken=new Set(prev.medsTaken||[]); [...document.querySelectorAll('input[name=medtaken]:checked')].forEach(x=>taken.add(x.value)); const data={date:todayISO(),sleepHours:$('sleepHours').value,napMinutes:$('napMinutes').value,energy:$('energy').value,focus:$('focus').value,waterMl:$('waterMl').value,caffeineMg:$('caffeineMg').value,training:[...document.querySelectorAll('input[name=training]:checked')].map(x=>x.value),trainingIntensity:$('trainingIntensity').value,trainingMinutes:$('trainingMinutes').value,foodSummary:$('foodSummary').value,meals:prev.meals||[],medsTaken:[...taken]}; state.checkins[todayISO()]=data; save(K.checkins,state.checkins); alert('Check-in salvo.'); render()};
 $('loadGabrielProtocol').onclick=()=>{state.meds=MedicationEngine.defaultProtocol(); save(K.meds,state.meds); render()};
 $('addMedBtn').onclick=()=>{const name=prompt('Nome do medicamento/suplemento/manipulado:'); if(!name)return; const dose=prompt('Dose/descrição:')||''; const when=prompt('Horário padrão: Manhã, Tarde ou Noite','Manhã')||'Manhã'; const risk=prompt('Classificação: compatible, attention, restricted ou sensitive','attention')||'attention'; const reason=prompt('Motivo/observação da classificação:')||MedicationEngine.riskInfo[risk]?.defaultReason||''; state.meds.push({id:'med_'+Date.now(),name,dose,when,risk,reason,kind:'Outro',active:true}); save(K.meds,state.meds); render()};
 $('exportCsv').onclick=()=>download('healthops_escala.csv',ExportEngine.csv(state.roster),'text/csv');
 $('exportIcs').onclick=()=>download('healthops_calendario.ics',ExportEngine.ics(state.roster),'text/calendar');
-$('backupJson').onclick=()=>download('healthops_backup_v053.json',JSON.stringify(state,null,2),'application/json');
+$('backupJson').onclick=()=>download('healthops_backup_v055.json',JSON.stringify(state,null,2),'application/json');
 $('actProfile').onchange=e=>{state.settings.act=e.target.value;save(K.settings,state.settings)};
 
 if('serviceWorker'in navigator) navigator.serviceWorker.register('./service-worker.js');

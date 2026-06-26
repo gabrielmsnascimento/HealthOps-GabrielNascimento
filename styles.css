@@ -15,3 +15,6 @@
 .version-badge{position:fixed;right:10px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:30;background:rgba(29,32,36,.88);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900;letter-spacing:.03em;box-shadow:0 8px 22px rgba(29,32,36,.18)}
 .reason-box,.rule-alert{margin-top:10px;border-radius:14px;padding:10px 12px;background:#fbfaf7;border:1px solid rgba(35,64,74,.12)}
 .reason-box strong,.rule-alert strong{display:block;color:var(--petrol);font-size:13px;margin-bottom:4px}.reason-box p,.rule-alert p{color:var(--graphite);font-size:13px;line-height:1.35}.rule-alert{border-left:4px solid #b34242;background:#fff7f7}.rule-alert small{display:block;margin-top:6px;color:#8b2f2f;font-weight:900;font-size:11px}
+
+/* HealthOps v0.5.5 */
+.meal-item{background:#fff;border:1px solid rgba(35,64,74,.12);border-radius:14px;padding:10px;margin:8px 0;display:grid;gap:5px}.meal-item strong{color:var(--petrol)}.meal-item p{color:var(--graphite);font-size:13px;line-height:1.35}.checkgrid label.done{opacity:.68;background:#edf7ef;border-color:#a9d8b8}.checkgrid label small{display:block;color:var(--warm);font-size:11px;margin-top:2px}.checkgrid label.done small{color:#28613a;font-weight:800}
