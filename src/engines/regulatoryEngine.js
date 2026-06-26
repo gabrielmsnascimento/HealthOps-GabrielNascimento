@@ -1,58 +1,49 @@
-export function evaluateRegulation(days, config={}){
-  const rules = { simpleRestOkHours:10, baseDutyLimitHours:12, ...config };
+export function evaluateRegulation(days){
   const alerts=[];
-  let previousDutyDay=null;
-  for(const day of days){
-    const isDayOff = day.events.some(e=>e.isDayOff);
-    if(isDayOff){
-      alerts.push({date:day.date, level:'OK', title:'Folga regulamentar reconhecida', detail:'DO/DR e equivalentes contam como folga/repouso de 24h, mas não contam como jornada.'});
+  const sorted=[...days].sort((a,b)=>a.date.localeCompare(b.date));
+  for(let i=0;i<sorted.length;i++){
+    const d=sorted[i];
+    if(d.classification==='Folga regulamentar'){
+      alerts.push({level:'OK',date:d.date,title:'Folga regulamentar reconhecida',detail:'DO/DR e equivalentes contam como folga/repouso de 24h, mas não contam como jornada.'});
       continue;
     }
-    if(day.dutyHours > rules.baseDutyLimitHours){
-      alerts.push({date:day.date, level:'WARN', title:'Possível extrapolação de jornada', detail:`Jornada estimada de ${day.dutyHours}h acima do limite base configurado de ${rules.baseDutyLimitHours}h. Conferir Lei 13.475/17, RBAC 117 e ACT aplicável.`});
-    }
-    if(previousDutyDay){
-      const rest = restBetween(previousDutyDay, day);
-      if(rest !== null && rest < rules.simpleRestOkHours){
-        alerts.push({date:day.date, level:'WARN', title:'Repouso inferior a 10h', detail:`Repouso estimado de ${rest}h entre jornadas. Verificar regra aplicável e dados reais de corte/apresentação.`});
-      } else if(rest !== null && rest >= rules.simpleRestOkHours && rest < 12){
-        alerts.push({date:day.date, level:'INFO', title:'Repouso mínimo operacional', detail:`Repouso estimado de ${rest}h. Considerado OK pelo parâmetro atual de 10h, mas mantido como ponto de atenção de fadiga.`});
-      }
-    }
-    if(day.dutyHours>0) previousDutyDay=day;
+    const maxDuty = d.classification==='Voo' ? 12 : 12;
+    if(d.dutyHours > maxDuty) alerts.push({level:'WARN',date:d.date,title:'Possível extrapolação de jornada',detail:`Jornada estimada de ${d.dutyHours}h acima do limite base configurado de ${maxDuty}h. Confirmar composição da tripulação, ACT e dados reais de apresentação/corte.`});
+    const rest = previousRest(sorted,i);
+    if(rest !== null && rest < 10) alerts.push({level:'WARN',date:d.date,title:'Repouso inferior a 10h',detail:`Repouso estimado de ${rest}h entre jornadas. A configuração atual considera OK descanso simples de hotel a partir de 10h, mantendo alerta apenas abaixo disso.`});
+    const night = crossesNight(d);
+    if(night) alerts.push({level:'INFO',date:d.date,title:'Madrugada operacional',detail:'Evento cruza parcial ou totalmente o período 00:00–06:00. Usar para janela de 168h e monitoramento de fadiga.'});
   }
-  alerts.push(...checkEarlyAfterSingleDayOff(days));
+  alerts.push(...evaluateConsecutiveNights(sorted));
   return alerts;
 }
-function restBetween(prev, current){
-  const prevLast = lastDutyTime(prev); const curFirst = firstDutyTime(current);
-  if(!prevLast || !curFirst) return null;
-  return Math.round(((curFirst-prevLast)/36e5)*10)/10;
+function previousRest(days, idx){
+  if(idx<=0) return null;
+  const prev = [...days.slice(0,idx)].reverse().find(d=>d.dutyHours>0 && d.lastEnd);
+  const cur = days[idx];
+  if(!prev || !cur.firstStart) return null;
+  const a=new Date(`${prev.date}T${prev.lastEnd}:00`); let b=new Date(`${cur.date}T${cur.firstStart}:00`);
+  while(b<a) b.setDate(b.getDate()+1);
+  return Math.round(((b-a)/36e5)*10)/10;
 }
-function firstDutyTime(day){
-  const ev = day.events.find(e=>e.countsAsDuty && (e.report || e.startTime || e.depTime));
-  if(!ev) return null;
-  return new Date(`${day.date}T${ev.report || ev.startTime || ev.depTime}:00`);
+function crossesNight(day){
+  return day.events.some(e=>{
+    const start=e.reportTime||e.startTime, end=e.debriefTime||e.endTime||e.arrTime;
+    if(!start||!end) return false;
+    return clockInWindow(start,end,'00:00','06:00');
+  });
 }
-function lastDutyTime(day){
-  const duty = day.events.filter(e=>e.countsAsDuty);
-  if(!duty.length) return null;
-  const last = duty[duty.length-1];
-  const time = last.arrTime || last.endTime || last.depTime || last.report;
-  if(!time) return null;
-  let dt = new Date(`${day.date}T${time}:00`);
-  const first = firstDutyTime(day); if(first && dt<first) dt.setDate(dt.getDate()+1);
-  return dt;
+function clockInWindow(start,end,wStart,wEnd){
+  const s=mins(start), e0=mins(end); let e=e0; if(e<=s) e+=1440;
+  const windows=[[mins(wStart),mins(wEnd)],[mins(wStart)+1440,mins(wEnd)+1440]];
+  return windows.some(([a,b])=>Math.max(s,a)<Math.min(e,b));
 }
-function checkEarlyAfterSingleDayOff(days){
-  const out=[];
-  for(let i=1;i<days.length;i++){
-    const prev = days[i-1], cur=days[i];
-    const prevOff = prev.events.some(e=>e.isDayOff);
-    const curFirst = firstDutyTime(cur);
-    if(prevOff && curFirst && curFirst.getHours()<10){
-      out.push({date:cur.date, level:'WARN', title:'Apresentação antes das 10h após monofolga', detail:'Ponto de atenção: apresentação em horário matinal após uma única folga regulamentar. Conferir ACT aplicável.'});
-    }
+function mins(t){const [h,m]=t.split(':').map(Number); return h*60+m;}
+function evaluateConsecutiveNights(days){
+  const res=[]; let streak=0;
+  for(const d of days){
+    if(d.dutyHours>0 && crossesNight(d)) streak++; else if(d.classification==='Folga regulamentar') streak=0;
+    if(streak>2) res.push({level:'WARN',date:d.date,title:'Possível atenção à regra de madrugadas consecutivas',detail:'Mais de 2 madrugadas consecutivas detectadas preliminarmente. Confirmar regra aplicável e janela de 168h.'});
   }
-  return out;
+  return res;
 }

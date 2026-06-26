@@ -1,25 +1,22 @@
-# HealthOps v1.0-alpha.2
+# HealthOps Aeronautas v1.0-beta.1
 
-PWA experimental para aeronautas, agora com a **Fase 2** iniciada.
+Versão beta focada em corrigir o núcleo operacional antes de ampliar login/sincronização.
 
-## Destaques desta versão
+## Principais mudanças
 
-- Design system inicial: botões, cards, inputs, checkboxes, alertas e tabelas padronizados.
-- Dashboard "Hoje" revisado com status operacional, fadiga, medicações, alertas e próximos 4 dias.
-- Menu personalizável em Configurações.
-- Badge de versão visível no canto da página.
-- Mantém a Fase 1: Parser IFN, Motor Operacional, Motor Regulatório inicial, Motor Saúde/Fadiga e banco local de medicações.
+- Parser IFN/iFlight Neo reestruturado por eventos.
+- Separação real entre jornada, tempo de voo, treinamento, reserva, sobreaviso e folga.
+- DO/DR e equivalentes tratados como folga regulamentar de 24h, sem entrar em jornada.
+- R320, CBF, EMER, CRMBSB, ASB e voos LA agora usam duração do próprio roster.
+- Motor regulatório revisado com alertas menos genéricos.
+- Cálculo de diárias por refeições, com apuração LATAM de quarta a terça e pagamento na quinta seguinte.
+- UI reconstruída com cards, tabelas, botões e checkboxes padronizados.
+- Debug do parser nas configurações.
 
-## Como atualizar no GitHub
+## Regra de diárias implementada
 
-1. Descompacte o ZIP.
-2. Envie os arquivos para a raiz do repositório no GitHub.
-3. Faça o commit:
+A contagem usa as janelas da CCT 2025/2026: café 05:00–08:00, almoço 11:00–13:00, jantar 19:00–20:00 e ceia 00:00–01:00. Esta versão conta quantidades, sem valores.
 
-```text
-v1.0-alpha.2 - Fase 2 design system e menu personalizável
-```
+## Aviso
 
-## Observação
-
-Esta versão ainda usa armazenamento local no navegador. Login Google, Supabase e sincronização individual por perfil entram na próxima fase.
+O app é ferramenta de apoio. Não substitui jurídico, ACT, empresa, sindicato, ANAC ou avaliação médica.

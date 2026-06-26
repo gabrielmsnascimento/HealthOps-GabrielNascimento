@@ -2,141 +2,109 @@ import { extractPdfText, parseIFNRoster } from './src/engines/parserIFN.js';
 import { summarizeOperations, classifyToday } from './src/engines/operationsEngine.js';
 import { evaluateRegulation } from './src/engines/regulatoryEngine.js';
 import { buildHealthAlerts, estimateFatigue } from './src/engines/healthEngine.js';
+import { calculatePerDiems } from './src/engines/perDiemEngine.js';
 import { MEDICATION_CATALOG } from './src/data/medicationCatalog.js';
 
-const APP_VERSION='v1.0-alpha.2';
-const STORAGE_KEY='healthops_v1_alpha2_state';
-let state = loadState();
+const APP_VERSION='v1.0-beta.1';
+const STORAGE_KEY='healthops_v1_beta1_state';
+let state=loadState();
 
-function loadState(){
-  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {days:[], rawText:'', checkins:{}, meds:[], config:{hiddenTabs:[]}}}catch{return {days:[], rawText:'', checkins:{}, meds:[], config:{hiddenTabs:[]}}}
-}
-function saveState(){localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderAll();}
+function defaultState(){return {days:[],rawText:'',checkins:{},meds:[],medsTaken:{},config:{hiddenTabs:[]},debug:false}}
+function loadState(){try{return {...defaultState(),...(JSON.parse(localStorage.getItem(STORAGE_KEY))||{})}}catch{return defaultState()}}
+function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderAll()}
 
-function initTabs(){
-  document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=> activateTab(btn.dataset.tab)));
-  applyMenuPreferences();
+function init(){
+  document.getElementById('versionBadge').textContent=APP_VERSION;
+  document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>activateTab(btn.dataset.tab)));
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  renderAll();
 }
-function activateTab(tabName){
-  const targetButton = document.querySelector(`.tab[data-tab="${tabName}"]:not([hidden])`) || document.querySelector('.tab:not([hidden])');
-  if(!targetButton) return;
+function activateTab(tab){
+  const btn=document.querySelector(`.tab[data-tab="${tab}"]:not([hidden])`)||document.querySelector('.tab:not([hidden])');
+  if(!btn)return;
   document.querySelectorAll('.tab,.panel').forEach(el=>el.classList.remove('active'));
-  targetButton.classList.add('active');
-  const panel=document.getElementById(targetButton.dataset.tab);
-  if(panel) panel.classList.add('active');
+  btn.classList.add('active'); document.getElementById(btn.dataset.tab)?.classList.add('active');
 }
-function applyMenuPreferences(){
-  const hidden = state.config?.hiddenTabs || [];
-  document.querySelectorAll('.tab').forEach(btn=>{
-    const protectedTabs=['today','settings'];
-    btn.hidden = hidden.includes(btn.dataset.tab) && !protectedTabs.includes(btn.dataset.tab);
-  });
-  const active=document.querySelector('.tab.active');
-  if(active?.hidden) activateTab('today');
+function applyMenu(){
+  const hidden=state.config?.hiddenTabs||[];
+  document.querySelectorAll('.tab').forEach(btn=>{btn.hidden=hidden.includes(btn.dataset.tab)&&!['today','settings'].includes(btn.dataset.tab)});
+  if(document.querySelector('.tab.active')?.hidden) activateTab('today');
 }
-function renderAll(){applyMenuPreferences(); renderHeroSummary(); renderToday(); renderRoster(); renderOps(); renderRules(); renderMeds(); renderSettings();}
-
-function renderHeroSummary(){
-  const el=document.getElementById('heroSummary');
-  const today=classifyToday(state.days);
-  const medsToday=getTakenMeds().length;
-  el.innerHTML=`<div class="small">Versão atual</div><div class="metric" style="font-size:24px">${APP_VERSION}</div><p>${today.title}</p><p class="small">${state.days.length} dias processados · ${state.meds.length} medicações · ${medsToday} tomadas hoje</p>`;
+function renderAll(){applyMenu();renderHero();renderToday();renderRoster();renderOps();renderRules();renderPerDiem();renderMeds();renderSettings();}
+function renderHero(){
+  const s=summarizeOperations(state.days); const today=classifyToday(state.days);
+  document.getElementById('heroSummary').innerHTML=`<div class="small muted">${APP_VERSION}</div><div class="metric">${state.days.length}</div><p class="submetric">dias processados</p><p><b>Hoje:</b> ${today.title}</p><p class="small muted">${s.totalFlight}h voo · ${s.totalDuty}h jornada · ${s.dayOffs} folgas</p>`;
 }
-
 function renderToday(){
-  const el=document.getElementById('today');
-  const today=classifyToday(state.days);
-  const healthAlerts=buildHealthAlerts(state);
-  const fatigue = today.day ? estimateFatigue(today.day) : {label:'Sem dados',score:null};
-  const todayTaken=getTakenMeds();
-  const pendingMeds=state.meds.filter(m=>!todayTaken.includes(m.name));
-  const nextDays=state.days.filter(d=>d.date>=new Date().toISOString().slice(0,10)).slice(0,4);
-  const statusClass=today.status==='NO_DATA'?'warn':fatigue.score>=70?'danger':fatigue.score>=45?'warn':'ok';
-  const alerts=[...(today.alerts||[]).map(t=>({level:'INFO',text:t})),...healthAlerts];
-  if(state.meds.length && pendingMeds.length) alerts.push({level:'WARN',text:`Você ainda tem ${pendingMeds.length} item(ns) de medicação/suplemento pendente(s) hoje.`});
-  el.innerHTML=`
-    <div class="section-title"><h2>Hoje</h2><span class="badge info">${new Date().toLocaleDateString('pt-BR')}</span></div>
+  const today=classifyToday(state.days); const day=today.day; const fatigue=estimateFatigue(day); const alerts=[...(today.alerts||[]).map(text=>({level:'INFO',text})),...buildHealthAlerts(state)];
+  const next=state.days.filter(d=>d.date>=todayISO()).slice(0,4);
+  document.getElementById('today').innerHTML=`
     <div class="grid">
-      <div class="card ${statusClass}"><h2>Status operacional</h2><div class="metric">${today.title}</div><p class="submetric">${today.day?today.day.classification:'Sem dados disponíveis para a data de hoje'}</p></div>
-      <div class="card"><h2>Fadiga estimada</h2><div class="metric">${fatigue.label}</div><p class="submetric">${fatigue.score===null?'Sem escala para hoje':fatigue.score+'/100'}</p></div>
-      <div class="card"><h2>Medicações</h2><div class="metric">${todayTaken.length}/${state.meds.length}</div><p class="submetric">itens marcados hoje</p></div>
+      <div class="card"><h2>Hoje</h2><div class="metric">${day?day.classification:'Sem dados'}</div><p class="submetric">${day?fmtDate(day.date):'Importe a escala'}</p></div>
+      <div class="card"><h2>Jornada</h2><div class="metric">${day?day.dutyHours+'h':'—'}</div><p class="submetric">Tempo de voo: ${day?day.flightHours+'h':'—'}</p></div>
+      <div class="card"><h2>Fadiga</h2><div class="metric">${fatigue.label}</div><p class="submetric">${fatigue.score===null?'Sem cálculo':fatigue.score+'/100'}</p></div>
+      <div class="card"><h2>Medicações</h2><div class="metric">${takenMeds().length}/${state.meds.length}</div><p class="submetric">itens tomados hoje</p></div>
     </div>
-    <div class="card"><h2>Alertas e lembretes</h2>${alerts.map(a=>`<div class="alert ${a.level==='DANGER'?'danger':a.level==='WARN'?'warn':'ok'}">${a.text}</div>`).join('')||'<div class="empty">Sem alertas no momento.</div>'}</div>
-    <div class="card"><h2>Próximos 4 dias</h2>${nextDays.length?nextDays.map(d=>`<div class="event"><strong>${fmtDate(d.date)} — ${d.classification}</strong><p class="muted">Jornada: ${d.dutyHours}h · Voo: ${d.flightHours}h · Eventos: ${d.events.map(e=>e.code).join(', ')}</p></div>`).join(''):'<div class="empty">Sem próximos dias na escala importada.</div>'}</div>
-  `;
+    <div class="card"><h2>Alertas e lembretes</h2>${alerts.length?alerts.map(a=>`<div class="alert ${levelClass(a.level)}">${a.text}</div>`).join(''):'<div class="empty">Sem alertas no momento.</div>'}</div>
+    <div class="card"><h2>Próximos 4 dias</h2>${next.length?next.map(d=>`<div class="event"><strong>${fmtDate(d.date)} — ${d.classification}</strong><p class="muted">Jornada ${d.dutyHours}h · Voo ${d.flightHours}h · ${d.events.map(e=>e.code).join(', ')}</p></div>`).join(''):'<div class="empty">Sem próximos dias na escala importada.</div>'}</div>
+    <div class="card"><h2>Check-in rápido</h2>${renderQuickCheckin()}</div>`;
+  bindQuickCheckin();
 }
-
+function renderQuickCheckin(){
+  const c=getCheckin();
+  return `<div class="grid"><div><label class="form-field"><span>Água (ml)</span><input id="waterMl" type="number" min="0" step="250" value="${c.waterMl||0}"></label></div><div><label class="form-field"><span>Cafeína (mg)</span><input id="caffeineMg" type="number" min="0" step="20" value="${c.caffeineMg||0}"></label></div><div><label class="checkbox-row"><input id="exerciseDone" type="checkbox" ${c.exerciseDone?'checked':''}><span>Exercício feito hoje</span></label></div></div>`;
+}
+function bindQuickCheckin(){
+  ['waterMl','caffeineMg'].forEach(id=>document.getElementById(id)?.addEventListener('change',e=>{const c=getCheckin();c[id]=Number(e.target.value)||0;setCheckin(c)}));
+  document.getElementById('exerciseDone')?.addEventListener('change',e=>{const c=getCheckin();c.exerciseDone=e.target.checked;setCheckin(c)});
+}
 function renderRoster(){
   const el=document.getElementById('roster');
-  el.innerHTML=`<div class="card"><h2>Escala IFN/iFlight Neo</h2><p class="muted">Selecione um PDF/TXT ou cole o texto. Depois clique em processar.</p>
-    <div class="form-field"><label>Arquivo PDF/TXT</label><input id="fileInput" type="file" accept=".pdf,.txt,text/plain,application/pdf" /></div>
-    <div class="form-field"><label>Texto extraído ou colado</label><textarea id="rosterText" placeholder="Texto extraído da escala...">${escapeHtml(state.rawText||'')}</textarea></div>
-    <div class="row"><button class="btn primary" id="processRoster">Processar escala</button><button class="btn secondary" id="pasteSample">Usar texto colado</button><button class="btn danger" id="clearRoster">Limpar escala</button></div>
-    <p id="parseStatus" class="muted small">${state.days.length?`${state.days.length} dias processados.`:'Nenhuma escala processada.'}</p></div>
-    <div class="card"><h2>Dias processados</h2>${renderDaysTable(state.days)}</div>`;
-  document.getElementById('fileInput').addEventListener('change', async (ev)=>{
-    const file=ev.target.files[0]; if(!file) return;
-    const status=document.getElementById('parseStatus'); status.textContent='Lendo PDF/TXT...';
-    try{ const text=await extractPdfText(file); document.getElementById('rosterText').value=text; status.textContent=`Texto extraído: ${text.length} caracteres. Clique em processar.`; }
-    catch(err){ status.textContent='Falha ao ler arquivo: '+err.message; }
-  });
-  document.getElementById('processRoster').addEventListener('click',()=>{
-    const text=document.getElementById('rosterText').value; const parsed=parseIFNRoster(text);
-    state.rawText=text; state.days=parsed.days; saveState();
-  });
-  document.getElementById('pasteSample').addEventListener('click',()=>{state.rawText=document.getElementById('rosterText').value; saveState();});
-  document.getElementById('clearRoster').addEventListener('click',()=>{state.days=[];state.rawText='';saveState();});
+  el.innerHTML=`<div class="card"><h2>Escala IFN/iFlight Neo</h2><p class="muted">O parser beta agrupa linhas por data, separa voo, jornada, treinamento, reserva e folga.</p><div class="form-field"><label>Arquivo PDF/TXT</label><input id="fileInput" type="file" accept=".pdf,.txt,text/plain,application/pdf"></div><div class="form-field"><label>Texto extraído ou colado</label><textarea id="rosterText">${escapeHtml(state.rawText||'')}</textarea></div><div class="row"><button class="btn primary" id="processRoster">Processar escala</button><button class="btn danger" id="clearRoster">Limpar escala</button></div><p id="parseStatus" class="small muted">${state.days.length?`${state.days.length} dias processados.`:'Nenhuma escala processada.'}</p></div><div class="card"><h2>Dias processados</h2>${renderDaysTable(state.days)}</div>${state.debug?renderDebug():''}`;
+  document.getElementById('fileInput').addEventListener('change',async ev=>{const file=ev.target.files[0];if(!file)return;const st=document.getElementById('parseStatus');st.textContent='Lendo arquivo...';try{const text=await extractPdfText(file);document.getElementById('rosterText').value=text;st.textContent=`Texto extraído: ${text.length} caracteres. Clique em processar.`;}catch(err){st.textContent='Falha ao ler: '+err.message;}});
+  document.getElementById('processRoster').addEventListener('click',()=>{const text=document.getElementById('rosterText').value;const parsed=parseIFNRoster(text);state.rawText=text;state.days=parsed.days;state.rows=parsed.rows;saveState();});
+  document.getElementById('clearRoster').addEventListener('click',()=>{state.days=[];state.rawText='';state.rows=[];saveState();});
 }
 function renderDaysTable(days){
-  if(!days.length) return '<p class="muted">Nenhum dia processado.</p>';
-  return `<div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Classificação</th><th>Jornada</th><th>Voo</th><th>Eventos</th></tr></thead><tbody>${days.map(d=>`<tr><td>${fmtDate(d.date)}</td><td>${d.classification}</td><td>${d.dutyHours}h</td><td>${d.flightHours}h</td><td>${d.events.map(e=>`<span class="pill ${e.isDayOff?'ok':''}" title="${escapeHtml(e.reason||'')}">${e.code}</span>`).join('')}</td></tr>`).join('')}</tbody></table></div>`;
+  if(!days.length)return '<div class="empty">Nenhum dia processado.</div>';
+  return `<div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Classificação</th><th>Jornada</th><th>Voo</th><th>Eventos</th></tr></thead><tbody>${days.map(d=>`<tr><td>${fmtDate(d.date)}</td><td>${d.classification}</td><td>${d.dutyHours}h</td><td>${d.flightHours}h</td><td>${d.events.map(e=>`<span class="pill ${e.isDayOff?'ok':e.category==='AIRPORT_STANDBY'?'warn':e.category==='FLIGHT'?'':'ok'}" title="${escapeHtml(e.reason||'')}">${e.code}</span>`).join('')}</td></tr>`).join('')}</tbody></table></div>`;
 }
-
+function renderDebug(){return `<div class="card"><h2>Debug do parser</h2>${(state.rows||[]).slice(0,80).map(r=>`<p class="small"><code>${escapeHtml(r)}</code></p>`).join('')}</div>`}
 function renderOps(){
-  const el=document.getElementById('ops'); const s=summarizeOperations(state.days);
-  el.innerHTML=`<div class="grid"><div class="card"><h2>Jornada total</h2><div class="metric">${s.totalDuty}h</div></div><div class="card"><h2>Tempo de voo</h2><div class="metric">${s.totalFlight}h</div></div><div class="card"><h2>Folgas</h2><div class="metric">${s.dayOffs}</div></div><div class="card"><h2>Dias com voo</h2><div class="metric">${s.flightDays}</div></div></div><div class="card"><h2>Eventos operacionais</h2>${renderEvents()}</div>`;
+  const s=summarizeOperations(state.days);
+  document.getElementById('ops').innerHTML=`<div class="grid"><div class="card"><h2>Jornada total</h2><div class="metric">${s.totalDuty}h</div></div><div class="card"><h2>Tempo de voo</h2><div class="metric">${s.totalFlight}h</div></div><div class="card"><h2>Folgas</h2><div class="metric">${s.dayOffs}</div></div><div class="card"><h2>Reserva/Trein.</h2><div class="metric">${s.standbyDays+s.trainingDays}</div></div></div><div class="card"><h2>Eventos operacionais</h2>${state.days.flatMap(d=>d.events.map(e=>`<div class="event"><strong>${fmtDate(e.date)} — ${e.code}</strong><p>${e.label} · ${e.category}</p><p class="small muted">Jornada: ${e.dutyHours}h · Voo: ${e.flightHours}h · Conta jornada: ${e.countsAsDuty?'sim':'não'}</p><p>${e.reason||''}</p></div>`)).join('')||'<div class="empty">Nenhum evento.</div>'}</div>`;
 }
-function renderEvents(){return state.days.flatMap(d=>d.events.map(e=>`<div class="event"><strong>${fmtDate(e.date)} — ${e.code}</strong><p>${e.label} · ${e.category}</p><p class="muted">${e.reason||'Sem motivo cadastrado.'}</p><p class="small">Conta como jornada: <b>${e.countsAsDuty?'sim':'não'}</b> · Conta como folga: <b>${e.isDayOff?'sim':'não'}</b></p></div>`)).join('')||'<p class="muted">Nenhum evento.</p>'}
-
 function renderRules(){
   const alerts=evaluateRegulation(state.days);
-  document.getElementById('rules').innerHTML=`<div class="card"><h2>Regulamentação</h2><p class="muted">Motor inicial. Os alertas indicam pontos de atenção e não substituem ACT, jurídico, empresa, sindicato ou ANAC.</p></div><div class="list">${alerts.map(a=>`<div class="card ${a.level==='WARN'?'danger':a.level==='OK'?'ok':'warn'}"><h3>${fmtDate(a.date)} — ${a.title}</h3><p>${a.detail}</p></div>`).join('')||'<div class="card"><p class="muted">Sem alertas.</p></div>'}</div>`;
+  document.getElementById('rules').innerHTML=`<div class="card"><h2>Regulamentação</h2><p class="muted">Alertas preliminares. Não substitui ACT, jurídico, empresa, sindicato ou ANAC.</p></div>${alerts.map(a=>`<div class="card"><div class="alert ${levelClass(a.level)}"><h3>${fmtDate(a.date)} — ${a.title}</h3><p>${a.detail}</p></div></div>`).join('')||'<div class="card"><div class="empty">Sem alertas.</div></div>'}`;
 }
-
+function renderPerDiem(){
+  const groups=calculatePerDiems(state.days);
+  document.getElementById('perdiem').innerHTML=`<div class="card"><h2>Diárias</h2><p class="muted">Contagem por refeição, sem valores. Regra LATAM configurada: apuração de quarta a terça e pagamento na quinta seguinte.</p></div>${groups.length?groups.map(g=>`<div class="card"><h2>${fmtShort(g.start)} a ${fmtShort(g.end)}</h2><div class="metric">${g.count}</div><p class="submetric">diárias/refeições · pagamento previsto ${fmtShort(g.payDate)}</p><details><summary>Ver refeições</summary>${g.meals.map(m=>`<p class="small">${fmtShort(m.date)} · ${m.label} · ${m.event}</p>`).join('')}</details></div>`).join(''):'<div class="card"><div class="empty">Nenhuma diária reconhecida.</div></div>'}`;
+}
 function renderMeds(){
-  const today = new Date().toISOString().slice(0,10); const taken = state.medsTaken?.[today] || [];
-  document.getElementById('meds').innerHTML=`<div class="card"><h2>Medicações</h2><p class="muted">Banco inicial para aeronautas. Pesquise e adicione sem preencher dados técnicos manualmente.</p><div class="row"><input id="medSearch" placeholder="Ex.: Atentah, Rosuvastatina, Sibutramina"/><button class="btn primary" id="addMed">Adicionar</button></div><div id="medResult"></div></div><div class="card"><h2>Checklist de hoje</h2>${renderMedChecklist(taken)}</div>`;
+  const taken=takenMeds();
+  document.getElementById('meds').innerHTML=`<div class="card"><h2>Medicações</h2><p class="muted">Banco local beta. O usuário pesquisa o nome; dados técnicos vêm do catálogo, não de perguntas manuais.</p><div class="row"><input id="medSearch" placeholder="Ex.: Atentah, Rosuvastatina, Sibutramina"><button class="btn primary" id="addMed">Adicionar</button></div><div id="medResult"></div></div><div class="card"><h2>Checklist de hoje</h2>${renderMedChecklist(taken)}</div>`;
   document.getElementById('medSearch').addEventListener('input',showMedResult);
-  document.getElementById('addMed').addEventListener('click',()=>{const q=document.getElementById('medSearch').value.trim().toLowerCase(); const item=MEDICATION_CATALOG.find(m=>m.name.toLowerCase().includes(q)||m.active.toLowerCase().includes(q)); if(item && !state.meds.some(m=>m.name===item.name)){state.meds.push(item); saveState();}});
-  document.querySelectorAll('[data-med-check]').forEach(cb=>cb.addEventListener('change',e=>{state.medsTaken=state.medsTaken||{}; state.medsTaken[today]=state.medsTaken[today]||[]; const name=e.target.dataset.medCheck; if(e.target.checked && !state.medsTaken[today].includes(name)) state.medsTaken[today].push(name); if(!e.target.checked) state.medsTaken[today]=state.medsTaken[today].filter(x=>x!==name); saveState();}));
+  document.getElementById('addMed').addEventListener('click',()=>{const item=findMed();if(item&&!state.meds.some(m=>m.name===item.name)){state.meds.push(item);saveState();}});
+  document.querySelectorAll('[data-med-check]').forEach(cb=>cb.addEventListener('change',e=>{state.medsTaken[todayISO()]=state.medsTaken[todayISO()]||[];const name=e.target.dataset.medCheck;if(e.target.checked&&!state.medsTaken[todayISO()].includes(name))state.medsTaken[todayISO()].push(name);if(!e.target.checked)state.medsTaken[todayISO()]=state.medsTaken[todayISO()].filter(x=>x!==name);saveState();}));
 }
-function showMedResult(){
- const q=document.getElementById('medSearch').value.trim().toLowerCase(); const box=document.getElementById('medResult'); if(!q){box.innerHTML='';return} const item=MEDICATION_CATALOG.find(m=>m.name.toLowerCase().includes(q)||m.active.toLowerCase().includes(q)); box.innerHTML=item?`<div class="event"><strong>${item.name}</strong> <span class="pill ${item.aero==='COMPATÍVEL'?'ok':item.aero==='RESTRITO'?'warn':'danger'}">${item.aero}</span><p>Princípio ativo: ${item.active}</p><ul>${item.reasons.map(r=>`<li>${r}</li>`).join('')}</ul></div>`:'<p class="muted">Não encontrado no banco local. Na próxima fase, este ponto será integrado a base oficial/API.</p>';
-}
-function renderMedChecklist(taken){if(!state.meds.length) return '<p class="muted">Nenhuma medicação adicionada.</p>'; return state.meds.map(m=>`<label class="checkbox-row"><input type="checkbox" data-med-check="${m.name}" ${taken.includes(m.name)?'checked':''}/><span>${m.name} <small class="pill ${m.aero==='COMPATÍVEL'?'ok':m.aero==='RESTRITO'?'warn':'danger'}">${m.aero}</small></span></label>`).join('')}
-
+function showMedResult(){const box=document.getElementById('medResult');const item=findMed();const q=document.getElementById('medSearch').value.trim();if(!q){box.innerHTML='';return}box.innerHTML=item?`<div class="event"><strong>${item.name}</strong> <span class="pill ${medClass(item.aero)}">${item.aero}</span><p>Princípio ativo: ${item.active}</p><p>Doses comuns: ${item.doses.join(', ')}</p><ul>${item.reasons.map(r=>`<li>${r}</li>`).join('')}</ul></div>`:'<p class="muted">Não encontrado no banco local. Futuramente: consulta a base oficial/bula antes de cadastrar.</p>';}
+function renderMedChecklist(taken){if(!state.meds.length)return '<div class="empty">Nenhuma medicação adicionada.</div>';return state.meds.map(m=>`<label class="checkbox-row"><input type="checkbox" data-med-check="${m.name}" ${taken.includes(m.name)?'checked':''}><span><b>${m.name}</b> <small class="pill ${medClass(m.aero)}">${m.aero}</small><br><small class="muted">${m.reasons[0]}</small></span></label>`).join('')}
 function renderSettings(){
-  const tabs=[
-    ['roster','Escala'],['ops','Operações'],['rules','Regulamentação'],['meds','Medicações']
-  ];
-  const hidden=state.config?.hiddenTabs||[];
-  document.getElementById('settings').innerHTML=`
-    <div class="card"><h2>Configurações</h2><p>Versão: <b>${APP_VERSION}</b></p><p class="muted">Fase 2: Design system, dashboard revisado e menu personalizável. Fase 1 preservada: parser IFN, motores operacional/regulatório e banco local.</p></div>
-    <div class="card"><h2>Menu principal</h2><p class="muted">Escolha quais módulos aparecem no menu. Hoje e Configurações ficam sempre visíveis.</p><div class="switch-list">
-      ${tabs.map(([id,label])=>`<label class="checkbox-row"><input type="checkbox" data-menu-toggle="${id}" ${!hidden.includes(id)?'checked':''}/><span>${label}<br><small class="muted">${menuDescription(id)}</small></span></label>`).join('')}
-    </div></div>
-    <div class="card"><h2>Aparência</h2><div class="grid"><div><b>Componentes padronizados</b><p class="muted">Botões, checkboxes, cards, inputs, tabelas e alertas agora usam o mesmo tamanho e espaçamento.</p></div><div><b>Pronto para beta</b><p class="muted">A próxima fase pode adicionar login Google, Supabase e feedback de testadores.</p></div></div></div>`;
-  document.querySelectorAll('[data-menu-toggle]').forEach(cb=>cb.addEventListener('change',e=>{
-    state.config=state.config||{}; state.config.hiddenTabs=state.config.hiddenTabs||[];
-    const id=e.target.dataset.menuToggle;
-    if(e.target.checked) state.config.hiddenTabs=state.config.hiddenTabs.filter(x=>x!==id);
-    else if(!state.config.hiddenTabs.includes(id)) state.config.hiddenTabs.push(id);
-    saveState();
-  }));
+  const tabs=[['roster','Escala'],['ops','Operações'],['rules','Regulamentação'],['perdiem','Diárias'],['meds','Medicações']]; const hidden=state.config.hiddenTabs||[];
+  document.getElementById('settings').innerHTML=`<div class="card"><h2>Configurações</h2><p>Versão: <b>${APP_VERSION}</b></p><label class="checkbox-row"><input id="debugToggle" type="checkbox" ${state.debug?'checked':''}><span>Ativar debug do parser</span></label></div><div class="card"><h2>Menu principal</h2>${tabs.map(([id,label])=>`<label class="checkbox-row"><input data-menu-toggle="${id}" type="checkbox" ${hidden.includes(id)?'':'checked'}><span>${label}</span></label>`).join('')}</div>`;
+  document.getElementById('debugToggle').addEventListener('change',e=>{state.debug=e.target.checked;saveState();});
+  document.querySelectorAll('[data-menu-toggle]').forEach(cb=>cb.addEventListener('change',e=>{const id=e.target.dataset.menuToggle;state.config.hiddenTabs=state.config.hiddenTabs||[];if(e.target.checked)state.config.hiddenTabs=state.config.hiddenTabs.filter(x=>x!==id);else if(!state.config.hiddenTabs.includes(id))state.config.hiddenTabs.push(id);saveState();}));
 }
-function menuDescription(id){return {roster:'Importação e processamento IFN',ops:'Resumo operacional da escala',rules:'Pontos de atenção legais/regulatórios',meds:'Protocolos e checklist diário'}[id]||''}
-function getTakenMeds(){const today = new Date().toISOString().slice(0,10); return state.medsTaken?.[today] || []}
-
+function findMed(){const q=document.getElementById('medSearch')?.value.trim().toLowerCase()||'';return MEDICATION_CATALOG.find(m=>m.name.toLowerCase().includes(q)||m.active.toLowerCase().includes(q));}
+function takenMeds(){return state.medsTaken?.[todayISO()]||[]}
+function getCheckin(){state.checkins=state.checkins||{};state.checkins[todayISO()]=state.checkins[todayISO()]||{};return state.checkins[todayISO()]}
+function setCheckin(c){state.checkins[todayISO()]=c;saveState()}
+function todayISO(){return new Date().toISOString().slice(0,10)}
 function fmtDate(iso){return new Date(iso+'T00:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})}
-function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-initTabs(); renderAll();
+function fmtShort(iso){return new Date(iso+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})}
+function escapeHtml(s){return String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function levelClass(l){return l==='DANGER'?'danger':l==='WARN'?'warn':l==='OK'?'ok':''}
+function medClass(a){return a==='COMPATÍVEL'?'ok':a==='RESTRITO'?'warn':'danger'}
+init();

@@ -3,39 +3,41 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HealthOps v1.0-alpha.2</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <title>HealthOps Aeronautas</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
-  <div class="version-badge">v1.0-alpha.2</div>
-  <main class="app-shell">
-    <header class="hero">
-      <div>
-        <p class="eyebrow">HealthOps para Aeronautas</p>
-        <h1>Plataforma operacional de rotina, saúde e fadiga</h1>
-        <p>Fase 2: interface padronizada, dashboard revisado, design system e menu personalizável.</p>
-      </div>
-      <div class="hero-card" id="heroSummary">Carregando resumo...</div>
-    </header>
+  <div class="version-badge" id="versionBadge">v1.0-beta.1</div>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">HealthOps Aeronautas</p>
+      <h1>Operações, saúde e regulamentação</h1>
+      <p class="muted">Arquitetura beta: parser IFN → motor operacional → regulamentação → diárias → saúde.</p>
+    </div>
+    <div class="header-card" id="heroSummary"></div>
+  </header>
 
-    <nav class="tabs" aria-label="Menu principal">
-      <button class="tab active" data-tab="today">Hoje</button>
-      <button class="tab" data-tab="roster">Escala</button>
-      <button class="tab" data-tab="ops">Operações</button>
-      <button class="tab" data-tab="rules">Regulamentação</button>
-      <button class="tab" data-tab="meds">Medicações</button>
-      <button class="tab" data-tab="settings">Configurações</button>
-    </nav>
-
+  <main class="container">
     <section id="today" class="panel active"></section>
     <section id="roster" class="panel"></section>
     <section id="ops" class="panel"></section>
     <section id="rules" class="panel"></section>
+    <section id="perdiem" class="panel"></section>
     <section id="meds" class="panel"></section>
     <section id="settings" class="panel"></section>
   </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script type="module" src="./app.js?v=1.0-alpha.2"></script>
+  <nav class="bottom-nav" aria-label="Menu principal">
+    <button class="tab active" data-tab="today">Hoje</button>
+    <button class="tab" data-tab="roster">Escala</button>
+    <button class="tab" data-tab="ops">Operações</button>
+    <button class="tab" data-tab="rules">Regul.</button>
+    <button class="tab" data-tab="perdiem">Diárias</button>
+    <button class="tab" data-tab="meds">Meds</button>
+    <button class="tab" data-tab="settings">Config.</button>
+  </nav>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
