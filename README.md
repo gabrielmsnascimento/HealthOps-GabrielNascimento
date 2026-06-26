@@ -1,24 +1,30 @@
-# HealthOps Aeronauta v0.5.1
+# HealthOps Aeronauta v0.5.2
 
-Correção focada no parser de escala iFlight Neo / Roster Report.
+PWA local/offline para aeronautas, com motores de escala, jornada/regulamentação, fadiga, medicações/protocolos e exportações CSV/ICS.
 
-## Novidades
+## Novidades da v0.5.2
 
-- Leitura real de PDF no navegador via PDF.js.
-- Parser compatível com datas no formato `01-Jun-2026`.
-- Reconhecimento de linhas de voo LATAM (`LA####`), aeroportos e horários.
-- Preserva múltiplos itens no mesmo dia para exportação ICS/CSV.
-- Dashboard agrega o dia atual sem inventar dados quando não há escala para hoje.
-- Status de importação mostra dias, itens e setores processados.
+- Badge fixo com a versão do app no canto inferior direito.
+- Medicações agora exibem o motivo da classificação aeronáutica.
+- Sibutramina e itens sensíveis mostram justificativa operacional, não apenas etiqueta vermelha.
+- Jornada/regulamentação agora exibe pontos de atenção com motivo e referência da regra.
+- Primeiros alertas estruturados para:
+  - carga operacional alta;
+  - repouso abaixo da referência base;
+  - jornada acima do limite base configurado;
+  - possíveis madrugadas em janela de 168h;
+  - apresentação antes das 10h após monofolga.
 
-## Fluxo
+## Aviso
 
-1. Abrir aba **Escala**.
-2. Selecionar o PDF do roster.
-3. Conferir o texto extraído.
-4. Clicar em **Processar escala e atualizar app**.
-5. Conferir Dashboard, Jornada e Exportações.
+Os cálculos regulatórios são preliminares e servem como apoio operacional. Devem ser conferidos com Lei 13.475/17, RBAC 117, ACT aplicável, empresa, sindicato e/ou autoridade competente.
 
-## Observação
+## Publicação no GitHub Pages
 
-Os cálculos de jornada/regulamentação ainda são preliminares. O módulo não substitui conferência formal por Lei 13.475/17, RBAC 117, ACT aplicável, empresa, sindicato ou autoridade competente.
+Envie os arquivos descompactados para a raiz do repositório e publique pela branch `main` em `/root`.
+
+Commit sugerido:
+
+```text
+v0.5.2 - Badge de versão e motivos de alertas
+```
