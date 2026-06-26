@@ -1,248 +1,29 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#23404A" />
-  <title>HealthOps Gabriel</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div id="app">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">HealthOps</p>
-        <h1 id="todayTitle">Gabriel</h1>
-      </div>
-      <button id="installBtn" class="ghost hidden">Instalar</button>
-    </header>
-
-    <main>
-      <section id="view-dashboard" class="view active">
-        <div class="hero-card">
-          <div>
-            <p class="eyebrow">Hoje</p>
-            <h2 id="dayType">—</h2>
-            <p id="daySummary">Carregando seu dia...</p>
-            <div id="todayBadges" class="badges"></div>
-          </div>
-          <div class="score">
-            <span id="recoveryScore">--</span>
-            <small>recuperação</small>
-          </div>
-        </div>
-
-        <div class="grid cards">
-          <article class="metric"><span>Sono</span><strong id="mSleep">—</strong></article>
-          <article class="metric"><span>Energia</span><strong id="mEnergy">—</strong></article>
-          <article class="metric"><span>Foco</span><strong id="mFocus">—</strong></article>
-          <article class="metric"><span>Sens. sonora</span><strong id="mSound">—</strong></article>
-        </div>
-
-        <div class="panel accent">
-          <h3>Plano inteligente de hoje</h3>
-          <ul id="todayPlan" class="checklist"></ul>
-        </div>
-
-        <div class="panel">
-          <h3>Próximos 4 dias</h3>
-          <div id="upcomingDays" class="upcoming-grid"></div>
-        </div>
-
-        <div class="panel">
-          <h3>Alertas HealthOps</h3>
-          <div id="insights" class="insights"></div>
-        </div>
-      </section>
-
-      <section id="view-checkin" class="view">
-        <h2>Check-in diário</h2>
-        <form id="checkinForm" class="form">
-          <label>Data <input type="date" name="date" required></label>
-          <div class="grid form-grid">
-            <label>Horas de sono <input type="number" step="0.25" min="0" max="14" name="sleepHours"></label>
-            <label>Água (L) <input type="number" step="0.1" min="0" max="8" name="water"></label>
-          </div>
-          <label>Qualidade do sono (0-10) <input type="range" min="0" max="10" value="5" name="sleepQuality"><output></output></label>
-          <label>Energia (0-10) <input type="range" min="0" max="10" value="5" name="energy"><output></output></label>
-          <label>Humor (0-10) <input type="range" min="0" max="10" value="5" name="mood"><output></output></label>
-          <label>Foco (0-10) <input type="range" min="0" max="10" value="5" name="focus"><output></output></label>
-          <label>Hiperatividade/impulso (0-10) <input type="range" min="0" max="10" value="5" name="hyperactivity"><output></output></label>
-          <label>Sensibilidade sonora (0-10) <input type="range" min="0" max="10" value="5" name="soundSensitivity"><output></output></label>
-          <label>Fome/impulso alimentar (0-10) <input type="range" min="0" max="10" value="5" name="hunger"><output></output></label>
-
-          <div class="panel nested">
-            <h3>Cafeína</h3>
-            <p class="muted">Registre por tipo de bebida. O app converte para cafeína estimada em mg.</p>
-            <div class="grid form-grid">
-              <label>Tipo
-                <select id="caffeineType">
-                  <option value="espresso|60">Espresso (~60 mg)</option>
-                  <option value="cafe_pequeno|80">Café pequeno / 100 mL (~80 mg)</option>
-                  <option value="cafe_medio|160">Café médio / 200 mL (~160 mg)</option>
-                  <option value="cafe_grande|240">Café grande / 300 mL (~240 mg)</option>
-                  <option value="energetico|80">Energético 250 mL (~80 mg)</option>
-                  <option value="cha|45">Chá mate/preto/verde (~45 mg)</option>
-                  <option value="refrigerante|35">Refrigerante cola (~35 mg)</option>
-                </select>
-              </label>
-              <label>Quantidade <input id="caffeineQty" type="number" min="1" max="10" value="1"></label>
-            </div>
-            <div class="row wrap">
-              <button type="button" id="addCaffeine" class="ghost">Adicionar cafeína</button>
-              <button type="button" id="clearCaffeine" class="ghost">Limpar</button>
-            </div>
-            <input type="hidden" name="caffeineMg" id="caffeineMg" value="0">
-            <input type="hidden" name="caffeineLog" id="caffeineLog" value="[]">
-            <div id="caffeineSummary" class="insight">Cafeína: 0 mg</div>
-          </div>
-
-          <div class="panel nested">
-            <h3>Sibutramina / BioMag</h3>
-            <label class="inline"><input type="checkbox" name="medTaken" value="sim"> Tomei hoje</label>
-            <div class="grid form-grid">
-              <label>Horário <input type="time" name="medTime"></label>
-              <label>Dose <input type="text" name="medDose" placeholder="ex.: 10 mg"></label>
-            </div>
-            <label>Efeitos percebidos
-              <select name="medEffects">
-                <option value="">—</option>
-                <option>Apetite reduzido, sem incômodos</option>
-                <option>Insônia/despertares</option>
-                <option>Boca seca</option>
-                <option>Ansiedade/irritabilidade</option>
-                <option>Palpitação/FC elevada</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="grid form-grid">
-            <label>FC repouso <input type="number" min="35" max="180" name="restingHr" placeholder="bpm"></label>
-            <label>Pressão arterial <input type="text" name="bloodPressure" placeholder="ex.: 120/80"></label>
-            <label>Peso <input type="number" step="0.1" min="40" max="200" name="weight"></label>
-          </div>
-          <label>Circunferência abdominal <input type="number" step="0.5" min="50" max="180" name="waist"></label>
-          <div class="panel nested">
-            <h3>Atividade física</h3>
-            <div class="checkgrid">
-              <label class="inline"><input type="checkbox" name="workoutDone" value="Força completa"> Força completa</label>
-              <label class="inline"><input type="checkbox" name="workoutDone" value="Treino curto"> Treino curto</label>
-              <label class="inline"><input type="checkbox" name="workoutDone" value="Mobilidade"> Mobilidade</label>
-              <label class="inline"><input type="checkbox" name="workoutDone" value="Alongamento"> Alongamento</label>
-              <label class="inline"><input type="checkbox" name="workoutDone" value="Caminhada"> Caminhada</label>
-              <label class="inline"><input type="checkbox" name="workoutDone" value="Corrida"> Corrida</label>
-              <label class="inline"><input type="checkbox" name="workoutDone" value="Piscina"> Piscina</label>
-              <label class="inline"><input type="checkbox" name="workoutDone" value="Bike"> Bike</label>
-            </div>
-            <div class="grid form-grid">
-              <label>Intensidade
-                <select name="workoutIntensity"><option value="">—</option><option>Leve</option><option>Moderada</option><option>Intensa</option></select>
-              </label>
-              <label>Duração total <input type="text" name="workoutDuration" placeholder="ex.: 35 min / 1h10"></label>
-            </div>
-          </div>
-
-          <div class="panel nested">
-            <h3>Alimentação</h3>
-            <label>Resumo do dia <textarea name="foodSummary" rows="3" placeholder="ex.: café com ovos; almoço normal; lanche proteico; jantar leve. Sem contar calorias."></textarea></label>
-            <label>Qualidade geral
-              <select name="foodQuality"><option value="">—</option><option>Boa/planejada</option><option>Regular</option><option>Ruim/desorganizada</option><option>Compulsão ou exagero</option><option>Baixa ingestão por falta de apetite</option></select>
-            </label>
-          </div>
-
-          <label>Observações <textarea name="notes" rows="4" placeholder="Sono, voos, sibutramina, irritabilidade, sons, rotina..."></textarea></label>
-          <button type="submit">Salvar check-in</button>
-        </form>
-      </section>
-
-      <section id="view-roster" class="view">
-        <div class="section-head">
-          <h2>Escala inteligente</h2>
-          <div class="row wrap"><button id="loadJuly" class="ghost">Carregar exemplo julho</button><button id="clearRoster" class="ghost">Limpar escala</button></div>
-        </div>
-        <form id="manualRosterForm" class="panel compact-form">
-          <h3>Adicionar item manual</h3>
-          <div class="grid form-grid">
-            <label>Data <input type="date" name="date" required></label>
-            <label>Tipo
-              <select name="type"><option>Operacional</option><option>Alta carga</option><option>Recuperação</option><option>Performance</option></select>
-            </label>
-            <label>Início <input type="time" name="startTime"></label>
-            <label>Fim <input type="time" name="endTime"></label>
-          </div>
-          <label>Resumo <input type="text" name="summary" placeholder="ex.: BSB-GRU-SSA-GRU / apresentação 04:30"></label>
-          <button type="submit">Adicionar à escala</button>
-        </form>
-        <div id="rosterList" class="roster-list"></div>
-      </section>
-
-      <section id="view-import" class="view">
-        <h2>Importar escala</h2>
-        <div class="panel">
-          <p>Cole texto exportado/copiado do iFlight Neo ou selecione um PDF/TXT. O PDF/TXT primeiro é lido para o campo abaixo. Depois clique em <strong>Processar escala e atualizar app</strong> para gravar os dias no HealthOps. O parser identifica datas, códigos como DO/DR/ASB/MCK, trechos e horários.</p>
-          <textarea id="rosterText" rows="10" placeholder="Cole aqui o texto da escala..."></textarea>
-          <div class="row wrap">
-            <button id="parseRoster">Processar escala e atualizar app</button>
-            <button id="exportCalendarCsv" class="ghost">CSV calendário</button>
-            <button id="exportIcs" class="ghost">ICS calendário</button>
-          </div>
-          <label class="filebox">Importar PDF/TXT da escala
-            <input type="file" id="rosterFile" accept=".pdf,.txt,.text,application/pdf,text/plain">
-          </label>
-          <p id="importStatus" class="muted"></p>
-        </div>
-      </section>
-
-      <section id="view-stats" class="view">
-        <h2>Dados e backup</h2>
-        <div class="grid cards">
-          <article class="metric"><span>Média sono</span><strong id="avgSleep">—</strong></article>
-          <article class="metric"><span>Média humor</span><strong id="avgMood">—</strong></article>
-          <article class="metric"><span>Média sensorial</span><strong id="avgSound">—</strong></article>
-          <article class="metric"><span>Check-ins</span><strong id="totalCheckins">0</strong></article>
-        </div>
-        <div class="panel">
-          <h3>Exportações</h3>
-          <div class="row wrap">
-            <button id="exportCsv">CSV check-ins</button>
-            <button id="exportRosterCsv" class="ghost">CSV escala</button>
-            <button id="exportBackup" class="ghost">Backup JSON</button>
-            <button id="clearData" class="danger">Limpar dados</button>
-          </div>
-          <p class="muted">CSV de calendário pode ser importado no Google/Outlook. ICS é melhor para Apple/Google Calendar.</p>
-        </div>
-        <div class="panel">
-          <h3>Lembretes no Android/PWA</h3>
-          <p class="muted">Ative notificações locais para água e incentivo à atividade física. O HealthOps estima janelas acordadas pela escala do dia.</p>
-          <div class="grid form-grid">
-            <label>Intervalo água
-              <select id="waterInterval"><option value="60">60 min</option><option value="90" selected>90 min</option><option value="120">120 min</option></select>
-            </label>
-            <label>Atividade física
-              <select id="activityReminder"><option value="on" selected>Ativado</option><option value="off">Desativado</option></select>
-            </label>
-          </div>
-          <div class="row wrap">
-            <button id="enableNotifications" class="ghost">Ativar lembretes</button>
-            <button id="disableNotifications" class="ghost">Desativar</button>
-          </div>
-          <p id="notificationStatus" class="muted"></p>
-        </div>
-      </section>
-    </main>
-
-    <nav class="tabs">
-      <button data-tab="dashboard" class="active">Início</button>
-      <button data-tab="checkin">Check-in</button>
-      <button data-tab="roster">Escala</button>
-      <button data-tab="import">Importar</button>
-      <button data-tab="stats">Dados</button>
-    </nav>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script>if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}</script>
-  <script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#23404A">
+<title>HealthOps Aeronauta</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
+</head><body><div id="app">
+<header class="topbar"><div><p class="eyebrow">HealthOps Aeronauta</p><h1 id="todayTitle">—</h1></div><button id="installBtn" class="ghost hidden">Instalar</button></header>
+<main>
+<section id="view-dashboard" class="view active">
+ <div class="hero-card"><div><p class="eyebrow">Hoje</p><h2 id="dayType">—</h2><p id="daySummary">Carregando...</p><div id="todayBadges" class="badges"></div></div><div class="score"><span id="recoveryScore">--</span><small>recuperação</small></div></div>
+ <div class="grid cards"><article class="metric"><span>Jornada</span><strong id="mDuty">—</strong></article><article class="metric"><span>Sono</span><strong id="mSleep">—</strong></article><article class="metric"><span>Energia</span><strong id="mEnergy">—</strong></article><article class="metric"><span>Água</span><strong id="mWater">—</strong></article></div>
+ <section class="panel"><div class="section-head"><h2>Próximos 4 dias</h2></div><div id="upcomingDays" class="upcoming-grid"></div></section>
+ <section class="panel accent"><h2>Recomendações</h2><div id="insights"></div></section>
+ <section class="panel"><h2>Protocolos de hoje</h2><div id="todayProtocols" class="protocol-grid"></div></section>
+</section>
+<section id="view-checkin" class="view"><h2>Check-in diário</h2><form id="checkinForm" class="form">
+ <div class="grid form-grid"><label>Sono principal (h)<input id="sleepHours" type="number" step="0.1" min="0" max="16"></label><label>Cochilos (min)<input id="napMinutes" type="number" min="0" max="300"></label><label>Energia 0-10<input id="energy" type="range" min="0" max="10"><output id="energyOut"></output></label><label>Foco 0-10<input id="focus" type="range" min="0" max="10"><output id="focusOut"></output></label><label>Água (ml)<input id="waterMl" type="number" min="0" step="100"></label><label>Cafeína total estimada (mg)<input id="caffeineMg" type="number" min="0" step="20"></label></div>
+ <section class="panel nested"><h3>Cafeína rápida</h3><div class="checkgrid"><button type="button" data-caf="60">+ Espresso</button><button type="button" data-caf="100">+ Café pequeno</button><button type="button" data-caf="160">+ Café médio</button><button type="button" data-caf="80">+ Energético</button></div></section>
+ <section class="panel nested"><h3>Atividades realizadas</h3><div id="trainingChecks" class="checkgrid"></div><label>Intensidade<select id="trainingIntensity"><option>Nenhuma</option><option>Leve</option><option>Moderada</option><option>Intensa</option></select></label><label>Duração total (min)<input id="trainingMinutes" type="number" min="0"></label></section>
+ <section class="panel nested"><h3>Alimentação</h3><label>Resumo do dia<textarea id="foodSummary" rows="4" placeholder="Ex.: café reforçado, almoço leve, pouca proteína no jantar, belisquei à noite..."></textarea></label></section>
+ <section class="panel nested"><h3>Medicações e suplementos</h3><div id="medChecklist" class="checkgrid"></div></section>
+ <button>Salvar check-in</button>
+ </form></section>
+<section id="view-escala" class="view"><h2>Escala</h2><section class="panel"><p class="muted">Carregue PDF/TXT ou cole o texto. Depois clique em processar para atualizar dashboard, jornada e calendário.</p><label class="filebox">Selecionar PDF/TXT<input id="rosterFile" type="file" accept=".pdf,.txt,text/plain,application/pdf"></label><textarea id="rosterText" rows="10" placeholder="Cole aqui o texto da escala..."></textarea><div class="row wrap"><button id="processRoster">Processar escala e atualizar app</button><button id="clearRoster" class="danger">Limpar escala</button></div><p id="parseStatus" class="muted"></p></section><div id="rosterList" class="roster-list"></div></section>
+<section id="view-jornada" class="view"><h2>Jornada & Regulamentação</h2><section class="panel warning"><p><strong>Apoio operacional.</strong> Os cálculos são preliminares e devem ser conferidos com Lei 13.475/17, RBAC 117 e ACT aplicável.</p></section><section class="panel"><h3>Configurações</h3><label>ACT/Empresa<select id="actProfile"><option value="base">Base RBAC/Lei</option><option value="latam">LATAM (placeholder)</option><option value="gol">GOL (placeholder)</option><option value="azul">Azul (placeholder)</option></select></label></section><div id="dutyList" class="roster-list"></div></section>
+<section id="view-saude" class="view"><h2>Saúde & Fadiga</h2><section class="panel"><h3>Índice de recuperação</h3><div class="score"><span id="fatigueScore">--</span><small>score</small></div><div id="fatigueBreakdown"></div></section></section>
+<section id="view-meds" class="view"><h2>Medicações</h2><section class="panel warning"><p><strong>Modo Aeronauta ativo.</strong> Catálogo otimizado para aeronautas. Substâncias sensíveis não são sugeridas automaticamente.</p></section><section class="panel"><div class="row wrap"><button id="loadGabrielProtocol">Carregar protocolo Gabriel</button><button id="addMedBtn" class="ghost">Adicionar item</button></div><div id="medList"></div></section></section>
+<section id="view-export" class="view"><h2>Exportar</h2><section class="panel"><div class="row wrap"><button id="exportCsv">CSV da escala</button><button id="exportIcs">ICS calendário</button><button id="backupJson">Backup JSON</button></div><p class="muted">ICS é o formato mais adequado para Google Calendar, Outlook e Apple Calendar.</p></section></section>
+</main>
+<nav class="tabs"><button data-view="dashboard" class="active">Hoje</button><button data-view="checkin">Check-in</button><button data-view="escala">Escala</button><button data-view="jornada">Jornada</button><button data-view="saude">Fadiga</button><button data-view="meds">Meds</button><button data-view="export">Exportar</button></nav>
+</div><script src="app.js"></script></body></html>

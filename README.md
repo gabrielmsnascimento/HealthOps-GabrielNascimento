@@ -1,22 +1,27 @@
-# HealthOps Gabriel v3.2
+# HealthOps — v0.5.0
 
-Correção focada na importação de escala e na percepção correta do dia.
+PWA especializado para aeronautas: escala, jornada, regulamentação, fadiga, saúde, medicações/protocolos, calendário e exportações.
 
-## Novidades da v3.2
+## Novidades v0.5.0
 
-- Dashboard agora usa apenas a escala da data exata de hoje.
-- Quando não houver escala para hoje, mostra “Sem dados disponíveis para a data de hoje”, sem presumir alta carga.
-- PDF passa a preservar linhas por posição visual, melhorando o parser.
-- Botão renomeado para “Processar escala e atualizar app”.
-- Prévia de quantos itens o parser encontrou antes de gravar.
-- Bloco “Próximos 4 dias” no dashboard.
-- Botão para limpar somente a escala.
-- Exemplo de julho não é mais usado como fallback automático.
+- Arquitetura por motores:
+  - `OpsEngine`: parser de escala, próximos dias, classificação operacional.
+  - `DutyEngine`: cálculo preliminar de jornada, repouso e pontos de atenção.
+  - `FatigueEngine`: índice de recuperação/fadiga com sono, hidratação, cafeína, treino e carga operacional.
+  - `MedicationEngine`: catálogo/protocolos com Modo Aeronauta.
+  - `ExportEngine`: exportação CSV/ICS.
+- Nova aba **Jornada**.
+- Dashboard não presume dados quando a escala de hoje não existe.
+- Botão **Processar escala e atualizar app** após upload/texto.
+- Próximos 4 dias baseados somente na escala importada/manual.
+- Alertas como “ponto de atenção”, não como conclusão jurídica.
 
-## Fluxo correto
+## Como atualizar no GitHub
 
-1. Selecione o PDF/TXT da escala.
-2. Verifique se o texto apareceu no campo.
-3. Clique em “Processar escala e atualizar app”.
-4. Revise na aba Escala.
-5. Exporte CSV/ICS se quiser levar para calendário.
+1. Descompacte o ZIP.
+2. Envie os arquivos descompactados para a raiz do repositório.
+3. Commit sugerido: `v0.5.0 - Motores de operações, jornada e fadiga`.
+
+## Aviso
+
+O HealthOps é uma ferramenta de organização pessoal e apoio. Não substitui ANAC, CMA, médico examinador, empresa, sindicato, ACT aplicável ou interpretação jurídica/profissional.
