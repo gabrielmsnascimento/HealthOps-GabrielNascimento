@@ -1,43 +1,16 @@
-# HealthOps Gabriel v3
+# HealthOps Gabriel v3.1
 
-PWA local/offline para acompanhar saúde, escala de voo, sono, treino, alimentação, TDAH/AH-SD e uso prescrito de sibutramina/BioMag.
+PWA pessoal para acompanhar saúde, rotina de voos, escala, sono, sibutramina/BioMag, TDAH/AH-SD, treinos, alimentação e exportações.
 
-## Como rodar localmente
+## Novidades da v3.1
 
-1. Descompacte a pasta.
-2. Abra um terminal dentro da pasta.
-3. Rode:
+- Importação de PDF/TXT da escala com leitura via PDF.js.
+- Campo de cafeína por tipo de bebida, com conversão estimada para mg.
+- Atividade física com múltiplas caixas de seleção.
+- Campo de resumo alimentar sem contagem de calorias.
+- Lembretes locais de água e atividade física para Android/PWA, usando janelas acordadas estimadas pela escala.
+- Service worker atualizado para notificações locais.
 
-```bash
-python -m http.server 8000
-```
+## Observação sobre notificações
 
-4. Acesse:
-
-```txt
-http://localhost:8000
-```
-
-No celular, hospede em GitHub Pages, Netlify, Vercel ou servidor HTTPS e use “Adicionar à tela inicial”.
-
-## O que mudou na v3
-
-- Check-in expandido com sibutramina/BioMag, FC, pressão, água, café, fome, foco e sensibilidade sonora.
-- Dashboard com badges, recuperação e alertas inteligentes.
-- Escala manual editável.
-- Parser de texto mais flexível para escala copiada do iFlight Neo/PDF.
-- Exportação de CSV de check-ins.
-- Exportação de CSV da escala.
-- Exportação de CSV de calendário.
-- Exportação de arquivo ICS para calendários.
-- Backup JSON completo.
-- Migração básica dos dados da v2 para v3 quando existirem no mesmo navegador.
-
-## Próximas etapas sugeridas
-
-- Importação real de PDF com PDF.js.
-- Edição/exclusão individual de itens da escala.
-- Gráficos mensais.
-- Banco local IndexedDB.
-- Login/sincronização com Supabase.
-- Integração oficial com iFlight Neo apenas se houver API/exportação autorizada.
+Notificações Web em PWA dependem de permissão do navegador e do Android. Sem servidor próprio, elas são lembretes locais enquanto o app/PWA consegue manter timers ativos. Push real em nuvem exigirá backend, como Supabase Edge Functions ou Firebase Cloud Messaging.

@@ -1,6 +1,7 @@
 const KEY_CHECKINS='healthops_checkins_v3';
 const KEY_ROSTER='healthops_roster_v3';
-const APP_VERSION='3.0';
+const APP_VERSION='3.1';
+const KEY_REMINDERS='healthops_reminders_v31';
 
 const julyRoster=[
  {date:'2026-07-01',type:'Alta carga',startTime:'',endTime:'18:45',summary:'Pairing iniciado em 28/06. Chegada BSB 18:45. Prioridade: hidratação e recuperação.'},
@@ -46,19 +47,21 @@ function todayISO(){return new Date().toISOString().slice(0,10)}
 function fmtDate(d){return new Date(d+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',weekday:'short'})}
 function download(name,content,type='text/plain;charset=utf-8'){const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
 function sortRoster(arr){return [...arr].sort((a,b)=>(a.date+a.startTime).localeCompare(b.date+b.startTime))}
-function csvEscape(v){return `"${String(v??'').replaceAll('"','""')}"`}
+function csvEscape(v){return `"${String(Array.isArray(v)?v.join(' + '):(v??'')).replaceAll('\"','\"\"')}"`}
+function getReminders(){return safeParse(localStorage.getItem(KEY_REMINDERS),{enabled:false,waterInterval:90,activityReminder:'on'})}
+function setReminders(v){localStorage.setItem(KEY_REMINDERS,JSON.stringify(v))}
 
-function recovery(c={}){let s=0;const sleepH=Number(c.sleepHours||0),sq=Number(c.sleepQuality||5),en=Number(c.energy||5),mood=Number(c.mood||5),focus=Number(c.focus||5),sound=Number(c.soundSensitivity||5),hr=Number(c.restingHr||0);s+=Math.min(10,sleepH)/10*25;s+=sq/10*20;s+=en/10*18;s+=mood/10*14;s+=focus/10*10;s+=(10-sound)/10*10;if(hr>95)s-=8;if(Number(c.coffee)>=4)s-=4;return Math.max(0,Math.min(100,Math.round(s)))}
+function recovery(c={}){let s=0;const sleepH=Number(c.sleepHours||0),sq=Number(c.sleepQuality||5),en=Number(c.energy||5),mood=Number(c.mood||5),focus=Number(c.focus||5),sound=Number(c.soundSensitivity||5),hr=Number(c.restingHr||0);s+=Math.min(10,sleepH)/10*25;s+=sq/10*20;s+=en/10*18;s+=mood/10*14;s+=focus/10*10;s+=(10-sound)/10*10;if(hr>95)s-=8;if(Number(c.caffeineMg)>=300)s-=4;return Math.max(0,Math.min(100,Math.round(s)))}
 function badgesFor(r,c,score){const b=[];if(r?.type)b.push(r.type);if(/madrugada|05:|06:|04:/i.test(r?.summary||''))b.push('madrugada/recuperação');if(score>=75)b.push('janela de performance');if(Number(c.soundSensitivity)>=7)b.push('proteção sensorial');if(c.medTaken==='sim')b.push('BioMag registrado');return b}
 function planFor(type,score,r={}){const common=['Água ao acordar + BioMag somente conforme prescrição','Registrar check-in em 2 minutos','Proteína em pelo menos 2-3 refeições'];if(type==='Performance')return[...common,score>=70?'Treino de força 45-60 min':'Treino curto/mobilidade: recuperação ainda baixa','Preparar lanches e sono para próximo bloco'];if(type==='Operacional')return[...common,'Treino curto 20-30 min ou caminhada','Cafeína com limite; evitar perto da janela de sono'];if(type==='Recuperação')return[...common,'Se chegada 05-08h: café da manhã + dormir até 12h-13h','Evitar treino intenso; mobilidade, caminhada leve ou descanso'];return[...common,'Dia crítico: não buscar performance; foco em sono, água e comida real','Reduzir estímulos e proteger janelas de cochilo']}
 function classifyFromText(line){const t=line.toUpperCase();const times=(line.match(/\b\d{1,2}:\d{2}\b/g)||[]);if(/\b(DO|DR|FOLGA)\b/.test(t))return'Performance';if(/\b(ASB|MCK|RES|TREIN|CURSO)\b/.test(t))return'Operacional';if(/(04:|05:|06:|07:|08:|MADRUG|CHEGA|CHEGADA)/i.test(line))return'Recuperação';if((t.match(/[A-Z]{3}/g)||[]).length>=4||times.length>=4)return'Alta carga';return'Operacional'}
 
-function init(){document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));document.querySelectorAll('input[type=range]').forEach(inp=>{const out=inp.parentElement.querySelector('output');const upd=()=>out.textContent=inp.value;inp.addEventListener('input',upd);upd()});$('checkinForm').date.value=todayISO();$('manualRosterForm').date.value=todayISO();$('checkinForm').onsubmit=saveCheckin;$('manualRosterForm').onsubmit=addManualRoster;$('loadJuly').onclick=()=>{setRoster(julyRoster);renderAll()};$('parseRoster').onclick=parseRosterText;$('clearData').onclick=()=>{if(confirm('Limpar check-ins e escala importada?')){localStorage.removeItem(KEY_CHECKINS);localStorage.removeItem(KEY_ROSTER);location.reload()}};$('exportCsv').onclick=exportCheckinsCsv;$('exportRosterCsv').onclick=exportRosterCsv;$('exportCalendarCsv').onclick=exportCalendarCsv;$('exportIcs').onclick=exportIcs;$('exportBackup').onclick=exportBackup;$('rosterFile').onchange=e=>{$('importStatus').textContent=e.target.files[0]?`Arquivo guardado como referência local: ${e.target.files[0].name}`:''};renderAll();registerSW();setupInstall()}
+function init(){document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));document.querySelectorAll('input[type=range]').forEach(inp=>{const out=inp.parentElement.querySelector('output');const upd=()=>out.textContent=inp.value;inp.addEventListener('input',upd);upd()});$('checkinForm').date.value=todayISO();$('manualRosterForm').date.value=todayISO();$('checkinForm').onsubmit=saveCheckin;setupCaffeine();$('manualRosterForm').onsubmit=addManualRoster;$('loadJuly').onclick=()=>{setRoster(julyRoster);renderAll()};$('parseRoster').onclick=parseRosterText;$('clearData').onclick=()=>{if(confirm('Limpar check-ins e escala importada?')){localStorage.removeItem(KEY_CHECKINS);localStorage.removeItem(KEY_ROSTER);location.reload()}};$('exportCsv').onclick=exportCheckinsCsv;$('exportRosterCsv').onclick=exportRosterCsv;$('exportCalendarCsv').onclick=exportCalendarCsv;$('exportIcs').onclick=exportIcs;$('exportBackup').onclick=exportBackup;$('rosterFile').onchange=handleRosterFile; $('enableNotifications').onclick=enableReminders; $('disableNotifications').onclick=disableReminders; hydrateReminderSettings(); renderAll();registerSW();setupInstall();scheduleReminderLoop()}
 function renderAll(){renderDashboard();renderRoster();renderStats()}
 function showTab(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$('view-'+name).classList.add('active');document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));if(name==='stats')renderStats();if(name==='roster')renderRoster()}
 
-function renderDashboard(){const date=todayISO();const roster=getRoster();const r=roster.find(x=>x.date===date)||roster.find(x=>x.date>=date)||roster[0];const c=getCheckins().filter(x=>x.date===date).at(-1)||{};const score=recovery(c);$('todayTitle').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});$('dayType').textContent=r?.type||'Sem escala';$('daySummary').textContent=r?.summary||'Sem dados para hoje.';$('todayBadges').innerHTML=badgesFor(r,c,score).map(x=>`<span class="badge">${x}</span>`).join('');$('recoveryScore').textContent=isNaN(score)?'--':score;$('mSleep').textContent=c.sleepHours?`${c.sleepHours}h`:'—';$('mEnergy').textContent=c.energy??'—';$('mFocus').textContent=c.focus??'—';$('mSound').textContent=c.soundSensitivity??'—';$('todayPlan').innerHTML=planFor(r?.type||'Operacional',score,r).map(x=>`<li>${x}</li>`).join('');const insights=[];if(Number(c.soundSensitivity)>=7)insights.push('Sensibilidade sonora alta: priorize fone ANC, ambientes previsíveis e pausa sensorial.');if(Number(c.coffee)>=4)insights.push('Cafeína elevada: observar impacto em sono, FC, hiperatividade e insônia.');if(Number(c.sleepHours)>0&&Number(c.sleepHours)<5.5)insights.push('Sono curto: hoje é dia de recuperação/manutenção, não de performance.');if(Number(c.restingHr)>=95)insights.push('FC de repouso elevada: registre contexto e converse com seu médico se persistir.');if(/palpitação|FC elevada/i.test(c.medEffects||''))insights.push('Efeito relevante da sibutramina registrado: monitore pressão/FC e evite cafeína excessiva.');if(score>=75)insights.push('Boa recuperação: janela favorável para treino de força ou tarefa importante.');if(!insights.length)insights.push('Sem alertas relevantes. Faça o check-in para gerar leituras melhores.');$('insights').innerHTML=insights.map(i=>`<div class="insight">${i}</div>`).join('')}
-function saveCheckin(e){e.preventDefault();const obj=Object.fromEntries(new FormData(e.target).entries());const arr=getCheckins().filter(x=>x.date!==obj.date);arr.push({...obj,savedAt:new Date().toISOString()});setCheckins(arr);renderAll();alert('Check-in salvo.');showTab('dashboard')}
+function renderDashboard(){const date=todayISO();const roster=getRoster();const r=roster.find(x=>x.date===date)||roster.find(x=>x.date>=date)||roster[0];const c=getCheckins().filter(x=>x.date===date).at(-1)||{};const score=recovery(c);$('todayTitle').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});$('dayType').textContent=r?.type||'Sem escala';$('daySummary').textContent=r?.summary||'Sem dados para hoje.';$('todayBadges').innerHTML=badgesFor(r,c,score).map(x=>`<span class="badge">${x}</span>`).join('');$('recoveryScore').textContent=isNaN(score)?'--':score;$('mSleep').textContent=c.sleepHours?`${c.sleepHours}h`:'—';$('mEnergy').textContent=c.energy??'—';$('mFocus').textContent=c.focus??'—';$('mSound').textContent=c.soundSensitivity??'—';$('todayPlan').innerHTML=planFor(r?.type||'Operacional',score,r).map(x=>`<li>${x}</li>`).join('');const insights=[];if(Number(c.soundSensitivity)>=7)insights.push('Sensibilidade sonora alta: priorize fone ANC, ambientes previsíveis e pausa sensorial.');if(Number(c.caffeineMg)>=300)insights.push('Cafeína elevada: observar impacto em sono, FC, hiperatividade e insônia.');if(Number(c.sleepHours)>0&&Number(c.sleepHours)<5.5)insights.push('Sono curto: hoje é dia de recuperação/manutenção, não de performance.');if(Number(c.restingHr)>=95)insights.push('FC de repouso elevada: registre contexto e converse com seu médico se persistir.');if(/palpitação|FC elevada/i.test(c.medEffects||''))insights.push('Efeito relevante da sibutramina registrado: monitore pressão/FC e evite cafeína excessiva.');if(score>=75)insights.push('Boa recuperação: janela favorável para treino de força ou tarefa importante.');if(!insights.length)insights.push('Sem alertas relevantes. Faça o check-in para gerar leituras melhores.');$('insights').innerHTML=insights.map(i=>`<div class="insight">${i}</div>`).join('')}
+function saveCheckin(e){e.preventDefault();const fd=new FormData(e.target);const obj=Object.fromEntries(fd.entries());obj.workoutDone=fd.getAll('workoutDone');obj.caffeineLog=safeParse(obj.caffeineLog,[]);const arr=getCheckins().filter(x=>x.date!==obj.date);arr.push({...obj,savedAt:new Date().toISOString()});setCheckins(arr);renderAll();alert('Check-in salvo.');showTab('dashboard')}
 function addManualRoster(e){e.preventDefault();const obj=Object.fromEntries(new FormData(e.target).entries());if(!obj.summary)obj.summary=`${obj.type} ${obj.startTime||''}${obj.endTime?' - '+obj.endTime:''}`;setRoster([...getRoster().filter(x=>!(x.date===obj.date&&x.summary===obj.summary)),obj]);e.target.reset();$('manualRosterForm').date.value=todayISO();renderAll()}
 function renderRoster(){const r=getRoster();$('rosterList').innerHTML=r.map(x=>{const cls=x.type==='Alta carga'?'Alta':x.type;const time=[x.startTime,x.endTime].filter(Boolean).join('–');return`<article class="roster-card ${cls}"><h3><span>${fmtDate(x.date)}</span><span>${x.type}</span></h3><p>${time?time+' · ':''}${x.summary}</p></article>`}).join('')}
 function parseRosterText(){const txt=$('rosterText').value.trim();if(!txt){$('importStatus').textContent='Cole algum texto da escala antes.';return}const lines=txt.split(/\n+/).map(x=>x.trim()).filter(Boolean);const parsed=[];let currentYear=new Date().getFullYear();for(const line of lines){const dateMatch=line.match(/\b(\d{1,2})[\/\-\.](\d{1,2})(?:[\/\-\.](\d{2,4}))?\b/);const codeMatch=line.match(/\b(DO|DR|ASB|MCK|RES|LA\d+|[A-Z]{3}\s*-\s*[A-Z]{3}|[A-Z]{3}\/[A-Z]{3})\b/i);if(dateMatch||codeMatch){let date;if(dateMatch){const d=dateMatch[1].padStart(2,'0'),m=dateMatch[2].padStart(2,'0');let y=dateMatch[3]?dateMatch[3]:currentYear;if(String(y).length===2)y='20'+y;date=`${y}-${m}-${d}`}else{continue}const times=line.match(/\b\d{1,2}:\d{2}\b/g)||[];parsed.push({date,type:classifyFromText(line),startTime:times[0]||'',endTime:times.at(-1)||'',summary:line.slice(0,220)})}}if(parsed.length){setRoster(parsed);$('importStatus').textContent=`${parsed.length} itens interpretados. Revise na aba Escala.`;renderAll();showTab('roster')}else $('importStatus').textContent='Não consegui interpretar automaticamente. Tente colar linhas com data + voo/código/horário.'}
@@ -74,3 +77,88 @@ function exportBackup(){const payload={app:'HealthOps Gabriel',version:APP_VERSI
 function registerSW(){if('serviceWorker'in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('service-worker.js').catch(()=>{})}
 let deferredPrompt;function setupInstall(){window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('installBtn').classList.remove('hidden')});$('installBtn').onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;$('installBtn').classList.add('hidden')}}}
 init();
+
+
+function setupCaffeine(){
+  const log=[];
+  const render=()=>{const total=log.reduce((s,x)=>s+x.mg,0);$('caffeineMg').value=total;$('caffeineLog').value=JSON.stringify(log);$('caffeineSummary').textContent=log.length?`Cafeína: ${total} mg · ${log.map(x=>`${x.qty}x ${x.label}`).join(' + ')}`:'Cafeína: 0 mg'};
+  $('addCaffeine').onclick=()=>{const [key,mgRaw]=$('caffeineType').value.split('|');const qty=Math.max(1,Number($('caffeineQty').value||1));const label=$('caffeineType').selectedOptions[0].textContent.replace(/\s*\(~.*?\)/,'');log.push({type:key,label,qty,mg:qty*Number(mgRaw)});render()};
+  $('clearCaffeine').onclick=()=>{log.splice(0,log.length);render()};
+  render();
+}
+
+async function handleRosterFile(e){
+  const file=e.target.files?.[0];
+  if(!file){$('importStatus').textContent='';return}
+  $('importStatus').textContent=`Lendo ${file.name}...`;
+  try{
+    let text='';
+    if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
+      if(!window.pdfjsLib) throw new Error('Biblioteca PDF.js não carregou. Confira sua conexão e tente novamente.');
+      const buffer=await file.arrayBuffer();
+      const pdf=await pdfjsLib.getDocument({data:buffer}).promise;
+      const pages=[];
+      for(let i=1;i<=pdf.numPages;i++){
+        const page=await pdf.getPage(i);
+        const content=await page.getTextContent();
+        pages.push(content.items.map(item=>item.str).join(' '));
+      }
+      text=pages.join('\n');
+    }else{
+      text=await file.text();
+    }
+    $('rosterText').value=text.trim();
+    $('importStatus').textContent=`Arquivo lido com sucesso: ${file.name}. Agora clique em “Interpretar texto”.`;
+  }catch(err){
+    $('importStatus').textContent=`Não consegui ler o arquivo: ${err.message}`;
+  }
+}
+
+function awakeWindowFor(date=todayISO()){
+  const r=getRoster().find(x=>x.date===date);
+  if(!r)return{start:'08:00',end:'22:30',reason:'padrão'};
+  const txt=`${r.summary||''} ${r.type||''}`;
+  if(r.type==='Recuperação'||/(chega|chegada|04:|05:|06:|07:|08:)/i.test(txt))return{start:'13:00',end:'22:30',reason:'recuperação pós-madrugada'};
+  if(r.startTime){return{start:addMinutes(r.startTime,-180),end:r.endTime?addMinutes(r.endTime,90):'23:00',reason:'escala operacional'}};
+  if(r.type==='Performance')return{start:'08:00',end:'22:30',reason:'dia livre/performance'};
+  return{start:'08:00',end:'22:30',reason:'escala'};
+}
+function minutesNow(){const d=new Date();return d.getHours()*60+d.getMinutes()}
+function timeToMin(t){const [h,m]=String(t).split(':').map(Number);return (h||0)*60+(m||0)}
+function hydrateReminderSettings(){const r=getReminders();$('waterInterval').value=String(r.waterInterval||90);$('activityReminder').value=r.activityReminder||'on';$('notificationStatus').textContent=r.enabled?'Lembretes ativados neste aparelho.':'Lembretes desativados.'}
+async function enableReminders(){
+  if(!('Notification'in window)){$('notificationStatus').textContent='Este navegador não oferece notificações Web.';return}
+  const perm=await Notification.requestPermission();
+  if(perm!=='granted'){$('notificationStatus').textContent='Permissão de notificação não concedida.';return}
+  setReminders({enabled:true,waterInterval:Number($('waterInterval').value||90),activityReminder:$('activityReminder').value,lastWater:null,lastActivity:null});
+  hydrateReminderSettings();notify('HealthOps ativo','Vou lembrar água e atividade conforme sua janela acordada estimada.');scheduleReminderLoop();
+}
+function disableReminders(){setReminders({...getReminders(),enabled:false});hydrateReminderSettings()}
+function notify(title,body){
+  if(Notification.permission!=='granted')return;
+  if(navigator.serviceWorker?.controller){navigator.serviceWorker.controller.postMessage({type:'notify',title,body});}
+  else new Notification(title,{body,icon:'manifest.json'});
+}
+function scheduleReminderLoop(){
+  clearTimeout(window.__healthopsReminderTimer);
+  const tick=()=>{
+    const cfg=getReminders();
+    if(cfg.enabled&&Notification.permission==='granted'){
+      const aw=awakeWindowFor(); const now=minutesNow(); const start=timeToMin(aw.start), end=timeToMin(aw.end);
+      if(now>=start&&now<=end){
+        const today=todayISO(); const stamp=new Date().toISOString();
+        const lastWater=cfg.lastWater?new Date(cfg.lastWater):null;
+        const dueWater=!lastWater||((Date.now()-lastWater.getTime())/60000>=Number(cfg.waterInterval||90));
+        if(dueWater){cfg.lastWater=stamp;notify('Água agora','Janela acordada estimada: '+aw.reason+'. Beba água e registre no check-in.');}
+        const lastAct=cfg.lastActivity?new Date(cfg.lastActivity):null;
+        const alreadyWorked=(getCheckins().find(c=>c.date===today)?.workoutDone||[]).length>0;
+        const activityHour= rHour(awakeWindowFor().start, 8);
+        if(cfg.activityReminder==='on'&&!alreadyWorked&&now>=activityHour&&!lastAct){cfg.lastActivity=stamp;notify('Movimento HealthOps','Se couber na escala: caminhada, mobilidade ou treino curto hoje.');}
+        setReminders(cfg);
+      }
+    }
+    window.__healthopsReminderTimer=setTimeout(tick,15*60*1000);
+  };
+  tick();
+}
+function rHour(start,offset){return Math.min(timeToMin(start)+offset*60,20*60)}
