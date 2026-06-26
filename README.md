@@ -1,4 +1,4 @@
-# HealthOps Aeronautas v1.0-beta.6
+# HealthOps Aeronautas v1.0-beta.7
 
 Atualização focada na robustez do parser de PDFs IFN/iFlight Neo para escalas históricas.
 
@@ -15,3 +15,10 @@ Atualização focada na robustez do parser de PDFs IFN/iFlight Neo para escalas 
 ## Observação
 
 O motor segue em beta. Use o modo Debug para validar Março, Abril, Maio e Junho antes de liberar para outros testadores.
+
+
+## v1.0-beta.7
+- Corrige leitura real de PDF no navegador usando PDF.js.
+- Bloqueia processamento de binário PDF (%PDF) como texto.
+- Adiciona limpeza de imports inválidos da biblioteca.
+- Mantém parser IFN v2 para escalas históricas.

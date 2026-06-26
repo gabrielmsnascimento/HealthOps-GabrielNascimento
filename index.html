@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HealthOps Aeronautas v1.0-beta.6</title>
+<title>HealthOps Aeronautas v1.0-beta.7</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--purple:#7353a4;--greenbg:#eaf7ee;--yellowbg:#fff4cd;--redbg:#faeaea;--bluebg:#eaf4fb;--purplebg:#f1ecf8;--graybg:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{padding:26px 20px 14px;max-width:1180px;margin:auto}.eyebrow{font-weight:800;letter-spacing:.14em;color:var(--copper);font-size:12px;text-transform:uppercase}h1{font-size:clamp(30px,5vw,56px);line-height:.95;margin:8px 0 10px}p{color:var(--muted)}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;z-index:10}.wrap{max-width:1180px;margin:auto;padding:0 16px 92px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;z-index:9;border-top:1px solid var(--line)}.tab{flex:1;border:0;border-radius:16px;padding:14px 8px;background:#e9e6df;color:#6d6a63;font-weight:800;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.metric{font-size:34px;font-weight:900;color:#153846}.muted{color:var(--muted);font-size:14px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{display:flex;align-items:center;justify-content:space-between;gap:12px}.btn{border:0;background:var(--brand);color:#fff;padding:12px 16px;border-radius:14px;font-weight:800;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:8px 12px;min-height:36px;font-size:13px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;color:var(--muted);font-size:12px}.day{min-height:86px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;cursor:pointer;position:relative}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.day.today{box-shadow:0 0 0 2px var(--copper) inset}.daynum{font-weight:900}.tag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-top:6px}.tag.rest{background:var(--greenbg);color:var(--ok)}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.train{background:var(--purplebg);color:var(--purple)}.tag.reserve{background:var(--yellowbg);color:var(--warn)}.tag.fatigue{background:var(--redbg);color:var(--bad)}.tag.none{background:var(--graybg);color:#777}.timeline{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:12px}.timebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;cursor:pointer}.timebox.active{background:var(--brand);color:#fff}.timebox.active p{color:#dce8eb}.pill{display:inline-block;background:#eef0ef;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900;margin:2px}.pill.green{background:var(--greenbg);color:var(--ok)}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.purple{background:var(--purplebg);color:var(--purple)}.pill.orange{background:var(--yellowbg);color:var(--warn)}.pill.red{background:var(--redbg);color:var(--bad)}.listday{display:grid;grid-template-columns:120px 1fr 80px 80px 1.6fr;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:12px 0}.alert{border-left:5px solid var(--warn);background:var(--yellowbg);padding:14px;border-radius:16px;margin:10px 0}.alert.bad{border-color:var(--bad);background:var(--redbg)}.hidden{display:none}.mealLine{padding:9px 0;border-bottom:1px dashed var(--line)}.checkrow{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px;accent-color:var(--brand);flex:0 0 auto}.debug{white-space:pre-wrap;background:#111b22;color:#d9f1e4;border-radius:16px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;max-height:320px;overflow:auto}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:1fr}.listday{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:70px;padding:6px}.tag{font-size:10px;padding:3px 6px}h1{font-size:38px}}
 </style>
 </head>
 <body>
-<div class="version">v1.0-beta.6</div>
+<div class="version">v1.0-beta.7</div>
 <header>
 <div class="eyebrow">HealthOps Aeronautas</div>
 <h1>Linha do tempo operacional</h1>
@@ -32,8 +32,8 @@
 <button class="tab" data-view="debug">Debug</button>
 </nav>
 <script>
-const VERSION='v1.0-beta.6';
-const LS='healthops_v1_beta6';
+const VERSION='v1.0-beta.7';
+const LS='healthops_v1_beta7';
 const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
 const PTW=['dom.','seg.','ter.','qua.','qui.','sex.','sáb.'];
 const state=load()||{selected:iso(new Date()), calendarMonth:null, rosters:{}, activeRosterKey:null, meds:[{name:'Sibutramina',period:'Manhã',status:'sensível',note:'Inibidor de apetite: atenção a insônia, boca seca, pressão/frequência cardíaca e palpitações.'},{name:'Ômega 3',period:'Manhã',status:'compatível',note:'Suplemento nutricional.'},{name:'Vitamina D3',period:'Manhã',status:'compatível',note:'Suplemento vitamínico.'},{name:'Magnésio dimalato',period:'Noite',status:'compatível',note:'Suplemento mineral.'}], medTaken:{}, health:{}, caffeine:[]};
@@ -56,12 +56,70 @@ function renderEscala(){const s=activeSummary();const days=Object.entries(allDay
 ${renderCalendarCard()}
 <div class="card"><h2>Linha do tempo do mês</h2>${days.map(([date,d])=>`<div class="listday" onclick="selectDate('${date}')"><b>${fmt(date)}</b><span>${d.classification}</span><span>${d.duty}h</span><span>${d.flight}h</span><span>${d.events.map(e=>`<span class="pill ${e.type==='rest'?'green':e.type==='flight'?'blue':e.type==='training'?'purple':'orange'}">${e.code}</span>`).join('')}</span></div>`).join('')||'<p>Nenhuma escala processada.</p>'}</div>
 <div class="card"><h2>Dias por treino recomendado</h2>${renderTrainingGroups()}</div>
-<div class="card"><h2>Biblioteca de escalas importadas</h2>${Object.keys(state.rosters).map(k=>`<button class="btn ${k===state.activeRosterKey?'':'secondary'} small" onclick="setRoster('${k}')">${k}</button>`).join(' ')||'<p>Nenhuma escala salva.</p>'}</div>
+<div class="card"><h2>Biblioteca de escalas importadas</h2><div class="row">${Object.keys(state.rosters).map(k=>`<button class="btn ${k===state.activeRosterKey?'':'secondary'} small" onclick="setRoster('${k}')">${k}</button>`).join(' ')||'<p>Nenhuma escala salva.</p>'}</div><button class="btn danger small" onclick="clearInvalidRosters()">Limpar imports inválidos</button></div>
 <div class="card"><h2>Importar escala IFN/iFlight Neo</h2><p class="muted">Carregue PDF/TXT ou cole o texto. A escala será salva por mês e poderá ser comparada depois.</p><input class="input" type="file" id="file" accept=".txt,.pdf"><label><b>Texto extraído/colado</b></label><textarea id="raw">${escapeHtml(currentRoster().raw||'')}</textarea><div class="row"><button class="btn" onclick="processRaw()">Processar e salvar escala</button><button class="btn danger" onclick="clearRoster()">Limpar escala ativa</button></div><p class="muted">${s.count} dias processados.</p></div>`;setTimeout(()=>{const f=document.getElementById('file');if(f)f.onchange=readFile},0)}
 function renderTrainingGroups(){const groups={forte:[],moderado:[],curto:[],leve:[],recuperacao:[],sem:[]};Object.entries(allDays()).forEach(([date,d])=>groups[classifyTraining(d).key].push(date));const labels={forte:'Treino possível',moderado:'Treino moderado',curto:'Treino curto/flexível',leve:'Leve/mobilidade',recuperacao:'Recuperação',sem:'Sem dados'};return Object.entries(groups).map(([k,arr])=>arr.length?`<details open><summary><b>${labels[k]}</b> · ${arr.length} dia(s)</summary>${arr.map(d=>`<span class="pill">${fmt(d)}</span>`).join('')}</details>`:'').join('')||'<p>Sem dados.</p>'}
 window.setRoster=function(k){state.activeRosterKey=k;const dates=Object.keys(allDays()).sort();if(dates[0]){state.selected=dates[0];state.calendarMonth=monthKey(dates[0])}render()}
-function readFile(ev){const file=ev.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{document.getElementById('raw').value=e.target.result};reader.readAsText(file)}
-window.processRaw=function(){const raw=document.getElementById('raw').value;const roster=parseRoster(raw);state.rosters[roster.key]=roster;state.activeRosterKey=roster.key;const dates=Object.keys(roster.days).sort();if(dates[0]){state.selected=dates.includes(iso(new Date()))?iso(new Date()):dates[0];state.calendarMonth=monthKey(state.selected)}render()};window.clearRoster=function(){if(state.activeRosterKey)delete state.rosters[state.activeRosterKey];state.activeRosterKey=Object.keys(state.rosters)[0]||null;render()}
+
+async function ensurePdfJs(){
+  if(window.pdfjsLib) return window.pdfjsLib;
+  await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  return window.pdfjsLib;
+}
+async function readFile(ev){
+  const file=ev.target.files[0]; if(!file)return;
+  const rawBox=document.getElementById('raw');
+  rawBox.value='Lendo arquivo...';
+  try{
+    if(file.type==='application/pdf' || file.name.toLowerCase().endsWith('.pdf')){
+      const pdfjs=await ensurePdfJs();
+      const buf=await file.arrayBuffer();
+      const pdf=await pdfjs.getDocument({data:buf}).promise;
+      const pages=[];
+      for(let i=1;i<=pdf.numPages;i++){
+        const page=await pdf.getPage(i);
+        const content=await page.getTextContent();
+        let lastY=null,line=[];const lines=[];
+        content.items.forEach(it=>{const y=Math.round(it.transform[5]); if(lastY!==null && Math.abs(y-lastY)>4){lines.push(line.join(' ')); line=[];} line.push(it.str); lastY=y;});
+        if(line.length) lines.push(line.join(' '));
+        pages.push(lines.join('\n'));
+      }
+      const text=pages.join('\n');
+      rawBox.value=text;
+      if(!/Roster Report|\d{2}-[A-Z][a-z]{2}-\d{4}|\bLA\d{4}\b|\bDO\b|\bHSB/.test(text)){
+        alert('PDF lido, mas o texto extraído não parece uma escala IFN. Tente copiar/colar o texto ou enviar outro formato.');
+      }
+    }else{
+      rawBox.value=await file.text();
+    }
+  }catch(err){
+    console.error(err);
+    rawBox.value='';
+    alert('Não consegui extrair texto deste PDF no navegador. Tente atualizar a página, limpar cache do PWA ou copiar/colar o texto da escala.');
+  }
+}
+
+
+window.processRaw=function(){
+  const raw=document.getElementById('raw').value||'';
+  if(raw.trim().startsWith('%PDF-') || raw.includes('/Type/Pages') || raw.includes('endobj')){
+    alert('O conteúdo carregado é o binário do PDF, não o texto da escala. Selecione novamente o PDF nesta versão ou copie/cole o texto extraído.');
+    return;
+  }
+  const roster=parseRoster(raw);
+  if(!Object.keys(roster.days||{}).length){
+    alert('Nenhum dia foi processado. Verifique se o texto contém linhas como 01-May-2026, DO, HSB ou voos LAxxxx.');
+    return;
+  }
+  state.rosters[roster.key]=roster; state.activeRosterKey=roster.key;
+  const dates=Object.keys(roster.days).sort();
+  if(dates[0]){state.selected=dates.includes(iso(new Date()))?iso(new Date()):dates[0];state.calendarMonth=monthKey(state.selected)}
+  render();
+};
+window.clearRoster=function(){if(state.activeRosterKey)delete state.rosters[state.activeRosterKey];state.activeRosterKey=Object.keys(state.rosters)[0]||null;render()}
+window.clearInvalidRosters=function(){Object.keys(state.rosters).forEach(k=>{const r=state.rosters[k]; if(!r || !r.days || !Object.keys(r.days).length || (r.raw||'').startsWith('%PDF-')) delete state.rosters[k];}); state.activeRosterKey=Object.keys(state.rosters)[0]||null; render();}
+
 function parseRoster(raw){
   const text=normalizeRosterText(raw);
   const lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);
