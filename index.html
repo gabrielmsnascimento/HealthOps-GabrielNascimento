@@ -46,6 +46,11 @@
         </div>
 
         <div class="panel">
+          <h3>Próximos 4 dias</h3>
+          <div id="upcomingDays" class="upcoming-grid"></div>
+        </div>
+
+        <div class="panel">
           <h3>Alertas HealthOps</h3>
           <div id="insights" class="insights"></div>
         </div>
@@ -154,7 +159,7 @@
       <section id="view-roster" class="view">
         <div class="section-head">
           <h2>Escala inteligente</h2>
-          <button id="loadJuly" class="ghost">Recarregar julho</button>
+          <div class="row wrap"><button id="loadJuly" class="ghost">Carregar exemplo julho</button><button id="clearRoster" class="ghost">Limpar escala</button></div>
         </div>
         <form id="manualRosterForm" class="panel compact-form">
           <h3>Adicionar item manual</h3>
@@ -175,10 +180,10 @@
       <section id="view-import" class="view">
         <h2>Importar escala</h2>
         <div class="panel">
-          <p>Cole texto exportado/copiado do iFlight Neo ou selecione um PDF/TXT. O parser identifica datas, códigos como DO/DR/ASB/MCK, trechos e horários.</p>
+          <p>Cole texto exportado/copiado do iFlight Neo ou selecione um PDF/TXT. O PDF/TXT primeiro é lido para o campo abaixo. Depois clique em <strong>Processar escala e atualizar app</strong> para gravar os dias no HealthOps. O parser identifica datas, códigos como DO/DR/ASB/MCK, trechos e horários.</p>
           <textarea id="rosterText" rows="10" placeholder="Cole aqui o texto da escala..."></textarea>
           <div class="row wrap">
-            <button id="parseRoster">Interpretar texto</button>
+            <button id="parseRoster">Processar escala e atualizar app</button>
             <button id="exportCalendarCsv" class="ghost">CSV calendário</button>
             <button id="exportIcs" class="ghost">ICS calendário</button>
           </div>

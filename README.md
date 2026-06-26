@@ -1,16 +1,22 @@
-# HealthOps Gabriel v3.1
+# HealthOps Gabriel v3.2
 
-PWA pessoal para acompanhar saúde, rotina de voos, escala, sono, sibutramina/BioMag, TDAH/AH-SD, treinos, alimentação e exportações.
+Correção focada na importação de escala e na percepção correta do dia.
 
-## Novidades da v3.1
+## Novidades da v3.2
 
-- Importação de PDF/TXT da escala com leitura via PDF.js.
-- Campo de cafeína por tipo de bebida, com conversão estimada para mg.
-- Atividade física com múltiplas caixas de seleção.
-- Campo de resumo alimentar sem contagem de calorias.
-- Lembretes locais de água e atividade física para Android/PWA, usando janelas acordadas estimadas pela escala.
-- Service worker atualizado para notificações locais.
+- Dashboard agora usa apenas a escala da data exata de hoje.
+- Quando não houver escala para hoje, mostra “Sem dados disponíveis para a data de hoje”, sem presumir alta carga.
+- PDF passa a preservar linhas por posição visual, melhorando o parser.
+- Botão renomeado para “Processar escala e atualizar app”.
+- Prévia de quantos itens o parser encontrou antes de gravar.
+- Bloco “Próximos 4 dias” no dashboard.
+- Botão para limpar somente a escala.
+- Exemplo de julho não é mais usado como fallback automático.
 
-## Observação sobre notificações
+## Fluxo correto
 
-Notificações Web em PWA dependem de permissão do navegador e do Android. Sem servidor próprio, elas são lembretes locais enquanto o app/PWA consegue manter timers ativos. Push real em nuvem exigirá backend, como Supabase Edge Functions ou Firebase Cloud Messaging.
+1. Selecione o PDF/TXT da escala.
+2. Verifique se o texto apareceu no campo.
+3. Clique em “Processar escala e atualizar app”.
+4. Revise na aba Escala.
+5. Exporte CSV/ICS se quiser levar para calendário.
