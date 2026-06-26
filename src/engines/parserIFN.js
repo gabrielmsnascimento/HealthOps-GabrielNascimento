@@ -168,6 +168,7 @@ function groupEventsByDay(events){
     const hasAirportStandby = day.events.some(e=>e.category==='AIRPORT_STANDBY');
     const hasHomeStandby = day.events.some(e=>e.category==='HOME_STANDBY');
     const hasTraining = day.events.some(e=>e.category==='TRAINING');
+    const hasRest = day.events.length && day.events.every(e=>e.category==='REST'||e.category==='LEAVE'||e.category==='MEDICAL_LEAVE'||e.category==='FATIGUE');
     const flightHours = day.events.reduce((s,e)=>s+(e.kind==='FLIGHT'?e.flightHours:0),0);
     let dutyHours = 0;
     if(hasFlight){
@@ -185,7 +186,7 @@ function groupEventsByDay(events){
     }
     const startTimes = day.events.map(e=>e.reportTime||e.startTime).filter(Boolean);
     const endTimes = day.events.map(e=>e.debriefTime||e.endTime||e.arrTime).filter(Boolean);
-    const classification = hasDayOff ? 'Folga regulamentar' : hasFlight ? 'Voo' : hasAirportStandby ? 'Reserva aeroporto' : hasHomeStandby ? 'Sobreaviso' : hasTraining ? 'Treinamento' : 'Atividade';
+    const classification = hasDayOff ? 'Folga regulamentar' : hasFlight ? 'Voo' : hasAirportStandby ? 'Reserva aeroporto' : hasHomeStandby ? 'Sobreaviso' : hasTraining ? 'Treinamento' : hasRest ? 'Repouso/Férias' : 'Atividade';
     return {...day, classification, dutyHours:round(dutyHours), flightHours:round(flightHours), firstStart:firstClock(startTimes), lastEnd:lastClock(endTimes)};
   }).sort((a,b)=>a.date.localeCompare(b.date));
 }

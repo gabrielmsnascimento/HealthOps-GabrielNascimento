@@ -1,27 +1,16 @@
-# HealthOps Aeronautas v1.0-beta.2
+# HealthOps Aeronautas v1.0-beta.4
 
-Versão beta focada em corrigir o núcleo operacional antes de ampliar login/sincronização.
+PWA para aeronautas com parser IFN/iFlight Neo, escala operacional, regulamentação, diárias, saúde/check-in, treinos, cafeína e medicações/suplementações.
 
-## Principais mudanças
+## Destaques desta versão
 
-- Restaura aba Saúde/check-in com alimentação por refeição, tipos de treino e hidratação/cafeína.
-- Corrige leitura de FH em trechos com debrief + FH 00:00, como LA3263 e LA3168.
-- Refina diárias: principais, café e táxi separados; cálculo por dia/período, não por voo.
+- Aba **Operações** removida do menu principal; o resumo operacional agora aparece no topo da aba **Escala**.
+- Importação da escala movida para o fim da aba **Escala**.
+- Dias processados agora exibem **treino recomendado** e agrupamento por tipo de treino com cores.
+- Cafeína voltou para seleção intuitiva por tipo/tamanho de bebida, com conversão interna para mg.
+- Aba **Medicações e suplementações** com período de ingestão, prazo e protocolo favorito.
+- Mantém motores beta de parser, regulamentação e diárias.
 
+## Publicação
 
-- Parser IFN/iFlight Neo reestruturado por eventos.
-- Separação real entre jornada, tempo de voo, treinamento, reserva, sobreaviso e folga.
-- DO/DR e equivalentes tratados como folga regulamentar de 24h, sem entrar em jornada.
-- R320, CBF, EMER, CRMBSB, ASB e voos LA agora usam duração do próprio roster.
-- Motor regulatório revisado com alertas menos genéricos.
-- Cálculo de diárias por refeições, com apuração LATAM de quarta a terça e pagamento na quinta seguinte.
-- UI reconstruída com cards, tabelas, botões e checkboxes padronizados.
-- Debug do parser nas configurações.
-
-## Regra de diárias implementada
-
-A contagem usa as janelas da CCT 2025/2026: café 05:00–08:00, almoço 11:00–13:00, jantar 19:00–20:00 e ceia 00:00–01:00. Esta versão conta quantidades, sem valores.
-
-## Aviso
-
-O app é ferramenta de apoio. Não substitui jurídico, ACT, empresa, sindicato, ANAC ou avaliação médica.
+Substitua os arquivos do repositório GitHub Pages pelos arquivos desta pasta e faça commit.
