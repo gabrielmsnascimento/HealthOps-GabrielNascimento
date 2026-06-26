@@ -5,8 +5,8 @@ import { buildHealthAlerts, estimateFatigue } from './src/engines/healthEngine.j
 import { calculatePerDiems } from './src/engines/perDiemEngine.js';
 import { MEDICATION_CATALOG } from './src/data/medicationCatalog.js';
 
-const APP_VERSION='v1.0-beta.1';
-const STORAGE_KEY='healthops_v1_beta1_state';
+const APP_VERSION='v1.0-beta.2';
+const STORAGE_KEY='healthops_v1_beta2_state';
 let state=loadState();
 
 function defaultState(){return {days:[],rawText:'',checkins:{},meds:[],medsTaken:{},config:{hiddenTabs:[]},debug:false}}
@@ -30,7 +30,7 @@ function applyMenu(){
   document.querySelectorAll('.tab').forEach(btn=>{btn.hidden=hidden.includes(btn.dataset.tab)&&!['today','settings'].includes(btn.dataset.tab)});
   if(document.querySelector('.tab.active')?.hidden) activateTab('today');
 }
-function renderAll(){applyMenu();renderHero();renderToday();renderRoster();renderOps();renderRules();renderPerDiem();renderMeds();renderSettings();}
+function renderAll(){applyMenu();renderHero();renderToday();renderRoster();renderOps();renderRules();renderPerDiem();renderHealth();renderMeds();renderSettings();}
 function renderHero(){
   const s=summarizeOperations(state.days); const today=classifyToday(state.days);
   document.getElementById('heroSummary').innerHTML=`<div class="small muted">${APP_VERSION}</div><div class="metric">${state.days.length}</div><p class="submetric">dias processados</p><p><b>Hoje:</b> ${today.title}</p><p class="small muted">${s.totalFlight}h voo · ${s.totalDuty}h jornada · ${s.dayOffs} folgas</p>`;
@@ -52,7 +52,9 @@ function renderToday(){
 }
 function renderQuickCheckin(){
   const c=getCheckin();
-  return `<div class="grid"><div><label class="form-field"><span>Água (ml)</span><input id="waterMl" type="number" min="0" step="250" value="${c.waterMl||0}"></label></div><div><label class="form-field"><span>Cafeína (mg)</span><input id="caffeineMg" type="number" min="0" step="20" value="${c.caffeineMg||0}"></label></div><div><label class="checkbox-row"><input id="exerciseDone" type="checkbox" ${c.exerciseDone?'checked':''}><span>Exercício feito hoje</span></label></div></div>`;
+  const meals=Object.keys(c.meals||{}).length;
+  const workouts=(c.workouts||[]).length;
+  return `<div class="grid"><div><label class="form-field"><span>Água (ml)</span><input id="waterMl" type="number" min="0" step="250" value="${c.waterMl||0}"></label></div><div><label class="form-field"><span>Cafeína (mg)</span><input id="caffeineMg" type="number" min="0" step="20" value="${c.caffeineMg||0}"></label></div><div><label class="checkbox-row"><input id="exerciseDone" type="checkbox" ${c.exerciseDone?'checked':''}><span>Exercício feito hoje<br><small class="muted">${workouts} atividade(s) marcadas</small></span></label></div></div><p class="small muted">Refeições registradas hoje: ${meals}. Para detalhes, abra a aba Saúde.</p>`;
 }
 function bindQuickCheckin(){
   ['waterMl','caffeineMg'].forEach(id=>document.getElementById(id)?.addEventListener('change',e=>{const c=getCheckin();c[id]=Number(e.target.value)||0;setCheckin(c)}));
@@ -80,7 +82,21 @@ function renderRules(){
 }
 function renderPerDiem(){
   const groups=calculatePerDiems(state.days);
-  document.getElementById('perdiem').innerHTML=`<div class="card"><h2>Diárias</h2><p class="muted">Contagem por refeição, sem valores. Regra LATAM configurada: apuração de quarta a terça e pagamento na quinta seguinte.</p></div>${groups.length?groups.map(g=>`<div class="card"><h2>${fmtShort(g.start)} a ${fmtShort(g.end)}</h2><div class="metric">${g.count}</div><p class="submetric">diárias/refeições · pagamento previsto ${fmtShort(g.payDate)}</p><details><summary>Ver refeições</summary>${g.meals.map(m=>`<p class="small">${fmtShort(m.date)} · ${m.label} · ${m.event}</p>`).join('')}</details></div>`).join(''):'<div class="card"><div class="empty">Nenhuma diária reconhecida.</div></div>'}`;
+  document.getElementById('perdiem').innerHTML=`<div class="card"><h2>Diárias</h2><p class="muted">Contagem por período/dia, não por voo. Refeições principais: almoço, jantar e ceia. Café e táxi aparecem separados. Apuração LATAM: quarta a terça, pagamento na quinta seguinte.</p></div>${groups.length?groups.map(g=>`<div class="card"><h2>${fmtShort(g.start)} a ${fmtShort(g.end)}</h2><div class="grid"><div><div class="metric">${g.principal}</div><p class="submetric">refeições principais</p></div><div><div class="metric">${g.cafe}</div><p class="submetric">cafés</p></div><div><div class="metric">${g.taxi}</div><p class="submetric">táxis</p></div></div><p class="submetric">pagamento previsto ${fmtShort(g.payDate)}</p><details><summary>Ver itens</summary>${g.meals.map(m=>`<p class="small">${fmtShort(m.date)} · ${m.label} · ${m.reason}</p>`).join('')}</details></div>`).join(''):'<div class="card"><div class="empty">Nenhuma diária reconhecida.</div></div>'}`;
+}
+function renderHealth(){
+  const c=getCheckin();
+  const meals=c.meals||{};
+  const workoutOptions=['Treino curto','Treino completo','Mobilidade','Alongamento','Caminhada','Corrida','Piscina','Bike','Funcional'];
+  const selected=new Set(c.workouts||[]);
+  document.getElementById('health').innerHTML=`<div class="card"><h2>Saúde e check-in</h2><p class="muted">Registre alimentação por refeição, hidratação, cafeína e tipos de treino.</p><div class="grid"><label class="form-field"><span>Água (ml)</span><input id="healthWater" type="number" min="0" step="250" value="${c.waterMl||0}"></label><label class="form-field"><span>Cafeína (mg)</span><input id="healthCaffeine" type="number" min="0" step="20" value="${c.caffeineMg||0}"></label></div></div>
+  <div class="card"><h2>Alimentação</h2><div class="meal-grid"><label class="form-field"><span>Refeição</span><select id="mealType"><option>Café da manhã</option><option>Almoço</option><option>Lanche</option><option>Jantar</option><option>Ceia</option></select></label><label class="form-field"><span>Descrição</span><input id="mealDesc" placeholder="Ex.: arroz, frango, salada; lanche leve no voo"></label><button class="btn primary" id="addMeal">Adicionar</button></div><div id="mealList">${Object.entries(meals).length?Object.entries(meals).map(([k,v])=>`<div class="event"><strong>${k}</strong><p>${escapeHtml(v)}</p><button class="btn secondary small-btn" data-remove-meal="${k}">Remover</button></div>`).join(''):'<div class="empty">Nenhuma refeição registrada hoje.</div>'}</div></div>
+  <div class="card"><h2>Treino feito</h2><div class="check-grid">${workoutOptions.map(w=>`<label class="checkbox-row compact"><input type="checkbox" data-workout="${w}" ${selected.has(w)?'checked':''}><span>${w}</span></label>`).join('')}</div></div>`;
+  document.getElementById('healthWater')?.addEventListener('change',e=>{const c=getCheckin();c.waterMl=Number(e.target.value)||0;setCheckin(c)});
+  document.getElementById('healthCaffeine')?.addEventListener('change',e=>{const c=getCheckin();c.caffeineMg=Number(e.target.value)||0;setCheckin(c)});
+  document.getElementById('addMeal')?.addEventListener('click',()=>{const c=getCheckin();c.meals=c.meals||{};const type=document.getElementById('mealType').value;const desc=document.getElementById('mealDesc').value.trim();if(desc){c.meals[type]=desc;setCheckin(c)}});
+  document.querySelectorAll('[data-remove-meal]').forEach(b=>b.addEventListener('click',e=>{const c=getCheckin();delete c.meals[e.target.dataset.removeMeal];setCheckin(c)}));
+  document.querySelectorAll('[data-workout]').forEach(cb=>cb.addEventListener('change',e=>{const c=getCheckin();c.workouts=c.workouts||[];const val=e.target.dataset.workout;if(e.target.checked&&!c.workouts.includes(val))c.workouts.push(val);if(!e.target.checked)c.workouts=c.workouts.filter(x=>x!==val);c.exerciseDone=c.workouts.length>0;setCheckin(c)}));
 }
 function renderMeds(){
   const taken=takenMeds();
@@ -92,7 +108,7 @@ function renderMeds(){
 function showMedResult(){const box=document.getElementById('medResult');const item=findMed();const q=document.getElementById('medSearch').value.trim();if(!q){box.innerHTML='';return}box.innerHTML=item?`<div class="event"><strong>${item.name}</strong> <span class="pill ${medClass(item.aero)}">${item.aero}</span><p>Princípio ativo: ${item.active}</p><p>Doses comuns: ${item.doses.join(', ')}</p><ul>${item.reasons.map(r=>`<li>${r}</li>`).join('')}</ul></div>`:'<p class="muted">Não encontrado no banco local. Futuramente: consulta a base oficial/bula antes de cadastrar.</p>';}
 function renderMedChecklist(taken){if(!state.meds.length)return '<div class="empty">Nenhuma medicação adicionada.</div>';return state.meds.map(m=>`<label class="checkbox-row"><input type="checkbox" data-med-check="${m.name}" ${taken.includes(m.name)?'checked':''}><span><b>${m.name}</b> <small class="pill ${medClass(m.aero)}">${m.aero}</small><br><small class="muted">${m.reasons[0]}</small></span></label>`).join('')}
 function renderSettings(){
-  const tabs=[['roster','Escala'],['ops','Operações'],['rules','Regulamentação'],['perdiem','Diárias'],['meds','Medicações']]; const hidden=state.config.hiddenTabs||[];
+  const tabs=[['roster','Escala'],['ops','Operações'],['rules','Regulamentação'],['perdiem','Diárias'],['health','Saúde/Check-in'],['meds','Medicações']]; const hidden=state.config.hiddenTabs||[];
   document.getElementById('settings').innerHTML=`<div class="card"><h2>Configurações</h2><p>Versão: <b>${APP_VERSION}</b></p><label class="checkbox-row"><input id="debugToggle" type="checkbox" ${state.debug?'checked':''}><span>Ativar debug do parser</span></label></div><div class="card"><h2>Menu principal</h2>${tabs.map(([id,label])=>`<label class="checkbox-row"><input data-menu-toggle="${id}" type="checkbox" ${hidden.includes(id)?'':'checked'}><span>${label}</span></label>`).join('')}</div>`;
   document.getElementById('debugToggle').addEventListener('change',e=>{state.debug=e.target.checked;saveState();});
   document.querySelectorAll('[data-menu-toggle]').forEach(cb=>cb.addEventListener('change',e=>{const id=e.target.dataset.menuToggle;state.config.hiddenTabs=state.config.hiddenTabs||[];if(e.target.checked)state.config.hiddenTabs=state.config.hiddenTabs.filter(x=>x!==id);else if(!state.config.hiddenTabs.includes(id))state.config.hiddenTabs.push(id);saveState();}));

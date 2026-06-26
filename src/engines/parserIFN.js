@@ -137,11 +137,12 @@ function parseAfterArrival(date, arrTime, afterArr, blockTime=0){
   if(!afterArr.length) return {};
   const first = afterArr[0];
   const second = afterArr[1];
-  const secondHours = second ? durationToHours(second) : null;
-  // Se o segundo HH:MM se parece com duração do setor, o primeiro é debrief.
-  // Caso contrário, o primeiro HH:MM é a própria duração do setor e o segundo pode ser DH total.
-  if(second && arrTime && clockAfterWithin(date, arrTime, first, 3) && Math.abs(secondHours - blockTime) <= 0.7){
-    return {debriefTime:first, flightHours:secondHours, explicitDuty: afterArr[2] ? durationToHours(afterArr[2]) : null};
+  const third = afterArr[2];
+  // No IFN, quando o primeiro horário após a chegada está até 3h depois da chegada,
+  // ele é Debrief/encerramento, não duração de voo. O próximo campo é FH.
+  // Isso corrige casos PS/extra como LA3263 e LA3168, onde havia 14:55/19:25 sendo lido como 14.9h/19.4h de voo.
+  if(arrTime && clockAfterWithin(date, arrTime, first, 3)){
+    return {debriefTime:first, flightHours: second ? durationToHours(second) : blockTime, explicitDuty: third ? durationToHours(third) : null};
   }
   return {flightHours:durationToHours(first), explicitDuty: second ? durationToHours(second) : null};
 }

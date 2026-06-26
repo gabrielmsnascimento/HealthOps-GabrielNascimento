@@ -1,8 +1,13 @@
-# HealthOps Aeronautas v1.0-beta.1
+# HealthOps Aeronautas v1.0-beta.2
 
 Versão beta focada em corrigir o núcleo operacional antes de ampliar login/sincronização.
 
 ## Principais mudanças
+
+- Restaura aba Saúde/check-in com alimentação por refeição, tipos de treino e hidratação/cafeína.
+- Corrige leitura de FH em trechos com debrief + FH 00:00, como LA3263 e LA3168.
+- Refina diárias: principais, café e táxi separados; cálculo por dia/período, não por voo.
+
 
 - Parser IFN/iFlight Neo reestruturado por eventos.
 - Separação real entre jornada, tempo de voo, treinamento, reserva, sobreaviso e folga.
