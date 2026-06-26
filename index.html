@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HealthOps Aeronautas v1.0-beta.5</title>
+<title>HealthOps Aeronautas v1.0-beta.6</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--purple:#7353a4;--greenbg:#eaf7ee;--yellowbg:#fff4cd;--redbg:#faeaea;--bluebg:#eaf4fb;--purplebg:#f1ecf8;--graybg:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{padding:26px 20px 14px;max-width:1180px;margin:auto}.eyebrow{font-weight:800;letter-spacing:.14em;color:var(--copper);font-size:12px;text-transform:uppercase}h1{font-size:clamp(30px,5vw,56px);line-height:.95;margin:8px 0 10px}p{color:var(--muted)}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;z-index:10}.wrap{max-width:1180px;margin:auto;padding:0 16px 92px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;z-index:9;border-top:1px solid var(--line)}.tab{flex:1;border:0;border-radius:16px;padding:14px 8px;background:#e9e6df;color:#6d6a63;font-weight:800;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.metric{font-size:34px;font-weight:900;color:#153846}.muted{color:var(--muted);font-size:14px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{display:flex;align-items:center;justify-content:space-between;gap:12px}.btn{border:0;background:var(--brand);color:#fff;padding:12px 16px;border-radius:14px;font-weight:800;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:8px 12px;min-height:36px;font-size:13px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;color:var(--muted);font-size:12px}.day{min-height:86px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;cursor:pointer;position:relative}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.day.today{box-shadow:0 0 0 2px var(--copper) inset}.daynum{font-weight:900}.tag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-top:6px}.tag.rest{background:var(--greenbg);color:var(--ok)}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.train{background:var(--purplebg);color:var(--purple)}.tag.reserve{background:var(--yellowbg);color:var(--warn)}.tag.fatigue{background:var(--redbg);color:var(--bad)}.tag.none{background:var(--graybg);color:#777}.timeline{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:12px}.timebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;cursor:pointer}.timebox.active{background:var(--brand);color:#fff}.timebox.active p{color:#dce8eb}.pill{display:inline-block;background:#eef0ef;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900;margin:2px}.pill.green{background:var(--greenbg);color:var(--ok)}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.purple{background:var(--purplebg);color:var(--purple)}.pill.orange{background:var(--yellowbg);color:var(--warn)}.pill.red{background:var(--redbg);color:var(--bad)}.listday{display:grid;grid-template-columns:120px 1fr 80px 80px 1.6fr;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:12px 0}.alert{border-left:5px solid var(--warn);background:var(--yellowbg);padding:14px;border-radius:16px;margin:10px 0}.alert.bad{border-color:var(--bad);background:var(--redbg)}.hidden{display:none}.mealLine{padding:9px 0;border-bottom:1px dashed var(--line)}.checkrow{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px;accent-color:var(--brand);flex:0 0 auto}.debug{white-space:pre-wrap;background:#111b22;color:#d9f1e4;border-radius:16px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;max-height:320px;overflow:auto}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:1fr}.listday{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:70px;padding:6px}.tag{font-size:10px;padding:3px 6px}h1{font-size:38px}}
 </style>
 </head>
 <body>
-<div class="version">v1.0-beta.5</div>
+<div class="version">v1.0-beta.6</div>
 <header>
 <div class="eyebrow">HealthOps Aeronautas</div>
 <h1>Linha do tempo operacional</h1>
@@ -32,8 +32,8 @@
 <button class="tab" data-view="debug">Debug</button>
 </nav>
 <script>
-const VERSION='v1.0-beta.5';
-const LS='healthops_v1_beta5';
+const VERSION='v1.0-beta.6';
+const LS='healthops_v1_beta6';
 const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
 const PTW=['dom.','seg.','ter.','qua.','qui.','sex.','sáb.'];
 const state=load()||{selected:iso(new Date()), calendarMonth:null, rosters:{}, activeRosterKey:null, meds:[{name:'Sibutramina',period:'Manhã',status:'sensível',note:'Inibidor de apetite: atenção a insônia, boca seca, pressão/frequência cardíaca e palpitações.'},{name:'Ômega 3',period:'Manhã',status:'compatível',note:'Suplemento nutricional.'},{name:'Vitamina D3',period:'Manhã',status:'compatível',note:'Suplemento vitamínico.'},{name:'Magnésio dimalato',period:'Noite',status:'compatível',note:'Suplemento mineral.'}], medTaken:{}, health:{}, caffeine:[]};
@@ -62,10 +62,74 @@ function renderTrainingGroups(){const groups={forte:[],moderado:[],curto:[],leve
 window.setRoster=function(k){state.activeRosterKey=k;const dates=Object.keys(allDays()).sort();if(dates[0]){state.selected=dates[0];state.calendarMonth=monthKey(dates[0])}render()}
 function readFile(ev){const file=ev.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{document.getElementById('raw').value=e.target.result};reader.readAsText(file)}
 window.processRaw=function(){const raw=document.getElementById('raw').value;const roster=parseRoster(raw);state.rosters[roster.key]=roster;state.activeRosterKey=roster.key;const dates=Object.keys(roster.days).sort();if(dates[0]){state.selected=dates.includes(iso(new Date()))?iso(new Date()):dates[0];state.calendarMonth=monthKey(state.selected)}render()};window.clearRoster=function(){if(state.activeRosterKey)delete state.rosters[state.activeRosterKey];state.activeRosterKey=Object.keys(state.rosters)[0]||null;render()}
-function parseRoster(raw){const lines=raw.split(/\n+/).map(x=>x.trim()).filter(Boolean);let days={},debug=[];let period='Escala';const head=raw.match(/(\d{2})-(\w{3})-(\d{4}).*?to\s*(\d{2})-(\w{3})-(\d{4})/i)||raw.match(/(\d{2})-(\w{3})-(\d{4})to(\d{2})-(\w{3})-(\d{4})/i);let key='Import '+new Date().toISOString().slice(0,16);if(head){key=`${head[3]}-${pad(MONTHS[head[2]]+1)}`;period=key}let lastDate=null;for(const line of lines){const m=line.match(/^(\d{2})-(\w{3})-(\d{4})\s+(.*)$/);let date,rest;if(m){date=`${m[3]}-${pad(MONTHS[m[2]]+1)}-${m[1]}`;lastDate=date;rest=m[4]}else if(lastDate&&(line.match(/^(LA\d{4}|CRM|CRMBSB|R320|ASB|HSB|DO|DR|VC|CBF|EMER)/)||line.includes(' LA'))){date=lastDate;rest=line}else continue;if(!days[date])days[date]={date,events:[],classification:'Sem dados',duty:0,flight:0,fatigue:0};const ev=parseEvent(date,rest);if(ev){days[date].events.push(ev);debug.push(`${date}: ${ev.code} -> ${ev.type} duty=${ev.duty} flight=${ev.flight}`)}}Object.values(days).forEach(d=>finalizeDay(d));return{key,period,raw,days,debug,createdAt:new Date().toISOString()}}
-function parseEvent(date,text){const code=(text.match(/\b(LA\d{4}(?:\/\d{6}\/JJCC\d+\s*\d*-P)?|CRMBSB|R320|ASB|HSB|DO|DR|VC|CBF|EMER)\b/)||[])[1];if(!code)return null;const times=[...text.matchAll(/\b(\d{2}:\d{2})\b/g)].map(m=>m[1]);if(code==='DO'||code==='DR')return{code,type:'rest',duty:0,flight:0,times};if(code==='VC')return{code,type:'vacation',duty:0,flight:0,times};if(code==='ASB')return{code,type:'reserve',duty:6,flight:0,times};if(code==='HSB')return{code,type:'standby',duty:12,flight:0,times};if(code==='R320')return{code,type:'training',duty:4,flight:0,times};if(code==='CBF'||code==='EMER'||code==='CRMBSB')return{code,type:'training',duty:durationFromTimes(times)||4,flight:0,times,verify:true};if(code.startsWith('LA')){const fh=(text.match(/\b(\d{2}:\d{2})\s+(?:\d{2}:\d{2}\s+)?(?:3\w\w|32S|321|328|31R|39R)\b/)||[])[1];const flight=fh?hm(fh):durationFromFlightTimes(times);return{code:code.split('/')[0],type:'flight',duty:0,flight:round(flight),times}}return null}
-function durationFromTimes(times){if(times.length<2)return 0;return diff(times[0],times[times.length-1])}function durationFromFlightTimes(times){if(times.length<2)return 0;return diff(times[times.length-2],times[times.length-1])}function hm(t){const[a,b]=t.split(':').map(Number);return round(a+b/60)}function diff(a,b){const[A,B]=[a,b].map(x=>{const[p,q]=x.split(':').map(Number);return p*60+q});let d=B-A;if(d<0)d+=1440;return round(d/60)}function round(n){return Math.round(n*10)/10}
-function finalizeDay(d){const types=new Set(d.events.map(e=>e.type));if(types.has('flight'))d.classification='Voo';else if(types.has('training'))d.classification='Treinamento';else if(types.has('reserve')||types.has('standby'))d.classification='Reserva/Sobreaviso';else if(types.has('rest'))d.classification='Folga regulamentar';else if(types.has('vacation'))d.classification='Férias/VC';d.flight=round(sum(d.events.map(e=>e.flight)));if(d.classification==='Voo'){const first=d.events.find(e=>e.type==='flight');d.duty=round(d.flight+2.5); if(d.events.length>=3)d.duty=round(d.flight+3.2)}else d.duty=round(sum(d.events.map(e=>e.duty)));d.fatigue=d.classification==='Voo'?(d.events.some(e=>e.times.some(t=>t<'06:00'))?85:45):d.classification==='Folga regulamentar'?10:35}
+function parseRoster(raw){
+  const text=normalizeRosterText(raw);
+  const lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  let days={},debug=[],stats={rows:0,events:0,ignored:0,unparsed:0};
+  const head=text.match(/Roster Report\s+(\d{2})-(\w{3})-(\d{4})\s*to\s*(\d{2})-(\w{3})-(\d{4})/i)||text.match(/(\d{2})-(\w{3})-(\d{4})\s*to\s*(\d{2})-(\w{3})-(\d{4})/i)||text.match(/(\d{2})-(\w{3})-(\d{4})to(\d{2})-(\w{3})-(\d{4})/i);
+  let period='Escala importada', key='Import '+new Date().toISOString().slice(0,16), reportStart=null, reportEnd=null;
+  if(head){reportStart=`${head[3]}-${pad(MONTHS[head[2]]+1)}-${head[1]}`; reportEnd=`${head[6]}-${pad(MONTHS[head[5]]+1)}-${head[4]}`; key=`${head[3]}-${pad(MONTHS[head[2]]+1)}`; period=`${reportStart} a ${reportEnd}`;}
+  let anchorDate=null;
+  for(const rawLine of lines){
+    let line=rawLine.replace(/\s+/g,' ').trim();
+    if(!line || /^Roster Report|^Date |^LEGEND|^HSB Home|^DO Day|^VC Vacation|^DR Requested|^<== Pairing/i.test(line)){stats.ignored++;continue;}
+    if(line.startsWith('<==')){stats.ignored++;debug.push(`IGNORADO: continuação anterior ao início do mês -> ${line.slice(0,80)}`);continue;}
+    const dm=line.match(/^(\d{2})-(\w{3})-(\d{4})\s+(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)?\s*(.*)$/i);
+    let baseDate,rest;
+    if(dm){baseDate=`${dm[3]}-${pad(MONTHS[dm[2]]+1)}-${dm[1]}`; anchorDate=baseDate; rest=dm[4];}
+    else if(anchorDate && looksLikeContinuation(line)){baseDate=anchorDate; rest=line;}
+    else {stats.unparsed++; debug.push(`NÃO PROCESSADO: ${line.slice(0,110)}`); continue;}
+    if(reportStart && baseDate<reportStart){stats.ignored++; debug.push(`IGNORADO fora da janela mensal: ${baseDate} ${rest.slice(0,70)}`); continue;}
+    const events=parseEventsFromLine(baseDate,rest);
+    if(!events.length){stats.unparsed++; debug.push(`SEM EVENTO: ${baseDate} | ${rest.slice(0,110)}`); continue;}
+    for(const ev of events){
+      const eventDate=ev.date||baseDate;
+      if(reportStart && eventDate<reportStart){stats.ignored++; continue;}
+      if(!days[eventDate]) days[eventDate]={date:eventDate,events:[],classification:'Sem dados',duty:0,flight:0,fatigue:0,issues:[]};
+      days[eventDate].events.push(ev); stats.events++;
+      debug.push(`${eventDate}: ${ev.code} -> ${ev.type} | duty=${ev.duty||0} flight=${ev.flight||0} | ${ev.source||rest.slice(0,70)}`);
+    }
+    stats.rows++;
+  }
+  Object.values(days).forEach(d=>finalizeDay(d));
+  debug.unshift(`Parser IFN v2: ${stats.events} eventos em ${Object.keys(days).length} dias. Linhas não processadas: ${stats.unparsed}. Ignoradas: ${stats.ignored}.`);
+  return{key,period,raw:text,days,debug,createdAt:new Date().toISOString(),parser:'IFN-v2'};
+}
+function normalizeRosterText(raw){return String(raw||'').replace(/[\u000c\ufffe]/g,' ').replace(/(HSB|HSBE|ASB|CRMBSB|R320|CBF|EMER)\s*-\s*/g,'$1-').replace(/(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})/g,'\n$1-$2-$3').replace(/\n\s*([A-Z]{2}\d{4})/g,'\n$1').replace(/\n\s*(\d{2}:\d{2}\(\+\d\))/g,'\n$1').replace(/\n{2,}/g,'\n');}
+function looksLikeContinuation(line){return /^(\d{2}:\d{2}(?:\(\+\d\))?\s+)?(LA\d{4}|ASB|HSB|HSBE|CRMBSB|R320|CBF|EMER|DO|DR|VC)\b/i.test(line)||/\b(LA\d{4})\b/.test(line);}
+function parseEventsFromLine(baseDate,line){
+  const codeMatch=line.match(/\b(VC|DO|DR|HSBE|HSB|ASB\d?|CRMBSB|R320|CBF|EMER)\b/i);
+  if(codeMatch && !/\bLA\d{4}\b/.test(line)){
+    const code=codeMatch[1].toUpperCase(); const times=extractTimes(line); const duty=activityDuty(code,times);
+    const type=(code==='DO'||code==='DR')?'rest':code==='VC'?'vacation':code.startsWith('HSB')?'standby':code.startsWith('ASB')?'reserve':'training';
+    return[{code,type,duty,flight:0,times:times.map(t=>t.label),date:baseDate,source:line}];
+  }
+  const flights=[]; const re=/\b(LA\d{4})\b\s+(OP|PS)?\s*([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?\s+([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?/g; let m;
+  while((m=re.exec(line))){
+    const depAbs=absMinutes(baseDate,m[4],+(m[5]||0)); let arrAbs=absMinutes(baseDate,m[7],+(m[8]||0)); if(arrAbs<depAbs) arrAbs+=1440;
+    const date=isoFromAbs(baseDate,depAbs); const flight=round((arrAbs-depAbs)/60);
+    flights.push({code:m[1],op:m[2]||'',type:'flight',duty:0,flight,times:[m[4]+(m[5]?`(+${m[5]})`:''),m[7]+(m[8]?`(+${m[8]})`:'')],absStart:depAbs,absEnd:arrAbs,date,source:`${m[1]} ${m[3]} ${m[4]}-${m[6]} ${m[7]}`});
+  }
+  if(flights.length) return flights;
+  const bare=line.match(/\b(LA\d{4})\b/); if(bare){const times=extractTimes(line); const off=maxOffset(line); const date=addDays(baseDate,off); let flight=0; if(times.length>=2){const a=times[times.length-2],b=times[times.length-1];let end=b.abs;if(end<a.abs)end+=1440;flight=round((end-a.abs)/60);} return[{code:bare[1],type:'flight',duty:0,flight,times:times.map(t=>t.label),date,source:line}];}
+  return[];
+}
+function extractTimes(line){const out=[];const re=/(\d{2}:\d{2})(?:\(\+(\d)\))?/g;let m;while((m=re.exec(line))){out.push({label:m[1]+(m[2]?`(+${m[2]})`:''),time:m[1],offset:+(m[2]||0),abs:absMinutes('2000-01-01',m[1],+(m[2]||0))});}return out;}
+function activityDuty(code,times){if(code==='DO'||code==='DR'||code==='VC')return 0;if(code==='R320')return 4;if(code==='CBF'||code==='EMER')return 2;if(code==='CRMBSB')return times.length>=2?round((times[times.length-1].abs-times[0].abs)/60):4;if(code.startsWith('HSB')||code.startsWith('ASB'))return times.length>=2?Math.min(12,Math.max(0,round((times[times.length-1].abs-times[0].abs)/60))):(code.startsWith('ASB')?6:12);return 0;}
+function absMinutes(baseDate,time,off){const [h,m]=time.split(':').map(Number);return off*1440+h*60+m;}
+function isoFromAbs(baseDate,mins){return addDays(baseDate,Math.floor(mins/1440));}
+function maxOffset(line){let max=0; for(const m of line.matchAll(/\(\+(\d)\)/g)) max=Math.max(max,+m[1]); return max;}
+function finalizeDay(d){
+  const types=new Set(d.events.map(e=>e.type));
+  if(types.has('flight'))d.classification='Voo'; else if(types.has('training'))d.classification='Treinamento'; else if(types.has('reserve')||types.has('standby'))d.classification='Reserva/Sobreaviso'; else if(types.has('rest'))d.classification='Folga regulamentar'; else if(types.has('vacation'))d.classification='Férias/VC'; else d.classification='Atividade';
+  d.flight=round(sum(d.events.map(e=>e.flight||0)));
+  const abs=d.events.filter(e=>Number.isFinite(e.absStart)&&Number.isFinite(e.absEnd));
+  if(d.classification==='Voo' && abs.length){const first=Math.min(...abs.map(e=>e.absStart)); const last=Math.max(...abs.map(e=>e.absEnd)); d.duty=round((last-first)/60+1.0);}
+  else d.duty=round(sum(d.events.map(e=>e.duty||0)));
+  if(d.classification==='Folga regulamentar'||d.classification==='Férias/VC')d.duty=0;
+  const crosses=d.events.some(e=>(e.absStart%1440)<360||(e.absEnd%1440)<360||(e.times||[]).some(t=>/0[0-5]:/.test(t)));
+  d.fatigue=d.classification==='Voo'?(crosses?85:45):d.classification==='Folga regulamentar'?10:d.classification==='Férias/VC'?5:35;
+}
 function renderDiarias(){const weeks=calcPerDiems();document.getElementById('view-diarias').innerHTML=`<div class="card"><h2>Diárias por janela LATAM</h2><p class="muted">Agrupamento quarta–terça, pagamento quinta. Quantidades, sem valores.</p></div>${weeks.map(w=>`<div class="card"><h2>${w.label}</h2><div class="grid"><div><div class="metric">${w.main}</div><span class="muted">principais</span></div><div><div class="metric">${w.breakfast}</div><span class="muted">cafés</span></div><div><div class="metric">${w.taxi}</div><span class="muted">táxis</span></div><div><div class="metric">${w.training}</div><span class="muted">treinamentos*</span></div></div><p>Pagamento previsto: <b>${w.pay}</b></p><details><summary><b>Ver itens</b></summary>${Object.entries(w.byDay).map(([d,it])=>`<div class="mealLine"><b>${d.slice(8,10)}/${d.slice(5,7)}</b> - ${it.join(', ')}</div>`).join('')}</details></div>`).join('')||'<div class="card">Sem diárias calculadas.</div>'}`}
 function calcPerDiems(){const days=allDays();const res={};Object.entries(days).forEach(([date,d])=>{if(d.classification==='Folga regulamentar'||d.classification==='Férias/VC')return;const items=[];let main=0,breakfast=0,taxi=0,training=0;if(d.classification==='Treinamento'){training++;items.push('Treinamento*')}if(d.classification==='Voo'||d.classification==='Reserva/Sobreaviso'||d.classification==='Treinamento'){const startHour=firstHour(d);const outBase=hasOutBase(d);if(startHour!==null&&startHour>=5&&startHour<8&&d.classification==='Voo'&&!startsFromHotel(d)){breakfast++;items.push('Café')} if(outBase||d.classification==='Treinamento'||d.classification==='Reserva/Sobreaviso'){main++;items.push('Almoço'); if(d.classification==='Voo'&&crossesDinner(d)){main++;items.push('Jantar')} if(d.classification==='Voo'&&crossesSupper(d)){main++;items.push('Ceia')}} if(d.classification==='Voo'&&baseTaxi(d)){taxi++;items.push('Táxi')}}if(items.length)addWeek(date,{main,breakfast,taxi,training,items})});return Object.values(res).sort((a,b)=>a.start.localeCompare(b.start));function addWeek(date,o){const k=latamWeek(date);if(!res[k.key])res[k.key]={...k,main:0,breakfast:0,taxi:0,training:0,byDay:{}};res[k.key].main+=o.main;res[k.key].breakfast+=o.breakfast;res[k.key].taxi+=o.taxi;res[k.key].training+=o.training;res[k.key].byDay[date]=[...(res[k.key].byDay[date]||[]),...o.items]}}
 function latamWeek(date){const d=parseIso(date);const day=d.getDay();const back=(day+4)%7;const start=new Date(d);start.setDate(d.getDate()-back);const end=new Date(start);end.setDate(start.getDate()+6);const pay=new Date(end);pay.setDate(end.getDate()+2);return{key:iso(start),start:iso(start),label:`${pad(start.getDate())}/${pad(start.getMonth()+1)} a ${pad(end.getDate())}/${pad(end.getMonth()+1)}`,pay:`${pad(pay.getDate())}/${pad(pay.getMonth()+1)}`}}

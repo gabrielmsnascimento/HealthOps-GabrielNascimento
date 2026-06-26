@@ -1,19 +1,17 @@
-# HealthOps Aeronautas v1.0-beta.5
+# HealthOps Aeronautas v1.0-beta.6
 
-Atualização focada em linha do tempo, calendário mensal e histórico de escalas.
+Atualização focada na robustez do parser de PDFs IFN/iFlight Neo para escalas históricas.
 
-## Principais recursos
+## Correções principais
 
-- Calendário mensal com cores por classificação operacional.
-- Seleção de qualquer data passada ou futura.
-- Linha do tempo anterior/selecionado/próximo.
-- Biblioteca de escalas importadas por mês.
-- Importação de PDF/TXT mantida no final da aba Escala.
-- Modo Teste dos motores com debug do parser.
-- Resumo mensal operacional dentro da aba Escala.
-- Separação visual por treino recomendado.
-- Persistência local via localStorage.
+- Parser IFN v2 com normalização de linhas quebradas por PDF.
+- Ignora linhas `<==` de pareamentos que começaram no mês anterior.
+- Reconhece melhor `HSB`, `HSBE`, `DO`, `DR`, `VC`, `ASB`, `R320`, `CRMBSB`, `CBF`, `EMER` e voos `LA####`.
+- Separa eventos por data real usando marcadores `(+1)`, `(+2)`, `(+3)`.
+- Recalcula tempo de voo por trecho quando a coluna FH vem zerada no PDF.
+- Evita alertas para férias/VC e folgas regulamentares.
+- Debug do parser com linhas ignoradas, não processadas e eventos reconhecidos.
 
-## Observações
+## Observação
 
-Esta versão ainda usa parser beta para o padrão IFN/iFlight Neo. As análises regulatórias são pontos de atenção e não substituem ACT, jurídico, empresa, sindicato ou ANAC.
+O motor segue em beta. Use o modo Debug para validar Março, Abril, Maio e Junho antes de liberar para outros testadores.
