@@ -1,21 +1,25 @@
-# HealthOps Aeronauta v0.5.5
+# HealthOps v1.0-alpha.2
 
-PWA para aeronautas com dashboard, escala iFlight Neo, jornada, fadiga, medicações/protocolos, check-in e exportação CSV/ICS.
+PWA experimental para aeronautas, agora com a **Fase 2** iniciada.
 
-## Novidades v0.5.5
-- Alimentação por refeição: selecione o tipo, descreva e adicione múltiplos registros no dia.
-- Dashboard com alertas de água, cafeína, alimentação, exercício e medicações pendentes.
-- Checklist de medicações preserva itens já tomados no dia e mantém pendentes selecionáveis.
-- Motor de siglas IFN com descrições operacionais para escala importada.
-- Repouso entre jornadas simples ajustado para referência de 10h; mantém alertas de fadiga sem marcar 10h+ como repouso insuficiente.
-- Cache PWA atualizado para forçar atualização no GitHub Pages.
+## Destaques desta versão
 
-## Como atualizar
-Envie todos os arquivos descompactados para a raiz do repositório GitHub e faça commit.
+- Design system inicial: botões, cards, inputs, checkboxes, alertas e tabelas padronizados.
+- Dashboard "Hoje" revisado com status operacional, fadiga, medicações, alertas e próximos 4 dias.
+- Menu personalizável em Configurações.
+- Badge de versão visível no canto da página.
+- Mantém a Fase 1: Parser IFN, Motor Operacional, Motor Regulatório inicial, Motor Saúde/Fadiga e banco local de medicações.
 
+## Como atualizar no GitHub
 
-## v0.5.5
-- DO, DR e demais códigos de Day Off passam a ser classificados como Folga Regulamentar de 24h.
-- Folgas regulamentares não entram como programação/jornada no motor de jornada.
-- O motor exibe motivo explícito quando reconhecer folga regulamentar.
-- Descanso simples de 10h ou mais permanece OK, com alertas separados apenas para risco de fadiga.
+1. Descompacte o ZIP.
+2. Envie os arquivos para a raiz do repositório no GitHub.
+3. Faça o commit:
+
+```text
+v1.0-alpha.2 - Fase 2 design system e menu personalizável
+```
+
+## Observação
+
+Esta versão ainda usa armazenamento local no navegador. Login Google, Supabase e sincronização individual por perfil entram na próxima fase.

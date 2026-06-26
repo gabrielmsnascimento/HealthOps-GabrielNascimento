@@ -1,306 +1,142 @@
-const APP_VERSION='0.5.5';
-const K={roster:'healthops_roster_v055',checkins:'healthops_checkins_v055',meds:'healthops_meds_v055',settings:'healthops_settings_v055'};
-const $=id=>document.getElementById(id);
-const todayISO=()=>new Date().toISOString().slice(0,10);
-const fmtDate=s=>new Date(s+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'});
-const load=(k,d)=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));
-const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const byDate=(a,b)=>a.date.localeCompare(b.date);
-function download(name,content,type='text/plain'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+import { extractPdfText, parseIFNRoster } from './src/engines/parserIFN.js';
+import { summarizeOperations, classifyToday } from './src/engines/operationsEngine.js';
+import { evaluateRegulation } from './src/engines/regulatoryEngine.js';
+import { buildHealthAlerts, estimateFatigue } from './src/engines/healthEngine.js';
+import { MEDICATION_CATALOG } from './src/data/medicationCatalog.js';
 
-const OpsEngine={
- activityMap:{ADM:'Admin',API:'No Hotel',BKF:'Breakfast',ASB:'Airport stand by',ASB1:'Airport stand by 1',ASB2:'Airport stand by 2',ASB3:'Airport stand by 3',HSB:'Home Stand by',HSB1:'Home Stand by 1',HSB2:'Home Stand by 2',HSB3:'Home Stand by 3',HSBD:'Home Stand by delay',DO:'Day off',DOA:'Additional Day Off',DOB:'Day off out of base',DOBI:'Day off out of base international',DR:'Requested day off',DOR:'Returned day off',DOR1:'Required day off 1',DOR2:'Required day off 2',DOR3:'Required day off 3',OFF:'OFF',REST:'Rest',REP:'Pos journey rest',RSV:'System Reserved',APR:'APRESENTAÇÃO',APRO_JJ:'APRESENTAÇÃO ORIGINAL',R320:'Periodic A319/320/321',CBF:'COMBATE AO FOGO',EMER:'EMERGÊNCIAS GERAIS',CRM:'CRM Training - corporate',CRMBSB:'CRM Training - corporate',AQP:'AQP training',EFB:'Electronic Flight Bag',TFTG:'Fatigue Training',TFD1:'Initial Fatigue + Safety case',TFD2:'Initial Fatigue',CAF:'Fatigue action',FTG:'Fatigue',OOF:'Out of flight',MOF:'Medical Out of Flight',WEB:'Online training',ONTR:'Online training',LGPD:'E-learning LGPD',INEO_JJ:'APP I FLIGHT NEO',TA:'Stby call out',TAA:'Stby call out B',CNL:'Cancellation',NTF:'Notify',OWC:'Own roster change',IMP:'Unexpected Layover'},
- regulatoryDayOffCodes:new Set(['DO','DR','DOA','DOB','DOBI','DOR','DOR1','DOR2','DOR3','DC','DBC','DCH','DE','DF','DH','DMO','DOF','DOP','DOPR','DRC','DS','DU','DW','DATL','DB']),
- restCodes:new Set(['REST','REP','OFF']),
- standbyCodes:new Set(['ASB','ASB1','ASB2','ASB3','HSB','HSB1','HSB2','HSB3','HSB4','HSBD','HSBE','RSV']),
- trainingCodes:new Set(['R320','CBF','EMER','CRM','CRMBSB','AQP','AQP-S3','AQP_SS','EFB','TFTG','TFD1','TFD2','WEB','ONTR','LGPD','INEO_JJ','NPO','REG']),
- isRegulatoryDayOff(code){return this.regulatoryDayOffCodes.has(String(code||'').toUpperCase())},
- isRest(code){return this.restCodes.has(String(code||'').toUpperCase())},
- isStandby(code){const c=String(code||'').toUpperCase(); return this.standbyCodes.has(c)||/^ASB\d*$/.test(c)||/^HSB\d*$/.test(c)},
- isTraining(code){return this.trainingCodes.has(String(code||'').toUpperCase())},
- describeCode(code){return this.activityMap[String(code||'').toUpperCase()]||''},
- monthMap:{jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12'},
- parseDateToken(token){
-  const m=String(token||'').match(/(\d{1,2})[-\/\.](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\d{1,2})[-\/\.](\d{2,4})/i);
-  if(!m) return null;
-  const dd=m[1].padStart(2,'0');
-  const mm=/\d+/.test(m[2])?m[2].padStart(2,'0'):this.monthMap[m[2].slice(0,3).toLowerCase()];
-  const yy=m[3].length===2?'20'+m[3]:m[3];
-  return `${yy}-${mm}-${dd}`;
- },
- classify(item){
-  const raw=((item.raw||'')+' '+(item.summary||'')+' '+(item.code||'')).toUpperCase();
-  const start=item.startTime||'', end=item.endTime||'';
-  const h=t=>t?parseInt(t.split(':')[0],10):null;
-  if(/\b(DO|DR|FOLGA|OFF)\b/.test(raw)) return {type:'Folga',load:'Sem',summary:'Folga regulamentar/descanso identificado na escala.'};
-  if(/\b(VC)\b/.test(raw)) return {type:'Viagem/Composição',load:'Operacional',summary:'Item VC identificado. Conferir natureza operacional na escala.'};
-  if(/\b(RES|RSV|SOBREAVISO|ASB|HSB|SBY)\b/.test(raw)) return {type:'Reserva/Sobreaviso',load:'Operacional',summary:'Dia de reserva/sobreaviso. Manter prontidão e rotina leve.'};
-  if(/\b(CRM|CBF|EMER|R320|TREIN|SIM)\b/.test(raw)) return {type:'Treinamento/Atividade',load:'Operacional',summary:'Atividade operacional/treinamento identificada.'};
-  const sh=h(start), eh=h(end);
-  if((eh!==null&&eh<8)||(sh!==null&&sh<5)||/\(\+1\)|MADR|RED EYE|NOTUR/.test(raw)) return {type:'Madrugada/Recuperação',load:'Alta',summary:'Operação em madrugada ou chegada cedo. Priorizar sono, hidratação e recuperação.'};
-  if(/\b(LA\d{3,4}|VOO|BSB|GRU|CGH|GIG|REC|FOR|SSA|BEL|CNF|SDU|POA|CWB|MCZ|AJU|THE|PMW|SLZ|VIX|GYN|CGR|JPA|NAT)\b/.test(raw)) return {type:'Voo/Operacional',load:'Operacional',summary:'Dia operacional. Ajustar treino conforme sono e fadiga.'};
-  return {type:'Dados importados',load:'Operacional',summary:item.summary||'Item importado da escala.'};
- },
- getGroups(text){
-  const lines=(text||'').replace(/\r/g,'').split(/\n+/).map(l=>l.trim()).filter(Boolean);
-  const groups=[]; let current=null;
-  const dateRe=/(\d{1,2}[-\/\.](?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\d{1,2})[-\/\.]\d{2,4})/i;
-  for(const line of lines){
-   if(/^Roster Report|^Date\s+Pairing|^FLYING HRS/i.test(line)) continue;
-   const dm=line.match(dateRe);
-   if(dm){
-    const date=this.parseDateToken(dm[1]);
-    if(!date) continue;
-    const rest=line.slice(line.indexOf(dm[1])+dm[1].length).trim();
-    current={date,lines:[rest],rawDate:dm[1]}; groups.push(current);
-   }else if(current && (/\b(LA\d{3,4}|\(\+1\)|20-P|CC\b|OP\b|PS\b|BSB|GRU|CGH|GIG|SLZ|SSA|FOR|VIX|BEL|GYN|CGR|POA|JPA|NAT|CWB)\b/.test(line))){
-    current.lines.push(line);
-   }
-  }
-  return groups;
- },
- parseGroup(g){
-  const raw=g.lines.join(' ').replace(/\s+/g,' ').trim();
-  const first=(g.lines[0]||'').trim();
-  const code=(first.match(/^([A-Z]{1,8}(?:[-_][A-Z0-9]+)?\d*|LA\d{3,4})\b/)||[])[1]||'';
-  const report=(first.match(/\b(\d{1,2}:\d{2})\b/)||[])[1]||'';
-  const legs=[];
-  const legRe=/\b(LA\d{3,4})\b[^A-Z0-9]*(?:CC\s+)?(?:OP|PS)?\s*([A-Z]{3})\s+(\d{1,2}:\d{2})\s+([A-Z]{3})\s+(\d{1,2}:\d{2})/g;
-  let m;
-  while((m=legRe.exec(raw))){legs.push({flight:m[1],dep:m[2],depTime:m[3].padStart(5,'0'),arr:m[4],arrTime:m[5].padStart(5,'0')});}
-  const airportTimes=[...raw.matchAll(/\b([A-Z]{3})\s+(\d{1,2}:\d{2})\b/g)].map(x=>({apt:x[1],time:x[2].padStart(5,'0')}));
-  const allTimes=[...raw.matchAll(/\b(\d{1,2}:\d{2})\b/g)].map(x=>x[1].padStart(5,'0'));
-  let startTime=report||airportTimes[0]?.time||allTimes[0]||'';
-  let endTime='';
-  const debriefCandidates=[...raw.matchAll(/(?:^|\s)(\d{1,2}:\d{2})(?:\s*\(\+1\))?\s+(?:\d{2}:\d{2}\s+)?(?:\d{2}:\d{2}\s+)?(?:3\d\w|32S|31R|321|328)\b/g)].map(x=>x[1].padStart(5,'0'));
-  if(debriefCandidates.length) endTime=debriefCandidates[debriefCandidates.length-1];
-  else if(airportTimes.length) endTime=airportTimes[airportTimes.length-1].time;
-  else if(allTimes.length) endTime=allTimes[allTimes.length-1];
-  const sectors=legs.length;
-  const route=legs.length?`${legs[0].dep} → ${legs[legs.length-1].arr}`:(airportTimes.length?`${airportTimes[0].apt} → ${airportTimes[airportTimes.length-1].apt}`:'');
-  let description=this.describeCode(code);
-  let item={date:g.date,code,description,startTime,endTime,raw,legs,sectors,route,summary:''};
-  Object.assign(item,this.classify(item));
-  if(item.type==='Voo/Operacional'||item.type==='Madrugada/Recuperação') item.summary=`${sectors||'—'} setor(es) ${route?('• '+route):''} ${startTime&&endTime?('• '+startTime+' → '+endTime):''}`;
-  else if(item.isRegulatoryDayOff) item.summary=`${description||code||'Folga'} • Folga regulamentar de 24h. Não conta como programação/jornada.`;
-  else if(item.type==='Repouso/Descanso') item.summary=`${description||code||'Repouso'} ${startTime&&endTime?startTime+' → '+endTime:''}`;
-  else if(item.type==='Reserva/Sobreaviso') item.summary=`${description||'Reserva/sobreaviso'} ${startTime&&endTime?startTime+' → '+endTime:''}`;
-  else if(item.type==='Treinamento/Atividade') item.summary=`${description||code||'Atividade'} ${startTime&&endTime?startTime+' → '+endTime:''}`;
-  return item;
- },
- mergeByDate(items){
-  const map=new Map();
-  for(const i of items){
-   const prev=map.get(i.date);
-   if(!prev){map.set(i.date,i); continue;}
-   const legs=[...(prev.legs||[]),...(i.legs||[])];
-   const raws=[prev.raw,i.raw].filter(Boolean).join(' | ');
-   const start=[prev.startTime,i.startTime].filter(Boolean).sort()[0]||'';
-   const end=[prev.endTime,i.endTime].filter(Boolean).sort().slice(-1)[0]||'';
-   const combined={...prev,...i,raw:raws,legs,sectors:legs.length,startTime:start,endTime:end,summary:''};
-   if(prev.load==='Alta'||i.load==='Alta') combined.load='Alta';
-   if(prev.type==='Folga'&&i.type!=='Folga') combined.type=i.type;
-   if(legs.length){combined.route=`${legs[0].dep} → ${legs[legs.length-1].arr}`; combined.summary=`${legs.length} setor(es) • ${combined.route} • ${start||'—'} → ${end||'—'}`;}
-   else combined.summary=[prev.summary,i.summary].filter(Boolean).join(' + ');
-   map.set(i.date,combined);
-  }
-  return [...map.values()].sort(byDate);
- },
- parseText(text){
-  const groups=this.getGroups(text);
-  const parsed=groups.map(g=>this.parseGroup(g)).filter(i=>i.date);
-  return parsed.sort(byDate);
- },
- aggregateDate(items){
-  if(!items.length) return null;
-  const sorted=[...items].sort((a,b)=>(a.startTime||'99:99').localeCompare(b.startTime||'99:99'));
-  const legs=sorted.flatMap(i=>i.legs||[]);
-  const high=sorted.some(i=>i.load==='Alta');
-  const rest=sorted.every(i=>i.isRegulatoryDayOff||i.type==='Repouso/Descanso');
-  const allDayOff=sorted.every(i=>i.isRegulatoryDayOff);
-  const first=sorted[0], last=sorted[sorted.length-1];
-  const aggregateType=allDayOff?'Folga Regulamentar':(rest?'Repouso/Descanso':(high?'Madrugada/Recuperação':(legs.length?'Voo/Operacional':first.type))); 
-  const aggregateSummary=allDayOff?'Folga regulamentar de 24h. Não conta como programação/jornada.':(rest?'Repouso/descanso identificado na escala.':`${sorted.length} item(ns) no dia${legs.length?`, ${legs.length} setor(es)`:''}. ${first.startTime||'—'} → ${last.endTime||'—'}`); 
-  return {...first,type:aggregateType,load:(rest||allDayOff)?'Sem':(high?'Alta':first.load),startTime:first.startTime,endTime:last.endTime,legs,sectors:legs.length,summary:aggregateSummary,isRegulatoryDayOff:allDayOff,countsAsDuty:!rest};
- },
- today(roster){return this.aggregateDate(roster.filter(r=>r.date===todayISO()))},
- next(roster,n=4){const t=todayISO(); const dates=[...new Set(roster.filter(r=>r.date>=t).sort(byDate).map(r=>r.date))].slice(0,n); return dates.map(d=>this.aggregateDate(roster.filter(r=>r.date===d))).filter(Boolean)},
- stats(roster){const flights=roster.reduce((a,r)=>a+(r.sectors||0),0); const unique=new Set(roster.map(r=>r.date)).size; return {days:unique,items:roster.length,flights,from:roster[0]?.date,to:roster.at(-1)?.date};}
-};
+const APP_VERSION='v1.0-alpha.2';
+const STORAGE_KEY='healthops_v1_alpha2_state';
+let state = loadState();
 
-const DutyEngine={
- settings:{maxDutyDay:12,maxDutyNight:10,minRest:10,maxConsecutiveEarlyStarts168h:3},
- timeToDate(date,time){if(!date||!time)return null; return new Date(date+'T'+time)},
- hoursBetween(a,b){return (b-a)/36e5},
- calc(item,prev,all=[]){
-  const start=item.startTime, end=item.endTime; let dutyHours=null, restHours=null, flags=[];
-  const add=(title,reason,rule='Base Lei/RBAC/ACT')=>flags.push({title,reason,rule});
-  if(item.isRegulatoryDayOff||item.type==='Folga Regulamentar'){
-   add('Folga regulamentar reconhecida', 'DO/DR e demais códigos de day off foram tratados como folga regulamentar de 24h, não como programação ou jornada.', 'Motor semântico IFN');
-   return {...item,dutyHours:null,restHours:null,night:false,flags};
-  }
-  if(item.type==='Repouso/Descanso' && !item.countsAsDuty){
-   return {...item,dutyHours:null,restHours:null,night:false,flags};
-  }
-  let s=start?this.timeToDate(item.date,start):null, e=end?this.timeToDate(item.date,end):null;
-  if(s&&e){if(e<s)e.setDate(e.getDate()+1); dutyHours=this.hoursBetween(s,e)}
-  if(prev?.endTime&&start){let p=this.timeToDate(prev.date,prev.endTime), ss=this.timeToDate(item.date,start); if(p&&ss){if(p>ss)p.setDate(p.getDate()-1); restHours=this.hoursBetween(p,ss)}}
-  const night=(start&&parseInt(start)<6)||(end&&parseInt(end)<8)||item.type?.includes('Madrugada');
-  const limit=night?this.settings.maxDutyNight:this.settings.maxDutyDay;
-  if(dutyHours!==null&&dutyHours>limit) add('Possível extrapolação de jornada',`Jornada estimada de ${dutyHours.toFixed(1)}h acima do limite base configurado de ${limit}h.`, 'Conferir Lei 13.475/17, RBAC 117 e ACT aplicável');
-  if(restHours!==null&&restHours<this.settings.minRest) add('Possível repouso insuficiente',`Repouso estimado de ${restHours.toFixed(1)}h abaixo da referência operacional de ${this.settings.minRest}h para descanso entre jornadas simples.`, 'Conferir regra de repouso aplicável e ACT');
-  if(restHours!==null&&restHours>=10&&restHours<12&&item.load==='Alta') add('Repouso regulamentar mínimo, atenção à fadiga',`Repouso estimado de ${restHours.toFixed(1)}h: considerar OK para descanso simples de 10h ou mais, mas manter atenção por alta carga/madrugada.`, 'Gerenciamento de fadiga');
-  if(item.load==='Alta') add('Alta carga operacional', 'Madrugada, chegada cedo ou operação com impacto potencial em fadiga. Usar como ponto de atenção para sono, hidratação e recuperação.', 'Gerenciamento de fadiga');
-  if(start&&parseInt(start)<10 && (prev?.isRegulatoryDayOff||prev?.type==='Folga Regulamentar') && restHours!==null && restHours<24){
-   add('Apresentação antes das 10h após monofolga', `Há folga anterior registrada e apresentação às ${start}. Verificar se a folga/repouso cumpriu o ACT aplicável.`, 'ACT/monofolga');
-  }
-  if(start&&parseInt(start)<6){
-   const windowStart=new Date(item.date+'T'+start); windowStart.setHours(windowStart.getHours()-168);
-   const earlyCount=all.filter(x=>x.startTime&&this.timeToDate(x.date,x.startTime)>=windowStart&&this.timeToDate(x.date,x.startTime)<=s&&parseInt(x.startTime)<6).length;
-   if(earlyCount>this.settings.maxConsecutiveEarlyStarts168h){
-    add('Possível ponto de atenção: madrugadas em 168h', `${earlyCount} apresentações/atividades antes das 06h foram encontradas na janela móvel de 168h. Conferir regra de madrugadas do RBAC 117/ACT.`, 'Madrugadas em 168h');
-   }
-  }
-  return {...item,dutyHours,restHours,night,flags};
- },
- analyze(roster){const arr=roster.sort(byDate); return arr.map((r,i,a)=>this.calc(r,a[i-1],a))}
-};
+function loadState(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {days:[], rawText:'', checkins:{}, meds:[], config:{hiddenTabs:[]}}}catch{return {days:[], rawText:'', checkins:{}, meds:[], config:{hiddenTabs:[]}}}
+}
+function saveState(){localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderAll();}
 
-const FatigueEngine={
- score(day,checkin){
-  if(!day&&!checkin) return {score:null,parts:['Sem escala/check-in para hoje.']};
-  let score=70, parts=[];
-  const sleep=Number(checkin?.sleepHours||0)+Number(checkin?.napMinutes||0)/60;
-  if(sleep){ if(sleep>=7){score+=12;parts.push('Sono adequado +12')} else if(sleep<5){score-=18;parts.push('Sono curto -18')} else {parts.push('Sono intermediário')}}
-  if(day?.load==='Alta'){score-=18;parts.push('Alta carga operacional -18')}
-  if(day?.type?.includes('Madrugada')){score-=15;parts.push('Madrugada/chegada cedo -15')}
-  const water=Number(checkin?.waterMl||0); if(water>=2200){score+=8;parts.push('Boa hidratação +8')} else if(water>0&&water<1200){score-=8;parts.push('Hidratação baixa -8')}
-  const caf=Number(checkin?.caffeineMg||0); if(caf>300){score-=8;parts.push('Cafeína elevada -8')}
-  if(checkin?.trainingIntensity==='Intensa'&&day?.load==='Alta'){score-=10;parts.push('Treino intenso em alta carga -10')}
-  score=Math.max(0,Math.min(100,Math.round(score)));
-  return {score,parts};
- }
-};
+function initTabs(){
+  document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=> activateTab(btn.dataset.tab)));
+  applyMenuPreferences();
+}
+function activateTab(tabName){
+  const targetButton = document.querySelector(`.tab[data-tab="${tabName}"]:not([hidden])`) || document.querySelector('.tab:not([hidden])');
+  if(!targetButton) return;
+  document.querySelectorAll('.tab,.panel').forEach(el=>el.classList.remove('active'));
+  targetButton.classList.add('active');
+  const panel=document.getElementById(targetButton.dataset.tab);
+  if(panel) panel.classList.add('active');
+}
+function applyMenuPreferences(){
+  const hidden = state.config?.hiddenTabs || [];
+  document.querySelectorAll('.tab').forEach(btn=>{
+    const protectedTabs=['today','settings'];
+    btn.hidden = hidden.includes(btn.dataset.tab) && !protectedTabs.includes(btn.dataset.tab);
+  });
+  const active=document.querySelector('.tab.active');
+  if(active?.hidden) activateTab('today');
+}
+function renderAll(){applyMenuPreferences(); renderHeroSummary(); renderToday(); renderRoster(); renderOps(); renderRules(); renderMeds(); renderSettings();}
 
-const MedicationEngine={
- riskInfo:{
-  compatible:{label:'🟢 Compatível',defaultReason:'Uso comum em rotina de saúde, sem efeito cognitivo relevante esperado quando bem tolerado e prescrito/acompanhado.'},
-  attention:{label:'🟡 Atenção',defaultReason:'Pode exigir acompanhamento por dose, combinação, condição clínica ou resposta individual.'},
-  restricted:{label:'🟠 Restrito',defaultReason:'Pode impactar desempenho, alerta, pressão, frequência cardíaca, sono ou capacidade operacional. Validar com médico/CMA.'},
-  sensitive:{label:'🔴 Sensível',defaultReason:'Classe/efeitos associados a risco operacional para aeronautas. Não usar como liberação para voo; validar com médico/CMA/ANAC.'}
- },
- catalog:[
-  {name:'Rosuvastatina',dose:'10 mg',kind:'Medicamento',risk:'compatible',when:'Noite',reason:'Estatina de uso regular; não costuma causar sedação ou alteração direta de atenção. Observar efeitos individuais, como dor muscular.'},
-  {name:'Ômega 3',dose:'',kind:'Suplemento',risk:'compatible',when:'Manhã',reason:'Suplemento nutricional sem efeito sedativo/estimulante relevante esperado. Atenção a orientação médica em uso com anticoagulantes.'},
-  {name:'Magnésio dimalato',dose:'300 mg',kind:'Suplemento',risk:'compatible',when:'Noite',reason:'Suplemento mineral; em algumas pessoas pode causar desconforto gastrointestinal ou relaxamento, mas não é psicoativo regulado.'},
-  {name:'Metilcobalamina + Metilfolato',dose:'1 mg + 3 mg',kind:'Manipulado',risk:'compatible',when:'Manhã',reason:'Vitaminas do complexo B em fórmula manipulada; acompanhar resposta individual e prescrição.'},
-  {name:'Zinco + Cromo + Selênio',dose:'30 mg + 500 mcg + 150 mcg',kind:'Manipulado',risk:'compatible',when:'Manhã',reason:'Minerais/oligoelementos; atenção a náusea, desconforto gástrico ou excesso de dose em uso crônico.'},
-  {name:'Vit D + A + K2 + Cálcio',dose:'10000 UI + 500 UI + 150 mcg + 150 mg',kind:'Manipulado',risk:'attention',when:'Manhã',reason:'Dose elevada de vitamina D exige acompanhamento laboratorial/médico. Atenção a cálcio sérico, rins e uso prolongado.'},
-  {name:'Sibutramina',dose:'10 mg',kind:'Medicamento',risk:'sensitive',when:'Manhã',reason:'Inibidor de apetite com possibilidade de boca seca, insônia, ansiedade, tontura, aumento de pressão/frequência cardíaca, palpitações/taquicardia e risco de impacto operacional. Exige validação médica/CMA.'}
- ],
- defaultProtocol(){return this.catalog.map((x,i)=>({...x,id:'med_'+i,active:true}))},
- riskLabel(r){return this.riskInfo[r]?.label||'🟡 Atenção'},
- riskReason(m){return m.reason||m.note||this.riskInfo[m.risk]?.defaultReason||'Sem motivo cadastrado.'}
-};
-
-const ExportEngine={
- csv(roster){return 'Data,Tipo,Carga,Inicio,Fim,Resumo\n'+roster.map(r=>[r.date,r.type,r.load,r.startTime,r.endTime,(r.summary||'').replaceAll('"','""')].map(v=>`"${v||''}"`).join(',')).join('\n')},
- ics(roster){const ev=roster.map((r,i)=>{const dt=r.date.replaceAll('-',''); const st=(r.startTime||'09:00').replace(':','')+'00'; const en=(r.endTime||r.startTime||'10:00').replace(':','')+'00'; return `BEGIN:VEVENT\nUID:healthops-${r.date}-${i}@local\nDTSTAMP:${dt}T000000\nDTSTART:${dt}T${st}\nDTEND:${dt}T${en}\nSUMMARY:${r.type||'Escala'}\nDESCRIPTION:${(r.summary||'').replace(/\n/g,' ')}\nEND:VEVENT`}).join('\n'); return `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//HealthOps//Aeronauta//PT-BR\n${ev}\nEND:VCALENDAR`}
-};
-
-let state={roster:load(K.roster,[]),checkins:load(K.checkins,{}),meds:load(K.meds,[]),settings:load(K.settings,{profile:'aeronauta'})};
-
-function render(){renderHeader();renderDashboard();renderRoster();renderDuty();renderCheckin();renderMeds();renderFatigue()}
-function renderHeader(){$('todayTitle').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'}); const vb=$('versionBadge'); if(vb) vb.textContent='v'+APP_VERSION;}
-function renderDashboard(){const day=OpsEngine.today(state.roster), c=state.checkins[todayISO()], f=FatigueEngine.score(day,c); $('dayType').textContent=day?day.type:'Sem dados disponíveis'; $('daySummary').textContent=day?day.summary:'Sem dados disponíveis para a data de hoje. Importe/processa a escala do mês para análise correta.'; $('recoveryScore').textContent=f.score??'--'; $('mDuty').textContent=day?(day.startTime||'—')+' → '+(day.endTime||'—'):'—'; $('mSleep').textContent=c?.sleepHours?c.sleepHours+'h':'—'; $('mEnergy').textContent=c?.energy??'—'; $('mWater').textContent=c?.waterMl?c.waterMl+' ml':'—'; $('todayBadges').innerHTML=day?`<span class="badge">${day.load}</span><span class="badge">${day.date}</span>`:'<span class="badge">Sem escala hoje</span>'; $('upcomingDays').innerHTML=OpsEngine.next(state.roster,4).map(d=>`<div class="mini-day ${d.load}"><strong>${fmtDate(d.date)}</strong><span>${d.type}</span><small>${d.summary}</small></div>`).join('')||'<p class="muted">Sem próximos dias importados.</p>'; const ins=[]; if(!day)ins.push('Importe a escala para liberar recomendações de sono, treino, água e jornada.'); if(day?.load==='Alta')ins.push('Priorize hidratação, alimentação simples e treino leve/mobilidade.'); if(day?.type?.includes('Madrugada'))ins.push('Planeje bloco de sono pós-madrugada e evite treino intenso.'); const water=Number(c?.waterMl||0), caf=Number(c?.caffeineMg||0); if(c){ if(water<1800) ins.push('Você ainda não ingeriu água suficiente — fique atento à hidratação.'); if(caf>=300) ins.push('Cuidado! Consumo de cafeína elevado hoje. Observe sono, ansiedade, palpitações e hidratação.'); if(!c.training?.length) ins.push('Já fez exercício hoje? Não esqueça de marcar, mesmo que seja mobilidade ou caminhada.'); if(!c.meals?.length && !c.foodSummary) ins.push('Nenhuma refeição registrada hoje. Registre ao menos um resumo da alimentação.'); const pending=state.meds.filter(m=>m.active && !(c.medsTaken||[]).includes(m.id)); if(pending.length) ins.push(`Medicações/suplementos pendentes hoje: ${pending.length} item(ns).`);} else {ins.push('Faça o check-in para ativar alertas de água, cafeína, alimentação, treino e medicações.')} $('insights').innerHTML=ins.map(x=>`<p class="insight">${x}</p>`).join('')||'<p class="insight">Dia adequado para rotina normal, se o check-in estiver bom.</p>'; renderProtocolCards();}
-function renderProtocolCards(){const meds=state.meds.filter(m=>m.active); const groups={Manhã:meds.filter(m=>m.when==='Manhã'),Noite:meds.filter(m=>m.when==='Noite')}; $('todayProtocols').innerHTML=Object.entries(groups).map(([g,items])=>`<div class="protocol-card"><strong>${g}</strong><span>${items.length} itens</span><small>${items.filter(i=>i.risk==='sensitive').length?'Contém item sensível':''}</small></div>`).join('')}
-function renderRoster(){$('rosterList').innerHTML=state.roster.map(r=>`<article class="roster-card ${r.load}"><h3><span>${fmtDate(r.date)}</span><span>${r.type}</span></h3><p>${r.startTime||'—'} → ${r.endTime||'—'}</p><p>${r.summary}</p></article>`).join('')||'<p class="muted">Nenhuma escala processada.</p>'}
-function renderDuty(){const rows=DutyEngine.analyze([...state.roster]); $('dutyList').innerHTML=rows.map(r=>`<article class="roster-card ${r.load}"><h3><span>${fmtDate(r.date)}</span><span>${r.dutyHours? r.dutyHours.toFixed(1)+'h':'sem horário'}</span></h3><p>Repouso anterior: ${r.restHours? r.restHours.toFixed(1)+'h':'—'} | Noturno: ${r.night?'sim':'não'}</p>${r.flags.map(f=>typeof f==='string'?`<div class="rule-alert"><strong>Ponto de atenção</strong><p>${f}</p></div>`:`<div class="rule-alert"><strong>${f.title}</strong><p>${f.reason}</p><small>${f.rule}</small></div>`).join('')||'<p class="muted">Sem ponto de atenção preliminar.</p>'}</article>`).join('')||'<p class="muted">Importe a escala para calcular jornada.</p>'}
-function renderCheckin(){const cur=state.checkins[todayISO()]||{}; ['sleepHours','napMinutes','energy','focus','waterMl','caffeineMg','trainingIntensity','trainingMinutes','foodSummary'].forEach(id=>{if($(id)&&cur[id]!==undefined) $(id).value=cur[id]}); ['energy','focus'].forEach(id=>{const el=$(id),out=$(id+'Out'); if(el&&out){out.textContent=el.value; el.oninput=()=>out.textContent=el.value}}); const acts=['Treino curto','Treino completo','Mobilidade','Alongamento','Caminhada','Corrida','Piscina','Bike','Funcional']; $('trainingChecks').innerHTML=acts.map(a=>`<label><input type="checkbox" value="${a}" name="training" ${cur.training?.includes(a)?'checked':''}> ${a}</label>`).join(''); renderMeals(); const taken=new Set(cur.medsTaken||[]); $('medChecklist').innerHTML=state.meds.filter(m=>m.active).map(m=>{const done=taken.has(m.id); return `<label class="${done?'done':''}"><input type="checkbox" value="${m.id}" name="medtaken" ${done?'checked disabled':''}> ${done?'✓ ':''}${m.name}<small>${done?'Já tomado hoje':'Pendente'}</small></label>`}).join('')||'<p class="muted">Cadastre/carregue medicações.</p>'}
-function renderMeals(){const c=state.checkins[todayISO()]||{}; const meals=c.meals||[]; const el=$('mealsList'); if(!el)return; el.innerHTML=meals.map((m,i)=>`<div class="meal-item"><strong>${m.type}</strong><p>${m.desc}</p><button type="button" class="ghost" data-remove-meal="${i}">Remover</button></div>`).join('')||'<p class="muted">Nenhuma refeição adicionada hoje.</p>'}
-function renderMeds(){ $('medList').innerHTML=state.meds.map(m=>`<div class="med-group"><div class="med-row"><div><strong>${m.name}</strong><small>${m.kind} • ${m.dose||'dose livre'} • ${m.when}</small></div><span class="tag ${m.risk}">${MedicationEngine.riskLabel(m.risk)}</span></div><div class="reason-box"><strong>Motivo da classificação</strong><p>${MedicationEngine.riskReason(m)}</p></div></div>`).join('')||'<p class="muted">Nenhuma medicação cadastrada.</p>'}
-function renderFatigue(){const f=FatigueEngine.score(OpsEngine.today(state.roster),state.checkins[todayISO()]); $('fatigueScore').textContent=f.score??'--'; $('fatigueBreakdown').innerHTML=f.parts.map(p=>`<p class="insight">${p}</p>`).join('')}
-
-async function ensurePdfJs(){
- if(window.pdfjsLib) return window.pdfjsLib;
- const urls=[
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
-  'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js',
-  'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js'
- ];
- for(const url of urls){
-  try{
-   await new Promise((resolve,reject)=>{
-    const s=document.createElement('script'); s.src=url; s.async=true; s.onload=resolve; s.onerror=reject; document.head.appendChild(s);
-   });
-   if(window.pdfjsLib) return window.pdfjsLib;
-  }catch(e){}
- }
- throw new Error('Não foi possível carregar a biblioteca PDF.js. Verifique a conexão ou cole o texto manualmente.');
+function renderHeroSummary(){
+  const el=document.getElementById('heroSummary');
+  const today=classifyToday(state.days);
+  const medsToday=getTakenMeds().length;
+  el.innerHTML=`<div class="small">Versão atual</div><div class="metric" style="font-size:24px">${APP_VERSION}</div><p>${today.title}</p><p class="small">${state.days.length} dias processados · ${state.meds.length} medicações · ${medsToday} tomadas hoje</p>`;
 }
 
-async function readFile(file){
- if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
-  const lib=await ensurePdfJs();
-  const workerUrls=[
-   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
-   'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js',
-   'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'
+function renderToday(){
+  const el=document.getElementById('today');
+  const today=classifyToday(state.days);
+  const healthAlerts=buildHealthAlerts(state);
+  const fatigue = today.day ? estimateFatigue(today.day) : {label:'Sem dados',score:null};
+  const todayTaken=getTakenMeds();
+  const pendingMeds=state.meds.filter(m=>!todayTaken.includes(m.name));
+  const nextDays=state.days.filter(d=>d.date>=new Date().toISOString().slice(0,10)).slice(0,4);
+  const statusClass=today.status==='NO_DATA'?'warn':fatigue.score>=70?'danger':fatigue.score>=45?'warn':'ok';
+  const alerts=[...(today.alerts||[]).map(t=>({level:'INFO',text:t})),...healthAlerts];
+  if(state.meds.length && pendingMeds.length) alerts.push({level:'WARN',text:`Você ainda tem ${pendingMeds.length} item(ns) de medicação/suplemento pendente(s) hoje.`});
+  el.innerHTML=`
+    <div class="section-title"><h2>Hoje</h2><span class="badge info">${new Date().toLocaleDateString('pt-BR')}</span></div>
+    <div class="grid">
+      <div class="card ${statusClass}"><h2>Status operacional</h2><div class="metric">${today.title}</div><p class="submetric">${today.day?today.day.classification:'Sem dados disponíveis para a data de hoje'}</p></div>
+      <div class="card"><h2>Fadiga estimada</h2><div class="metric">${fatigue.label}</div><p class="submetric">${fatigue.score===null?'Sem escala para hoje':fatigue.score+'/100'}</p></div>
+      <div class="card"><h2>Medicações</h2><div class="metric">${todayTaken.length}/${state.meds.length}</div><p class="submetric">itens marcados hoje</p></div>
+    </div>
+    <div class="card"><h2>Alertas e lembretes</h2>${alerts.map(a=>`<div class="alert ${a.level==='DANGER'?'danger':a.level==='WARN'?'warn':'ok'}">${a.text}</div>`).join('')||'<div class="empty">Sem alertas no momento.</div>'}</div>
+    <div class="card"><h2>Próximos 4 dias</h2>${nextDays.length?nextDays.map(d=>`<div class="event"><strong>${fmtDate(d.date)} — ${d.classification}</strong><p class="muted">Jornada: ${d.dutyHours}h · Voo: ${d.flightHours}h · Eventos: ${d.events.map(e=>e.code).join(', ')}</p></div>`).join(''):'<div class="empty">Sem próximos dias na escala importada.</div>'}</div>
+  `;
+}
+
+function renderRoster(){
+  const el=document.getElementById('roster');
+  el.innerHTML=`<div class="card"><h2>Escala IFN/iFlight Neo</h2><p class="muted">Selecione um PDF/TXT ou cole o texto. Depois clique em processar.</p>
+    <div class="form-field"><label>Arquivo PDF/TXT</label><input id="fileInput" type="file" accept=".pdf,.txt,text/plain,application/pdf" /></div>
+    <div class="form-field"><label>Texto extraído ou colado</label><textarea id="rosterText" placeholder="Texto extraído da escala...">${escapeHtml(state.rawText||'')}</textarea></div>
+    <div class="row"><button class="btn primary" id="processRoster">Processar escala</button><button class="btn secondary" id="pasteSample">Usar texto colado</button><button class="btn danger" id="clearRoster">Limpar escala</button></div>
+    <p id="parseStatus" class="muted small">${state.days.length?`${state.days.length} dias processados.`:'Nenhuma escala processada.'}</p></div>
+    <div class="card"><h2>Dias processados</h2>${renderDaysTable(state.days)}</div>`;
+  document.getElementById('fileInput').addEventListener('change', async (ev)=>{
+    const file=ev.target.files[0]; if(!file) return;
+    const status=document.getElementById('parseStatus'); status.textContent='Lendo PDF/TXT...';
+    try{ const text=await extractPdfText(file); document.getElementById('rosterText').value=text; status.textContent=`Texto extraído: ${text.length} caracteres. Clique em processar.`; }
+    catch(err){ status.textContent='Falha ao ler arquivo: '+err.message; }
+  });
+  document.getElementById('processRoster').addEventListener('click',()=>{
+    const text=document.getElementById('rosterText').value; const parsed=parseIFNRoster(text);
+    state.rawText=text; state.days=parsed.days; saveState();
+  });
+  document.getElementById('pasteSample').addEventListener('click',()=>{state.rawText=document.getElementById('rosterText').value; saveState();});
+  document.getElementById('clearRoster').addEventListener('click',()=>{state.days=[];state.rawText='';saveState();});
+}
+function renderDaysTable(days){
+  if(!days.length) return '<p class="muted">Nenhum dia processado.</p>';
+  return `<div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Classificação</th><th>Jornada</th><th>Voo</th><th>Eventos</th></tr></thead><tbody>${days.map(d=>`<tr><td>${fmtDate(d.date)}</td><td>${d.classification}</td><td>${d.dutyHours}h</td><td>${d.flightHours}h</td><td>${d.events.map(e=>`<span class="pill ${e.isDayOff?'ok':''}" title="${escapeHtml(e.reason||'')}">${e.code}</span>`).join('')}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function renderOps(){
+  const el=document.getElementById('ops'); const s=summarizeOperations(state.days);
+  el.innerHTML=`<div class="grid"><div class="card"><h2>Jornada total</h2><div class="metric">${s.totalDuty}h</div></div><div class="card"><h2>Tempo de voo</h2><div class="metric">${s.totalFlight}h</div></div><div class="card"><h2>Folgas</h2><div class="metric">${s.dayOffs}</div></div><div class="card"><h2>Dias com voo</h2><div class="metric">${s.flightDays}</div></div></div><div class="card"><h2>Eventos operacionais</h2>${renderEvents()}</div>`;
+}
+function renderEvents(){return state.days.flatMap(d=>d.events.map(e=>`<div class="event"><strong>${fmtDate(e.date)} — ${e.code}</strong><p>${e.label} · ${e.category}</p><p class="muted">${e.reason||'Sem motivo cadastrado.'}</p><p class="small">Conta como jornada: <b>${e.countsAsDuty?'sim':'não'}</b> · Conta como folga: <b>${e.isDayOff?'sim':'não'}</b></p></div>`)).join('')||'<p class="muted">Nenhum evento.</p>'}
+
+function renderRules(){
+  const alerts=evaluateRegulation(state.days);
+  document.getElementById('rules').innerHTML=`<div class="card"><h2>Regulamentação</h2><p class="muted">Motor inicial. Os alertas indicam pontos de atenção e não substituem ACT, jurídico, empresa, sindicato ou ANAC.</p></div><div class="list">${alerts.map(a=>`<div class="card ${a.level==='WARN'?'danger':a.level==='OK'?'ok':'warn'}"><h3>${fmtDate(a.date)} — ${a.title}</h3><p>${a.detail}</p></div>`).join('')||'<div class="card"><p class="muted">Sem alertas.</p></div>'}</div>`;
+}
+
+function renderMeds(){
+  const today = new Date().toISOString().slice(0,10); const taken = state.medsTaken?.[today] || [];
+  document.getElementById('meds').innerHTML=`<div class="card"><h2>Medicações</h2><p class="muted">Banco inicial para aeronautas. Pesquise e adicione sem preencher dados técnicos manualmente.</p><div class="row"><input id="medSearch" placeholder="Ex.: Atentah, Rosuvastatina, Sibutramina"/><button class="btn primary" id="addMed">Adicionar</button></div><div id="medResult"></div></div><div class="card"><h2>Checklist de hoje</h2>${renderMedChecklist(taken)}</div>`;
+  document.getElementById('medSearch').addEventListener('input',showMedResult);
+  document.getElementById('addMed').addEventListener('click',()=>{const q=document.getElementById('medSearch').value.trim().toLowerCase(); const item=MEDICATION_CATALOG.find(m=>m.name.toLowerCase().includes(q)||m.active.toLowerCase().includes(q)); if(item && !state.meds.some(m=>m.name===item.name)){state.meds.push(item); saveState();}});
+  document.querySelectorAll('[data-med-check]').forEach(cb=>cb.addEventListener('change',e=>{state.medsTaken=state.medsTaken||{}; state.medsTaken[today]=state.medsTaken[today]||[]; const name=e.target.dataset.medCheck; if(e.target.checked && !state.medsTaken[today].includes(name)) state.medsTaken[today].push(name); if(!e.target.checked) state.medsTaken[today]=state.medsTaken[today].filter(x=>x!==name); saveState();}));
+}
+function showMedResult(){
+ const q=document.getElementById('medSearch').value.trim().toLowerCase(); const box=document.getElementById('medResult'); if(!q){box.innerHTML='';return} const item=MEDICATION_CATALOG.find(m=>m.name.toLowerCase().includes(q)||m.active.toLowerCase().includes(q)); box.innerHTML=item?`<div class="event"><strong>${item.name}</strong> <span class="pill ${item.aero==='COMPATÍVEL'?'ok':item.aero==='RESTRITO'?'warn':'danger'}">${item.aero}</span><p>Princípio ativo: ${item.active}</p><ul>${item.reasons.map(r=>`<li>${r}</li>`).join('')}</ul></div>`:'<p class="muted">Não encontrado no banco local. Na próxima fase, este ponto será integrado a base oficial/API.</p>';
+}
+function renderMedChecklist(taken){if(!state.meds.length) return '<p class="muted">Nenhuma medicação adicionada.</p>'; return state.meds.map(m=>`<label class="checkbox-row"><input type="checkbox" data-med-check="${m.name}" ${taken.includes(m.name)?'checked':''}/><span>${m.name} <small class="pill ${m.aero==='COMPATÍVEL'?'ok':m.aero==='RESTRITO'?'warn':'danger'}">${m.aero}</small></span></label>`).join('')}
+
+function renderSettings(){
+  const tabs=[
+    ['roster','Escala'],['ops','Operações'],['rules','Regulamentação'],['meds','Medicações']
   ];
-  lib.GlobalWorkerOptions.workerSrc=workerUrls[0];
-  const buf=await file.arrayBuffer();
-  let pdf;
-  try{
-   pdf=await lib.getDocument({data:buf}).promise;
-  }catch(err){
-   lib.GlobalWorkerOptions.workerSrc=workerUrls[1];
-   pdf=await lib.getDocument({data:buf}).promise;
-  }
-  let full='';
-  for(let p=1;p<=pdf.numPages;p++){
-   const page=await pdf.getPage(p);
-   const content=await page.getTextContent({disableCombineTextItems:false});
-   const items=content.items.map(it=>({str:String(it.str||'').trim(),x:Math.round(it.transform[4]),y:Math.round(it.transform[5])})).filter(it=>it.str);
-   const rows={};
-   for(const it of items){const key=Math.round(it.y/3)*3; (rows[key]||(rows[key]=[])).push(it);}
-   const pageText=Object.keys(rows).sort((a,b)=>b-a).map(y=>rows[y].sort((a,b)=>a.x-b.x).map(it=>it.str).join(' ').replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
-   full+=`\n--- página ${p} ---\n`+pageText+'\n';
-  }
-  if(!/\d{1,2}[-\/.](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\d{1,2})[-\/.]\d{2,4}/i.test(full)){
-   throw new Error('O PDF foi aberto, mas não encontrei datas da escala no texto extraído. Tente copiar e colar o texto do PDF ou exportar em TXT/CSV.');
-  }
-  return full.trim();
- }
- return await file.text();
+  const hidden=state.config?.hiddenTabs||[];
+  document.getElementById('settings').innerHTML=`
+    <div class="card"><h2>Configurações</h2><p>Versão: <b>${APP_VERSION}</b></p><p class="muted">Fase 2: Design system, dashboard revisado e menu personalizável. Fase 1 preservada: parser IFN, motores operacional/regulatório e banco local.</p></div>
+    <div class="card"><h2>Menu principal</h2><p class="muted">Escolha quais módulos aparecem no menu. Hoje e Configurações ficam sempre visíveis.</p><div class="switch-list">
+      ${tabs.map(([id,label])=>`<label class="checkbox-row"><input type="checkbox" data-menu-toggle="${id}" ${!hidden.includes(id)?'checked':''}/><span>${label}<br><small class="muted">${menuDescription(id)}</small></span></label>`).join('')}
+    </div></div>
+    <div class="card"><h2>Aparência</h2><div class="grid"><div><b>Componentes padronizados</b><p class="muted">Botões, checkboxes, cards, inputs, tabelas e alertas agora usam o mesmo tamanho e espaçamento.</p></div><div><b>Pronto para beta</b><p class="muted">A próxima fase pode adicionar login Google, Supabase e feedback de testadores.</p></div></div></div>`;
+  document.querySelectorAll('[data-menu-toggle]').forEach(cb=>cb.addEventListener('change',e=>{
+    state.config=state.config||{}; state.config.hiddenTabs=state.config.hiddenTabs||[];
+    const id=e.target.dataset.menuToggle;
+    if(e.target.checked) state.config.hiddenTabs=state.config.hiddenTabs.filter(x=>x!==id);
+    else if(!state.config.hiddenTabs.includes(id)) state.config.hiddenTabs.push(id);
+    saveState();
+  }));
 }
+function menuDescription(id){return {roster:'Importação e processamento IFN',ops:'Resumo operacional da escala',rules:'Pontos de atenção legais/regulatórios',meds:'Protocolos e checklist diário'}[id]||''}
+function getTakenMeds(){const today = new Date().toISOString().slice(0,10); return state.medsTaken?.[today] || []}
 
-document.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; if(b.dataset.view){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active')); $('view-'+b.dataset.view).classList.add('active'); b.classList.add('active')} if(b.dataset.caf){$('caffeineMg').value=Number($('caffeineMg').value||0)+Number(b.dataset.caf)} if(b.id==='addMealBtn'){const type=$('mealType').value, desc=$('mealDesc').value.trim(); if(!desc){alert('Descreva a refeição antes de adicionar.'); return;} const key=todayISO(); const c=state.checkins[key]||{date:key}; c.meals=c.meals||[]; c.meals.push({type,desc,at:new Date().toISOString()}); state.checkins[key]=c; save(K.checkins,state.checkins); $('mealDesc').value=''; render()} if(b.dataset.removeMeal!==undefined){const key=todayISO(); const c=state.checkins[key]||{date:key,meals:[]}; c.meals.splice(Number(b.dataset.removeMeal),1); state.checkins[key]=c; save(K.checkins,state.checkins); render()}});
-$('rosterFile').addEventListener('change',async e=>{
- const f=e.target.files[0]; if(!f)return;
- $('parseStatus').textContent='Lendo arquivo: '+f.name+'...';
- $('rosterText').value='Lendo PDF/TXT. Aguarde...';
- try{
-  const text=await readFile(f);
-  $('rosterText').value=text;
-  const quick=OpsEngine.parseText(text);
-  const st=OpsEngine.stats(quick);
-  $('parseStatus').textContent=quick.length?`Arquivo lido. Prévia: ${st.days} dia(s), ${st.items} item(ns), ${st.flights} setor(es). Clique em “Processar escala e atualizar app”.`:'Arquivo lido, mas nenhum item foi reconhecido automaticamente. Confira o texto acima ou cole manualmente.';
- }catch(err){
-  console.error(err);
-  $('rosterText').value='';
-  $('parseStatus').textContent='Falha ao ler o PDF: '+(err?.message||err)+'. Alternativa: abra o PDF, copie o texto e cole no campo acima.';
- }
-});
-$('processRoster').onclick=()=>{const parsed=OpsEngine.parseText($('rosterText').value); state.roster=parsed; save(K.roster,state.roster); const st=OpsEngine.stats(parsed); $('parseStatus').textContent=parsed.length?`${st.days} dia(s), ${st.items} item(ns) e ${st.flights} setor(es) processados de ${st.from} a ${st.to}. Dashboard, jornada e exportações atualizados.`:'Nenhum item reconhecido. Confira se o texto contém datas no formato 01-Jun-2026 ou 01/06/2026.'; render()};
-$('clearRoster').onclick=()=>{state.roster=[];save(K.roster,[]);render()};
-$('checkinForm').onsubmit=e=>{e.preventDefault(); const prev=state.checkins[todayISO()]||{}; const taken=new Set(prev.medsTaken||[]); [...document.querySelectorAll('input[name=medtaken]:checked')].forEach(x=>taken.add(x.value)); const data={date:todayISO(),sleepHours:$('sleepHours').value,napMinutes:$('napMinutes').value,energy:$('energy').value,focus:$('focus').value,waterMl:$('waterMl').value,caffeineMg:$('caffeineMg').value,training:[...document.querySelectorAll('input[name=training]:checked')].map(x=>x.value),trainingIntensity:$('trainingIntensity').value,trainingMinutes:$('trainingMinutes').value,foodSummary:$('foodSummary').value,meals:prev.meals||[],medsTaken:[...taken]}; state.checkins[todayISO()]=data; save(K.checkins,state.checkins); alert('Check-in salvo.'); render()};
-$('loadGabrielProtocol').onclick=()=>{state.meds=MedicationEngine.defaultProtocol(); save(K.meds,state.meds); render()};
-$('addMedBtn').onclick=()=>{const name=prompt('Nome do medicamento/suplemento/manipulado:'); if(!name)return; const dose=prompt('Dose/descrição:')||''; const when=prompt('Horário padrão: Manhã, Tarde ou Noite','Manhã')||'Manhã'; const risk=prompt('Classificação: compatible, attention, restricted ou sensitive','attention')||'attention'; const reason=prompt('Motivo/observação da classificação:')||MedicationEngine.riskInfo[risk]?.defaultReason||''; state.meds.push({id:'med_'+Date.now(),name,dose,when,risk,reason,kind:'Outro',active:true}); save(K.meds,state.meds); render()};
-$('exportCsv').onclick=()=>download('healthops_escala.csv',ExportEngine.csv(state.roster),'text/csv');
-$('exportIcs').onclick=()=>download('healthops_calendario.ics',ExportEngine.ics(state.roster),'text/calendar');
-$('backupJson').onclick=()=>download('healthops_backup_v055.json',JSON.stringify(state,null,2),'application/json');
-$('actProfile').onchange=e=>{state.settings.act=e.target.value;save(K.settings,state.settings)};
-
-if('serviceWorker'in navigator) navigator.serviceWorker.register('./service-worker.js');
-let deferred; window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('installBtn').classList.remove('hidden')}); $('installBtn').onclick=()=>deferred?.prompt();
-render();
+function fmtDate(iso){return new Date(iso+'T00:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})}
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+initTabs(); renderAll();
