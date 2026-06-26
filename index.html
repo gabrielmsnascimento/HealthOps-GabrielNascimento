@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#23404A" />
+  <title>HealthOps Gabriel</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">HealthOps</p>
+        <h1 id="todayTitle">Gabriel</h1>
+      </div>
+      <button id="installBtn" class="ghost hidden">Instalar</button>
+    </header>
+
+    <main>
+      <section id="view-dashboard" class="view active">
+        <div class="hero-card">
+          <div>
+            <p class="eyebrow">Hoje</p>
+            <h2 id="dayType">—</h2>
+            <p id="daySummary">Carregando seu dia...</p>
+            <div id="todayBadges" class="badges"></div>
+          </div>
+          <div class="score">
+            <span id="recoveryScore">--</span>
+            <small>recuperação</small>
+          </div>
+        </div>
+
+        <div class="grid cards">
+          <article class="metric"><span>Sono</span><strong id="mSleep">—</strong></article>
+          <article class="metric"><span>Energia</span><strong id="mEnergy">—</strong></article>
+          <article class="metric"><span>Foco</span><strong id="mFocus">—</strong></article>
+          <article class="metric"><span>Sens. sonora</span><strong id="mSound">—</strong></article>
+        </div>
+
+        <div class="panel accent">
+          <h3>Plano inteligente de hoje</h3>
+          <ul id="todayPlan" class="checklist"></ul>
+        </div>
+
+        <div class="panel">
+          <h3>Alertas HealthOps</h3>
+          <div id="insights" class="insights"></div>
+        </div>
+      </section>
+
+      <section id="view-checkin" class="view">
+        <h2>Check-in diário</h2>
+        <form id="checkinForm" class="form">
+          <label>Data <input type="date" name="date" required></label>
+          <div class="grid form-grid">
+            <label>Horas de sono <input type="number" step="0.25" min="0" max="14" name="sleepHours"></label>
+            <label>Água (L) <input type="number" step="0.1" min="0" max="8" name="water"></label>
+          </div>
+          <label>Qualidade do sono (0-10) <input type="range" min="0" max="10" value="5" name="sleepQuality"><output></output></label>
+          <label>Energia (0-10) <input type="range" min="0" max="10" value="5" name="energy"><output></output></label>
+          <label>Humor (0-10) <input type="range" min="0" max="10" value="5" name="mood"><output></output></label>
+          <label>Foco (0-10) <input type="range" min="0" max="10" value="5" name="focus"><output></output></label>
+          <label>Hiperatividade/impulso (0-10) <input type="range" min="0" max="10" value="5" name="hyperactivity"><output></output></label>
+          <label>Sensibilidade sonora (0-10) <input type="range" min="0" max="10" value="5" name="soundSensitivity"><output></output></label>
+          <label>Fome/impulso alimentar (0-10) <input type="range" min="0" max="10" value="5" name="hunger"><output></output></label>
+
+          <div class="panel nested">
+            <h3>Sibutramina / BioMag</h3>
+            <label class="inline"><input type="checkbox" name="medTaken" value="sim"> Tomei hoje</label>
+            <div class="grid form-grid">
+              <label>Horário <input type="time" name="medTime"></label>
+              <label>Dose <input type="text" name="medDose" placeholder="ex.: 10 mg"></label>
+            </div>
+            <label>Efeitos percebidos
+              <select name="medEffects">
+                <option value="">—</option>
+                <option>Apetite reduzido, sem incômodos</option>
+                <option>Insônia/despertares</option>
+                <option>Boca seca</option>
+                <option>Ansiedade/irritabilidade</option>
+                <option>Palpitação/FC elevada</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="grid form-grid">
+            <label>FC repouso <input type="number" min="35" max="180" name="restingHr" placeholder="bpm"></label>
+            <label>Pressão arterial <input type="text" name="bloodPressure" placeholder="ex.: 120/80"></label>
+            <label>Cafés no dia <input type="number" step="1" min="0" max="10" name="coffee"></label>
+            <label>Peso <input type="number" step="0.1" min="40" max="200" name="weight"></label>
+          </div>
+          <label>Circunferência abdominal <input type="number" step="0.5" min="50" max="180" name="waist"></label>
+          <label>Treino feito
+            <select name="workoutDone">
+              <option value="">—</option>
+              <option>Força completa</option><option>Treino curto</option><option>Caminhada</option><option>Piscina</option><option>Mobilidade</option><option>Não treinei</option>
+            </select>
+          </label>
+          <label>Observações <textarea name="notes" rows="4" placeholder="Sono, voos, sibutramina, irritabilidade, sons, alimentação..."></textarea></label>
+          <button type="submit">Salvar check-in</button>
+        </form>
+      </section>
+
+      <section id="view-roster" class="view">
+        <div class="section-head">
+          <h2>Escala inteligente</h2>
+          <button id="loadJuly" class="ghost">Recarregar julho</button>
+        </div>
+        <form id="manualRosterForm" class="panel compact-form">
+          <h3>Adicionar item manual</h3>
+          <div class="grid form-grid">
+            <label>Data <input type="date" name="date" required></label>
+            <label>Tipo
+              <select name="type"><option>Operacional</option><option>Alta carga</option><option>Recuperação</option><option>Performance</option></select>
+            </label>
+            <label>Início <input type="time" name="startTime"></label>
+            <label>Fim <input type="time" name="endTime"></label>
+          </div>
+          <label>Resumo <input type="text" name="summary" placeholder="ex.: BSB-GRU-SSA-GRU / apresentação 04:30"></label>
+          <button type="submit">Adicionar à escala</button>
+        </form>
+        <div id="rosterList" class="roster-list"></div>
+      </section>
+
+      <section id="view-import" class="view">
+        <h2>Importar escala</h2>
+        <div class="panel">
+          <p>Cole texto exportado/copiado do iFlight Neo ou de um PDF. O parser identifica datas, códigos como DO/DR/ASB/MCK e horários. A leitura direta de PDF entra na próxima etapa.</p>
+          <textarea id="rosterText" rows="10" placeholder="Cole aqui o texto da escala..."></textarea>
+          <div class="row wrap">
+            <button id="parseRoster">Interpretar texto</button>
+            <button id="exportCalendarCsv" class="ghost">CSV calendário</button>
+            <button id="exportIcs" class="ghost">ICS calendário</button>
+          </div>
+          <label class="filebox">Guardar PDF/TXT da escala
+            <input type="file" id="rosterFile" accept=".pdf,.txt">
+          </label>
+          <p id="importStatus" class="muted"></p>
+        </div>
+      </section>
+
+      <section id="view-stats" class="view">
+        <h2>Dados e backup</h2>
+        <div class="grid cards">
+          <article class="metric"><span>Média sono</span><strong id="avgSleep">—</strong></article>
+          <article class="metric"><span>Média humor</span><strong id="avgMood">—</strong></article>
+          <article class="metric"><span>Média sensorial</span><strong id="avgSound">—</strong></article>
+          <article class="metric"><span>Check-ins</span><strong id="totalCheckins">0</strong></article>
+        </div>
+        <div class="panel">
+          <h3>Exportações</h3>
+          <div class="row wrap">
+            <button id="exportCsv">CSV check-ins</button>
+            <button id="exportRosterCsv" class="ghost">CSV escala</button>
+            <button id="exportBackup" class="ghost">Backup JSON</button>
+            <button id="clearData" class="danger">Limpar dados</button>
+          </div>
+          <p class="muted">CSV de calendário pode ser importado no Google/Outlook. ICS é melhor para Apple/Google Calendar.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="tabs">
+      <button data-tab="dashboard" class="active">Início</button>
+      <button data-tab="checkin">Check-in</button>
+      <button data-tab="roster">Escala</button>
+      <button data-tab="import">Importar</button>
+      <button data-tab="stats">Dados</button>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
