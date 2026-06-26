@@ -1,5 +1,5 @@
-const APP_VERSION='0.5.2';
-const K={roster:'healthops_roster_v051',checkins:'healthops_checkins_v050',meds:'healthops_meds_v050',settings:'healthops_settings_v050'};
+const APP_VERSION='0.5.3';
+const K={roster:'healthops_roster_v053',checkins:'healthops_checkins_v053',meds:'healthops_meds_v053',settings:'healthops_settings_v053'};
 const $=id=>document.getElementById(id);
 const todayISO=()=>new Date().toISOString().slice(0,10);
 const fmtDate=s=>new Date(s+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'});
@@ -197,21 +197,53 @@ function renderCheckin(){['energy','focus'].forEach(id=>{const el=$(id),out=$(id
 function renderMeds(){ $('medList').innerHTML=state.meds.map(m=>`<div class="med-group"><div class="med-row"><div><strong>${m.name}</strong><small>${m.kind} • ${m.dose||'dose livre'} • ${m.when}</small></div><span class="tag ${m.risk}">${MedicationEngine.riskLabel(m.risk)}</span></div><div class="reason-box"><strong>Motivo da classificação</strong><p>${MedicationEngine.riskReason(m)}</p></div></div>`).join('')||'<p class="muted">Nenhuma medicação cadastrada.</p>'}
 function renderFatigue(){const f=FatigueEngine.score(OpsEngine.today(state.roster),state.checkins[todayISO()]); $('fatigueScore').textContent=f.score??'--'; $('fatigueBreakdown').innerHTML=f.parts.map(p=>`<p class="insight">${p}</p>`).join('')}
 
+async function ensurePdfJs(){
+ if(window.pdfjsLib) return window.pdfjsLib;
+ const urls=[
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+  'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js',
+  'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js'
+ ];
+ for(const url of urls){
+  try{
+   await new Promise((resolve,reject)=>{
+    const s=document.createElement('script'); s.src=url; s.async=true; s.onload=resolve; s.onerror=reject; document.head.appendChild(s);
+   });
+   if(window.pdfjsLib) return window.pdfjsLib;
+  }catch(e){}
+ }
+ throw new Error('Não foi possível carregar a biblioteca PDF.js. Verifique a conexão ou cole o texto manualmente.');
+}
+
 async function readFile(file){
  if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
-  if(!window.pdfjsLib) return 'PDF.js não carregou. Verifique internet/CDN ou cole o texto da escala manualmente.';
-  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const lib=await ensurePdfJs();
+  const workerUrls=[
+   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
+   'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js',
+   'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'
+  ];
+  lib.GlobalWorkerOptions.workerSrc=workerUrls[0];
   const buf=await file.arrayBuffer();
-  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  let pdf;
+  try{
+   pdf=await lib.getDocument({data:buf}).promise;
+  }catch(err){
+   lib.GlobalWorkerOptions.workerSrc=workerUrls[1];
+   pdf=await lib.getDocument({data:buf}).promise;
+  }
   let full='';
   for(let p=1;p<=pdf.numPages;p++){
    const page=await pdf.getPage(p);
-   const content=await page.getTextContent();
-   const items=content.items.map(it=>({str:it.str,x:Math.round(it.transform[4]),y:Math.round(it.transform[5])}));
+   const content=await page.getTextContent({disableCombineTextItems:false});
+   const items=content.items.map(it=>({str:String(it.str||'').trim(),x:Math.round(it.transform[4]),y:Math.round(it.transform[5])})).filter(it=>it.str);
    const rows={};
-   for(const it of items){const key=Math.round(it.y/4)*4; (rows[key]||(rows[key]=[])).push(it);}
+   for(const it of items){const key=Math.round(it.y/3)*3; (rows[key]||(rows[key]=[])).push(it);}
    const pageText=Object.keys(rows).sort((a,b)=>b-a).map(y=>rows[y].sort((a,b)=>a.x-b.x).map(it=>it.str).join(' ').replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
    full+=`\n--- página ${p} ---\n`+pageText+'\n';
+  }
+  if(!/\d{1,2}[-\/.](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\d{1,2})[-\/.]\d{2,4}/i.test(full)){
+   throw new Error('O PDF foi aberto, mas não encontrei datas da escala no texto extraído. Tente copiar e colar o texto do PDF ou exportar em TXT/CSV.');
   }
   return full.trim();
  }
@@ -219,7 +251,22 @@ async function readFile(file){
 }
 
 document.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b)return; if(b.dataset.view){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active')); $('view-'+b.dataset.view).classList.add('active'); b.classList.add('active')} if(b.dataset.caf){$('caffeineMg').value=Number($('caffeineMg').value||0)+Number(b.dataset.caf)}});
-$('rosterFile').addEventListener('change',async e=>{const f=e.target.files[0]; if(!f)return; $('parseStatus').textContent='Arquivo selecionado: '+f.name; $('rosterText').value=await readFile(f);});
+$('rosterFile').addEventListener('change',async e=>{
+ const f=e.target.files[0]; if(!f)return;
+ $('parseStatus').textContent='Lendo arquivo: '+f.name+'...';
+ $('rosterText').value='Lendo PDF/TXT. Aguarde...';
+ try{
+  const text=await readFile(f);
+  $('rosterText').value=text;
+  const quick=OpsEngine.parseText(text);
+  const st=OpsEngine.stats(quick);
+  $('parseStatus').textContent=quick.length?`Arquivo lido. Prévia: ${st.days} dia(s), ${st.items} item(ns), ${st.flights} setor(es). Clique em “Processar escala e atualizar app”.`:'Arquivo lido, mas nenhum item foi reconhecido automaticamente. Confira o texto acima ou cole manualmente.';
+ }catch(err){
+  console.error(err);
+  $('rosterText').value='';
+  $('parseStatus').textContent='Falha ao ler o PDF: '+(err?.message||err)+'. Alternativa: abra o PDF, copie o texto e cole no campo acima.';
+ }
+});
 $('processRoster').onclick=()=>{const parsed=OpsEngine.parseText($('rosterText').value); state.roster=parsed; save(K.roster,state.roster); const st=OpsEngine.stats(parsed); $('parseStatus').textContent=parsed.length?`${st.days} dia(s), ${st.items} item(ns) e ${st.flights} setor(es) processados de ${st.from} a ${st.to}. Dashboard, jornada e exportações atualizados.`:'Nenhum item reconhecido. Confira se o texto contém datas no formato 01-Jun-2026 ou 01/06/2026.'; render()};
 $('clearRoster').onclick=()=>{state.roster=[];save(K.roster,[]);render()};
 $('checkinForm').onsubmit=e=>{e.preventDefault(); const data={date:todayISO(),sleepHours:$('sleepHours').value,napMinutes:$('napMinutes').value,energy:$('energy').value,focus:$('focus').value,waterMl:$('waterMl').value,caffeineMg:$('caffeineMg').value,training:[...document.querySelectorAll('input[name=training]:checked')].map(x=>x.value),trainingIntensity:$('trainingIntensity').value,trainingMinutes:$('trainingMinutes').value,foodSummary:$('foodSummary').value,medsTaken:[...document.querySelectorAll('input[name=medtaken]:checked')].map(x=>x.value)}; state.checkins[todayISO()]=data; save(K.checkins,state.checkins); alert('Check-in salvo.'); render()};
@@ -227,7 +274,7 @@ $('loadGabrielProtocol').onclick=()=>{state.meds=MedicationEngine.defaultProtoco
 $('addMedBtn').onclick=()=>{const name=prompt('Nome do medicamento/suplemento/manipulado:'); if(!name)return; const dose=prompt('Dose/descrição:')||''; const when=prompt('Horário padrão: Manhã, Tarde ou Noite','Manhã')||'Manhã'; const risk=prompt('Classificação: compatible, attention, restricted ou sensitive','attention')||'attention'; const reason=prompt('Motivo/observação da classificação:')||MedicationEngine.riskInfo[risk]?.defaultReason||''; state.meds.push({id:'med_'+Date.now(),name,dose,when,risk,reason,kind:'Outro',active:true}); save(K.meds,state.meds); render()};
 $('exportCsv').onclick=()=>download('healthops_escala.csv',ExportEngine.csv(state.roster),'text/csv');
 $('exportIcs').onclick=()=>download('healthops_calendario.ics',ExportEngine.ics(state.roster),'text/calendar');
-$('backupJson').onclick=()=>download('healthops_backup_v052.json',JSON.stringify(state,null,2),'application/json');
+$('backupJson').onclick=()=>download('healthops_backup_v053.json',JSON.stringify(state,null,2),'application/json');
 $('actProfile').onchange=e=>{state.settings.act=e.target.value;save(K.settings,state.settings)};
 
 if('serviceWorker'in navigator) navigator.serviceWorker.register('./service-worker.js');

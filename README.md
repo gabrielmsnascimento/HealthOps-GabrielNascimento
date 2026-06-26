@@ -1,30 +1,15 @@
-# HealthOps Aeronauta v0.5.2
+# HealthOps Gabriel v0.5.3
 
-PWA local/offline para aeronautas, com motores de escala, jornada/regulamentação, fadiga, medicações/protocolos e exportações CSV/ICS.
+PWA para aeronautas com motores de operações, jornada, fadiga, medicações e exportações.
 
-## Novidades da v0.5.2
+## Correções desta versão
 
-- Badge fixo com a versão do app no canto inferior direito.
-- Medicações agora exibem o motivo da classificação aeronáutica.
-- Sibutramina e itens sensíveis mostram justificativa operacional, não apenas etiqueta vermelha.
-- Jornada/regulamentação agora exibe pontos de atenção com motivo e referência da regra.
-- Primeiros alertas estruturados para:
-  - carga operacional alta;
-  - repouso abaixo da referência base;
-  - jornada acima do limite base configurado;
-  - possíveis madrugadas em janela de 168h;
-  - apresentação antes das 10h após monofolga.
+- Badge de versão no canto da página.
+- Leitura de PDF com carregamento dinâmico do PDF.js e CDNs alternativos.
+- Mensagens de erro mais claras quando o PDF não puder ser extraído.
+- Pré-processamento do PDF antes de confirmar a escala.
+- Service worker atualizado para evitar cache antigo no GitHub Pages.
 
-## Aviso
+## Publicação
 
-Os cálculos regulatórios são preliminares e servem como apoio operacional. Devem ser conferidos com Lei 13.475/17, RBAC 117, ACT aplicável, empresa, sindicato e/ou autoridade competente.
-
-## Publicação no GitHub Pages
-
-Envie os arquivos descompactados para a raiz do repositório e publique pela branch `main` em `/root`.
-
-Commit sugerido:
-
-```text
-v0.5.2 - Badge de versão e motivos de alertas
-```
+Envie os arquivos descompactados para a raiz do repositório GitHub Pages.
