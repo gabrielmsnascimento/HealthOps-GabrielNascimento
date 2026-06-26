@@ -1,27 +1,24 @@
-# HealthOps — v0.5.0
+# HealthOps Aeronauta v0.5.1
 
-PWA especializado para aeronautas: escala, jornada, regulamentação, fadiga, saúde, medicações/protocolos, calendário e exportações.
+Correção focada no parser de escala iFlight Neo / Roster Report.
 
-## Novidades v0.5.0
+## Novidades
 
-- Arquitetura por motores:
-  - `OpsEngine`: parser de escala, próximos dias, classificação operacional.
-  - `DutyEngine`: cálculo preliminar de jornada, repouso e pontos de atenção.
-  - `FatigueEngine`: índice de recuperação/fadiga com sono, hidratação, cafeína, treino e carga operacional.
-  - `MedicationEngine`: catálogo/protocolos com Modo Aeronauta.
-  - `ExportEngine`: exportação CSV/ICS.
-- Nova aba **Jornada**.
-- Dashboard não presume dados quando a escala de hoje não existe.
-- Botão **Processar escala e atualizar app** após upload/texto.
-- Próximos 4 dias baseados somente na escala importada/manual.
-- Alertas como “ponto de atenção”, não como conclusão jurídica.
+- Leitura real de PDF no navegador via PDF.js.
+- Parser compatível com datas no formato `01-Jun-2026`.
+- Reconhecimento de linhas de voo LATAM (`LA####`), aeroportos e horários.
+- Preserva múltiplos itens no mesmo dia para exportação ICS/CSV.
+- Dashboard agrega o dia atual sem inventar dados quando não há escala para hoje.
+- Status de importação mostra dias, itens e setores processados.
 
-## Como atualizar no GitHub
+## Fluxo
 
-1. Descompacte o ZIP.
-2. Envie os arquivos descompactados para a raiz do repositório.
-3. Commit sugerido: `v0.5.0 - Motores de operações, jornada e fadiga`.
+1. Abrir aba **Escala**.
+2. Selecionar o PDF do roster.
+3. Conferir o texto extraído.
+4. Clicar em **Processar escala e atualizar app**.
+5. Conferir Dashboard, Jornada e Exportações.
 
-## Aviso
+## Observação
 
-O HealthOps é uma ferramenta de organização pessoal e apoio. Não substitui ANAC, CMA, médico examinador, empresa, sindicato, ACT aplicável ou interpretação jurídica/profissional.
+Os cálculos de jornada/regulamentação ainda são preliminares. O módulo não substitui conferência formal por Lei 13.475/17, RBAC 117, ACT aplicável, empresa, sindicato ou autoridade competente.
