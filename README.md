@@ -1,16 +1,19 @@
-# HealthOps Aeronautas v1.0-beta.4
+# HealthOps Aeronautas v1.0-beta.5
 
-PWA para aeronautas com parser IFN/iFlight Neo, escala operacional, regulamentação, diárias, saúde/check-in, treinos, cafeína e medicações/suplementações.
+Atualização focada em linha do tempo, calendário mensal e histórico de escalas.
 
-## Destaques desta versão
+## Principais recursos
 
-- Aba **Operações** removida do menu principal; o resumo operacional agora aparece no topo da aba **Escala**.
-- Importação da escala movida para o fim da aba **Escala**.
-- Dias processados agora exibem **treino recomendado** e agrupamento por tipo de treino com cores.
-- Cafeína voltou para seleção intuitiva por tipo/tamanho de bebida, com conversão interna para mg.
-- Aba **Medicações e suplementações** com período de ingestão, prazo e protocolo favorito.
-- Mantém motores beta de parser, regulamentação e diárias.
+- Calendário mensal com cores por classificação operacional.
+- Seleção de qualquer data passada ou futura.
+- Linha do tempo anterior/selecionado/próximo.
+- Biblioteca de escalas importadas por mês.
+- Importação de PDF/TXT mantida no final da aba Escala.
+- Modo Teste dos motores com debug do parser.
+- Resumo mensal operacional dentro da aba Escala.
+- Separação visual por treino recomendado.
+- Persistência local via localStorage.
 
-## Publicação
+## Observações
 
-Substitua os arquivos do repositório GitHub Pages pelos arquivos desta pasta e faça commit.
+Esta versão ainda usa parser beta para o padrão IFN/iFlight Neo. As análises regulatórias são pontos de atenção e não substituem ACT, jurídico, empresa, sindicato ou ANAC.
