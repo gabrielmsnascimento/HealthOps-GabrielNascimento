@@ -1,7 +1,3 @@
-# HealthOps Aeronautas v2.0-alpha.12-clean
+# HealthOps v2.0-alpha.13 CLEAN
 
-Atualização do banco farmacológico/suplementar para testes com aeronautas.
-
-Inclui catálogo ampliado por categorias: colesterol, tireoide, pressão, diabetes/metabólicos, gastro, respiratório/alergias, antigripais, antibióticos, analgésicos, psicotrópicos/sensíveis e suplementos.
-
-Observação: os alertas são apoio informativo e não substituem médico examinador, médico do trabalho, CMA, RBAC 67, RBAC 120 ou IS nº 67-004.
+Refina parser por jornada, remove diárias da linha do tempo e adiciona detalhes por toque/pressão em chips e alertas.
