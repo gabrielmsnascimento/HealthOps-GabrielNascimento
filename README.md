@@ -1,3 +1,11 @@
-# HealthOps v4.0 Parser Engine
+# HealthOps Aeronautas v5.0 Core Stable
 
-Importação padrão de escalas publicadas/executadas por conteúdo do PDF, com múltiplos arquivos e normalizador de 10 colunas.
+Reestruturação da base para estabilidade: navegação independente, estado central, parser/normalizador isolado, módulos restaurados e PWA com cache novo.
+
+Arquivos para GitHub Pages:
+- index.html
+- manifest.json
+- service-worker.js
+- README.md
+
+Após upload, limpe cache/reinstale o PWA.
