@@ -1,3 +1,3 @@
-# HealthOps v6.1 Parser Stitch
+# HealthOps v6.1.1 Statefix
 
-Corrige a união de linhas visuais quebradas do PDF IFN/LATAM e agrupa voos na mesma jornada quando a rota fica em linha separada.
+Corrige hidratação de estado/localStorage e impede tela em branco quando um módulo falha.
