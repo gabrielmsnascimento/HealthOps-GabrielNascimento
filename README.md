@@ -1,3 +1,3 @@
-# HealthOps v2.0-alpha.13 CLEAN
+# HealthOps Aeronautas v2.1-med-clean
 
-Refina parser por jornada, remove diárias da linha do tempo e adiciona detalhes por toque/pressão em chips e alertas.
+Versão limpa com módulo de medicações reformulado: busca por digitação, filtros por tipo/finalidade, dose e posologia responsivas ao item selecionado, protocolos pessoais editáveis e cache PWA atualizado.
