@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HealthOps Aeronautas v3.3.1-parser-validation</title>
+<title>HealthOps Aeronautas v3.3.2-parser-validation</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--purple:#7353a4;--greenbg:#eaf7ee;--yellowbg:#fff4cd;--redbg:#faeaea;--bluebg:#eaf4fb;--purplebg:#f1ecf8;--graybg:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{padding:26px 20px 14px;max-width:1180px;margin:auto}.eyebrow{font-weight:800;letter-spacing:.14em;color:var(--copper);font-size:12px;text-transform:uppercase}h1{font-size:clamp(30px,5vw,56px);line-height:.95;margin:8px 0 10px}p{color:var(--muted)}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;z-index:10}.wrap{max-width:1180px;margin:auto;padding:0 16px 92px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;z-index:9;border-top:1px solid var(--line)}.tab{flex:1;border:0;border-radius:16px;padding:14px 8px;background:#e9e6df;color:#6d6a63;font-weight:800;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}details.card>summary{cursor:pointer;font-weight:900;font-size:22px;margin-bottom:10px} details.card[open]>summary{margin-bottom:12px}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.metric{font-size:34px;font-weight:900;color:#153846}.muted{color:var(--muted);font-size:14px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{display:flex;align-items:center;justify-content:space-between;gap:12px}.btn{border:0;background:var(--brand);color:#fff;padding:12px 16px;border-radius:14px;font-weight:800;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:8px 12px;min-height:36px;font-size:13px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;color:var(--muted);font-size:12px}.day{min-height:86px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;cursor:pointer;position:relative}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.day.today{box-shadow:0 0 0 2px var(--copper) inset}.daynum{font-weight:900}.tag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-top:6px}.tag.rest{background:var(--greenbg);color:var(--ok)}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.train{background:var(--purplebg);color:var(--purple)}.tag.reserve{background:var(--yellowbg);color:var(--warn)}.tag.fatigue{background:var(--redbg);color:var(--bad)}.tag.none{background:var(--graybg);color:#777}.timeline{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:12px}.timebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;cursor:pointer}.timebox.active{background:var(--brand);color:#fff}.timebox.active p{color:#dce8eb}.pill{display:inline-block;background:#eef0ef;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900;margin:2px}.info{cursor:pointer;user-select:none}.info:active{transform:scale(.98)}.pill.green{background:var(--greenbg);color:var(--ok)}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.purple{background:var(--purplebg);color:var(--purple)}.pill.orange{background:var(--yellowbg);color:var(--warn)}.pill.red{background:var(--redbg);color:var(--bad)}.listday{display:grid;grid-template-columns:120px 1fr 80px 80px 1.6fr;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:12px 0}.alert{border-left:5px solid var(--warn);background:var(--yellowbg);padding:14px;border-radius:16px;margin:10px 0}.alert.bad{border-color:var(--bad);background:var(--redbg)}.hidden{display:none}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.hidden{display:none}.modalCard{background:#fff;width:min(560px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25);border:1px solid var(--line)}.modalCard h3{margin:0 0 8px}.modalBody{color:var(--ink);line-height:1.45}.modalBody p{color:var(--ink)}.mealLine{padding:9px 0;border-bottom:1px dashed var(--line)}.checkrow{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px;accent-color:var(--brand);flex:0 0 auto}.debug{white-space:pre-wrap;background:#111b22;color:#d9f1e4;border-radius:16px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;max-height:320px;overflow:auto}.chart{display:flex;align-items:flex-end;gap:8px;height:170px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 8px 0;overflow-x:auto}.bar{min-width:28px;border-radius:8px 8px 0 0;background:var(--brand);position:relative}.bar span{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:var(--muted)}.bar small{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted)}.reportPage{background:#fff;border-radius:22px;padding:22px;margin-bottom:16px;border:1px solid var(--line)}.miniTable{width:100%;border-collapse:collapse}.miniTable th,.miniTable td{border-bottom:1px solid var(--line);padding:8px;text-align:left}.deltaPlus{color:var(--bad);font-weight:900}.deltaMinus{color:var(--ok);font-weight:900}.limitBox{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.limitBox>div{background:#f7f6f2;border:1px solid var(--line);border-radius:16px;padding:12px}@media(max-width:650px){.limitBox{grid-template-columns:1fr 1fr}.miniTable{font-size:13px}}.printOnly{display:none}@media print{body{background:#fff}.tabs,.version,header .eyebrow,button,.noPrint{display:none!important}.wrap{max-width:none;padding:0}.view{display:none!important}#view-relatorio{display:block!important}.card,.reportPage{box-shadow:none;border:1px solid #ddd;break-inside:avoid;page-break-inside:avoid}.printOnly{display:block}.metric{font-size:26px}}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:1fr}.listday{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:70px;padding:6px}.tag{font-size:10px;padding:3px 6px}h1{font-size:38px}}
 @media(max-width:600px){
@@ -19,7 +19,7 @@
 </style>
 </head>
 <body>
-<div class="version">v3.3.1-parser-validation</div>
+<div class="version">v3.3.2-parser-validation</div>
 <header>
 <div class="eyebrow">HealthOps Aeronautas</div>
 <h1>Início operacional</h1>
@@ -46,7 +46,7 @@
 </nav>
 <div id="infoModal" class="modal hidden" onclick="hideInfo(event)"><div class="modalCard" onclick="event.stopPropagation()"><div class="between"><h3 id="infoTitle">Detalhes</h3><button class="btn secondary small" onclick="hideInfo()">Fechar</button></div><div id="infoBody" class="modalBody"></div></div></div>
 <script>
-const VERSION='v3.3.1-parser-validation';
+const VERSION='v3.3.2-parser-validation';
 const LS='healthops_v3_3_validation_suite';
 const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
 const PTW=['dom.','seg.','ter.','qua.','qui.','sex.','sáb.'];
@@ -475,8 +475,8 @@ function parseRoster(raw){
     stats.blocks++;
   }
   Object.values(days).forEach(d=>finalizeDay(d));
-  debug.unshift(`Parser IFN v5 estrutural: ${stats.events} eventos em ${Object.keys(days).length} dias. Blocos: ${stats.blocks}. Não processados: ${stats.unparsed}. Ignorados: ${stats.ignored}.`);
-  return{key,period,raw:text,days,debug,createdAt:new Date().toISOString(),parser:'IFN-v5-structural'};
+  debug.unshift(`Parser IFN v5.1 estrutural: ${stats.events} eventos em ${Object.keys(days).length} dias. Blocos: ${stats.blocks}. Não processados: ${stats.unparsed}. Ignorados: ${stats.ignored}.`);
+  return{key,period,raw:text,days,debug,createdAt:new Date().toISOString(),parser:'IFN-v5.1-structural'};
 }
 function normalizeRosterText(raw){
   return String(raw||'')
@@ -489,19 +489,32 @@ function normalizeRosterText(raw){
     .replace(/\n{3,}/g,'\n\n');
 }
 function buildRosterBlocks(text, reportStart, reportEnd, debug, stats){
-  const lines=text.split(/\n+/).map(x=>x.replace(/\s+/g,' ').trim()).filter(Boolean);
+  const dateRe=/\b(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})\b/ig;
+  const rawLines=text.split(/\n+/).map(x=>x.replace(/\s+/g,' ').trim()).filter(Boolean);
+  const lines=[];
+  for(const raw of rawLines){
+    if(/^Roster Report\b/i.test(raw) || /^Date\b|^Pairing\/Activity\b|^LEGEND\b|^Filial\b/i.test(raw)){ lines.push(raw); continue; }
+    // PDF.js em alguns celulares entrega várias linhas da tabela em uma única linha longa.
+    // Se não dividirmos antes de cada data, voos de dias diferentes são anexados ao primeiro dia do bloco.
+    const matches=[...raw.matchAll(dateRe)]; dateRe.lastIndex=0;
+    if(matches.length>1){
+      for(let i=0;i<matches.length;i++){
+        const start=matches[i].index; const end=i+1<matches.length?matches[i+1].index:raw.length;
+        lines.push(raw.slice(start,end).trim());
+      }
+    }else{
+      lines.push(raw);
+    }
+  }
   const blocks=[]; let current=null; let ignoreContinuation=false;
-  const dateRe=/\b(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})\b/i;
+  const oneDateRe=/\b(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})\b/i;
   for(let line of lines){
     if(/^Date\b|^Pairing\/Activity\b|^LEGEND\b|^Filial\b/i.test(line)){ignoreContinuation=true; continue;}
-    if(/^Roster Report\b/i.test(line) || (/\bto\b/i.test(line)&&dateRe.test(line)&&!/\b(LA\d{4}|DO|DR|VC|HSB|HSBE|ASB|R320|CBF|EMER|CRMBSB|MCK|C32F)\b/i.test(line))){
+    if(/^Roster Report\b/i.test(line) || (/\bto\b/i.test(line)&&oneDateRe.test(line)&&!/\b(LA\d{4}|DO|DR|VC|HSB|HSBE|ASB|R320|CBF|EMER|CRMBSB|MCK|C32F)\b/i.test(line))){
       continue;
     }
     if(/^<==/.test(line)){ ignoreContinuation=true; stats.ignored++; debug.push(`IGNORADO continuação anterior: ${line.slice(0,120)}`); continue; }
-    const dm=line.match(dateRe);
-    // O PDF às vezes solta o código do pareamento em uma linha antes da data real.
-    // Ex.: "LA3866/070426/" sozinho antes de "07-Apr-2026 ...". Não anexar ao dia anterior.
-    // Se a própria linha já contém uma data real, ela será processada normalmente.
+    const dm=line.match(oneDateRe);
     if(!dm && /^(LA\d{4}|HSB|HSBE|ASB|ASB\d?|MCK|C32F)[-\s\/].*\/\d{6}\//i.test(line) && !/\b(OP|PS)\b/i.test(line)){
       stats.ignored++; debug.push(`IGNORADO cabeçalho de pareamento isolado: ${line.slice(0,120)}`); continue;
     }
@@ -513,6 +526,7 @@ function buildRosterBlocks(text, reportStart, reportEnd, debug, stats){
       rest=rest.replace(/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b/i,'').trim();
       current={date,text:rest};
     }else if(current && !ignoreContinuation){
+      // Só anexar continuação ao bloco atual quando ela não parecer uma nova linha tabular sem data.
       current.text+=' '+line;
     }else{
       stats.ignored++;

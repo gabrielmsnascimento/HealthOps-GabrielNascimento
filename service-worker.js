@@ -1,4 +1,4 @@
-const CACHE_NAME = 'healthops-v3-3-1-parser-validation';
+const CACHE_NAME = 'healthops-v3-3-2-parser-hotfix';
 const ASSETS = ['./','./index.html','./manifest.json','./README.md'];
 self.addEventListener('install', event => {
   self.skipWaiting();
