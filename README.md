@@ -1,3 +1,3 @@
-# HealthOps v2.0-alpha.9 CLEAN
+# HealthOps v2.0-alpha.11 CLEAN
 
-Refina calendário multi-mês, férias/VC, jornadas operacionais, pagamentos de diárias e limites base de jornada.
+Atualização com Motor de Prontidão Operacional: repouso oficial separado de recuperação estimada de hotel.

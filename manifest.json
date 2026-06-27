@@ -1,11 +1,1 @@
-{
-  "name": "HealthOps Aeronautas - Teste de Parser",
-  "short_name": "HealthOps",
-  "start_url": "./index.html?v=2.0-alpha.6-clean",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#f4f1eb",
-  "theme_color": "#23404a",
-  "description": "Build limpo para testes de parser, escala e motores do HealthOps.",
-  "icons": []
-}
+{"name":"HealthOps Aeronautas","short_name":"HealthOps","start_url":"./","display":"standalone","background_color":"#f4f1eb","theme_color":"#23404a","icons":[]}
