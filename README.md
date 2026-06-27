@@ -1,4 +1,4 @@
-# HealthOps Aeronautas v2.0-alpha.6-clean
+# HealthOps Aeronautas v2.0-alpha.7-clean
 
 Build simplificado para testes de leitura de escalas antes da aplicação mobile definitiva.
 
@@ -6,7 +6,7 @@ Build simplificado para testes de leitura de escalas antes da aplicação mobile
 - Estrutura reduzida: `index.html`, `manifest.json`, `service-worker.js`, `.nojekyll` e `README.md`.
 - O app não depende mais de arquivos antigos `app.js`, `styles.css`, `css/`, `js/` ou `src/` para rodar esta versão de teste.
 - Service Worker em modo network-first, limpando caches antigos.
-- Versão visível: `v2.0-alpha.6-clean`.
+- Versão visível: `v2.0-alpha.7-clean`.
 
 ## Como subir no GitHub
 1. Descompacte este ZIP.
@@ -18,5 +18,5 @@ Build simplificado para testes de leitura de escalas antes da aplicação mobile
 Commit sugerido:
 
 ```text
-v2.0-alpha.6-clean - Build simplificado para testes de parser
+v2.0-alpha.7-clean - Build simplificado para testes de parser
 ```
