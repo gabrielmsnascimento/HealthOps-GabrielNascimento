@@ -1,5 +1,5 @@
-const CACHE_NAME = 'healthops-v2-0-alpha-8-clean';
-const ASSETS = ['./','./index.html?v=2.0-alpha.6-clean','./manifest.json'];
+const CACHE_NAME = 'healthops-v2-0-alpha-9-clean';
+const ASSETS = ['./','./index.html?v=2.0-alpha.9-clean','./manifest.json'];
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).catch(()=>null));
@@ -20,7 +20,7 @@ self.addEventListener('fetch', event => {
       cache.put(event.request, fresh.clone()).catch(()=>{});
       return fresh;
     } catch(e) {
-      return (await caches.match(event.request)) || (await caches.match('./index.html?v=2.0-alpha.6-clean'));
+      return (await caches.match(event.request)) || (await caches.match('./index.html?v=2.0-alpha.9-clean'));
     }
   })());
 });
