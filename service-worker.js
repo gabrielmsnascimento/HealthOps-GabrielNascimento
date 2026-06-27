@@ -1,4 +1,4 @@
-const CACHE_NAME = 'healthops-v3-3-4-parser-offset';
+const CACHE_NAME = 'healthops-v3-3-5-parser-timefix';
 const ASSETS = ['./','./index.html','./manifest.json','./README.md'];
 self.addEventListener('install', event => { event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).catch(()=>null)); self.skipWaiting(); });
 self.addEventListener('activate', event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))); self.clients.claim(); });

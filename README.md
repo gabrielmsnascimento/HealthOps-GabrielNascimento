@@ -1,3 +1,3 @@
-HealthOps v3.3.4 Parser Offset HOTFIX
+# HealthOps v3.3.5 Parser Timefix
 
-Parser determinístico por 10 colunas essenciais e regra global (+1)/(+2)/(+3).
+Corrige mistura entre minutos relativos da chave e minutos absolutos de data no Parser Core.
