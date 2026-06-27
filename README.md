@@ -1,3 +1,3 @@
-# HealthOps v6.1.1 Statefix
+# HealthOps v6.2 Parser Journeyfix
 
-Corrige hidratação de estado/localStorage e impede tela em branco quando um módulo falha.
+Corrige parser por jornadas: usa fragmentos de rota, agrupa voos por apresentação/chave e aplica offsets (+1/+2/+3).

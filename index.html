@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HealthOps Aeronautas v6.1.1 Statefix</title>
+<title>HealthOps Aeronautas v6.2 Parser Journeyfix</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ddd6cb;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#b97910;--bad:#a33a3a;--blue:#2f6f9f;--green:#eaf7ee;--yellow:#fff4cd;--red:#faeaea;--bluebg:#eaf4fb;--gray:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:900;font-size:12px;z-index:30}header{max-width:1180px;margin:auto;padding:24px 18px 8px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--copper);text-transform:uppercase}h1{font-size:clamp(34px,5vw,60px);line-height:.95;margin:8px 0 8px}h2{margin-top:0}p,.muted{color:var(--muted)}.wrap{max-width:1180px;margin:auto;padding:0 16px 96px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);z-index:20}.tab{flex:1;border:0;background:#e9e6df;color:#67635d;border-radius:16px;padding:14px 8px;font-weight:900;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.section{display:none}.section.active{display:block}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{font-size:34px;font-weight:900;color:#153846}.btn{border:0;background:var(--brand);color:#fff;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.input,textarea,select,input[type=file]{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:12px}details>summary{font-size:22px;font-weight:900;cursor:pointer;margin-bottom:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;margin:2px;background:#eef0ef}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.green{background:var(--green);color:var(--ok)}.pill.yellow{background:var(--yellow);color:var(--warn)}.pill.red{background:var(--red);color:var(--bad)}.pill.gray{background:var(--gray);color:#777}.listrow{display:grid;grid-template-columns:110px 1.4fr 90px 90px 1.8fr;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;font-size:12px;color:var(--muted)}.day{min-height:82px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}.tag{display:inline-flex;margin-top:6px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:900}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.rest{background:var(--green);color:var(--ok)}.tag.none{background:var(--gray);color:#777}.alert{border-left:5px solid var(--warn);background:var(--yellow);padding:14px;border-radius:16px}.alert.bad{border-color:var(--bad);background:var(--red)}pre{white-space:pre-wrap;background:#0f1d2a;color:#e9f3f5;border-radius:14px;padding:14px;overflow:auto}.checkrow{display:flex;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px}.medcard{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:none;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.show{display:flex}.modalCard{background:#fff;width:min(620px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.listrow{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:68px;padding:6px}.tabs{overflow-x:auto}.tab{min-width:120px}.wrap{padding-bottom:105px}}
 </style>
@@ -109,13 +109,160 @@ function stitchVisualRows(rows){
   if(pending)out.push(pending);
   return out;
 }
-function parseRowsToEvents(rows){let currentDate=null,currentPairing='',pairingBase=null;const events=[];for(const row of rows){let toks=tokensClean(row.tokens).filter(t=>t!=='<==');if(!toks.length)continue;let dateIdx=toks.findIndex(t=>DATE_RE.test(t));if(dateIdx>=0){currentDate=parseDateToken(toks[dateIdx]);toks.splice(dateIdx,1)}toks=toks.filter(t=>!WEEK.has(t));const pairIdxs=[];toks.forEach((t,i)=>{if(t.includes('/')&&!DATE_RE.test(t))pairIdxs.push(i)});if(pairIdxs.length){const idxSet=new Set(pairIdxs);for(const i of pairIdxs){[i-2,i-1,i+1,i+2].forEach(j=>{if(j>=0&&j<toks.length&&(/JJCC/.test(toks[j])||/-P$/.test(toks[j])||/^\d{2}-P$/.test(toks[j])))idxSet.add(j)})}const parts=[...idxSet].sort((a,b)=>a-b).map(i=>toks[i]);currentPairing=parts.join('');pairingBase=parsePairingBase(currentPairing,currentDate);toks=toks.filter((_,i)=>!idxSet.has(i));}
- if(!pairingBase&&currentDate)pairingBase=new Date(currentDate);
- const actIdx=toks.findIndex(t=>ACT_RE.test(t));if(actIdx<0)continue;const activity=toks[actIdx];const pre=toks.slice(0,actIdx);let post=toks.slice(actIdx+1);const report=pre.find(t=>TIME_RE.test(t))||null;if(post[0]==='CC'||post[0]==='CCM')post.shift();let condition=null;if(post[0]==='OP'||post[0]==='PS'){condition=post.shift()}post=post.filter(t=>!['CC','CCM','OP','PS'].includes(t));const fields=post.filter(t=>AIR_RE.test(t)||TIME_RE.test(t));let origin=null,dep=null,destination=null,arrival=null,release=null;if(AIR_RE.test(fields[0]||''))origin=fields[0];if(TIME_RE.test(fields[1]||''))dep=fields[1];if(AIR_RE.test(fields[2]||''))destination=fields[2];if(TIME_RE.test(fields[3]||''))arrival=fields[3];for(const f of fields.slice(4)){if(TIME_RE.test(f)&&!f.startsWith('00:00')){release=f;break}}
- const base=pairingBase?new Date(pairingBase):(currentDate?new Date(currentDate):null);const ev={sourceRow:row.text,page:row.page,currentDate:currentDate?new Date(currentDate):null,pairing:currentPairing,base,reportTok:report,report:parseTimeToken(report,base),activity,condition,origin,depTok:dep,dep:parseTimeToken(dep,base),destination,arrTok:arrival,arr:parseTimeToken(arrival,base),releaseTok:release,release:parseTimeToken(release,base)};events.push(ev)}return events}
-function buildJourneys(events){const journeys=[];let cur=null;function close(){if(cur){finalizeJourney(cur);journeys.push(cur);cur=null}}for(const e of events){if(REST_ACTIVITIES.has(e.activity)){close();continue}const isFlight=FLIGHT_RE.test(e.activity);const isStandalone=!isFlight || OP_ACTIVITIES.has(e.activity);const starts=!!e.report || !cur || isStandalone || (e.pairing&&cur&&e.pairing!==cur.pairing);if(starts){close();cur={id:`J${journeys.length+1}`,pairing:e.pairing,base:e.base,date:e.report?new Date(e.report):new Date(e.currentDate||e.base||Date.now()),report:e.report||e.dep||null,reportTok:e.reportTok,type:isFlight?'Jornada de voo':(OP_ACTIVITIES.has(e.activity)?'Reserva/Sobreaviso':'Programação'),events:[],flights:[]}}
- cur.events.push(e);if(isFlight)cur.flights.push(e);if(e.release){cur.release=e.release;cur.releaseTok=e.releaseTok}if(isStandalone&&!isFlight){cur.release=e.release||e.arr||null;cur.releaseTok=e.releaseTok||e.arrTok||null;close()}}
- close();journeys.sort((a,b)=>(a.report||a.date)-(b.report||b.date));for(let i=0;i<journeys.length;i++){journeys[i].nextReport=journeys[i+1]?.report||null;journeys[i].restOfficial=hours(journeys[i].release,journeys[i].nextReport)}return journeys}
+function usefulTokensFromText(text){
+  return String(text||'')
+    .replace(/[;,]/g,' ')
+    .replace(/<==/g,' ')
+    .split(/\s+/)
+    .map(t=>t.trim())
+    .filter(Boolean)
+    .filter(t=>!['Roster','Report','Date','Pairing/Activity','Report','Item','Opt','Rank','WT','ACY','Rep','Dep','Arr','Deb','Debrief','FH','DH','SDC','A/C','Type','Hotel','Assignment','Comments'].includes(t));
+}
+function isAircraftToken(t){return /^\d{3}$/.test(t)||/^3[12][A-Z]$/.test(t)||/^\d{2}[A-Z]$/.test(t)}
+function isZeroTime(t){return /^00:00(?:\(\+\d+\))?$/.test(t)}
+function extractAirTimePairs(tokens){
+  const pairs=[]; const used=new Set();
+  for(let i=0;i<tokens.length-1;i++){
+    if(AIR_RE.test(tokens[i])&&TIME_RE.test(tokens[i+1])){
+      pairs.push({airport:tokens[i],time:tokens[i+1],i,t:i+1});
+      used.add(i); used.add(i+1); i++;
+    }
+  }
+  return {pairs,used};
+}
+function firstUsefulTimeAfter(tokens, startIndex){
+  for(let i=startIndex;i<tokens.length;i++){
+    if(TIME_RE.test(tokens[i])&&!isZeroTime(tokens[i]))return tokens[i];
+  }
+  return null;
+}
+function routeFromTokens(postTokens,pendingTokens){
+  const post=(postTokens||[]).filter(t=>(AIR_RE.test(t)||TIME_RE.test(t))&&!isAircraftToken(t));
+  const pend=(pendingTokens||[]).filter(t=>(AIR_RE.test(t)||TIME_RE.test(t))&&!isAircraftToken(t));
+  const pp=extractAirTimePairs(post), qp=extractAirTimePairs(pend);
+  let origin=null,dep=null,destination=null,arrival=null,release=null,source='post';
+  if(pp.pairs.length>=2){
+    origin=pp.pairs[0].airport; dep=pp.pairs[0].time;
+    destination=pp.pairs[1].airport; arrival=pp.pairs[1].time;
+    release=firstUsefulTimeAfter(post,pp.pairs[1].t+1);
+  }else if(pp.pairs.length===1 && qp.pairs.length>=1){
+    origin=pp.pairs[0].airport; dep=pp.pairs[0].time;
+    destination=qp.pairs[0].airport; arrival=qp.pairs[0].time;
+    release=firstUsefulTimeAfter(post,pp.pairs[0].t+1);
+    source='post+pending';
+  }else if(qp.pairs.length>=2){
+    origin=qp.pairs[0].airport; dep=qp.pairs[0].time;
+    destination=qp.pairs[1].airport; arrival=qp.pairs[1].time;
+    release=firstUsefulTimeAfter(post,0)||firstUsefulTimeAfter(pend,qp.pairs[1].t+1);
+    source='pending';
+  }else if(qp.pairs.length===1){
+    origin=qp.pairs[0].airport; dep=qp.pairs[0].time;
+    release=firstUsefulTimeAfter(post,0);
+    source='pending-partial';
+  }else if(pp.pairs.length===1){
+    origin=pp.pairs[0].airport; dep=pp.pairs[0].time;
+    release=firstUsefulTimeAfter(post,pp.pairs[0].t+1);
+  }
+  return {origin,dep,destination,arrival,release,source,post,pend};
+}
+function isRouteFragmentLine(tokens){
+  const t=tokens.filter(x=>!DATE_RE.test(x)&&!WEEK.has(x)&&!x.includes('/'));
+  if(t.some(x=>ACT_RE.test(x)))return false;
+  const {pairs}=extractAirTimePairs(t);
+  return pairs.length>=1;
+}
+function parseRowsToEvents(rows){
+  let currentDate=null,currentPairing='',pairingBase=null;
+  let pendingRoute=[];
+  const events=[];
+  for(const row of rows){
+    let toks=usefulTokensFromText(row.text||row.tokens?.join(' ')||'');
+    if(!toks.length)continue;
+
+    // Datas e dia da semana
+    const dIdx=toks.findIndex(t=>DATE_RE.test(t));
+    if(dIdx>=0){currentDate=parseDateToken(toks[dIdx]);toks.splice(dIdx,1)}
+    toks=toks.filter(t=>!WEEK.has(t));
+
+    // Pairing/chave: pode aparecer sozinho numa linha ou junto da primeira atividade
+    const pIdx=toks.findIndex(t=>/\/\d{6}\//.test(t)||/\/\d{6}$/.test(t));
+    if(pIdx>=0){
+      const parts=[toks[pIdx]];
+      if(toks[pIdx+1]&&/JJCC|^\d{2}-P$|-P$/.test(toks[pIdx+1]))parts.push(toks[pIdx+1]);
+      if(toks[pIdx+2]&&/JJCC|^\d{2}-P$|-P$/.test(toks[pIdx+2]))parts.push(toks[pIdx+2]);
+      currentPairing=parts.join('');
+      pairingBase=parsePairingBase(currentPairing,currentDate)||currentDate;
+      toks=toks.filter((_,i)=>i!==pIdx&&i!==pIdx+1&&i!==pIdx+2);
+      if(!toks.some(t=>ACT_RE.test(t)))continue;
+    }
+    if(!pairingBase&&currentDate)pairingBase=new Date(currentDate);
+
+    // Linhas que são apenas rota quebrada pertencem à próxima atividade
+    if(isRouteFragmentLine(toks)){
+      pendingRoute=toks.filter(t=>AIR_RE.test(t)||TIME_RE.test(t));
+      continue;
+    }
+
+    const actIdx=toks.findIndex(t=>ACT_RE.test(t));
+    if(actIdx<0)continue;
+    const activity=toks[actIdx];
+
+    // Descansos e férias: atualizar estado, mas não criar jornada
+    if(REST_ACTIVITIES.has(activity)){
+      pendingRoute=[];
+      continue;
+    }
+
+    const pre=toks.slice(0,actIdx);
+    let post=toks.slice(actIdx+1);
+    const report=[...pre].reverse().find(t=>TIME_RE.test(t))||null;
+
+    post=post.filter(t=>!['CC','CCM'].includes(t));
+    let condition=null;
+    const condIdx=post.findIndex(t=>t==='OP'||t==='PS');
+    if(condIdx>=0){condition=post[condIdx];post.splice(condIdx,1)}
+    post=post.filter(t=>!['CC','CCM','OP','PS'].includes(t)&&!isAircraftToken(t));
+
+    const route=routeFromTokens(post,pendingRoute);
+    // se a linha principal trouxe rota completa, o fragmento anterior já foi usado ou não era necessário
+    pendingRoute=[];
+
+    const base=pairingBase?new Date(pairingBase):(currentDate?new Date(currentDate):null);
+    const ev={
+      sourceRow:row.text,page:row.page,currentDate:currentDate?new Date(currentDate):null,
+      pairing:currentPairing,base,
+      reportTok:report,report:parseTimeToken(report,base),
+      activity,condition,
+      origin:route.origin,depTok:route.dep,dep:parseTimeToken(route.dep,base),
+      destination:route.destination,arrTok:route.arrival,arr:parseTimeToken(route.arrival,base),
+      releaseTok:route.release,release:parseTimeToken(route.release,base),
+      routeSource:route.source
+    };
+    events.push(ev);
+  }
+  return events;
+}
+function buildJourneys(events){
+  const journeys=[]; let cur=null;
+  function close(){if(cur){finalizeJourney(cur);journeys.push(cur);cur=null}}
+  for(const e of events){
+    const isFlight=FLIGHT_RE.test(e.activity);
+    const isReserve=OP_ACTIVITIES.has(e.activity);
+    const starts=!!e.report || !cur || isReserve || (e.pairing&&cur&&e.pairing!==cur.pairing);
+    if(starts){
+      close();
+      cur={id:`J${journeys.length+1}`,pairing:e.pairing,base:e.base,date:e.report?new Date(e.report):new Date(e.currentDate||e.base||Date.now()),report:e.report||e.dep||null,reportTok:e.reportTok,type:isFlight?'Jornada de voo':(isReserve?'Reserva/Sobreaviso':'Programação'),events:[],flights:[]};
+    }
+    cur.events.push(e);
+    if(isFlight)cur.flights.push(e);
+    if(e.release){cur.release=e.release;cur.releaseTok=e.releaseTok}
+    if(isReserve){cur.release=e.release||e.arr||null;cur.releaseTok=e.releaseTok||e.arrTok||null;close()}
+  }
+  close();
+  journeys.sort((a,b)=>(a.report||a.date)-(b.report||b.date));
+  for(let i=0;i<journeys.length;i++){journeys[i].nextReport=journeys[i+1]?.report||null;journeys[i].restOfficial=hours(journeys[i].release,journeys[i].nextReport)}
+  return journeys;
+}
 function finalizeJourney(j){if(!j.release){const last=j.flights[j.flights.length-1];if(last?.arr){const intl=j.flights.some(f=>/^LA8/.test(f.activity));j.release=new Date(last.arr.getTime()+(intl?45:30)*60000);j.releaseEstimated=true}}
  j.date=j.report?new Date(j.report):new Date(j.date);j.flightHours=j.flights.reduce((s,f)=>s+(hours(f.dep,f.arr)||0),0);j.dutyHours=hours(j.report,j.release);j.steps=j.flights.length;j.isInternational=j.flights.some(f=>/^LA8/.test(f.activity));j.hotelEstimated=null;}
 function parseAllRows(rows){const stitched=stitchVisualRows(rows);const events=parseRowsToEvents(stitched);const journeys=buildJourneys(events);return{events,journeys,rows:stitched}}
