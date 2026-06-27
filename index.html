@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HealthOps Aeronautas v6.0 Parser Engine</title>
+<title>HealthOps Aeronautas v6.1 Parser Stitch</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ddd6cb;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#b97910;--bad:#a33a3a;--blue:#2f6f9f;--green:#eaf7ee;--yellow:#fff4cd;--red:#faeaea;--bluebg:#eaf4fb;--gray:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:900;font-size:12px;z-index:30}header{max-width:1180px;margin:auto;padding:24px 18px 8px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--copper);text-transform:uppercase}h1{font-size:clamp(34px,5vw,60px);line-height:.95;margin:8px 0 8px}h2{margin-top:0}p,.muted{color:var(--muted)}.wrap{max-width:1180px;margin:auto;padding:0 16px 96px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);z-index:20}.tab{flex:1;border:0;background:#e9e6df;color:#67635d;border-radius:16px;padding:14px 8px;font-weight:900;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.section{display:none}.section.active{display:block}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{font-size:34px;font-weight:900;color:#153846}.btn{border:0;background:var(--brand);color:#fff;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.input,textarea,select,input[type=file]{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:12px}details>summary{font-size:22px;font-weight:900;cursor:pointer;margin-bottom:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;margin:2px;background:#eef0ef}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.green{background:var(--green);color:var(--ok)}.pill.yellow{background:var(--yellow);color:var(--warn)}.pill.red{background:var(--red);color:var(--bad)}.pill.gray{background:var(--gray);color:#777}.listrow{display:grid;grid-template-columns:110px 1.4fr 90px 90px 1.8fr;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;font-size:12px;color:var(--muted)}.day{min-height:82px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}.tag{display:inline-flex;margin-top:6px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:900}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.rest{background:var(--green);color:var(--ok)}.tag.none{background:var(--gray);color:#777}.alert{border-left:5px solid var(--warn);background:var(--yellow);padding:14px;border-radius:16px}.alert.bad{border-color:var(--bad);background:var(--red)}pre{white-space:pre-wrap;background:#0f1d2a;color:#e9f3f5;border-radius:14px;padding:14px;overflow:auto}.checkrow{display:flex;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px}.medcard{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:none;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.show{display:flex}.modalCard{background:#fff;width:min(620px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.listrow{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:68px;padding:6px}.tabs{overflow-x:auto}.tab{min-width:120px}.wrap{padding-bottom:105px}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
-<div class="version">v6.0-parser-engine</div>
-<header><div class="eyebrow">HealthOps Aeronautas</div><h1 id="pageTitle">Início operacional</h1><p id="pageSub">Parser por coordenadas: PDF → linhas visuais → 10 colunas essenciais → jornadas.</p></header>
+<div class="version">v6.1-parser-stitch</div>
+<header><div class="eyebrow">HealthOps Aeronautas</div><h1 id="pageTitle">Início operacional</h1><p id="pageSub">Parser por coordenadas: PDF → linhas visuais costuradas → 10 colunas essenciais → jornadas.</p></header>
 <main class="wrap">
 <section id="inicio" class="section active"></section>
 <section id="escala" class="section"></section>
@@ -25,7 +25,7 @@
 <div class="modal" id="modal"><div class="modalCard"><div class="between"><h3 id="modalTitle">Detalhes</h3><button class="btn secondary small" id="modalClose">Fechar</button></div><div id="modalBody"></div></div></div>
 <script>
 'use strict';
-const VERSION='v6.0-parser-engine';
+const VERSION='v6.1-parser-stitch';
 const STORAGE_KEY='healthops.v6.state';
 const WEEK=new Set(['Mon','Tue','Wed','Thu','Fri','Sat','Sun']);
 const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
@@ -59,6 +59,51 @@ function isUsefulRow(tokens){const t=tokensClean(tokens);return t.some(x=>DATE_R
 function scoreRows(rows){let n=0;for(const r of rows){const t=tokensClean(r.tokens);if(t.some(x=>DATE_RE.test(x)))n+=2;if(t.some(x=>FLIGHT_RE.test(x)))n+=3;if(t.some(x=>['HSB','HSBE','ASB','DO','DR','VC','OFF'].includes(x)))n+=2;if(t.some(x=>TIME_RE.test(x)))n+=1;if(t.some(x=>AIR_RE.test(x)))n+=1;}return n}
 async function extractPlainText(file){if(file.type.includes('pdf')||file.name.toLowerCase().endsWith('.pdf')){const rows=await extractPdfRows(file);return rows.map(r=>r.text).join('\n')}return await file.text()}
 function plainRows(text){return text.split(/\n+/).map(x=>({tokens:x.trim().split(/\s+/),text:x.trim(),p:0,page:0})).filter(r=>r.text)}
+
+function hasActToken(tokens){return tokens.some(t=>ACT_RE.test(t))}
+function countAirTime(tokens){return tokens.filter(t=>AIR_RE.test(t)||TIME_RE.test(t)).length}
+function isColumnFragment(tokens){
+  const t=tokensClean(tokens).filter(x=>x!=='<==');
+  if(!t.length||hasActToken(t)||t.some(x=>DATE_RE.test(x))||WEEK.has(t[0]))return false;
+  const airs=t.filter(x=>AIR_RE.test(x)).length, times=t.filter(x=>TIME_RE.test(x)).length;
+  return airs>=1 && times>=1;
+}
+function eventHasRouteAfterActivity(tokens){
+  const t=tokensClean(tokens).filter(x=>x!=='<==');
+  const i=t.findIndex(x=>ACT_RE.test(x));
+  if(i<0)return false;
+  const after=t.slice(i+1).filter(x=>!['CC','CCM','OP','PS'].includes(x));
+  return after.filter(x=>AIR_RE.test(x)).length>=2 && after.filter(x=>TIME_RE.test(x)).length>=2;
+}
+function stitchVisualRows(rows){
+  // O iFlight/LATAM frequentemente quebra a mesma linha visual em duas linhas de texto:
+  // uma linha só com origem/decolagem/destino/pouso e a linha seguinte com apresentação/voo/condição/fim.
+  // Esta etapa une esses fragmentos ANTES do parser operacional.
+  const out=[]; let pending=null;
+  for(const row of rows){
+    let toks=tokensClean(row.tokens).filter(t=>t!=='<==');
+    if(!toks.length)continue;
+    if(isColumnFragment(toks)){
+      pending={...row,tokens:toks,text:toks.join(' ')};
+      continue;
+    }
+    if(pending && hasActToken(toks) && !eventHasRouteAfterActivity(toks)){
+      const actIdx=toks.findIndex(t=>ACT_RE.test(t));
+      const before=toks.slice(0,actIdx+1);
+      let rest=toks.slice(actIdx+1);
+      let lead=[];
+      while(rest.length && ['CC','CCM','OP','PS'].includes(rest[0])) lead.push(rest.shift());
+      toks=[...before,...lead,...pending.tokens,...rest];
+      row={...row,tokens:toks,text:toks.join(' '),stitchedFrom:pending.text};
+      pending=null;
+    }else if(pending){
+      out.push(pending); pending=null;
+    }
+    out.push(row);
+  }
+  if(pending)out.push(pending);
+  return out;
+}
 function parseRowsToEvents(rows){let currentDate=null,currentPairing='',pairingBase=null;const events=[];for(const row of rows){let toks=tokensClean(row.tokens).filter(t=>t!=='<==');if(!toks.length)continue;let dateIdx=toks.findIndex(t=>DATE_RE.test(t));if(dateIdx>=0){currentDate=parseDateToken(toks[dateIdx]);toks.splice(dateIdx,1)}toks=toks.filter(t=>!WEEK.has(t));const pairIdxs=[];toks.forEach((t,i)=>{if(t.includes('/')&&!DATE_RE.test(t))pairIdxs.push(i)});if(pairIdxs.length){const idxSet=new Set(pairIdxs);for(const i of pairIdxs){[i-2,i-1,i+1,i+2].forEach(j=>{if(j>=0&&j<toks.length&&(/JJCC/.test(toks[j])||/-P$/.test(toks[j])||/^\d{2}-P$/.test(toks[j])))idxSet.add(j)})}const parts=[...idxSet].sort((a,b)=>a-b).map(i=>toks[i]);currentPairing=parts.join('');pairingBase=parsePairingBase(currentPairing,currentDate);toks=toks.filter((_,i)=>!idxSet.has(i));}
  if(!pairingBase&&currentDate)pairingBase=new Date(currentDate);
  const actIdx=toks.findIndex(t=>ACT_RE.test(t));if(actIdx<0)continue;const activity=toks[actIdx];const pre=toks.slice(0,actIdx);let post=toks.slice(actIdx+1);const report=pre.find(t=>TIME_RE.test(t))||null;if(post[0]==='CC'||post[0]==='CCM')post.shift();let condition=null;if(post[0]==='OP'||post[0]==='PS'){condition=post.shift()}post=post.filter(t=>!['CC','CCM','OP','PS'].includes(t));const fields=post.filter(t=>AIR_RE.test(t)||TIME_RE.test(t));let origin=null,dep=null,destination=null,arrival=null,release=null;if(AIR_RE.test(fields[0]||''))origin=fields[0];if(TIME_RE.test(fields[1]||''))dep=fields[1];if(AIR_RE.test(fields[2]||''))destination=fields[2];if(TIME_RE.test(fields[3]||''))arrival=fields[3];for(const f of fields.slice(4)){if(TIME_RE.test(f)&&!f.startsWith('00:00')){release=f;break}}
@@ -68,10 +113,10 @@ function buildJourneys(events){const journeys=[];let cur=null;function close(){i
  close();journeys.sort((a,b)=>(a.report||a.date)-(b.report||b.date));for(let i=0;i<journeys.length;i++){journeys[i].nextReport=journeys[i+1]?.report||null;journeys[i].restOfficial=hours(journeys[i].release,journeys[i].nextReport)}return journeys}
 function finalizeJourney(j){if(!j.release){const last=j.flights[j.flights.length-1];if(last?.arr){const intl=j.flights.some(f=>/^LA8/.test(f.activity));j.release=new Date(last.arr.getTime()+(intl?45:30)*60000);j.releaseEstimated=true}}
  j.date=j.report?new Date(j.report):new Date(j.date);j.flightHours=j.flights.reduce((s,f)=>s+(hours(f.dep,f.arr)||0),0);j.dutyHours=hours(j.report,j.release);j.steps=j.flights.length;j.isInternational=j.flights.some(f=>/^LA8/.test(f.activity));j.hotelEstimated=null;}
-function parseAllRows(rows){const events=parseRowsToEvents(rows);const journeys=buildJourneys(events);return{events,journeys,rows}}
+function parseAllRows(rows){const stitched=stitchVisualRows(rows);const events=parseRowsToEvents(stitched);const journeys=buildJourneys(events);return{events,journeys,rows:stitched}}
 function monthKeyFromJourneys(journeys){const d=journeys.find(j=>j.report)?.report||new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}`}
 async function importFiles(files){let rows=[];let imported=0;for(const file of [...files]){try{debug('import',`Lendo ${file.name}`);let fileRows;if(file.type.includes('pdf')||file.name.toLowerCase().endsWith('.pdf'))fileRows=await extractPdfRows(file);else fileRows=plainRows(await file.text());rows.push(...fileRows);imported++;debug('import',`${file.name}: ${fileRows.length} linhas visuais`,fileRows.slice(0,8).map(r=>r.text));}catch(e){debug('import',`Erro em ${file.name}`,String(e&&e.stack?e.stack:e))}}
- const parsed=parseAllRows(rows);state.rows=rows;state.events=parsed.events;state.journeys=parsed.journeys;const mk=monthKeyFromJourneys(parsed.journeys);state.imports[mk]={updated:new Date().toISOString(),files:imported,journeys:parsed.journeys.length};saveState();return parsed.journeys.length}
+ const parsed=parseAllRows(rows);state.rows=parsed.rows;state.events=parsed.events;state.journeys=parsed.journeys;const mk=monthKeyFromJourneys(parsed.journeys);state.imports[mk]={updated:new Date().toISOString(),files:imported,journeys:parsed.journeys.length};saveState();return parsed.journeys.length}
 function classifyHotel(j){const h=j.restOfficial;if(h==null)return{cls:'gray',txt:'Recup. n/d'};if(h<10)return{cls:'red',txt:`Repouso ${h1(h)} · Crítico`};if(h<12)return{cls:'yellow',txt:`Repouso ${h1(h)} · Atenção`};return{cls:'green',txt:`Repouso ${h1(h)} · Adequado`}}
 function render(){renderTabs();document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(state.tab)?.classList.add('active');const titles={inicio:['Início operacional','Resumo integrado da escala e dados de autocuidado.'],escala:['Escala operacional','Importação e leitura por jornadas.'],saude:['Saúde','Check-in de hidratação, cafeína, alimentação e treinos.'],medicacoes:['Medicações','Banco local e protocolos pessoais.'],relatorio:['Relatório','Resumo para análise própria e profissionais.'],validacao:['Validação','Linhas normalizadas, eventos e jornadas para teste do parser.'],debug:['Debug','Registros técnicos da aplicação.']};document.getElementById('pageTitle').textContent=titles[state.tab]?.[0]||'HealthOps';document.getElementById('pageSub').textContent=titles[state.tab]?.[1]||'';renderInicio();renderEscala();renderSaude();renderMedicacoes();renderRelatorio();renderValidacao();renderDebug()}
 function renderTabs(){const tabs=[['inicio','Início'],['escala','Escala'],['saude','Saúde'],['medicacoes','Medicações'],['relatorio','Relatório'],['validacao','Validação'],['debug','Debug']];document.getElementById('tabs').innerHTML=tabs.map(([id,label])=>`<button class="tab ${state.tab===id?'active':''}" data-tab="${id}">${label}</button>`).join('');document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;saveState()})}
