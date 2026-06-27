@@ -1,0 +1,1 @@
+export function trainingSuggestion(j){if(j.type==='vacation'||j.type==='rest'||j.type==='training')return'Treino possível';if(j.recovery?.status==='bad')return'Recuperação';if(j.dh>10||j.events?.length>=4)return'Leve/mobilidade';return'Treino moderado'}
