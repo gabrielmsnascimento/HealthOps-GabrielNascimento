@@ -1,16 +1,13 @@
-# HealthOps Aeronautas v2.0-alpha.2 FULL
+# HealthOps v2.0-alpha.5
 
-Versão de teste com Motor Normativo v2 e início do Motor de Saúde Operacional.
+Atualização de regulamentação e escala executada.
 
 ## Novidades
-- Aba inicial renomeada para **Início**.
-- Motor de Saúde Operacional com Índice de Prontidão Operacional (IPO).
-- Banco local ampliado de medicamentos e suplementações.
-- Cadastro de protocolos/favoritos por horário/período.
-- Tratamentos temporários com motivo, prazo e impacto em treino/repouso.
-- Eventos de saúde e sintomas por data.
-- Resumo mensal de saúde com sintomas, tratamentos, cafeína e hidratação.
-- Integração dos alertas de saúde com escala, fadiga e medicamentos sensíveis.
+- Limite de jornada por dia selecionado, com horário estimado de apresentação, limite de corte dos motores e limite de fim de jornada.
+- Cálculo preliminar por horário de apresentação e quantidade de etapas, com referência RBAC 117/Lei/ACT.
+- Importação em dois modos: escala publicada/original e escala executada/alteração/acionamento.
+- Comparativo publicada × executada: horas voadas, jornada, horas noturnas estimadas, domingo/feriado estimado e folgas.
+- Preserva versão anterior do mês ao importar nova chave.
 
 ## Observação
-O HealthOps é ferramenta de apoio e autocuidado para aeronautas. Não substitui avaliação médica, CMA, empresa, sindicato, ANAC ou parecer jurídico.
+O motor de limite diário ainda é alpha: os limites precisam ser refinados pela tabela completa do RBAC 117/Apêndice B, aclimatação, composição de tripulação e ACT aplicável.
