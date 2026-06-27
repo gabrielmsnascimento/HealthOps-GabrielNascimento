@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HealthOps Aeronautas v3.1-parser-lab</title>
+<title>HealthOps Aeronautas v3.2-parser-core</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--purple:#7353a4;--greenbg:#eaf7ee;--yellowbg:#fff4cd;--redbg:#faeaea;--bluebg:#eaf4fb;--purplebg:#f1ecf8;--graybg:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{padding:26px 20px 14px;max-width:1180px;margin:auto}.eyebrow{font-weight:800;letter-spacing:.14em;color:var(--copper);font-size:12px;text-transform:uppercase}h1{font-size:clamp(30px,5vw,56px);line-height:.95;margin:8px 0 10px}p{color:var(--muted)}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;z-index:10}.wrap{max-width:1180px;margin:auto;padding:0 16px 92px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;z-index:9;border-top:1px solid var(--line)}.tab{flex:1;border:0;border-radius:16px;padding:14px 8px;background:#e9e6df;color:#6d6a63;font-weight:800;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}details.card>summary{cursor:pointer;font-weight:900;font-size:22px;margin-bottom:10px} details.card[open]>summary{margin-bottom:12px}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.metric{font-size:34px;font-weight:900;color:#153846}.muted{color:var(--muted);font-size:14px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{display:flex;align-items:center;justify-content:space-between;gap:12px}.btn{border:0;background:var(--brand);color:#fff;padding:12px 16px;border-radius:14px;font-weight:800;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:8px 12px;min-height:36px;font-size:13px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;color:var(--muted);font-size:12px}.day{min-height:86px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;cursor:pointer;position:relative}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.day.today{box-shadow:0 0 0 2px var(--copper) inset}.daynum{font-weight:900}.tag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-top:6px}.tag.rest{background:var(--greenbg);color:var(--ok)}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.train{background:var(--purplebg);color:var(--purple)}.tag.reserve{background:var(--yellowbg);color:var(--warn)}.tag.fatigue{background:var(--redbg);color:var(--bad)}.tag.none{background:var(--graybg);color:#777}.timeline{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:12px}.timebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;cursor:pointer}.timebox.active{background:var(--brand);color:#fff}.timebox.active p{color:#dce8eb}.pill{display:inline-block;background:#eef0ef;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900;margin:2px}.info{cursor:pointer;user-select:none}.info:active{transform:scale(.98)}.pill.green{background:var(--greenbg);color:var(--ok)}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.purple{background:var(--purplebg);color:var(--purple)}.pill.orange{background:var(--yellowbg);color:var(--warn)}.pill.red{background:var(--redbg);color:var(--bad)}.listday{display:grid;grid-template-columns:120px 1fr 80px 80px 1.6fr;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:12px 0}.alert{border-left:5px solid var(--warn);background:var(--yellowbg);padding:14px;border-radius:16px;margin:10px 0}.alert.bad{border-color:var(--bad);background:var(--redbg)}.hidden{display:none}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.hidden{display:none}.modalCard{background:#fff;width:min(560px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25);border:1px solid var(--line)}.modalCard h3{margin:0 0 8px}.modalBody{color:var(--ink);line-height:1.45}.modalBody p{color:var(--ink)}.mealLine{padding:9px 0;border-bottom:1px dashed var(--line)}.checkrow{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px;accent-color:var(--brand);flex:0 0 auto}.debug{white-space:pre-wrap;background:#111b22;color:#d9f1e4;border-radius:16px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;max-height:320px;overflow:auto}.chart{display:flex;align-items:flex-end;gap:8px;height:170px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 8px 0;overflow-x:auto}.bar{min-width:28px;border-radius:8px 8px 0 0;background:var(--brand);position:relative}.bar span{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:var(--muted)}.bar small{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted)}.reportPage{background:#fff;border-radius:22px;padding:22px;margin-bottom:16px;border:1px solid var(--line)}.miniTable{width:100%;border-collapse:collapse}.miniTable th,.miniTable td{border-bottom:1px solid var(--line);padding:8px;text-align:left}.deltaPlus{color:var(--bad);font-weight:900}.deltaMinus{color:var(--ok);font-weight:900}.limitBox{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.limitBox>div{background:#f7f6f2;border:1px solid var(--line);border-radius:16px;padding:12px}@media(max-width:650px){.limitBox{grid-template-columns:1fr 1fr}.miniTable{font-size:13px}}.printOnly{display:none}@media print{body{background:#fff}.tabs,.version,header .eyebrow,button,.noPrint{display:none!important}.wrap{max-width:none;padding:0}.view{display:none!important}#view-relatorio{display:block!important}.card,.reportPage{box-shadow:none;border:1px solid #ddd;break-inside:avoid;page-break-inside:avoid}.printOnly{display:block}.metric{font-size:26px}}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:1fr}.listday{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:70px;padding:6px}.tag{font-size:10px;padding:3px 6px}h1{font-size:38px}}
 @media(max-width:600px){
@@ -19,7 +19,7 @@
 </style>
 </head>
 <body>
-<div class="version">v3.1-parser-lab</div>
+<div class="version">v3.2-parser-core</div>
 <header>
 <div class="eyebrow">HealthOps Aeronautas</div>
 <h1>Início operacional</h1>
@@ -472,8 +472,8 @@ function parseRoster(raw){
     stats.blocks++;
   }
   Object.values(days).forEach(d=>finalizeDay(d));
-  debug.unshift(`Parser IFN v4: ${stats.events} eventos em ${Object.keys(days).length} dias. Blocos: ${stats.blocks}. Não processados: ${stats.unparsed}. Ignorados: ${stats.ignored}.`);
-  return{key,period,raw:text,days,debug,createdAt:new Date().toISOString(),parser:'IFN-v4'};
+  debug.unshift(`Parser IFN v5 estrutural: ${stats.events} eventos em ${Object.keys(days).length} dias. Blocos: ${stats.blocks}. Não processados: ${stats.unparsed}. Ignorados: ${stats.ignored}.`);
+  return{key,period,raw:text,days,debug,createdAt:new Date().toISOString(),parser:'IFN-v5-structural'};
 }
 function normalizeRosterText(raw){
   return String(raw||'')
@@ -521,59 +521,115 @@ function buildRosterBlocks(text, reportStart, reportEnd, debug, stats){
 function parseEventsFromBlock(baseDate,blockText,debug){
   const text=blockText.replace(/\s+/g,' ').trim();
   if(!text)return[];
-  const act=text.match(/\b(VC|DO|DR|HSBE|HSB|ASB\d?|CRMBSB|R320|CBF|EMER|MCK|C32F)\b/i);
   const hasFlight=/\bLA\d{4}\b/.test(text);
-  if(act && (!hasFlight || !/\bLA\d{4}\b\s+(OP|PS)\b/i.test(text))){
-    const code=act[1].toUpperCase(); const times=extractTimes(text); const duty=activityDuty(code,times);
-    const type=(code==='DO'||code==='DR')?'rest':code==='VC'?'vacation':code.startsWith('HSB')?'standby':code.startsWith('ASB')?'reserve':'training';
-    return[{code,type,duty,flight:0,times:times.map(t=>t.label),date:baseDate,absStart:times[0]?.abs,absEnd:times[times.length-1]?.abs,source:text.slice(0,150)}];
+  const act=text.match(/\b(VC|DO|DR|HSBE|HSB|ASB\d?|CRMBSB|R320|CBF|EMER|MCK|C32F|OFF|AUT)\b/i);
+  // Atividades sem voo: folga/férias/treinamento/reserva/sobreaviso.
+  // Regra importante: DO/DR/VC/OFF não contam como jornada, mesmo que tenham 23:59 ou (+1).
+  if(act && (!hasFlight || !/\bLA\d{4}\b/i.test(text))){
+    const code=act[1].toUpperCase(); const times=extractTimes(text); const duty=activityDuty(code,times,text);
+    const type=(code==='DO'||code==='DR'||code==='OFF')?'rest':code==='VC'?'vacation':code.startsWith('HSB')?'standby':code.startsWith('ASB')?'reserve':'training';
+    return[{code,type,duty,flight:0,times:times.map(t=>t.label),date:baseDate,absStart:times[0]?.abs,absEnd:activityEndAbs(code,times),source:text.slice(0,180)}];
   }
   const events=[];
-  // Captura linhas/trechos de voo no formato: LA#### OP/PS ORG HH:MM DST HH:MM ... FH
-  const flightRe=/\b(LA\d{4})\b\s+(OP|PS)?\s*([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?\s+([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?(?:\s+(\d{2}:\d{2})(?:\(\+(\d)\))?)?(?:\s+(\d{2}:\d{2}))?/g;
-  let m; let lastFlightEnd=0;
-  while((m=flightRe.exec(text))){
-    const code=m[1], role=m[2]||'';
-    const prefix=text.slice(lastFlightEnd,m.index); const pTimes=extractTimes(prefix); const rep=pTimes[pTimes.length-1]||null;
-    const depTime=m[4], depOff=+(m[5]||0), arrTime=m[7], arrOff=+(m[8]||0);
-    const depAbs=absMinutes(baseDate,depTime,depOff); let arrAbs=absMinutes(baseDate,arrTime,arrOff); if(arrAbs<depAbs)arrAbs+=1440;
-    let fh=round((arrAbs-depAbs)/60);
-    // Nas tabelas IFN, depois do horário de chegada pode vir FH e/ou DH.
-    // Se o primeiro HH:MM após chegada é pequeno (ex. 00:50, 03:25), tratamos como FH.
-    // Se for um horário de debrief (ex. 17:30), tentamos o próximo campo pequeno.
-    const c1=m[9], c2=m[11];
-    if(c1 && isDurationHH(c1) && c1!=='00:00') fh=timeToHours(c1);
-    else if(c2 && isDurationHH(c2) && c2!=='00:00') fh=timeToHours(c2);
-    const date=isoFromAbs(baseDate,depAbs);
-    events.push({code,op:role,type:'flight',from:m[3],to:m[6],duty:0,flight:fh,times:[depTime+(depOff?`(+${depOff})`:''),arrTime+(arrOff?`(+${arrOff})`:'')],absStart:depAbs,absEnd:arrAbs,reportTime:rep?rep.label:null,reportAbs:rep?absMinutes(baseDate,rep.time,rep.offset):null,date,source:`${code} ${role} ${m[3]} ${depTime} ${m[6]} ${arrTime}`});
-    lastFlightEnd=flightRe.lastIndex;
+  // Parser estrutural por ocorrência de LA####. O formato IFN real inclui colunas intermediárias:
+  // LA3728 CC OP BSB 08:19 GIG 09:52 01:33 09:45 320
+  // LA8108 CC OP BSB 08:48 SCL 13:24 14:09 04:36 06:19 320
+  const matches=[...text.matchAll(/\bLA\d{4}\b/g)];
+  for(let i=0;i<matches.length;i++){
+    const code=matches[i][0];
+    const idx=matches[i].index;
+    const next= i+1<matches.length ? matches[i+1].index : text.length;
+    const prefix=text.slice(i===0?0:(matches[i-1].index+4),idx);
+    const segment=text.slice(idx,next).replace(/\(\s*\+(\d)\s*\)/g,'(+$1)').trim();
+    const ev=parseFlightSegment(baseDate,code,segment,prefix);
+    if(ev) events.push(ev); else debug.push(`VOO NÃO PARSEADO ${baseDate}: ${segment.slice(0,160)}`);
   }
   if(events.length)return events;
-  // Fallback para trechos onde a ordem visual do PDF separou origem/destino: usa janelas ao redor do código.
-  const codeRe=/\b(LA\d{4})\b/g; let cm;
-  while((cm=codeRe.exec(text))){
-    const slice=text.slice(Math.max(0,cm.index-35), Math.min(text.length, cm.index+140));
-    const times=extractTimes(slice); const aps=[...slice.matchAll(/\b[A-Z]{3}\b/g)].map(x=>x[0]).filter(x=>!['OP','PS','CC','THE'].includes(x));
-    if(times.length>=2){
-      const dep=times[0], arr=times[1]; let depAbs=absMinutes(baseDate,dep.time,dep.offset); let arrAbs=absMinutes(baseDate,arr.time,arr.offset); if(arrAbs<depAbs)arrAbs+=1440;
-      events.push({code:cm[1],type:'flight',from:aps[0]||'',to:aps[1]||'',duty:0,flight:round((arrAbs-depAbs)/60),times:[dep.label,arr.label],absStart:depAbs,absEnd:arrAbs,date:isoFromAbs(baseDate,depAbs),source:`fallback ${slice}`});
+  return[];
+}
+function parseFlightSegment(baseDate,code,segment,prefix){
+  const tokens=segment.split(/\s+/).filter(Boolean);
+  // remove cabeçalho/code
+  let i=1;
+  // pula rank/função até encontrar OP/PS/DH ou origem IATA seguida de horário
+  let op='';
+  while(i<tokens.length){
+    const t=tokens[i];
+    if(/^(OP|PS|DH)$/i.test(t)){op=t.toUpperCase(); i++; break;}
+    if(/^[A-Z]{3}$/.test(t) && isTimeToken(tokens[i+1])) break;
+    i++;
+  }
+  const from=tokens[i++];
+  const depTok=tokens[i++];
+  if(!/^[A-Z]{3}$/.test(from||'') || !isTimeToken(depTok))return null;
+  let depOff=0;if(isOffsetToken(tokens[i])){depOff=+tokens[i].match(/\+(\d)/)[1];i++;}
+  const to=tokens[i++]; const arrTok=tokens[i++];
+  if(!/^[A-Z]{3}$/.test(to||'') || !isTimeToken(arrTok))return null;
+  let arrOff=0;if(isOffsetToken(tokens[i])){arrOff=+tokens[i].match(/\+(\d)/)[1];i++;}
+  const depTime=depTok.slice(0,5), arrTime=arrTok.slice(0,5);
+  const depAbs=absMinutes(baseDate,depTime,depOff); let arrAbs=absMinutes(baseDate,arrTime,arrOff); if(arrAbs<depAbs)arrAbs+=1440;
+  const extras=[];
+  for(;i<tokens.length;i++) if(isTimeToken(tokens[i])) extras.push(tokens[i]);
+  let debriefTime=null, debriefOff=0, fh=null;
+  if(extras.length){
+    let k=0;
+    // Se o primeiro horário extra parece horário de debrief (relógio próximo à chegada ou duração impossível), pula para pegar FH.
+    const e0=extras[0]; const e0h=timeToHours(e0.slice(0,5));
+    const arrClock=arrAbs%1440;
+    const e0Clock=absMinutes(baseDate,e0.slice(0,5),isOffsetToken(extras[1])?+extras[1].match(/\+(\d)/)[1]:0)%1440;
+    const minutesAfter=((e0Clock-arrClock)+1440)%1440;
+    if(e0h>14 || (minutesAfter>=0 && minutesAfter<=90 && Math.abs(e0h-((arrAbs-depAbs)/60))>1.0)){
+      debriefTime=e0.slice(0,5); k=1;
+      if(isOffsetToken(extras[k])){debriefOff=+extras[k].match(/\+(\d)/)[1]; k++;}
+    }
+    for(;k<extras.length;k++){
+      const t=extras[k].slice(0,5);
+      const val=timeToHours(t);
+      if(val>=0 && val<=14){fh=val;break;}
     }
   }
-  return events;
+  if(fh===null) fh=round((arrAbs-depAbs)/60);
+  if(op==='PS' && fh===0) fh=0;
+  const pTimes=extractTimes(prefix); const rep=pTimes[pTimes.length-1]||null;
+  let reportAbs=null, reportTime=null;
+  if(rep){reportTime=rep.label; reportAbs=absMinutes(baseDate,rep.time,rep.offset); if(reportAbs>depAbs)reportAbs-=1440;}
+  return{code,op,type:'flight',from,to,duty:0,flight:round(fh),times:[depTime+(depOff?`(+${depOff})`:''),arrTime+(arrOff?`(+${arrOff})`:'')],absStart:depAbs,absEnd:arrAbs,reportTime,reportAbs,date:isoFromAbs(baseDate,depAbs),source:`${code} ${op||''} ${from}-${to} ${depTime}-${arrTime}${debriefTime?` deb ${debriefTime}`:''}`};
+}
+function isTimeToken(t){return /^\d{2}:\d{2}$/.test(String(t||'').slice(0,5));}
+function isOffsetToken(t){return /^\(\+\d\)$/.test(String(t||''));}
+function activityEndAbs(code,times){
+  if(!times||!times.length)return null;
+  if(['DO','DR','VC','OFF'].includes(code))return times[0].abs;
+  if(code.startsWith('HSB')||code.startsWith('ASB')){
+    if(times.length>=5)return times[4].abs;
+    if(times.length>=4)return times[3].abs;
+    if(times.length>=2)return times[times.length-1].abs;
+  }
+  return times[times.length-1].abs;
 }
 function extractTimes(line){const out=[];const re=/(\d{2}:\d{2})(?:\(\+(\d)\))?/g;let m;while((m=re.exec(line))){out.push({label:m[1]+(m[2]?`(+${m[2]})`:''),time:m[1],offset:+(m[2]||0),abs:absMinutes('2000-01-01',m[1],+(m[2]||0))});}return out;}
 function timeToHours(t){const [h,m]=t.split(':').map(Number);return round(h+m/60)}
 function isDurationHH(t){const [h,m]=t.split(':').map(Number);return h>=0 && h<=6 && m>=0 && m<60}
-function activityDuty(code,times){
-  if(code==='DO'||code==='DR'||code==='VC')return 0;
+function activityDuty(code,times,line){
+  code=String(code||'').toUpperCase();
+  if(['DO','DR','VC','OFF'].includes(code))return 0;
+  if(!times||!times.length)return 0;
+  // Treinamentos: preferir a duração real quando vem no final; senão janela início-fim.
   if(code==='CBF'||code==='EMER')return 2;
-  if(code==='R320'||code==='MCK'||code==='C32F'||code==='CRMBSB'){
-    const last=times[times.length-1];
-    if(last && isDurationHH(last.time) && times.length>=3) return timeToHours(last.time);
-    return times.length>=2?round(Math.max(0,times[times.length-1].abs-times[0].abs)/60):4;
+  if(code==='R320'||code==='MCK'||code==='C32F'||code==='CRMBSB'||code==='AUT'){
+    if(times.length>=2){
+      const end=activityEndAbs(code,times)??times[times.length-1].abs;
+      return round(Math.max(0,end-times[0].abs)/60);
+    }
+    return 4;
   }
-  if(code.startsWith('HSB'))return times.length>=2?round(Math.max(0,times[times.length-1].abs-times[0].abs)/60):12;
-  if(code.startsWith('ASB'))return times.length>=2?round(Math.max(0,times[times.length-1].abs-times[0].abs)/60):6;
+  // HSB/ASB/HSBE: a última coluna costuma ser DH/remuneração, não fim do período.
+  // Usar a coluna ACY Deb/Arr (normalmente 4ª/5ª ocorrência de horário).
+  if(code.startsWith('HSB')||code.startsWith('ASB')){
+    const end=activityEndAbs(code,times);
+    if(Number.isFinite(end))return round(Math.max(0,end-times[0].abs)/60);
+    return code.startsWith('ASB')?6:12;
+  }
   return 0;
 }
 function absMinutes(baseDate,time,off){const [h,m]=time.split(':').map(Number);return off*1440+h*60+m;}
@@ -599,6 +655,15 @@ function perDiemPaymentMap(){const map={};calcPerDiems().forEach(w=>{const [dd,m
 function paymentRowsForMonth(month){return Object.entries(perDiemPaymentMap()).filter(([d])=>d.startsWith(month)).map(([d,w])=>`<div class="listday" onclick="selectDate('${d}')"><b>${fmt(d)}</b><span>Pagamento de diárias<br><small class="muted">${w.label}</small></span><span>${w.main} princ.</span><span>${w.breakfast} cafés</span><span><span class="pill orange">Diárias</span> <span class="pill">Táxi ${w.taxi}</span></span></div>`)}
 function eventGlobalStart(e){const day=parseIso(e.date||state.selected).getTime()/60000;return day+(Number.isFinite(e.absStart)?(e.absStart%1440):0)}
 function eventGlobalEnd(e){let s=eventGlobalStart(e);let dur=(e.flight||e.duty||0)*60;if(Number.isFinite(e.absStart)&&Number.isFinite(e.absEnd)){dur=e.absEnd-e.absStart;if(dur<0)dur+=1440}return s+Math.max(0,dur)}
+function reportGlobalForEvent(e){
+  if(Number.isFinite(e.reportAbs)){
+    const depG=eventGlobalStart(e); let rg=parseIso(e.date||state.selected).getTime()/60000+(e.reportAbs%1440);
+    while(rg>depG)rg-=1440;
+    while(depG-rg>720)rg+=1440;
+    return rg;
+  }
+  return eventGlobalStart(e)-50;
+}
 function minutesToLabel(total){total=((Math.round(total)%1440)+1440)%1440;return `${pad(Math.floor(total/60))}:${pad(total%60)}`}
 function addHoursLabel(date,min,h){return minutesToLabel((min%1440)+h*60)}
 function reportForBlock(firstEv){if(firstEv.reportTime)return firstEv.reportTime;const dep=eventGlobalStart(firstEv)%1440;return minutesToLabel(dep-50)}
@@ -611,8 +676,9 @@ function buildJourneys(month){
   const first=cur.events[0];const report=reportForBlock(first);const reportMin=(+report.slice(0,2))*60+(+report.slice(3,5));
   const stages=cur.events.filter(e=>e.type==='flight').length;const limit=cur.type==='flight'?rbacSimpleLimitHours(reportMin,stages):null;
   const intl=cur.events.some(e=>/^LA8/.test(e.code||''));const debrief=intl?0.75:0.5;
-  cur.report=report;cur.reportGlobal=parseIso(cur.date).getTime()/60000+reportMin;cur.international=intl;cur.debrief=debrief;
-  cur.limitCut=limit?addHoursLabel(cur.date,reportMin,limit-debrief):'—';cur.limitEnd=limit?addHoursLabel(cur.date,reportMin,limit):'—';
+  cur.report=report;cur.reportGlobal=Number.isFinite(first.reportAbs)?reportGlobalForEvent(first):(cur.start-50);cur.international=intl;cur.debrief=debrief;
+  const limitBaseMin=((cur.reportGlobal%(1440))+1440)%1440;
+  cur.limitCut=limit?addHoursLabel(cur.date,limitBaseMin,limit-debrief):'—';cur.limitEnd=limit?addHoursLabel(cur.date,limitBaseMin,limit):'—';
   cur.officialEnd=cur.end+(cur.type==='flight'?debrief*60:0);
   cur.duty=round(Math.max(0,cur.officialEnd-cur.reportGlobal)/60);
   if(!Number.isFinite(cur.duty)||cur.duty<=0)cur.duty=round(Math.max(0,cur.end-cur.start)/60 + (cur.type==='flight'?debrief:0));
@@ -623,7 +689,7 @@ function buildJourneys(month){
   if(type==='rest'||type==='vacation')continue;
   if(type!=='flight'){close();out.push({date:e.date,type,label:e.dayClass||e.code,report:e.times&&e.times[0]||'—',reportGlobal:eventGlobalStart(e),officialEnd:eventGlobalEnd(e),limitCut:'—',limitEnd:'—',duty:round(e.duty||0),flight:0,codes:[e.code],recovery:null});continue}
   if(!cur){cur={date:e.date,type:'flight',label:'Jornada de voo',start:s,end:en,events:[e]};continue}
-  const explicitNewDuty = Number.isFinite(e.reportAbs) && (e.reportAbs - (cur.end%1440) > 120 || s-cur.end>300);
+  const rg=reportGlobalForEvent(e); const explicitNewDuty = Number.isFinite(rg) && rg>cur.start && (rg-cur.end>120 || s-cur.end>300);
   if(s-cur.end>600 || explicitNewDuty){close();cur={date:e.date,type:'flight',label:'Jornada de voo',start:s,end:en,events:[e]}}else{cur.end=Math.max(cur.end,en);cur.events.push(e)}
  }
  close();

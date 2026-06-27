@@ -1,11 +1,14 @@
-# HealthOps v3.1 Parser Lab
+# HealthOps Gabriel v3.2 Parser Core
 
-Versão CLEAN baseada na última versão funcional completa, restaurando módulos que haviam desaparecido na reestruturação modular e corrigindo `journeyPills is not defined`.
+Atualização focada na Prioridade 1: parser operacional por jornadas.
 
-Foco desta versão:
-- restaurar Escala, Diárias, Saúde, Medicações, Relatório e Debug;
-- usar as escalas executadas jan-mai/2026 como suíte de validação;
-- preparar comparação futura: escala publicada × escala executada × demonstrativos.
+Inclui:
+- Parser IFN v5 estrutural para PDFs de escala publicada e executada;
+- leitura de linhas LATAM com colunas CC/CCM + OP/PS;
+- separação de jornadas por apresentação e não apenas por dia civil;
+- correção de HSB/HSBE/ASB para não usar coluna DH como duração;
+- DO/DR/VC/OFF sem jornada;
+- voos LA8 com pós-corte de 45 min;
+- base para validar publicada × executada usando demonstrativos da empresa como gabarito de classificação.
 
-Commit sugerido:
-`v3.1-parser-lab - Restaura módulos e inicia validação com escalas executadas`
+Observação: demonstrativos de pagamento são usados como referência de calibração, mas a entrada principal continua sendo escala publicada/executada IFN.
