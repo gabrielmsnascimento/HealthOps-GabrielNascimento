@@ -1,4 +1,4 @@
-# HealthOps Aeronautas v5.0 Core Stable
+# HealthOps Aeronautas v5.1 Core Stable
 
 Reestruturação da base para estabilidade: navegação independente, estado central, parser/normalizador isolado, módulos restaurados e PWA com cache novo.
 

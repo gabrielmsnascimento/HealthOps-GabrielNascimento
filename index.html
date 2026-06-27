@@ -7,7 +7,7 @@
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--green:#eaf7ee;--yellow:#fff4cd;--red:#faeaea;--bluebg:#eaf4fb;--gray:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:900;font-size:12px;z-index:30}header{max-width:1180px;margin:auto;padding:24px 18px 8px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--copper);text-transform:uppercase}h1{font-size:clamp(34px,5vw,60px);line-height:.95;margin:8px 0 8px}.wrap{max-width:1180px;margin:auto;padding:0 16px 96px}p,.muted{color:var(--muted)}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);z-index:20}.tab{flex:1;border:0;background:#e9e6df;color:#67635d;border-radius:16px;padding:14px 8px;font-weight:900;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{font-size:34px;font-weight:900;color:#153846}.btn{border:0;background:var(--brand);color:#fff;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:12px}details>summary{font-size:22px;font-weight:900;cursor:pointer;margin-bottom:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;margin:2px;background:#eef0ef}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.green{background:var(--green);color:var(--ok)}.pill.yellow{background:var(--yellow);color:var(--warn)}.pill.red{background:var(--red);color:var(--bad)}.pill.gray{background:var(--gray);color:#777}.listrow{display:grid;grid-template-columns:110px 1.4fr 90px 90px 1.5fr;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;font-size:12px;color:var(--muted)}.day{min-height:82px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.tag{display:inline-flex;margin-top:6px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:900}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.rest{background:var(--green);color:var(--ok)}.tag.none{background:var(--gray);color:#777}.alert{border-left:5px solid var(--warn);background:var(--yellow);padding:14px;border-radius:16px}.alert.bad{border-color:var(--bad);background:var(--red)}.hidden{display:none}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.hidden{display:none}.modalCard{background:#fff;width:min(620px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}.checkrow{display:flex;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px}.medcard{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.section{display:none}.section.active{display:block}pre{white-space:pre-wrap;background:#0f1d2a;color:#e9f3f5;border-radius:14px;padding:14px;overflow:auto}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.listrow{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:68px;padding:6px}.tabs{overflow-x:auto}.tab{min-width:120px}.wrap{padding-bottom:105px}}
 </style>
 </head><body>
-<div class="version" id="version">v5.0-core-stable</div>
+<div class="version" id="version">v5.1-import-fix</div>
 <header><div class="eyebrow">HealthOps Aeronautas</div><h1 id="pageTitle">Início operacional</h1><p id="pageSub">Base estável: parser → estado central → interface. Os módulos usam a mesma fonte de dados.</p></header>
 <main class="wrap">
 <section id="inicio" class="section active"></section>
@@ -22,7 +22,7 @@
 <div class="modal hidden" id="modal"><div class="modalCard"><div class="between"><h3 id="modalTitle">Detalhes</h3><button class="btn secondary small" onclick="HealthOps.ui.closeModal()">Fechar</button></div><div id="modalBody"></div></div></div>
 <script>
 'use strict';
-const VERSION='v5.0-core-stable';
+const VERSION='v5.1-import-fix';
 const HealthOps={
  state:{activeTab:'inicio',selectedMonth:null,imports:{},journeys:[],events:[],debug:[],meds:[],protocols:[],health:{water:0,caffeine:[],meals:[],sleep:[]}},
  refs:{},
@@ -40,41 +40,138 @@ const HealthOps={
   classifyHotel(h){if(h==null)return {cls:'gray',txt:'Recup. n/d'};if(h<10)return {cls:'red',txt:`Hotel ${h.toFixed(1)}h · Crítica (<10h)`};if(h<12)return {cls:'yellow',txt:`Hotel ${h.toFixed(1)}h · Atenção (10–12h)`};return {cls:'green',txt:`Hotel ${h.toFixed(1)}h · Adequada`};}
  },
  parser:{
-  async importFiles(files){const list=[...files];let total=0;for(const f of list){try{const text=await this.extractFile(f);const kind=this.detectKind(text);const rows=this.normalizeText(text);const parsed=this.parseRoster(text,rows,f.name,kind);HealthOps.state.imports[parsed.monthKey]={...(HealthOps.state.imports[parsed.monthKey]||{}),[kind]:parsed,updated:new Date().toISOString()};total+=parsed.journeys.length;HealthOps.debug('parser',`Arquivo processado: ${f.name}`,{kind,month:parsed.monthKey,journeys:parsed.journeys.length});}catch(e){HealthOps.debug('parser',`Erro ao processar ${f.name}`,String(e));}}
-   this.rebuild();HealthOps.storage.save();HealthOps.ui.render();return total;},
-  async extractFile(file){if(file.type.includes('text')||file.name.toLowerCase().endsWith('.txt'))return await file.text(); if(file.type.includes('pdf')||file.name.toLowerCase().endsWith('.pdf'))return await this.extractPdf(file); return await file.text();},
-  async extractPdf(file){await this.ensurePdfJs();const buf=await file.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:buf}).promise;let all=[];for(let p=1;p<=pdf.numPages;p++){const page=await pdf.getPage(p);const content=await page.getTextContent();const rows=[];for(const it of content.items){const x=it.transform[4], y=it.transform[5], s=(it.str||'').trim();if(!s)continue;let r=rows.find(r=>Math.abs(r.y-y)<3);if(!r){r={y,items:[]};rows.push(r);}r.items.push({x,s});}rows.sort((a,b)=>b.y-a.y);for(const r of rows){r.items.sort((a,b)=>a.x-b.x);all.push(r.items.map(i=>i.s).join(' '));}}return all.join('\n');},
-  ensurePdfJs(){return new Promise((resolve,reject)=>{if(window.pdfjsLib)return resolve();const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=()=>{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';resolve();};s.onerror=()=>reject(new Error('Não foi possível carregar PDF.js. Tente colar o texto ou usar TXT.'));document.head.appendChild(s);});},
-  detectKind(text){if(/Demonstrativo\s+Escala\s+Planejada/i.test(text))return 'comparativo'; if(/TIPO\s+DI[ÁA]RIA|VALOR\s+DI[ÁA]RIA/i.test(text))return 'diarias'; if(/Roster\s+Report/i.test(text))return 'escala'; return 'escala';},
-  normalizeText(text){return text.split(/\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(Boolean);},
-  parseRoster(text,rows,fileName,kind){let period=text.match(/(\d{2}-[A-Za-z]{3}-\d{4})\s*to\s*(\d{2}-[A-Za-z]{3}-\d{4})/i)||text.match(/(\d{2}-[A-Za-z]{3}-\d{4})to(\d{2}-[A-Za-z]{3}-\d{4})/i);let start=period?HealthOps.utils.parseDate(period[1]):new Date();let monthKey=HealthOps.utils.ym(start);const events=[];let currentDate=start,currentPair='',pairDate=start,currentReport=null;
-   const all=rows.join('\n');
-   // stream token parser using lines, keeping dates and pairings as anchors
-   for(const raw of rows){let line=raw;
-    const dateMatch=line.match(/(\d{2}-[A-Za-z]{3}-\d{4})/);if(dateMatch){currentDate=HealthOps.utils.parseDate(dateMatch[1]);}
-    const pairingMatch=line.match(/((?:LA\d{4}|ASB|HSBE?|DO|DR|VC|OFF|R\d{3,4}|CRM\w*|CBF|EMER)[\w\-\/]*\/?\d{0,6}\/?[A-Z0-9\-]*)/);
-    if(pairingMatch){currentPair=pairingMatch[1];pairDate=currentDate;}
-    // find flight/activity rows: activity + condition + ORG time DEST time + optional release
-    const re=/(LA\d{4}|ASB|HSBE?|HSB|DO|DR|VC|OFF|R\d{3,4}|CRM\w*|CBF|EMER)\s*(?:CCM?|CC)?\s*(OP|PS)?\s*([A-Z]{3})?\s*(\d{1,2}:\d{2}(?:\s*\(\+\d+\))?)?\s*([A-Z]{3})?\s*(\d{1,2}:\d{2}(?:\s*\(\+\d+\))?)?\s*(\d{1,2}:\d{2}(?:\s*\(\+\d+\))?)?/g;
-    let m; let found=false;while((m=re.exec(line))){found=true;const activity=m[1];const cond=m[2]||'';const origin=m[3]||'';const depTok=m[4]||'';const dest=m[5]||'';const arrTok=m[6]||'';const relTok=m[7]||'';let reportTok='';
-      const before=line.slice(0,m.index);const times=before.match(/\d{1,2}:\d{2}(?:\s*\(\+\d+\))?/g); if(times&&times.length) reportTok=times[times.length-1];
-      const report=reportTok?HealthOps.utils.parseTimeToken(reportTok,pairDate):null;
-      events.push({date:HealthOps.utils.ymd?HealthOps.utils.ymd(currentDate):currentDate.toISOString().slice(0,10),baseDate:pairDate.toISOString().slice(0,10),pairing:currentPair,activity,cond,origin,depTok,dest,arrTok,relTok,reportTok,report,dep:HealthOps.utils.parseTimeToken(depTok,pairDate),arr:HealthOps.utils.parseTimeToken(arrTok,pairDate),release:HealthOps.utils.parseTimeToken(relTok,pairDate),sourceLine:raw});}
-    if(!found && /\b(DO|DR|VC|OFF)\b/.test(line)){const a=line.match(/\b(DO|DR|VC|OFF)\b/)[1];events.push({date:currentDate.toISOString().slice(0,10),baseDate:currentDate.toISOString().slice(0,10),pairing:a,activity:a,cond:'',origin:'',dest:'',report:null,dep:null,arr:null,release:null,sourceLine:raw});}
+  async importFiles(files){
+   const list=[...files];let total=0;
+   for(const f of list){try{
+     HealthOps.debug('parser',`Iniciando leitura: ${f.name}`);
+     const text=await this.extractFile(f);
+     if(!text || text.length<30) throw new Error('Texto extraído vazio ou insuficiente.');
+     const kind=this.detectKind(text);
+     const rows=this.normalizeText(text);
+     const parsed=this.parseRoster(text,rows,f.name,kind);
+     HealthOps.state.imports[parsed.monthKey]={...(HealthOps.state.imports[parsed.monthKey]||{}),[kind]:parsed,updated:new Date().toISOString()};
+     total+=parsed.journeys.length;
+     HealthOps.debug('parser',`Arquivo processado: ${f.name}`,{kind,month:parsed.monthKey,rows:rows.length,events:parsed.events.length,journeys:parsed.journeys.length});
+   }catch(e){HealthOps.debug('parser',`Erro ao processar ${f.name}`,String(e && e.stack ? e.stack : e));}}
+   this.rebuild();HealthOps.storage.save();HealthOps.ui.render();return total;
+  },
+  async extractFile(file){
+   const name=(file.name||'').toLowerCase();
+   if(file.type.includes('text')||name.endsWith('.txt')) return await file.text();
+   if(file.type.includes('pdf')||name.endsWith('.pdf')) return await this.extractPdf(file);
+   return await file.text();
+  },
+  async extractPdf(file){
+   await this.ensurePdfJs();
+   const buf=await file.arrayBuffer();
+   const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+   let all=[];
+   for(let p=1;p<=pdf.numPages;p++){
+    const page=await pdf.getPage(p);const content=await page.getTextContent();const rows=[];
+    for(const it of content.items){const x=it.transform[4], y=it.transform[5], s=(it.str||'').trim();if(!s)continue;let r=rows.find(r=>Math.abs(r.y-y)<3.5);if(!r){r={y,items:[]};rows.push(r);}r.items.push({x,s});}
+    rows.sort((a,b)=>b.y-a.y);
+    for(const r of rows){r.items.sort((a,b)=>a.x-b.x);all.push(r.items.map(i=>i.s).join(' '));}
    }
-   // remove obvious duplicate malformed events with no times except rest
-   const clean=events.filter(e=>/^LA/.test(e.activity)||['ASB','HSB','HSBE','DO','DR','VC','OFF'].includes(e.activity)||/^R|CRM|CBF|EMER/.test(e.activity));
-   const journeys=this.buildJourneys(clean);
-   return {fileName,kind,monthKey,period:{start:start.toISOString().slice(0,10),end:period?HealthOps.utils.parseDate(period[2]).toISOString().slice(0,10):null},events:clean,journeys,raw:text.slice(0,6000)};},
-  buildJourneys(events){const js=[];let cur=null;for(const e of events){const isRest=['DO','DR','VC','OFF'].includes(e.activity);const isFlight=/^LA\d{4}/.test(e.activity);const isReserve=['ASB','HSB','HSBE'].includes(e.activity);const isTraining=/^R|CRM|CBF|EMER/.test(e.activity);
+   return all.join('\n');
+  },
+  ensurePdfJs(){return new Promise((resolve,reject)=>{if(window.pdfjsLib)return resolve();const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=()=>{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';resolve();};s.onerror=()=>reject(new Error('Não foi possível carregar PDF.js. Confira internet/cache ou envie TXT.'));document.head.appendChild(s);});},
+  detectKind(text){if(/Demonstrativo\s+Escala\s+Planejada/i.test(text))return 'comparativo'; if(/TIPO\s+DI[ÁA]RIA|VALOR\s+DI[ÁA]RIA/i.test(text))return 'diarias'; return 'escala';},
+  normalizeText(text){return text.split(/\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(Boolean).filter(s=>!/^Date\s+Pairing|^Roster Report$/i.test(s));},
+  tokenIsTime(t){return /^\d{1,2}:\d{2}(?:\(\+\d+\))?$/.test(String(t).replace(/\s+/g,''));},
+  tokenIsDate(t){return /^\d{2}-[A-Za-z]{3}-\d{4}$/.test(t)||/^\d{2}\/\d{2}\/\d{4}$/.test(t);},
+  tokenIsFlight(t){return /^LA\d{4}$/.test(t);},
+  isActivityToken(t){return /^LA\d{4}$/.test(t)||/^(ASB|HSB|HSBE|DO|DR|VC|OFF|R\d{3,4}|CRM\w*|CBF|EMER)$/i.test(t);},
+  isPairingToken(t){return /^(LA\d{4}|ASB|HSBE?|R\d{3,4}|CRM\w*|CBF|EMER)[\w\-\/]*\/\d{6}\//i.test(t)||/^(DO|DR|VC|OFF)$/i.test(t);},
+  parseRoster(text,rows,fileName,kind){
+   let period=text.match(/(\d{2}-[A-Za-z]{3}-\d{4})\s*to\s*(\d{2}-[A-Za-z]{3}-\d{4})/i)||text.match(/(\d{2}-[A-Za-z]{3}-\d{4})to(\d{2}-[A-Za-z]{3}-\d{4})/i);
+   let start=period?HealthOps.utils.parseDate(period[1]):new Date();
+   let monthKey=HealthOps.utils.ym(start);
+   const events=[];let currentDate=start,currentPair='',pairDate=start;
+   for(const raw of rows){
+    let line=raw.replace(/\s*\(\+(\d+)\)/g,'(+$1)').trim();
+    const tokens=line.split(/\s+/).filter(Boolean);
+    if(!tokens.length)continue;
+    let idx=0;
+    if(this.tokenIsDate(tokens[0])){currentDate=HealthOps.utils.parseDate(tokens[0]);idx=1;}
+    if(idx<tokens.length && /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Seg|Ter|Qua|Qui|Sex|Sab|Dom)$/i.test(tokens[idx]))idx++;
+    // Pairing column. If blank in PDF, token will be activity directly.
+    if(idx<tokens.length && this.isPairingToken(tokens[idx])){currentPair=tokens[idx];pairDate=currentDate;idx++;}
+    // Rest/férias/off rows
+    if(/^(DO|DR|VC|OFF)$/i.test(currentPair) && !tokens.slice(idx).some(t=>this.tokenIsFlight(t))){
+      events.push({date:currentDate.toISOString().slice(0,10),baseDate:currentDate.toISOString().slice(0,10),pairing:currentPair,activity:currentPair.toUpperCase(),cond:'',origin:'',dest:'',report:null,dep:null,arr:null,release:null,sourceLine:raw});
+      continue;
+    }
+    // Find first true activity token after optional report time. Avoid matching LAxxxx inside pairing tokens.
+    let actIdx=-1;for(let i=idx;i<tokens.length;i++){if(this.isActivityToken(tokens[i]) && !tokens[i].includes('/')){actIdx=i;break;}}
+    if(actIdx<0)continue;
+    let reportTok='';
+    for(let i=idx;i<actIdx;i++){if(this.tokenIsTime(tokens[i]))reportTok=tokens[i];}
+    const activity=tokens[actIdx].toUpperCase();
+    let j=actIdx+1;
+    // Skip rank-like tokens CC/CCM/CA etc before condition
+    while(j<tokens.length && /^(CC|CCM|CA|CM)$/i.test(tokens[j]))j++;
+    const cond=/^(OP|PS)$/i.test(tokens[j]||'')?tokens[j++].toUpperCase():'';
+    // Origin/departure/destination/arrival
+    let origin='',depTok='',dest='',arrTok='',releaseTok='';
+    if(/^[A-Z]{3}$/.test(tokens[j]||'')){origin=tokens[j++];}
+    if(this.tokenIsTime(tokens[j]||'')){depTok=tokens[j++];}
+    if(/^[A-Z]{3}$/.test(tokens[j]||'')){dest=tokens[j++];}
+    if(this.tokenIsTime(tokens[j]||'')){arrTok=tokens[j++];}
+    // Potential release: first time after arrival, only if plausible as debrief/release, not FH/DH duration.
+    const base=pairDate||currentDate;
+    const dep=this.tokenIsTime(depTok)?HealthOps.utils.parseTimeToken(depTok,base):null;
+    const arr=this.tokenIsTime(arrTok)?HealthOps.utils.parseTimeToken(arrTok,base):null;
+    const report=this.tokenIsTime(reportTok)?HealthOps.utils.parseTimeToken(reportTok,base):null;
+    let release=null;
+    for(let k=j;k<tokens.length;k++){
+      if(this.tokenIsTime(tokens[k])){
+        const cand=HealthOps.utils.parseTimeToken(tokens[k],base);
+        const mins=arr&&cand?(cand-arr)/60000:null;
+        if(mins!=null && mins>=15 && mins<=90){releaseTok=tokens[k];release=cand;}
+        break;
+      }
+    }
+    // Reserve/training rows may have BSB 12:07 BSB 15:07 15:07; release equals arrival/end.
+    if(!release && /^(ASB|HSB|HSBE|R\d{3,4}|CRM\w*|CBF|EMER)$/i.test(activity) && arr){release=arr;releaseTok=arrTok;}
+    events.push({date:currentDate.toISOString().slice(0,10),baseDate:base.toISOString().slice(0,10),pairing:currentPair||activity,activity,cond,origin,depTok,dest,arrTok,relTok:releaseTok,reportTok,report,dep,arr,release,sourceLine:raw});
+   }
+   const journeys=this.buildJourneys(events);
+   return {fileName,kind,monthKey,period:{start:start.toISOString().slice(0,10),end:period?HealthOps.utils.parseDate(period[2]).toISOString().slice(0,10):null},events,journeys,raw:text.slice(0,6000)};
+  },
+  buildJourneys(events){
+   const js=[];let cur=null;
+   for(const e of events){
+    const isRest=['DO','DR','VC','OFF'].includes(e.activity);
+    const isFlight=/^LA\d{4}/.test(e.activity);
+    const isReserve=['ASB','HSB','HSBE'].includes(e.activity);
+    const isTraining=/^R|CRM|CBF|EMER/.test(e.activity);
     if(isRest){if(cur){js.push(this.finishJourney(cur));cur=null;}continue;}
     const startsNew=!!e.report || !cur || isReserve || isTraining;
-    if(startsNew){if(cur)js.push(this.finishJourney(cur));cur={type:isFlight?'voo':isReserve?'reserva/sobreaviso':'treinamento',start:e.report||e.dep||new Date(e.baseDate+'T00:00:00'),events:[],flights:[],release:null};}
-    cur.events.push(e);if(isFlight)cur.flights.push(e);if(e.release)cur.release=e.release;else if(e.arr)cur.release=e.arr;
+    if(startsNew){if(cur)js.push(this.finishJourney(cur));cur={type:isFlight?'Jornada de voo':isReserve?'Reserva/Sobreaviso':'Treinamento',start:e.report||e.dep||new Date(e.baseDate+'T00:00:00'),events:[],flights:[],release:null};}
+    cur.events.push(e);if(isFlight)cur.flights.push(e);if(e.release)cur.release=e.release;else if(e.arr)cur.lastArr=e.arr;
     if(isReserve||isTraining){cur.release=e.release||e.arr||e.dep||cur.start;js.push(this.finishJourney(cur));cur=null;}
-   } if(cur)js.push(this.finishJourney(cur));return js.filter(j=>j.start&&j.end);},
-  finishJourney(j){const lastFlight=j.flights[j.flights.length-1];let end=j.release; if(!end && lastFlight) end=new Date(lastFlight.arr.getTime()+30*60000); if(lastFlight && /^LA8/.test(lastFlight.activity) && end && lastFlight.arr && (end-lastFlight.arr)<40*60000) end=new Date(lastFlight.arr.getTime()+45*60000); if(lastFlight && !/^LA8/.test(lastFlight.activity) && end && lastFlight.arr && (end-lastFlight.arr)<25*60000) end=new Date(lastFlight.arr.getTime()+30*60000); const fh=j.flights.reduce((s,f)=>s+(f.dep&&f.arr?Math.max(0,(f.arr-f.dep)/3600000):0),0);return {...j,end,flightHours:fh,dutyHours:(end-j.start)/3600000,labels:j.flights.map(f=>f.activity),date:j.start.toISOString().slice(0,10)};},
-  rebuild(){const imports=Object.values(HealthOps.state.imports);let journeys=[];let events=[];for(const imp of imports){const p=imp.escala||imp.executada||imp.publicada; if(p){journeys=journeys.concat(p.journeys||[]);events=events.concat(p.events||[]);}} journeys.sort((a,b)=>new Date(a.start)-new Date(b.start));for(let i=0;i<journeys.length;i++){const next=journeys[i+1];journeys[i].restNext=next?HealthOps.utils.diffHours(new Date(journeys[i].end),new Date(next.start)):null;journeys[i].hotelEst=journeys[i].restNext==null?null:Math.max(0,journeys[i].restNext-2.5);}HealthOps.state.journeys=journeys;HealthOps.state.events=events;}
+   }
+   if(cur)js.push(this.finishJourney(cur));
+   return js.filter(j=>j.start&&j.end&&isFinite(j.dutyHours)&&j.dutyHours>=0&&j.dutyHours<30);
+  },
+  finishJourney(j){
+   const lastFlight=j.flights[j.flights.length-1];
+   let end=j.release;
+   const lastArr=lastFlight?.arr || j.lastArr;
+   if(!end && lastArr) end=new Date(lastArr.getTime()+30*60000);
+   if(lastFlight && /^LA8/.test(lastFlight.activity) && end && lastArr && (end-lastArr)<40*60000) end=new Date(lastArr.getTime()+45*60000);
+   if(lastFlight && !/^LA8/.test(lastFlight.activity) && end && lastArr && (end-lastArr)<25*60000) end=new Date(lastArr.getTime()+30*60000);
+   if(!end)end=j.start;
+   const fh=j.flights.reduce((s,f)=>s+(f.dep&&f.arr?Math.max(0,(f.arr-f.dep)/3600000):0),0);
+   return {...j,end,flightHours:fh,dutyHours:(end-j.start)/3600000,labels:j.flights.map(f=>f.activity),date:j.start.toISOString().slice(0,10)};
+  },
+  rebuild(){
+   const imports=Object.values(HealthOps.state.imports);let journeys=[];let events=[];
+   for(const imp of imports){const p=imp.escala||imp.executada||imp.publicada; if(p){journeys=journeys.concat(p.journeys||[]);events=events.concat(p.events||[]);}}
+   journeys.sort((a,b)=>new Date(a.start)-new Date(b.start));
+   for(let i=0;i<journeys.length;i++){const next=journeys[i+1];journeys[i].restNext=next?HealthOps.utils.diffHours(new Date(journeys[i].end),new Date(next.start)):null;journeys[i].hotelEst=journeys[i].restNext==null?null:Math.max(0,journeys[i].restNext-2.5);}
+   HealthOps.state.journeys=journeys;HealthOps.state.events=events;
+  }
  },
  ui:{tabs:[['inicio','Início'],['escala','Escala'],['saude','Saúde'],['medicacoes','Medicações'],['relatorio','Relatório'],['validacao','Validação'],['debug','Debug']],renderTabs(){HealthOps.refs.tabs.innerHTML=this.tabs.map(([id,label])=>`<button class="tab ${HealthOps.state.activeTab===id?'active':''}" data-tab="${id}">${label}</button>`).join('');HealthOps.refs.tabs.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{HealthOps.state.activeTab=b.dataset.tab;HealthOps.storage.save();this.render();});},render(){document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===HealthOps.state.activeTab));this.renderTabs();const title={inicio:'Início operacional',escala:'Escala operacional',saude:'Saúde operacional',medicacoes:'Medicações e suplementações',relatorio:'Relatório',validacao:'Validação do parser',debug:'Debug'}[HealthOps.state.activeTab];document.getElementById('pageTitle').textContent=title;this[HealthOps.state.activeTab]();},openModal(t,b){document.getElementById('modalTitle').textContent=t;document.getElementById('modalBody').innerHTML=b;HealthOps.refs.modal.classList.remove('hidden');},closeModal(){HealthOps.refs.modal.classList.add('hidden');},
   inicio(){const el=document.getElementById('inicio');const js=HealthOps.state.journeys;const now=new Date();const next=js.find(j=>new Date(j.end)>now)||js[0];el.innerHTML=`<div class="grid"><div class="card"><b>Jornadas</b><div class="metric">${js.length}</div><span class="muted">processadas</span></div><div class="card"><b>Tempo de voo</b><div class="metric">${js.reduce((s,j)=>s+j.flightHours,0).toFixed(1)}h</div></div><div class="card"><b>Jornada</b><div class="metric">${js.reduce((s,j)=>s+j.dutyHours,0).toFixed(1)}h</div></div><div class="card"><b>Próxima</b><div class="metric">${next?HealthOps.utils.dmy(new Date(next.start)):'—'}</div></div></div><div class="card"><h2>Leitura operacional</h2><p>O HealthOps v5 usa estado central: a escala importada alimenta calendário, regulamentação, descanso, treino, diárias e saúde sem cada tela reinterpretar o PDF.</p>${next?`<div class="alert"><b>Próxima jornada:</b> ${next.labels.join(', ')||next.type} · início ${new Date(next.start).toLocaleString()} · fim ${new Date(next.end).toLocaleString()}</div>`:''}</div>`;},
