@@ -32,6 +32,7 @@
 <section id="view-saude" class="view hidden"></section>
 <section id="view-medicacoes" class="view hidden"></section>
 <section id="view-relatorio" class="view hidden"></section>
+<section id="view-validation" class="view hidden"></section>
 <section id="view-debug" class="view hidden"></section>
 </div>
 <nav class="tabs">
@@ -40,12 +41,13 @@
 <button class="tab" data-view="saude">Saúde</button>
 <button class="tab" data-view="medicacoes">Medicações</button>
 <button class="tab" data-view="relatorio">Relatório</button>
+<button class="tab" data-view="validation">Validação</button>
 <button class="tab" data-view="debug">Debug</button>
 </nav>
 <div id="infoModal" class="modal hidden" onclick="hideInfo(event)"><div class="modalCard" onclick="event.stopPropagation()"><div class="between"><h3 id="infoTitle">Detalhes</h3><button class="btn secondary small" onclick="hideInfo()">Fechar</button></div><div id="infoBody" class="modalBody"></div></div></div>
 <script>
-const VERSION='v2.2-operational-health';
-const LS='healthops_v2_alpha6_clean';
+const VERSION='v3.3-parser-validation';
+const LS='healthops_v3_3_validation_suite';
 const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
 const PTW=['dom.','seg.','ter.','qua.','qui.','sex.','sáb.'];
 const state=load()||{selected:iso(new Date()), calendarMonth:null, rosters:{}, activeRosterKey:null, meds:[], medTaken:{}, health:{}, caffeine:[], importMode:'planned', compare:{}};
@@ -276,7 +278,7 @@ function classifyTraining(day){if(!day) return {key:'sem',label:'Sem dados',colo
 function classifyDayTag(day){if(!day)return {label:'Sem dados',cls:'none'}; if(day.classification==='Folga regulamentar')return{label:'Folga',cls:'rest'}; if(day.classification==='Férias/VC')return{label:'Férias',cls:'rest'}; if(day.classification==='Voo'&&day.fatigue>=75)return{label:'Madrugada',cls:'fatigue'}; if(day.classification==='Voo')return{label:'Voo',cls:'flight'}; if(day.classification==='Treinamento')return{label:'Treino',cls:'train'}; if(day.classification==='Reserva/Sobreaviso')return{label:'Reserva',cls:'reserve'}; return{label:day.classification||'Atividade',cls:'none'}}
 function activeSummary(){const days=Object.values(allDays());return{count:days.length,jornada:sum(days.map(d=>d.duty)),flight:sum(days.map(d=>d.flight)),folgas:days.filter(d=>d.classification==='Folga regulamentar').length,reserva:days.filter(d=>d.classification==='Reserva/Sobreaviso'||d.classification==='Treinamento').length}}function sum(a){return Math.round(a.reduce((x,y)=>x+(+y||0),0)*10)/10}function round(n){return Math.round((+n||0)*10)/10}
 function render(){
-  const blocks=[['inicio',renderInicio],['escala',renderEscala],['diarias',renderDiarias],['saude',renderSaude],['medicacoes',renderMeds],['relatorio',renderRelatorio],['debug',renderDebug]];
+  const blocks=[['inicio',renderInicio],['escala',renderEscala],['diarias',renderDiarias],['saude',renderSaude],['medicacoes',renderMeds],['relatorio',renderRelatorio],['validation',renderValidation],['debug',renderDebug]];
   blocks.forEach(([id,fn])=>{try{fn()}catch(e){console.error('Erro ao renderizar',id,e);const el=document.getElementById('view-'+id);if(el)el.innerHTML=`<div class="card"><h2>Erro nesta aba</h2><p>Não foi possível carregar este módulo. Abra a aba Debug ou atualize a página.</p><pre class="debug">${String(e&&e.stack||e)}</pre></div>`;}});
   initNav(); initInfoDelegation(); save();
 }
@@ -327,6 +329,7 @@ window.selectDate=function(d){state.selected=d;state.calendarMonth=monthKey(d);r
 function renderEscala(){const s=activeSummary();const month=state.calendarMonth||monthKey(state.selected);const days=Object.entries(daysForMonth(month)).sort();const journeys=buildJourneys(month);document.getElementById('view-escala').innerHTML=`
 <div class="grid"><div class="card"><b>Dias processados</b><div class="metric">${Object.keys(allDays()).length}</div></div><div class="card"><b>Jornada total</b><div class="metric">${s.jornada}h</div></div><div class="card"><b>Tempo de voo</b><div class="metric">${s.flight}h</div></div><div class="card"><b>Folgas/Férias</b><div class="metric">${Object.values(allDays()).filter(d=>d.classification==='Folga regulamentar'||d.classification==='Férias/VC').length}</div></div></div>
 ${renderCalendarCard()}
+${renderParserValidationSummary()}
 <details class="card" open><summary>1. Jornada do mês</summary><p class="muted">Somente programações. Folgas e férias não aparecem nesta tabela. Tripulação simples e aclimatada por padrão. Repouso oficial = fim da jornada → próxima apresentação; recuperação estimada = janela provável de hotel/sono.</p>${journeys.map(j=>`<div class="listday" onclick="selectDate('${j.date}')"><b>${fmt(j.date)}</b><span>${j.label}<br><small class="muted">Apres. ${j.report||'—'} · Limite corte ${j.limitCut||'—'} · Fim ${j.limitEnd||'—'}${j.international?' · internacional/45min':''}</small><br>${regulatoryRestBadge(j)} ${recoveryBadge(j)}</span><span>${j.duty}h</span><span>${j.flight}h</span><span>${journeyPills(j)}</span></div>`).join('')||'<p>Nenhuma programação processada neste mês.</p>'}</details>
 <details class="card"><summary>2. Pagamentos de diárias</summary><p class="muted">Agrupamento quarta–terça, pagamento quinta. Quantidades, sem valores.</p>${paymentRowsForMonth(month).join('')||'<p>Sem diárias calculadas neste mês.</p>'}</details>
 <details class="card"><summary>3. Linha do tempo do mês</summary>${days.filter(([date,d])=>!['Folga regulamentar','Férias/VC'].includes(d.classification)).map(([date,d])=>`<div class="listday" onclick="selectDate('${date}')"><b>${fmt(date)}</b><span>${d.classification}</span><span>${d.duty}h</span><span>${d.flight}h</span><span>${d.events.map(e=>eventPill(e)).join('')}</span></div>`).join('')||'<p>Nenhuma programação processada.</p>'}</details>
@@ -874,6 +877,105 @@ function eventPillWithJourney(e,j){const cls=e.type==='flight'?'blue':e.type==='
 function hotelRecoveryInfo(j){const r=j.recovery;if(!r)return 'Sem estimativa disponível.';return `<p><b>Janela provável de hotel:</b> ${r.hotelMin}–${r.hotelMax}h (${r.label}).</p><p><b>Chegada estimada ao hotel:</b> ${r.arrivalMin}–${r.arrivalMax}.</p><p><b>Saída estimada do hotel:</b> ${r.leaveMin}–${r.leaveMax}.</p><p>Premissa: ${r.assumption}. O objetivo é indicar risco operacional de recuperação, não substituir os horários reais de transporte/hotel.</p><p>Confirme os horários ao chegar ao hotel e na API/escala operacional para validação.</p>`}
 function perDiemInfo(w){let items=Object.entries(w.byDay||{}).map(([d,it])=>`${d.slice(8,10)}/${d.slice(5,7)}: ${it.join(', ')}`).join('<br>');return `<p><b>Período:</b> ${w.label}</p><p><b>Pagamento previsto:</b> ${w.pay}</p><p><b>Resumo:</b> ${w.main} refeição(ões) principais, ${w.breakfast} café(s), ${w.taxi} táxi(s).</p><p>${items||'Sem itens detalhados.'}</p>`}
 
+
+
+/* =====================
+   HealthOps v3.3 - Parser Validation Suite
+   Objetivo: tornar o Parser Core a fonte única de verdade antes de refinarmos regulamentação, diárias e saúde.
+   ===================== */
+function minutesToHoursLabel(h){if(!Number.isFinite(h))return '—';const m=Math.round(h*60);return `${Math.floor(m/60)}:${pad(Math.abs(m%60))}`}
+function parseHeaderTotals(raw){const t=String(raw||'');const m=t.match(/FLYING\s+HRS\s+(\d{1,3}:\d{2})\s*\|\s*DUTY\s+HRS\s+(\d{1,3}:\d{2})/i);if(!m)return null;return{flight:m[1],duty:m[2],flightH:hhmmToHours(m[1]),dutyH:hhmmToHours(m[2])}}
+function hhmmToHours(s){const [h,m]=String(s).split(':').map(Number);return round((h||0)+(m||0)/60,2)}
+function round2(n){return Math.round((+n||0)*100)/100}
+function officialCaseForMonth(month){return {
+ '2026-01':{flight:'68:26',duty:'128:35',source:'Executada Jan/2026'},
+ '2026-02':{flight:'65:39',duty:'115:53',source:'Executada Fev/2026'},
+ '2026-03':{flight:'22:02',duty:'51:16',source:'Executada Mar/2026'},
+ '2026-04':{flight:'76:15',duty:'139:04',source:'Executada Abr/2026'},
+ '2026-05':{flight:'43:12',duty:'84:14',source:'Executada Mai/2026'}
+}[month]||null}
+
+function buildJourneys(month){
+ const evs=Object.values(daysForMonth(month)).flatMap(d=>(d.events||[]).map(e=>({...e,date:e.date||d.date,dayClass:d.classification}))).sort((a,b)=>eventGlobalStart(a)-eventGlobalStart(b));
+ const out=[];let cur=null;
+ function close(){
+  if(!cur)return;
+  const first=cur.events[0];
+  const report=reportForBlock(first);const reportMin=(+report.slice(0,2))*60+(+report.slice(3,5));
+  const stages=cur.events.filter(e=>e.type==='flight').length;const limit=cur.type==='flight'?rbacSimpleLimitHours(reportMin,stages):null;
+  const intl=cur.events.some(e=>/^LA8/.test(e.code||''));const debrief=intl?0.75:0.5;
+  cur.report=report;cur.reportGlobal=Number.isFinite(first.reportAbs)?reportGlobalForEvent(first):(cur.start-50);cur.international=intl;cur.debrief=debrief;
+  const limitBaseMin=((cur.reportGlobal%(1440))+1440)%1440;
+  cur.limitCut=limit?addHoursLabel(cur.date,limitBaseMin,limit-debrief):'—';cur.limitEnd=limit?addHoursLabel(cur.date,limitBaseMin,limit):'—';
+  cur.officialEnd=cur.end+(cur.type==='flight'?debrief*60:0);
+  cur.duty=round(Math.max(0,cur.officialEnd-cur.reportGlobal)/60);
+  cur.flight=round(sum(cur.events.map(e=>e.flight||0)));
+  cur.codes=[...new Set(cur.events.map(e=>e.code))];
+  cur.stageCount=stages;
+  out.push(cur);cur=null;
+ }
+ for(const e of evs){
+  const s=eventGlobalStart(e), en=eventGlobalEnd(e);const type=e.type==='flight'?'flight':e.type==='training'?'training':(e.type==='rest'?'rest':(e.type==='vacation'?'vacation':'standby'));
+  if(type==='rest'||type==='vacation')continue;
+  if(type!=='flight'){
+    close();
+    // HSB/ASB/treinamentos entram como programação própria, mas não como voo.
+    out.push({date:e.date,type,label:e.dayClass||e.code,report:e.times&&e.times[0]||'—',reportGlobal:eventGlobalStart(e),officialEnd:eventGlobalEnd(e),limitCut:'—',limitEnd:'—',duty:round(e.duty||0),flight:0,codes:[e.code],events:[e],recovery:null,stageCount:0});
+    continue;
+  }
+  const rg=reportGlobalForEvent(e);
+  if(!cur){cur={date:e.date,type:'flight',label:'Jornada de voo',start:s,end:en,events:[e]};continue;}
+  const gap=s-cur.end;
+  const reportGap=Number.isFinite(rg)&&Number.isFinite(cur.reportGlobal)?rg-cur.reportGlobal:null;
+  const explicitNewReport=Number.isFinite(rg)&&rg>cur.start&&gap>90; // novo Report com intervalo operacional relevante
+  const longGroundGap=gap>300; // 5h entre corte/pouso e próxima decolagem tende a indicar nova jornada
+  const impossibleSpan=(Math.max(cur.end,en)-Math.min(cur.start,s))>18*60;
+  if(longGroundGap||explicitNewReport||impossibleSpan){close();cur={date:e.date,type:'flight',label:'Jornada de voo',start:s,end:en,events:[e]};}
+  else{cur.end=Math.max(cur.end,en);cur.events.push(e)}
+ }
+ close();
+ const filtered=out.filter(j=>j.date&&j.date.startsWith(month)).sort((a,b)=>(a.reportGlobal||0)-(b.reportGlobal||0));
+ addRecoveryEstimates(filtered);
+ return filtered;
+}
+
+function renderParserValidationSummary(){const v=runParserValidation();const cls=v.score>=90?'green':v.score>=75?'orange':'red';return `<div class="card"><div class="between"><div><h2>Validação do Parser Core</h2><p class="muted">Confere consistência interna de jornada, repouso, totais e diárias antes dos motores de saúde/regulamentação.</p></div><span class="pill ${cls}">${v.score}% confiança</span></div><div class="grid"><div><div class="metric">${v.errors.length}</div><span class="muted">erros críticos</span></div><div><div class="metric">${v.warns.length}</div><span class="muted">pontos de revisão</span></div><div><div class="metric">${v.journeys.length}</div><span class="muted">jornadas</span></div><div><div class="metric">${v.differenceLabel}</div><span class="muted">diferença vs cabeçalho</span></div></div><button class="btn secondary small" onclick="switchView('validation')">Abrir validação detalhada</button></div>`}
+function renderValidation(){const v=runParserValidation();const month=state.calendarMonth||monthKey(state.selected);document.getElementById('view-validation').innerHTML=`<div class="card"><h2>Parser Validation Suite</h2><p class="muted">Use esta aba após importar escala publicada ou executada. Ela mostra onde a leitura ainda está inconsistente: início/fim de jornada, descanso, hotel, diárias e totais.</p><div class="grid"><div><div class="metric">${v.score}%</div><span class="muted">confiança do mês</span></div><div><div class="metric">${v.journeys.length}</div><span class="muted">jornadas</span></div><div><div class="metric">${v.errors.length}</div><span class="muted">erros críticos</span></div><div><div class="metric">${v.warns.length}</div><span class="muted">revisões</span></div></div></div>
+${renderValidationTotals(v)}
+<div class="card"><h2>Erros críticos</h2>${v.errors.map(x=>`<div class="alert bad"><b>${x.title}</b><br>${x.text}</div>`).join('')||'<p>Nenhum erro crítico detectado.</p>'}</div>
+<div class="card"><h2>Pontos de revisão</h2>${v.warns.map(x=>`<div class="alert"><b>${x.title}</b><br>${x.text}</div>`).join('')||'<p>Nenhum ponto de revisão detectado.</p>'}</div>
+<div class="card"><h2>Jornadas reconstruídas</h2>${v.journeys.map(j=>`<div class="listday"><b>${fmt(j.date)}</b><span>${j.label}<br><small class="muted">Apres. ${j.report||'—'} · Oficial fim ${minutesToLabel(j.officialEnd||0)} · ${j.stageCount||0} etapa(s)</small><br>${regulatoryRestBadge(j)} ${recoveryBadge(j)}</span><span>${j.duty}h</span><span>${j.flight}h</span><span>${journeyPills(j)}</span></div>`).join('')||'<p>Nenhuma jornada reconstruída.</p>'}</div>
+<div class="card"><h2>Diárias calculadas pelo HealthOps</h2><p class="muted">Ainda em validação. Quando você enviar os PDFs completos de diárias, esta tabela será comparada item a item contra o cálculo da empresa.</p>${paymentRowsForMonth(month).join('')||'<p>Sem diárias calculadas.</p>'}</div>`}
+function renderValidationTotals(v){return `<div class="card"><h2>Totais do mês</h2><table class="miniTable"><thead><tr><th>Origem</th><th>Voo</th><th>Jornada</th><th>Status</th></tr></thead><tbody><tr><td>HealthOps/jornadas</td><td>${minutesToHoursLabel(v.healthops.flight)}</td><td>${minutesToHoursLabel(v.healthops.duty)}</td><td>calculado</td></tr><tr><td>Cabeçalho do PDF</td><td>${v.header? v.header.flight:'—'}</td><td>${v.header? v.header.duty:'—'}</td><td>${v.header?'lido':'não encontrado'}</td></tr><tr><td>Gabarito executada conhecido</td><td>${v.official? v.official.flight:'—'}</td><td>${v.official? v.official.duty:'—'}</td><td>${v.official? v.official.source:'não aplicável'}</td></tr></tbody></table></div>`}
+function runParserValidation(){const month=state.calendarMonth||monthKey(state.selected);const journeys=buildJourneys(month);const r=currentRoster();const header=parseHeaderTotals(r.raw||'');const official=officialCaseForMonth(month);const errors=[],warns=[];let flight=sum(journeys.map(j=>j.flight||0)), duty=sum(journeys.map(j=>j.duty||0));
+ journeys.forEach(j=>{if(j.type==='flight'&&j.duty>16)errors.push({title:`Jornada possivelmente agrupada errado em ${fmt(j.date)}`,text:`Jornada de ${j.duty}h com ${j.codes.join(', ')}. Provável mistura de duas jornadas ou report/debrief lido incorretamente.`});if(j.type==='flight'&&j.flight<=0.05)errors.push({title:`Tempo de voo zerado em ${fmt(j.date)}`,text:`${j.codes.join(', ')} foi classificado como voo, mas tempo de voo está 0h.`});if(j.recovery&&j.recovery.regulatoryRest<0)errors.push({title:`Repouso negativo antes de ${fmt(j.date)}`,text:`O fim da jornada anterior ficou depois da apresentação atual. Isso indica erro de agrupamento ou virada de dia.`});if(j.recovery&&j.recovery.hotelMin<=0)warns.push({title:`Hotel estimado zerado/negativo em ${fmt(j.date)}`,text:`A janela provável de hotel ficou ${j.recovery.hotelMin}–${j.recovery.hotelMax}h. Revisar fim da jornada anterior, decolagem seguinte e virada de dia.`});if(j.type==='standby'&&j.duty>12.5)warns.push({title:`Sobreaviso/reserva acima do esperado em ${fmt(j.date)}`,text:`${j.codes.join(', ')} com ${j.duty}h. Pode ter lido coluna de DH/remuneração como duração.`});});
+ Object.values(daysForMonth(month)).forEach(d=>{if(['Folga regulamentar','Férias/VC'].includes(d.classification)&&((d.duty||0)>0||(d.flight||0)>0))errors.push({title:`Folga/férias com jornada em ${fmt(d.date)}`,text:`${d.classification} não deve contar jornada/voo. Valor atual: ${d.duty}h jornada e ${d.flight}h voo.`});});
+ if(header){const fd=Math.abs(flight-header.flightH), dd=Math.abs(duty-header.dutyH);if(fd>1)warns.push({title:'Diferença no total de voo do cabeçalho',text:`HealthOps ${minutesToHoursLabel(flight)} vs PDF ${header.flight}. Diferença ${round(fd,2)}h.`});if(dd>3)warns.push({title:'Diferença no total de jornada do cabeçalho',text:`HealthOps ${minutesToHoursLabel(duty)} vs PDF ${header.duty}. Diferença ${round(dd,2)}h. Revisar treinamentos, reservas, sobreavisos e jornadas herdadas de mês anterior.`});}
+ const score=Math.max(0,Math.min(100,100-errors.length*18-warns.length*6));const differenceLabel=header?`${round(Math.abs(flight-header.flightH),1)}h / ${round(Math.abs(duty-header.dutyH),1)}h`:'—';return{month,journeys,errors,warns,header,official,healthops:{flight,duty},score,differenceLabel}}
+
+function calcPerDiems(){
+ const res={}; const journeys=Object.keys(state.rosters||{}).flatMap(k=>{const m=k.match(/^\d{4}-\d{2}/)?.[0];return m?buildJourneys(m):[]});
+ journeys.forEach(j=>{if(!j.date||j.type==='rest'||j.type==='vacation')return;const items=[];let main=0,breakfast=0,taxi=0,training=0;const start=j.reportGlobal??j.start;const end=j.officialEnd??j.end;if(!Number.isFinite(start)||!Number.isFinite(end))return;
+   const spanWindows=(from,to)=>overlapsWindow(start,end,from,to);
+   if(j.type==='training'){training++; if(spanWindows(11,13)){main++;items.push('Almoço*')}}
+   else if(j.type==='standby'){ if(spanWindows(11,13)){main++;items.push('Almoço')} if(spanWindows(19,20)){main++;items.push('Jantar')} if(spanWindows(0,1)){main++;items.push('Ceia')} }
+   else if(j.type==='flight'){
+     // Café é conservador: somente quando a jornada/retorno operacional cruza 05-08 e não parece pernoite em hotel.
+     if(spanWindows(5,8)&&journeyTouchesBase(j)) {breakfast++;items.push('Café')}
+     if(spanWindows(11,13)){main++;items.push('Almoço')}
+     if(spanWindows(19,20)){main++;items.push('Jantar')}
+     if(spanWindows(0,1)){main++;items.push('Ceia')}
+     if(baseTaxiJourney(j)){taxi++;items.push('Táxi')}
+   }
+   if(items.length)addWeek(j.date,{main,breakfast,taxi,training,items});
+ });
+ return Object.values(res).sort((a,b)=>a.start.localeCompare(b.start));
+ function addWeek(date,o){const k=latamWeek(date);if(!res[k.key])res[k.key]={...k,main:0,breakfast:0,taxi:0,training:0,byDay:{}};res[k.key].main+=o.main;res[k.key].breakfast+=o.breakfast;res[k.key].taxi+=o.taxi;res[k.key].training+=o.training;res[k.key].byDay[date]=[...(res[k.key].byDay[date]||[]),...o.items];}
+}
+function overlapsWindow(start,end,h1,h2){for(let t=Math.floor(start/1440)-1;t<=Math.floor(end/1440)+1;t++){const a=t*1440+h1*60,b=t*1440+h2*60;if(end>a&&start<b)return true;}return false;}
+function journeyTouchesBase(j){return (j.events||[]).some(e=>e.from==='BSB'||e.to==='BSB')}
+function baseTaxiJourney(j){const first=(j.events||[])[0], last=(j.events||[]).slice(-1)[0];const dep=first?eventGlobalStart(first):null, arr=last?eventGlobalEnd(last):null;return (first&&first.from==='BSB'&&dep%1440<6*60)||(last&&last.to==='BSB'&&arr%1440<6*60)}
+
 function renderDebug(){const r=currentRoster();document.getElementById('view-debug').innerHTML=`${renderNormativePanel()}<div class="card"><h2>Debug do parser</h2><p class="muted">Use para validar escalas antigas e futuras.</p><div class="debug">${escapeHtml((r.debug||[]).join('\n')||'Nenhum debug disponível.')}</div></div>`}
 function escapeHtml(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
 render();
@@ -893,7 +995,7 @@ window.resetPwaCache = async function(){
   }catch(e){ alert('Não foi possível limpar automaticamente: '+e.message); }
 };
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js?v=2.0-alpha.14-clean').catch(()=>{}));
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js?v=3.3-parser-validation').catch(()=>{}));
 }
 </script>
 </body>

@@ -1,14 +1,16 @@
-# HealthOps Gabriel v3.2 Parser Core
+# HealthOps v3.3 Parser Validation Suite
 
-Atualização focada na Prioridade 1: parser operacional por jornadas.
+Versão focada em validação do Parser Core.
 
-Inclui:
-- Parser IFN v5 estrutural para PDFs de escala publicada e executada;
-- leitura de linhas LATAM com colunas CC/CCM + OP/PS;
-- separação de jornadas por apresentação e não apenas por dia civil;
-- correção de HSB/HSBE/ASB para não usar coluna DH como duração;
-- DO/DR/VC/OFF sem jornada;
-- voos LA8 com pós-corte de 45 min;
-- base para validar publicada × executada usando demonstrativos da empresa como gabarito de classificação.
+## O que mudou
+- Aba Validação.
+- Testes de consistência de jornada, repouso oficial e hotel estimado.
+- Comparação de totais HealthOps x cabeçalho do PDF.
+- Gabaritos de referência para escalas executadas jan–mai/2026.
+- Cálculo de diárias passa a consumir jornadas reconstruídas, não apenas dias.
 
-Observação: demonstrativos de pagamento são usados como referência de calibração, mas a entrada principal continua sendo escala publicada/executada IFN.
+Commit sugerido:
+
+```text
+v3.3-parser-validation - Suite de validação do Parser Core
+```
