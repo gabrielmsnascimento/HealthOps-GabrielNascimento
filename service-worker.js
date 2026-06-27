@@ -1,4 +1,4 @@
-const CACHE_NAME='healthops-v5-1-import-fix';
+const CACHE_NAME='healthops-v5-2-parser-layout';
 const ASSETS=['./','./index.html','./manifest.json','./README.md','./service-worker.js'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)).catch(()=>null));self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))));self.clients.claim();});

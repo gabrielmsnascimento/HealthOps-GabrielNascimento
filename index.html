@@ -2,12 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HealthOps Aeronautas v5.0 Core Stable</title>
+<title>HealthOps Aeronautas v5.2 Parser Layout</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--green:#eaf7ee;--yellow:#fff4cd;--red:#faeaea;--bluebg:#eaf4fb;--gray:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:900;font-size:12px;z-index:30}header{max-width:1180px;margin:auto;padding:24px 18px 8px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--copper);text-transform:uppercase}h1{font-size:clamp(34px,5vw,60px);line-height:.95;margin:8px 0 8px}.wrap{max-width:1180px;margin:auto;padding:0 16px 96px}p,.muted{color:var(--muted)}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);z-index:20}.tab{flex:1;border:0;background:#e9e6df;color:#67635d;border-radius:16px;padding:14px 8px;font-weight:900;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{font-size:34px;font-weight:900;color:#153846}.btn{border:0;background:var(--brand);color:#fff;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:12px}details>summary{font-size:22px;font-weight:900;cursor:pointer;margin-bottom:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;margin:2px;background:#eef0ef}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.green{background:var(--green);color:var(--ok)}.pill.yellow{background:var(--yellow);color:var(--warn)}.pill.red{background:var(--red);color:var(--bad)}.pill.gray{background:var(--gray);color:#777}.listrow{display:grid;grid-template-columns:110px 1.4fr 90px 90px 1.5fr;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;font-size:12px;color:var(--muted)}.day{min-height:82px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.tag{display:inline-flex;margin-top:6px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:900}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.rest{background:var(--green);color:var(--ok)}.tag.none{background:var(--gray);color:#777}.alert{border-left:5px solid var(--warn);background:var(--yellow);padding:14px;border-radius:16px}.alert.bad{border-color:var(--bad);background:var(--red)}.hidden{display:none}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.hidden{display:none}.modalCard{background:#fff;width:min(620px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}.checkrow{display:flex;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px}.medcard{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.section{display:none}.section.active{display:block}pre{white-space:pre-wrap;background:#0f1d2a;color:#e9f3f5;border-radius:14px;padding:14px;overflow:auto}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.listrow{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:68px;padding:6px}.tabs{overflow-x:auto}.tab{min-width:120px}.wrap{padding-bottom:105px}}
 </style>
 </head><body>
-<div class="version" id="version">v5.1-import-fix</div>
+<div class="version" id="version">v5.2-parser-layout</div>
 <header><div class="eyebrow">HealthOps Aeronautas</div><h1 id="pageTitle">Início operacional</h1><p id="pageSub">Base estável: parser → estado central → interface. Os módulos usam a mesma fonte de dados.</p></header>
 <main class="wrap">
 <section id="inicio" class="section active"></section>
@@ -22,7 +22,7 @@
 <div class="modal hidden" id="modal"><div class="modalCard"><div class="between"><h3 id="modalTitle">Detalhes</h3><button class="btn secondary small" onclick="HealthOps.ui.closeModal()">Fechar</button></div><div id="modalBody"></div></div></div>
 <script>
 'use strict';
-const VERSION='v5.1-import-fix';
+const VERSION='v5.2-parser-layout';
 const HealthOps={
  state:{activeTab:'inicio',selectedMonth:null,imports:{},journeys:[],events:[],debug:[],meds:[],protocols:[],health:{water:0,caffeine:[],meals:[],sleep:[]}},
  refs:{},
@@ -65,75 +65,121 @@ const HealthOps={
    await this.ensurePdfJs();
    const buf=await file.arrayBuffer();
    const pdf=await pdfjsLib.getDocument({data:buf}).promise;
-   let all=[];
+   let out=[];
    for(let p=1;p<=pdf.numPages;p++){
-    const page=await pdf.getPage(p);const content=await page.getTextContent();const rows=[];
-    for(const it of content.items){const x=it.transform[4], y=it.transform[5], s=(it.str||'').trim();if(!s)continue;let r=rows.find(r=>Math.abs(r.y-y)<3.5);if(!r){r={y,items:[]};rows.push(r);}r.items.push({x,s});}
+    const page=await pdf.getPage(p);
+    const content=await page.getTextContent();
+    const rows=[];
+    for(const it of content.items){
+     const x=it.transform[4], y=it.transform[5], str=(it.str||'').trim();
+     if(!str)continue;
+     let r=rows.find(r=>Math.abs(r.y-y)<3.6);
+     if(!r){r={y,items:[]};rows.push(r);}
+     r.items.push({x,str});
+    }
     rows.sort((a,b)=>b.y-a.y);
-    for(const r of rows){r.items.sort((a,b)=>a.x-b.x);all.push(r.items.map(i=>i.s).join(' '));}
+    for(const r of rows){
+     r.items.sort((a,b)=>a.x-b.x);
+     const plain=r.items.map(i=>i.str).join(' ');
+     const cols=['','','','','','','','','',''];
+     for(const it of r.items){
+      const x=it.x; let c=9;
+      if(x<105)c=0;              // data
+      else if(x<165)c=1;         // dia semana
+      else if(x<270)c=2;         // pairing / atividade especial
+      else if(x<350)c=3;         // apresentação
+      else if(x<455)c=4;         // nr voo / atividade
+      else if(x<520)c=5;         // coluna ignorada / rank
+      else if(x<570)c=6;         // condição OP/PS
+      else if(x<660)c=7;         // origem + decolagem
+      else if(x<750)c=8;         // destino + pouso/corte
+      else if(x<835)c=9;         // fim de jornada / debrief
+      cols[c]+=(cols[c]?' ':'')+it.str;
+     }
+     out.push('__ROW__'+cols.join('\t')+'\t__PLAIN__ '+plain);
+    }
    }
-   return all.join('\n');
+   return out.join('\n');
   },
-  ensurePdfJs(){return new Promise((resolve,reject)=>{if(window.pdfjsLib)return resolve();const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=()=>{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';resolve();};s.onerror=()=>reject(new Error('Não foi possível carregar PDF.js. Confira internet/cache ou envie TXT.'));document.head.appendChild(s);});},
   detectKind(text){if(/Demonstrativo\s+Escala\s+Planejada/i.test(text))return 'comparativo'; if(/TIPO\s+DI[ÁA]RIA|VALOR\s+DI[ÁA]RIA/i.test(text))return 'diarias'; return 'escala';},
-  normalizeText(text){return text.split(/\n+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(Boolean).filter(s=>!/^Date\s+Pairing|^Roster Report$/i.test(s));},
-  tokenIsTime(t){return /^\d{1,2}:\d{2}(?:\(\+\d+\))?$/.test(String(t).replace(/\s+/g,''));},
+  normalizeText(text){return text.split(/\n+/).map(s=>s.trim()).filter(Boolean);},
+  tokenIsTime(t){return /^\d{1,2}:\d{2}(?:\(\+\d+\))?$/.test(String(t||'').replace(/\s+/g,''));},
   tokenIsDate(t){return /^\d{2}-[A-Za-z]{3}-\d{4}$/.test(t)||/^\d{2}\/\d{2}\/\d{4}$/.test(t);},
   tokenIsFlight(t){return /^LA\d{4}$/.test(t);},
-  isActivityToken(t){return /^LA\d{4}$/.test(t)||/^(ASB|HSB|HSBE|DO|DR|VC|OFF|R\d{3,4}|CRM\w*|CBF|EMER)$/i.test(t);},
-  isPairingToken(t){return /^(LA\d{4}|ASB|HSBE?|R\d{3,4}|CRM\w*|CBF|EMER)[\w\-\/]*\/\d{6}\//i.test(t)||/^(DO|DR|VC|OFF)$/i.test(t);},
+  isActivityToken(t){return /^LA\d{4}$/.test(t)||/^(ASB|HSB|HSBE|DO|DR|VC|OFF|R\d{3,4}|CRM\w*|CBF|EMER)$/i.test(t||'');},
+  isPairingToken(t){return /^(LA\d{4}|ASB|HSBE?|R\d{3,4}|CRM\w*|CBF|EMER)[\w\-\/]*\/\d{6}\//i.test(t||'')||/^(DO|DR|VC|OFF)$/i.test(t||'');},
+  parsePairDate(pair, fallback){
+   const m=String(pair||'').match(/\/(\d{2})(\d{2})(\d{2})\//);
+   if(m)return new Date(2000+Number(m[3]), Number(m[2])-1, Number(m[1]));
+   return fallback;
+  },
+  parseAirportTime(s){
+   const m=String(s||'').match(/\b([A-Z]{3})\s+(\d{1,2}:\d{2}(?:\(\+\d+\))?)/);
+   return m?{ap:m[1],time:m[2]}:{ap:'',time:''};
+  },
+  plainFromRow(raw){return raw.includes('__PLAIN__')?raw.split('__PLAIN__')[1].trim():raw;},
   parseRoster(text,rows,fileName,kind){
    let period=text.match(/(\d{2}-[A-Za-z]{3}-\d{4})\s*to\s*(\d{2}-[A-Za-z]{3}-\d{4})/i)||text.match(/(\d{2}-[A-Za-z]{3}-\d{4})to(\d{2}-[A-Za-z]{3}-\d{4})/i);
    let start=period?HealthOps.utils.parseDate(period[1]):new Date();
    let monthKey=HealthOps.utils.ym(start);
-   const events=[];let currentDate=start,currentPair='',pairDate=start;
-   for(const raw of rows){
-    let line=raw.replace(/\s*\(\+(\d+)\)/g,'(+$1)').trim();
-    const tokens=line.split(/\s+/).filter(Boolean);
-    if(!tokens.length)continue;
-    let idx=0;
-    if(this.tokenIsDate(tokens[0])){currentDate=HealthOps.utils.parseDate(tokens[0]);idx=1;}
-    if(idx<tokens.length && /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Seg|Ter|Qua|Qui|Sex|Sab|Dom)$/i.test(tokens[idx]))idx++;
-    // Pairing column. If blank in PDF, token will be activity directly.
-    if(idx<tokens.length && this.isPairingToken(tokens[idx])){currentPair=tokens[idx];pairDate=currentDate;idx++;}
-    // Rest/férias/off rows
-    if(/^(DO|DR|VC|OFF)$/i.test(currentPair) && !tokens.slice(idx).some(t=>this.tokenIsFlight(t))){
-      events.push({date:currentDate.toISOString().slice(0,10),baseDate:currentDate.toISOString().slice(0,10),pairing:currentPair,activity:currentPair.toUpperCase(),cond:'',origin:'',dest:'',report:null,dep:null,arr:null,release:null,sourceLine:raw});
-      continue;
+   let events=[], currentDate=start, currentPair='', pairDate=start, pendingOD=null;
+   const structured=rows.some(r=>r.startsWith('__ROW__'));
+   if(structured){
+    for(const raw of rows){
+     if(!raw.startsWith('__ROW__'))continue;
+     let body=raw.slice(7), parts=body.split('\t');
+     const cols=parts.slice(0,10).map(x=>String(x||'').replace(/\s+/g,' ').trim());
+     const plain=this.plainFromRow(raw).replace(/\s*\(\+(\d+)\)/g,'(+$1)').trim();
+     if(!plain || /^Roster Report|^Date\b/i.test(plain))continue;
+     if(this.tokenIsDate(cols[0])) currentDate=HealthOps.utils.parseDate(cols[0]);
+     // pairing pode estar quebrado entre linhas; use a parte que tem /DDMMYY/
+     if(cols[2]){
+      const pairMatch=cols[2].match(/(LA\d{4}|ASB|HSBE?|R\d{3,4}|CRM\w*|CBF|EMER)[\w\-\/]*\/\d{6}\//i) || cols[2].match(/\b(DO|DR|VC|OFF)\b/i);
+      if(pairMatch){ currentPair=pairMatch[0].toUpperCase(); pairDate=this.parsePairDate(currentPair,currentDate)||currentDate; }
+     }
+     // linhas de origem/destino sem atividade costumam estar visualmente acima da linha do voo
+     const preOD={o:this.parseAirportTime(cols[7]), d:this.parseAirportTime(cols[8])};
+     if(!cols[4] && (preOD.o.ap||preOD.d.ap)){ pendingOD=preOD; continue; }
+     const activity=(cols[4] || (['DO','DR','VC','OFF'].includes((cols[2]||'').toUpperCase())?cols[2]:'')).toUpperCase();
+     if(!activity || !this.isActivityToken(activity))continue;
+     if(['DO','DR','VC','OFF'].includes(activity)){
+      events.push({date:currentDate.toISOString().slice(0,10),baseDate:currentDate.toISOString().slice(0,10),pairing:activity,activity,cond:'',origin:'',dest:'',report:null,dep:null,arr:null,release:null,sourceLine:plain});
+      pendingOD=null; continue;
+     }
+     const base=pairDate||currentDate;
+     const reportTok=(cols[3].match(/\d{1,2}:\d{2}(?:\(\+\d+\))?/)||[''])[0];
+     const od=pendingOD||{o:this.parseAirportTime(cols[7]),d:this.parseAirportTime(cols[8])};
+     const origin=od.o.ap, depTok=od.o.time, dest=od.d.ap, arrTok=od.d.time;
+     const relTok=(cols[9].match(/\d{1,2}:\d{2}(?:\(\+\d+\))?/)||[''])[0];
+     const cond=/^(OP|PS)$/i.test(cols[6])?cols[6].toUpperCase():'';
+     const report=this.tokenIsTime(reportTok)?HealthOps.utils.parseTimeToken(reportTok,base):null;
+     const dep=this.tokenIsTime(depTok)?HealthOps.utils.parseTimeToken(depTok,base):null;
+     const arr=this.tokenIsTime(arrTok)?HealthOps.utils.parseTimeToken(arrTok,base):null;
+     let release=this.tokenIsTime(relTok)?HealthOps.utils.parseTimeToken(relTok,base):null;
+     if(!release && /^(ASB|HSB|HSBE|R\d{3,4}|CRM\w*|CBF|EMER)$/i.test(activity) && arr)release=arr;
+     events.push({date:currentDate.toISOString().slice(0,10),baseDate:base.toISOString().slice(0,10),pairing:currentPair||activity,activity,cond,origin,depTok,dest,arrTok,relTok,reportTok,report,dep,arr,release,sourceLine:plain});
+     pendingOD=null;
     }
-    // Find first true activity token after optional report time. Avoid matching LAxxxx inside pairing tokens.
-    let actIdx=-1;for(let i=idx;i<tokens.length;i++){if(this.isActivityToken(tokens[i]) && !tokens[i].includes('/')){actIdx=i;break;}}
-    if(actIdx<0)continue;
-    let reportTok='';
-    for(let i=idx;i<actIdx;i++){if(this.tokenIsTime(tokens[i]))reportTok=tokens[i];}
-    const activity=tokens[actIdx].toUpperCase();
-    let j=actIdx+1;
-    // Skip rank-like tokens CC/CCM/CA etc before condition
-    while(j<tokens.length && /^(CC|CCM|CA|CM)$/i.test(tokens[j]))j++;
-    const cond=/^(OP|PS)$/i.test(tokens[j]||'')?tokens[j++].toUpperCase():'';
-    // Origin/departure/destination/arrival
-    let origin='',depTok='',dest='',arrTok='',releaseTok='';
-    if(/^[A-Z]{3}$/.test(tokens[j]||'')){origin=tokens[j++];}
-    if(this.tokenIsTime(tokens[j]||'')){depTok=tokens[j++];}
-    if(/^[A-Z]{3}$/.test(tokens[j]||'')){dest=tokens[j++];}
-    if(this.tokenIsTime(tokens[j]||'')){arrTok=tokens[j++];}
-    // Potential release: first time after arrival, only if plausible as debrief/release, not FH/DH duration.
-    const base=pairDate||currentDate;
-    const dep=this.tokenIsTime(depTok)?HealthOps.utils.parseTimeToken(depTok,base):null;
-    const arr=this.tokenIsTime(arrTok)?HealthOps.utils.parseTimeToken(arrTok,base):null;
-    const report=this.tokenIsTime(reportTok)?HealthOps.utils.parseTimeToken(reportTok,base):null;
-    let release=null;
-    for(let k=j;k<tokens.length;k++){
-      if(this.tokenIsTime(tokens[k])){
-        const cand=HealthOps.utils.parseTimeToken(tokens[k],base);
-        const mins=arr&&cand?(cand-arr)/60000:null;
-        if(mins!=null && mins>=15 && mins<=90){releaseTok=tokens[k];release=cand;}
-        break;
-      }
+   } else {
+    // Fallback para texto colado: mantém comportamento anterior, mas com menos inferência.
+    for(const raw of rows){
+     let line=raw.replace(/\s*\(\+(\d+)\)/g,'(+$1)').trim();
+     const tokens=line.split(/\s+/).filter(Boolean); if(!tokens.length)continue;
+     let idx=0; if(this.tokenIsDate(tokens[0])){currentDate=HealthOps.utils.parseDate(tokens[0]);idx=1;}
+     const pairPos=tokens.findIndex(t=>this.isPairingToken(t)); if(pairPos>=0){currentPair=tokens[pairPos].toUpperCase();pairDate=this.parsePairDate(currentPair,currentDate)||currentDate;}
+     const actIdx=tokens.findIndex(t=>this.isActivityToken(t)&&!String(t).includes('/')); if(actIdx<0)continue;
+     const activity=tokens[actIdx].toUpperCase();
+     if(['DO','DR','VC','OFF'].includes(activity)){events.push({date:currentDate.toISOString().slice(0,10),baseDate:currentDate.toISOString().slice(0,10),pairing:activity,activity,cond:'',origin:'',dest:'',report:null,dep:null,arr:null,release:null,sourceLine:line});continue;}
+     const reportTok=[...tokens.slice(0,actIdx)].reverse().find(t=>this.tokenIsTime(t))||'';
+     const condIdx=tokens.findIndex((t,i)=>i>actIdx&&/^(OP|PS)$/i.test(t));
+     const cond=condIdx>0?tokens[condIdx].toUpperCase():'';
+     const tail=tokens.slice(condIdx>0?condIdx+1:actIdx+1).join(' ');
+     const ads=[...tail.matchAll(/\b([A-Z]{3})\s+(\d{1,2}:\d{2}(?:\(\+\d+\))?)/g)].map(m=>({ap:m[1],time:m[2]}));
+     const origin=ads[0]?.ap||'', depTok=ads[0]?.time||'', dest=ads[1]?.ap||'', arrTok=ads[1]?.time||'';
+     const times=[...tail.matchAll(/\d{1,2}:\d{2}(?:\(\+\d+\))?/g)].map(m=>m[0]);
+     const relTok=times.length>2?times[2]:''; const base=pairDate||currentDate;
+     events.push({date:currentDate.toISOString().slice(0,10),baseDate:base.toISOString().slice(0,10),pairing:currentPair||activity,activity,cond,origin,depTok,dest,arrTok,relTok,reportTok,report:this.tokenIsTime(reportTok)?HealthOps.utils.parseTimeToken(reportTok,base):null,dep:this.tokenIsTime(depTok)?HealthOps.utils.parseTimeToken(depTok,base):null,arr:this.tokenIsTime(arrTok)?HealthOps.utils.parseTimeToken(arrTok,base):null,release:this.tokenIsTime(relTok)?HealthOps.utils.parseTimeToken(relTok,base):null,sourceLine:line});
     }
-    // Reserve/training rows may have BSB 12:07 BSB 15:07 15:07; release equals arrival/end.
-    if(!release && /^(ASB|HSB|HSBE|R\d{3,4}|CRM\w*|CBF|EMER)$/i.test(activity) && arr){release=arr;releaseTok=arrTok;}
-    events.push({date:currentDate.toISOString().slice(0,10),baseDate:base.toISOString().slice(0,10),pairing:currentPair||activity,activity,cond,origin,depTok,dest,arrTok,relTok:releaseTok,reportTok,report,dep,arr,release,sourceLine:raw});
    }
    const journeys=this.buildJourneys(events);
    return {fileName,kind,monthKey,period:{start:start.toISOString().slice(0,10),end:period?HealthOps.utils.parseDate(period[2]).toISOString().slice(0,10):null},events,journeys,raw:text.slice(0,6000)};

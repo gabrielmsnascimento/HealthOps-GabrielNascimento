@@ -1,11 +1,3 @@
-# HealthOps Aeronautas v5.1 Core Stable
+# HealthOps v5.2 Parser Layout
 
-Reestruturação da base para estabilidade: navegação independente, estado central, parser/normalizador isolado, módulos restaurados e PWA com cache novo.
-
-Arquivos para GitHub Pages:
-- index.html
-- manifest.json
-- service-worker.js
-- README.md
-
-Após upload, limpe cache/reinstale o PWA.
+Correção do parser para usar colunas visuais do PDF IFN/LATAM, offsets (+1/+2/+3) e múltiplos PDFs.
