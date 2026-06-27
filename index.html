@@ -2,12 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HealthOps Aeronautas v5.3 Import Parser Fix</title>
+<title>HealthOps Aeronautas v5.4 Parser Layout Core</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--green:#eaf7ee;--yellow:#fff4cd;--red:#faeaea;--bluebg:#eaf4fb;--gray:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:900;font-size:12px;z-index:30}header{max-width:1180px;margin:auto;padding:24px 18px 8px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--copper);text-transform:uppercase}h1{font-size:clamp(34px,5vw,60px);line-height:.95;margin:8px 0 8px}.wrap{max-width:1180px;margin:auto;padding:0 16px 96px}p,.muted{color:var(--muted)}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);z-index:20}.tab{flex:1;border:0;background:#e9e6df;color:#67635d;border-radius:16px;padding:14px 8px;font-weight:900;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{font-size:34px;font-weight:900;color:#153846}.btn{border:0;background:var(--brand);color:#fff;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:12px}details>summary{font-size:22px;font-weight:900;cursor:pointer;margin-bottom:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;margin:2px;background:#eef0ef}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.green{background:var(--green);color:var(--ok)}.pill.yellow{background:var(--yellow);color:var(--warn)}.pill.red{background:var(--red);color:var(--bad)}.pill.gray{background:var(--gray);color:#777}.listrow{display:grid;grid-template-columns:110px 1.4fr 90px 90px 1.5fr;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;font-size:12px;color:var(--muted)}.day{min-height:82px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.tag{display:inline-flex;margin-top:6px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:900}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.rest{background:var(--green);color:var(--ok)}.tag.none{background:var(--gray);color:#777}.alert{border-left:5px solid var(--warn);background:var(--yellow);padding:14px;border-radius:16px}.alert.bad{border-color:var(--bad);background:var(--red)}.hidden{display:none}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.hidden{display:none}.modalCard{background:#fff;width:min(620px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}.checkrow{display:flex;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px}.medcard{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.section{display:none}.section.active{display:block}pre{white-space:pre-wrap;background:#0f1d2a;color:#e9f3f5;border-radius:14px;padding:14px;overflow:auto}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.listrow{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:68px;padding:6px}.tabs{overflow-x:auto}.tab{min-width:120px}.wrap{padding-bottom:105px}}
 </style>
 </head><body>
-<div class="version" id="version">v5.3-import-parser-fix</div>
+<div class="version" id="version">v5.4-parser-layout-core</div>
 <header><div class="eyebrow">HealthOps Aeronautas</div><h1 id="pageTitle">Início operacional</h1><p id="pageSub">Base estável: parser → estado central → interface. Os módulos usam a mesma fonte de dados.</p></header>
 <main class="wrap">
 <section id="inicio" class="section active"></section>
@@ -22,7 +22,7 @@
 <div class="modal hidden" id="modal"><div class="modalCard"><div class="between"><h3 id="modalTitle">Detalhes</h3><button class="btn secondary small" onclick="HealthOps.ui.closeModal()">Fechar</button></div><div id="modalBody"></div></div></div>
 <script>
 'use strict';
-const VERSION='v5.3-import-parser-fix';
+const VERSION='v5.4-parser-layout-core';
 const HealthOps={
  state:{activeTab:'inicio',selectedMonth:null,imports:{},journeys:[],events:[],debug:[],meds:[],protocols:[],health:{water:0,caffeine:[],meals:[],sleep:[]}},
  refs:{},
@@ -69,37 +69,58 @@ const HealthOps={
    for(let p=1;p<=pdf.numPages;p++){
     const page=await pdf.getPage(p);
     const content=await page.getTextContent();
-    const rows=[];
-    for(const it of content.items){
-     const x=it.transform[4], y=it.transform[5], str=(it.str||'').trim();
-     if(!str)continue;
-     let r=rows.find(r=>Math.abs(r.y-y)<3.6);
-     if(!r){r={y,items:[]};rows.push(r);}
-     r.items.push({x,str});
-    }
-    rows.sort((a,b)=>b.y-a.y);
-    for(const r of rows){
-     r.items.sort((a,b)=>a.x-b.x);
-     const plain=r.items.map(i=>i.str).join(' ');
-     const cols=['','','','','','','','','',''];
-     for(const it of r.items){
-      const x=it.x; let c=9;
-      if(x<105)c=0;              // data
-      else if(x<165)c=1;         // dia semana
-      else if(x<270)c=2;         // pairing / atividade especial
-      else if(x<350)c=3;         // apresentação
-      else if(x<455)c=4;         // nr voo / atividade
-      else if(x<520)c=5;         // coluna ignorada / rank
-      else if(x<570)c=6;         // condição OP/PS
-      else if(x<660)c=7;         // origem + decolagem
-      else if(x<750)c=8;         // destino + pouso/corte
-      else if(x<835)c=9;         // fim de jornada / debrief
-      cols[c]+=(cols[c]?' ':'')+it.str;
-     }
-     out.push('__ROW__'+cols.join('\t')+'\t__PLAIN__ '+plain);
-    }
+    const items=content.items.map(it=>({x:it.transform[4],y:it.transform[5],str:(it.str||'').trim()})).filter(it=>it.str);
+    if(!items.length)continue;
+    // IFN/LATAM costuma vir como página rotacionada: o eixo X representa a linha visual e o eixo Y representa as colunas.
+    // Para não perder a tabela, extraímos nos dois modos e escolhemos o que gera mais linhas operacionais reconhecíveis.
+    const horizontal=this.extractRowsByAxis(items,'horizontal');
+    const vertical=this.extractRowsByAxis(items,'vertical');
+    const score=(rows)=>rows.reduce((n,r)=>n+(/\d{2}-[A-Za-z]{3}-\d{4}/.test(r)||/LA\d{4}/.test(r)||/(HSB|HSBE|ASB|DO|DR|VC|OFF)/.test(r)?1:0),0);
+    const chosen=score(vertical)>=score(horizontal)?vertical:horizontal;
+    out=out.concat(chosen);
    }
-   return out.join('\n');
+   return out.join('
+');
+  },
+  extractRowsByAxis(items,mode){
+   const vertical=mode==='vertical';
+   const groups=[]; const tol=vertical?12:3.6;
+   for(const it of items){
+    const key=vertical?it.x:it.y;
+    let g=groups.find(r=>Math.abs(r.key-key)<tol);
+    if(!g){g={key,items:[]};groups.push(g);} g.items.push(it);
+   }
+   groups.sort((a,b)=>vertical?a.key-b.key:b.key-a.key);
+   const rows=[];
+   for(const g of groups){
+    g.items.sort((a,b)=>vertical?b.y-a.y:a.x-b.x);
+    const plain=g.items.map(i=>i.str).join(' ').replace(/\s+/g,' ').trim();
+    const cols=['','','','','','','','','',''];
+    for(const it of g.items){
+     let c=-1;
+     if(vertical){
+      const y=it.y;
+      if(y>1185)c=0;          // data
+      else if(y>1110)c=1;     // dia da semana
+      else if(y>1010)c=2;     // pairing/tipo
+      else if(y>940)c=3;      // apresentação
+      else if(y>850)c=4;      // voo/atividade
+      else if(y>790)c=5;      // ignorar
+      else if(y>720)c=6;      // OP/PS
+      else if(y>630)c=7;      // origem + decolagem
+      else if(y>535)c=8;      // destino + pouso/corte
+      else if(y>465)c=9;      // fim jornada/debrief
+      else c=-1;              // FH/DH/SDC/AC/Hotel ignorados
+     }else{
+      const x=it.x;
+      if(x<105)c=0; else if(x<165)c=1; else if(x<270)c=2; else if(x<350)c=3; else if(x<455)c=4; else if(x<520)c=5; else if(x<570)c=6; else if(x<660)c=7; else if(x<750)c=8; else if(x<835)c=9; else c=-1;
+     }
+     if(c>=0)cols[c]+=(cols[c]?' ':'')+it.str;
+    }
+    // remove cabeçalhos de coluna, mas mantém Roster Report para identificação do período no texto geral
+    rows.push('__ROW__'+cols.join('	')+'	__PLAIN__ '+plain);
+   }
+   return rows;
   },
   ensurePdfJs(){return new Promise((resolve,reject)=>{if(window.pdfjsLib){try{pdfjsLib.GlobalWorkerOptions.workerSrc=pdfjsLib.GlobalWorkerOptions.workerSrc||'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}catch(e){} return resolve();}const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=()=>{try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}catch(e){} resolve();};s.onerror=()=>reject(new Error('Não foi possível carregar PDF.js. Confira internet/cache ou envie TXT.'));document.head.appendChild(s);});},
   detectKind(text){if(/Demonstrativo\s+Escala\s+Planejada/i.test(text))return 'comparativo'; if(/TIPO\s+DI[ÁA]RIA|VALOR\s+DI[ÁA]RIA/i.test(text))return 'diarias'; return 'escala';},

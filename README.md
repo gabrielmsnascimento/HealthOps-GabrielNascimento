@@ -1,3 +1,3 @@
-# HealthOps v5.3 Import Parser Fix
+# HealthOps v5.4 Parser Layout Core
 
-Corrige carregamento do PDF.js e tratamento de horários 00:00 nas colunas finais, além de mesclar origem/destino quando o PDF divide a linha visual.
+Normalizador de layout do PDF IFN/LATAM com leitura por eixo vertical/horizontal, seleção automática e regra global (+1)/(+2)/(+3).
