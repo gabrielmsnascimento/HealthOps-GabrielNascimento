@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HealthOps Aeronautas v1.0-beta.7</title>
+<title>HealthOps Aeronautas v2.0-alpha.2</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--purple:#7353a4;--greenbg:#eaf7ee;--yellowbg:#fff4cd;--redbg:#faeaea;--bluebg:#eaf4fb;--purplebg:#f1ecf8;--graybg:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{padding:26px 20px 14px;max-width:1180px;margin:auto}.eyebrow{font-weight:800;letter-spacing:.14em;color:var(--copper);font-size:12px;text-transform:uppercase}h1{font-size:clamp(30px,5vw,56px);line-height:.95;margin:8px 0 10px}p{color:var(--muted)}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;z-index:10}.wrap{max-width:1180px;margin:auto;padding:0 16px 92px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;z-index:9;border-top:1px solid var(--line)}.tab{flex:1;border:0;border-radius:16px;padding:14px 8px;background:#e9e6df;color:#6d6a63;font-weight:800;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.metric{font-size:34px;font-weight:900;color:#153846}.muted{color:var(--muted);font-size:14px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{display:flex;align-items:center;justify-content:space-between;gap:12px}.btn{border:0;background:var(--brand);color:#fff;padding:12px 16px;border-radius:14px;font-weight:800;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:8px 12px;min-height:36px;font-size:13px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;color:var(--muted);font-size:12px}.day{min-height:86px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;cursor:pointer;position:relative}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.day.today{box-shadow:0 0 0 2px var(--copper) inset}.daynum{font-weight:900}.tag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-top:6px}.tag.rest{background:var(--greenbg);color:var(--ok)}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.train{background:var(--purplebg);color:var(--purple)}.tag.reserve{background:var(--yellowbg);color:var(--warn)}.tag.fatigue{background:var(--redbg);color:var(--bad)}.tag.none{background:var(--graybg);color:#777}.timeline{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:12px}.timebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;cursor:pointer}.timebox.active{background:var(--brand);color:#fff}.timebox.active p{color:#dce8eb}.pill{display:inline-block;background:#eef0ef;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900;margin:2px}.pill.green{background:var(--greenbg);color:var(--ok)}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.purple{background:var(--purplebg);color:var(--purple)}.pill.orange{background:var(--yellowbg);color:var(--warn)}.pill.red{background:var(--redbg);color:var(--bad)}.listday{display:grid;grid-template-columns:120px 1fr 80px 80px 1.6fr;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:12px 0}.alert{border-left:5px solid var(--warn);background:var(--yellowbg);padding:14px;border-radius:16px;margin:10px 0}.alert.bad{border-color:var(--bad);background:var(--redbg)}.hidden{display:none}.mealLine{padding:9px 0;border-bottom:1px dashed var(--line)}.checkrow{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px;accent-color:var(--brand);flex:0 0 auto}.debug{white-space:pre-wrap;background:#111b22;color:#d9f1e4;border-radius:16px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;max-height:320px;overflow:auto}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:1fr}.listday{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:70px;padding:6px}.tag{font-size:10px;padding:3px 6px}h1{font-size:38px}}
 </style>
 </head>
 <body>
-<div class="version">v1.0-beta.7</div>
+<div class="version">v2.0-alpha.2</div>
 <header>
 <div class="eyebrow">HealthOps Aeronautas</div>
-<h1>Linha do tempo operacional</h1>
-<p>Calendário, histórico de escalas, motores e check-in por data selecionada.</p>
+<h1>Início operacional</h1>
+<p>Resumo integrado de escala, saúde operacional, medicações, fadiga e prontidão por data selecionada.</p>
 </header>
 <div class="wrap">
-<section id="view-hoje" class="view"></section>
+<section id="view-inicio" class="view"></section>
 <section id="view-escala" class="view hidden"></section>
 <section id="view-diarias" class="view hidden"></section>
 <section id="view-saude" class="view hidden"></section>
@@ -24,7 +24,7 @@
 <section id="view-debug" class="view hidden"></section>
 </div>
 <nav class="tabs">
-<button class="tab active" data-view="hoje">Hoje</button>
+<button class="tab active" data-view="inicio">Início</button>
 <button class="tab" data-view="escala">Escala</button>
 <button class="tab" data-view="diarias">Diárias</button>
 <button class="tab" data-view="saude">Saúde</button>
@@ -32,23 +32,129 @@
 <button class="tab" data-view="debug">Debug</button>
 </nav>
 <script>
-const VERSION='v1.0-beta.7';
-const LS='healthops_v1_beta7';
+const VERSION='v2.0-alpha.2';
+const LS='healthops_v2_alpha2';
 const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
 const PTW=['dom.','seg.','ter.','qua.','qui.','sex.','sáb.'];
 const state=load()||{selected:iso(new Date()), calendarMonth:null, rosters:{}, activeRosterKey:null, meds:[{name:'Sibutramina',period:'Manhã',status:'sensível',note:'Inibidor de apetite: atenção a insônia, boca seca, pressão/frequência cardíaca e palpitações.'},{name:'Ômega 3',period:'Manhã',status:'compatível',note:'Suplemento nutricional.'},{name:'Vitamina D3',period:'Manhã',status:'compatível',note:'Suplemento vitamínico.'},{name:'Magnésio dimalato',period:'Noite',status:'compatível',note:'Suplemento mineral.'}], medTaken:{}, health:{}, caffeine:[]};
+
+const NORMATIVE_RULES=[
+ {id:'LEI-13475-TRIPULANTE-EXTRA',layer:'Lei 13.475/17',source:'Art. 4º §1º',title:'Tripulante extra a serviço conta para limites de jornada, repouso e remuneração',severity:'info'},
+ {id:'LEI-13475-MADRUGADAS-168H',layer:'Lei 13.475/17',source:'Art. 42',title:'Máximo de 2 madrugadas consecutivas e 4 em 168h; reinício com 48h livres',severity:'warn'},
+ {id:'RBAC117-JORNADA-DEFINICAO',layer:'RBAC 117',source:'117.3(n)',title:'Jornada conta da apresentação ao encerramento; doméstico encerra 30 min após parada final',severity:'info'},
+ {id:'RBAC117-MADRUGADA',layer:'RBAC 117',source:'117.3(r) e Apêndice B',title:'Operação na madrugada: evento entre 00h00 e 06h00 na hora aclimatada',severity:'warn'},
+ {id:'RBAC117-LIMITE-SIMPLES-TABELA1',layer:'RBAC 117 Apêndice B',source:'Tabela 1 do guia SNA',title:'Limite de jornada/voo por hora de apresentação e número de etapas para tripulação simples',severity:'warn'},
+ {id:'RBAC117-ACUMULADO',layer:'RBAC 117 Apêndice B',source:'Limites acumulados',title:'Limites acumulados: 60h/7d, 100h/14d, 176h/mês e 176h/28d',severity:'warn'},
+ {id:'CCT-DIARIAS-JANELAS',layer:'CCT 2025/2026',source:'2.3',title:'Diárias: café, almoço, jantar e ceia por janelas; café não devido se incluso no hotel',severity:'info'},
+ {id:'CCT-FOLGA-SIMPLES',layer:'CCT 2025/2026',source:'3.4.4 e 3.4.10',title:'Folga simples é 24h; monofolga exige apresentação após 10h, exceto treinamento em solo',severity:'warn'},
+ {id:'CCT-ASB-HSB',layer:'CCT/ACT',source:'Reserva e sobreaviso',title:'Reserva: 3h a 6h; sobreaviso: 3h a 12h',severity:'warn'},
+ {id:'ACT-LATAM-2025-2027',layer:'ACT LATAM Comissários 2025/2027',source:'ACT TAM/SNA',title:'Camada específica LATAM prevalece sobre regras genéricas quando mais específica',severity:'info'},
+ {id:'ACT-LATAM-REPOUSO-10H',layer:'ACT LATAM / prática operacional',source:'parâmetro HealthOps',title:'Repouso/descanso de hotel igual ou superior a 10h é tratado como OK; fadiga segue monitorada separadamente',severity:'info'},
+ {id:'ACT-LATAM-DIARIAS-SEMANA',layer:'LATAM Pagamentos',source:'parâmetro HealthOps',title:'Agrupamento de diárias quarta–terça, pagamento previsto na quinta',severity:'info'}
+];
+
+const HEALTH_MED_CATALOG=[
+ {name:'Sibutramina',kind:'Medicamento',class:'Inibidor de apetite',status:'sensível',common:'10 mg, 15 mg',effects:['insônia','boca seca','taquicardia/palpitações','aumento de pressão','ansiedade'],flight:'Atenção CMA/empresa. Monitorar sono, PA/FC e sintomas.'},
+ {name:'Rosuvastatina',kind:'Medicamento',class:'Estatina',status:'compatível',common:'5 mg, 10 mg, 20 mg',effects:['dor muscular','desconforto gastrointestinal'],flight:'Uso contínuo geralmente compatível; atenção a mialgia persistente.'},
+ {name:'Atentah (atomoxetina)',kind:'Medicamento',class:'TDAH não estimulante',status:'restrito',common:'10–80 mg',effects:['sonolência ou insônia','tontura','náusea','alteração de pressão/FC'],flight:'Exige validação médica/CMA. Não sugerir automaticamente para aeronautas.'},
+ {name:'Metilcobalamina',kind:'Suplemento',class:'Vitamina B12',status:'compatível',common:'1 mg',effects:['raramente desconforto gastrointestinal'],flight:'Suplemento; usar conforme orientação.'},
+ {name:'Metilfolato',kind:'Suplemento',class:'Folato ativo',status:'compatível',common:'400 mcg–5 mg',effects:['náusea','irritabilidade em alguns casos'],flight:'Suplemento; usar conforme orientação.'},
+ {name:'Ômega 3',kind:'Suplemento',class:'Ácidos graxos',status:'compatível',common:'1–3 g/dia',effects:['refluxo','desconforto gastrointestinal'],flight:'Compatível; atenção individual.'},
+ {name:'Vitamina D3',kind:'Suplemento',class:'Vitamina',status:'compatível',common:'1000–10000 UI',effects:['hipercalcemia se excesso'],flight:'Acompanhar exames quando dose alta.'},
+ {name:'Vitamina K2 MK7',kind:'Suplemento',class:'Vitamina',status:'compatível',common:'90–200 mcg',effects:['interação com anticoagulantes'],flight:'Atenção se usar anticoagulante.'},
+ {name:'Vitamina A',kind:'Suplemento',class:'Vitamina',status:'atenção',common:'500–5000 UI',effects:['toxicidade em excesso'],flight:'Evitar excesso cumulativo.'},
+ {name:'Zinco quelado',kind:'Suplemento',class:'Mineral',status:'compatível',common:'15–30 mg',effects:['náusea','redução de cobre se excesso'],flight:'Atenção a excesso prolongado.'},
+ {name:'Picolinato de cromo',kind:'Suplemento',class:'Mineral',status:'compatível',common:'200–500 mcg',effects:['hipoglicemia em predispostos'],flight:'Atenção se sintomas de queda glicêmica.'},
+ {name:'Selênio quelado',kind:'Suplemento',class:'Mineral',status:'compatível',common:'100–200 mcg',effects:['toxicidade se excesso'],flight:'Evitar somatório de doses altas.'},
+ {name:'Citrato de cálcio',kind:'Suplemento',class:'Mineral',status:'compatível',common:'150–600 mg',effects:['constipação'],flight:'Atenção a interações com outros medicamentos.'},
+ {name:'Magnésio dimalato',kind:'Suplemento',class:'Mineral',status:'compatível',common:'200–400 mg',effects:['diarreia','sonolência leve'],flight:'Preferir à noite se causar relaxamento.'},
+ {name:'Creatina',kind:'Suplemento',class:'Ergogênico',status:'compatível',common:'3–5 g/dia',effects:['retenção hídrica','desconforto GI'],flight:'Reforçar hidratação.'},
+ {name:'Loratadina',kind:'Medicamento',class:'Antialérgico 2ª geração',status:'atenção',common:'10 mg',effects:['sonolência em alguns casos','boca seca'],flight:'Registrar resposta individual; atenção se sonolência.'},
+ {name:'Desloratadina',kind:'Medicamento',class:'Antialérgico 2ª geração',status:'atenção',common:'5 mg',effects:['sonolência em alguns casos','cefaleia'],flight:'Registrar resposta individual.'},
+ {name:'Fexofenadina',kind:'Medicamento',class:'Antialérgico 2ª geração',status:'atenção',common:'120–180 mg',effects:['cefaleia','náusea'],flight:'Menor sedação em geral, mas observar resposta individual.'},
+ {name:'Dexclorfeniramina',kind:'Medicamento',class:'Antialérgico 1ª geração',status:'sensível',common:'2 mg, 6 mg',effects:['sonolência','lentidão de reflexos','boca seca'],flight:'Evitar em serviço; alto risco de sedação.'},
+ {name:'Difenidramina',kind:'Medicamento',class:'Antialérgico 1ª geração',status:'sensível',common:'25–50 mg',effects:['sedação','confusão','lentidão'],flight:'Não sugerir para aeronauta em atividade.'},
+ {name:'Paracetamol',kind:'Medicamento',class:'Analgésico/antitérmico',status:'compatível',common:'500–750 mg',effects:['risco hepático em excesso'],flight:'Atenção a febre/doença de base e dose máxima.'},
+ {name:'Dipirona',kind:'Medicamento',class:'Analgésico/antitérmico',status:'compatível',common:'500 mg–1 g',effects:['queda de pressão em alguns casos','alergia rara'],flight:'Observar tontura/hipotensão.'},
+ {name:'Ibuprofeno',kind:'Medicamento',class:'Anti-inflamatório',status:'atenção',common:'400–600 mg',effects:['gastrite','retenção hídrica','pressão'],flight:'Atenção a estômago, hidratação e pressão.'},
+ {name:'Nimesulida',kind:'Medicamento',class:'Anti-inflamatório',status:'atenção',common:'100 mg',effects:['risco hepático','desconforto GI'],flight:'Usar somente com orientação.'},
+ {name:'Amoxicilina',kind:'Medicamento',class:'Antibiótico',status:'atenção',common:'500 mg, 875 mg',effects:['diarreia','náusea','alergia'],flight:'Tratamento temporário. Avaliar infecção, febre, repouso e hidratação.'},
+ {name:'Amoxicilina + clavulanato',kind:'Medicamento',class:'Antibiótico',status:'atenção',common:'875/125 mg',effects:['diarreia','náusea','candidíase'],flight:'Tratamento temporário. Ajustar treino para recuperação.'},
+ {name:'Azitromicina',kind:'Medicamento',class:'Antibiótico',status:'atenção',common:'500 mg',effects:['náusea','diarreia','alteração cardíaca rara'],flight:'Tratamento temporário. Monitorar sintomas e repouso.'},
+ {name:'Cefalexina',kind:'Medicamento',class:'Antibiótico',status:'atenção',common:'500 mg',effects:['diarreia','náusea','alergia'],flight:'Tratamento temporário; observar sintomas sistêmicos.'},
+ {name:'Oseltamivir',kind:'Medicamento',class:'Antiviral',status:'atenção',common:'75 mg',effects:['náusea','cefaleia','fadiga'],flight:'Quadro viral pode exigir repouso e avaliação.'},
+ {name:'Pseudoefedrina',kind:'Medicamento',class:'Descongestionante sistêmico',status:'sensível',common:'60–120 mg',effects:['taquicardia','insônia','ansiedade','aumento de pressão'],flight:'Atenção para aeronautas; pode impactar sono/FC/PA.'},
+ {name:'Oximetazolina nasal',kind:'Medicamento',class:'Descongestionante tópico',status:'atenção',common:'spray nasal',effects:['rebote nasal','palpitação rara'],flight:'Evitar uso prolongado; registrar motivo.'},
+ {name:'Budesonida nasal',kind:'Medicamento',class:'Corticoide nasal',status:'compatível',common:'spray nasal',effects:['ressecamento nasal','epistaxe'],flight:'Uso local; acompanhar sintomas.'},
+ {name:'Soro fisiológico nasal',kind:'Suplemento/apoio',class:'Higiene nasal',status:'compatível',common:'spray/jato',effects:['mínimos'],flight:'Útil em ressecamento/hotel/ar condicionado.'},
+ {name:'Polivitamínico',kind:'Suplemento',class:'Vitaminas/minerais',status:'compatível',common:'1 dose/dia',effects:['náusea','excesso cumulativo'],flight:'Evitar duplicidade com manipulados.'}
+];
+const SYMPTOM_CATALOG=['cefaleia','rinite','sinusite','congestão nasal','dor de garganta','tosse','febre','fadiga','sonolência','insônia','palpitação','tontura','náusea','diarreia','dor muscular','ansiedade','boca seca','olhos secos'];
+const HEALTH_EVENT_CAUSES=['rinite no hotel','sinusite','resfriado/gripe','variação brusca de temperatura','ar condicionado seco','sono insuficiente','sequência de madrugadas','alimentação irregular','baixa hidratação','dor/lesão','outro'];
+
+const DUTY_LIMIT_SIMPLE=[
+ {from:6,to:6.99,limits:[[11,9],[11,9],[10,8],[9,8],[9,8]]},
+ {from:7,to:7.99,limits:[[12,9.5],[12,9],[11,9],[10,8],[9,8]]},
+ {from:8,to:11.99,limits:[[12,10],[12,9.5],[12,9],[11,9],[10,8]]},
+ {from:12,to:13.99,limits:[[12,9.5],[12,9],[11,9],[10,8],[9,8]]},
+ {from:14,to:15.99,limits:[[11,9],[11,9],[10,8],[9,8],[9,8]]},
+ {from:16,to:17.99,limits:[[10,8],[10,8],[9,8],[9,8],[9,8]]},
+ {from:18,to:29.99,limits:[[9,8],[9,8],[9,7],[9,7],[9,7]]},
+ {from:0,to:5.99,limits:[[9,8],[9,8],[9,7],[9,7],[9,7]]}
+];
+
+
+state.healthEvents=state.healthEvents||{};
+state.treatments=state.treatments||[];
+state.protocols=state.protocols||[];
+state.userProfile=state.userProfile||{base:'BSB',company:'LATAM',role:'Comissário',cma:''};
+state.medTaken=state.medTaken||{};
+state.meds=state.meds||[];
+if(!state.protocols.length){state.protocols.push({name:'Protocolo manhã padrão',period:'Manhã',items:['Sibutramina 10 mg','Ômega 3','Metilcobalamina + Metilfolato','Zinco + Cromo + Selênio','Vitamina D3 + A + K2 + Cálcio']},{name:'Protocolo noite padrão',period:'Noite',items:['Rosuvastatina 10 mg','Magnésio dimalato 300 mg']});}
 if(!state.calendarMonth) state.calendarMonth=state.selected.slice(0,7);
 function save(){localStorage.setItem(LS,JSON.stringify(state))}function load(){try{return JSON.parse(localStorage.getItem(LS))}catch(e){return null}}function iso(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate()).toISOString().slice(0,10)}function pad(n){return String(n).padStart(2,'0')}function parseIso(s){const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}function fmt(s){const d=parseIso(s);return `${PTW[d.getDay()]}, ${pad(d.getDate())}/${pad(d.getMonth()+1)}`}function addDays(s,n){const d=parseIso(s);d.setDate(d.getDate()+n);return iso(d)}function monthKey(d){return d.slice(0,7)}function currentRoster(){return state.rosters[state.activeRosterKey]||{days:{},raw:'',debug:[]}}function allDays(){return currentRoster().days||{}}function dayData(date){return allDays()[date]||null}
 function classifyTraining(day){if(!day) return {key:'sem',label:'Sem dados',color:'none'}; if(day.classification==='Folga regulamentar')return{key:'forte',label:'Treino possível',color:'rest'}; if(day.classification==='Voo'&&day.fatigue>=75)return{key:'recuperacao',label:'Recuperação',color:'fatigue'}; if(day.classification==='Voo'&&day.fatigue>=45)return{key:'leve',label:'Leve/mobilidade',color:'reserve'}; if(day.classification==='Treinamento')return{key:'leve',label:'Leve após atividade',color:'train'}; if(day.classification==='Reserva/Sobreaviso')return{key:'curto',label:'Curto flexível',color:'reserve'}; return{key:'moderado',label:'Moderado',color:'flight'}}
 function classifyDayTag(day){if(!day)return {label:'Sem dados',cls:'none'}; if(day.classification==='Folga regulamentar')return{label:'Folga',cls:'rest'}; if(day.classification==='Voo'&&day.fatigue>=75)return{label:'Madrugada',cls:'fatigue'}; if(day.classification==='Voo')return{label:'Voo',cls:'flight'}; if(day.classification==='Treinamento')return{label:'Treino',cls:'train'}; if(day.classification==='Reserva/Sobreaviso')return{label:'Reserva',cls:'reserve'}; return{label:day.classification||'Atividade',cls:'none'}}
-function activeSummary(){const days=Object.values(allDays());return{count:days.length,jornada:sum(days.map(d=>d.duty)),flight:sum(days.map(d=>d.flight)),folgas:days.filter(d=>d.classification==='Folga regulamentar').length,reserva:days.filter(d=>d.classification==='Reserva/Sobreaviso'||d.classification==='Treinamento').length}}function sum(a){return Math.round(a.reduce((x,y)=>x+(+y||0),0)*10)/10}
-function render(){renderHoje();renderEscala();renderDiarias();renderSaude();renderMeds();renderDebug();document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>switchView(b.dataset.view));save()}function switchView(v){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));document.getElementById('view-'+v).classList.remove('hidden');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===v))}
-function renderHoje(){const day=dayData(state.selected);const tr=classifyTraining(day);const prev=addDays(state.selected,-1),next=addDays(state.selected,1);document.getElementById('view-hoje').innerHTML=`
+function activeSummary(){const days=Object.values(allDays());return{count:days.length,jornada:sum(days.map(d=>d.duty)),flight:sum(days.map(d=>d.flight)),folgas:days.filter(d=>d.classification==='Folga regulamentar').length,reserva:days.filter(d=>d.classification==='Reserva/Sobreaviso'||d.classification==='Treinamento').length}}function sum(a){return Math.round(a.reduce((x,y)=>x+(+y||0),0)*10)/10}function round(n){return Math.round((+n||0)*10)/10}
+function render(){renderInicio();renderEscala();renderDiarias();renderSaude();renderMeds();renderDebug();document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>switchView(b.dataset.view));save()}function switchView(v){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));document.getElementById('view-'+v).classList.remove('hidden');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===v))}
+function renderInicio(){const day=dayData(state.selected);const tr=classifyTraining(day);const prev=addDays(state.selected,-1),next=addDays(state.selected,1);const readiness=operationalReadiness(state.selected);document.getElementById('view-inicio').innerHTML=`
 <div class="timeline"><div class="timebox" onclick="selectDate('${prev}')"><b>${fmt(prev)}</b><p>${dayData(prev)?.classification||'Sem dados'}</p></div><div class="timebox active"><b>Data selecionada</b><h2>${fmt(state.selected)}</h2><p>${day?.classification||'Sem dados disponíveis para esta data.'}</p></div><div class="timebox" onclick="selectDate('${next}')"><b>${fmt(next)}</b><p>${dayData(next)?.classification||'Sem dados'}</p></div></div>
-<div class="grid"><div class="card"><b>Jornada</b><div class="metric">${day?day.duty+'h':'—'}</div></div><div class="card"><b>Voo</b><div class="metric">${day?day.flight+'h':'—'}</div></div><div class="card"><b>Treino sugerido</b><div class="metric" style="font-size:22px">${tr.label}</div></div><div class="card"><b>Fadiga</b><div class="metric">${day?day.fatigue:'—'}</div></div></div>
+<div class="grid"><div class="card"><b>Prontidão operacional</b><div class="metric">${readiness.score}</div><span class="muted">${readiness.label}</span></div><div class="card"><b>Jornada</b><div class="metric">${day?day.duty+'h':'—'}</div></div><div class="card"><b>Voo</b><div class="metric">${day?day.flight+'h':'—'}</div></div><div class="card"><b>Treino sugerido</b><div class="metric" style="font-size:22px">${trainingSuggestion(state.selected).label}</div></div></div>
+${renderOperationalHealthPanel()}
 <div class="card"><h2>Alertas da data</h2>${alerts(day).map(a=>`<div class="alert ${a.bad?'bad':''}"><b>${a.title}</b><br>${a.text}</div>`).join('')||'<p>Sem alertas relevantes para a data selecionada.</p>'}</div>
 ${renderCalendarCard()}`}
-function alerts(day){let arr=[];const h=state.health[state.selected]||{};if(!day)arr.push({title:'Sem dados operacionais',text:'Importe uma escala para analisar esta data.'});if(day&&day.fatigue>=75)arr.push({title:'Atenção à fadiga',text:'Dia com carga elevada ou madrugada operacional.',bad:true});if((h.water||0)<1500)arr.push({title:'Hidratação',text:'Você ainda não registrou água suficiente para esta data.'});if((h.caffeineMg||0)>300)arr.push({title:'Cafeína elevada',text:'Consumo registrado acima de 300 mg.',bad:true});if(!h.training)arr.push({title:'Treino',text:'Já fez exercício hoje? Não esqueça de marcar.'});return arr}
+function alerts(day){let arr=[];const h=state.health[state.selected]||{};if(!day)arr.push({title:'Sem dados operacionais',text:'Importe uma escala para analisar esta data.'});arr.push(...normativeAlertsForDate(state.selected,day));if(day&&day.fatigue>=75)arr.push({title:'Atenção à fadiga',text:'Dia com carga elevada ou madrugada operacional. Priorize sono, hidratação e recuperação.',bad:true});if((h.water||0)<1500)arr.push({title:'Hidratação',text:'Você ainda não registrou água suficiente para esta data.'});if((h.caffeineMg||0)>300)arr.push({title:'Cafeína elevada',text:'Consumo registrado acima de 300 mg. Observe sono, ansiedade, palpitações e hidratação.',bad:true});if(!hasAnyTraining(h))arr.push({title:'Treino',text:'Já fez exercício hoje? Não esqueça de marcar ou registrar recuperação.'});
+ const evs=healthEventsForDate(state.selected); if(evs.some(e=>(e.symptoms||[]).includes('febre')))arr.push({title:'Febre/sintomas sistêmicos',text:'Considere repouso e avaliação médica. Evite treino intenso enquanto houver febre.',bad:true});
+ activeTreatments(state.selected).forEach(t=>{const cat=findMed(t.med); if(cat&&cat.class&&cat.class.includes('Antibiótico'))arr.push({title:'Tratamento com antibiótico em andamento',text:`${t.med} por ${t.reason||'tratamento temporário'}. Sugestão: reduzir intensidade do treino e priorizar recuperação/hidratação.`}); if(cat&&cat.status==='sensível')arr.push({title:'Medicamento sensível para aeronauta',text:`${t.med}: ${cat.flight||'requer avaliação individual.'}`,bad:true});});
+ return arr}
+function ruleById(id){return NORMATIVE_RULES.find(r=>r.id===id)||{id,title:id,layer:'Motor',source:'HealthOps'}}
+function ruleAlert(id,title,text,bad=false){const r=ruleById(id);return{title:title||r.title,text:`${text} Referência: ${r.layer} · ${r.source}.`,bad,ruleId:id}}
+function eventStartHour(ev){const t=(ev.times||[])[0]; if(!t)return null; return +t.slice(0,2)+(+(t.slice(3,5)||0))/60}
+function flightLegCount(day){return day?day.events.filter(e=>e.type==='flight').length:0}
+function dutyLimitFor(day){if(!day||day.classification!=='Voo')return null;const flights=day.events.filter(e=>e.type==='flight');if(!flights.length)return null;const hour=eventStartHour(flights[0]);if(hour===null)return null;const h=hour<6?hour:hour;const idx=Math.min(4,Math.max(0,flights.length<=2?0:flights.length<=4?1:flights.length===5?2:flights.length===6?3:4));const row=DUTY_LIMIT_SIMPLE.find(r=>h>=r.from&&h<=r.to) || DUTY_LIMIT_SIMPLE[DUTY_LIMIT_SIMPLE.length-1];const [duty,flight]=row.limits[idx];return{duty,flight,legs:flights.length,startHour:hour}}
+function normativeAlertsForDate(date,day){const arr=[];if(!day)return arr;if(day.classification==='Folga regulamentar'||day.classification==='Férias/VC')return arr;
+ if(day.classification==='Voo'){
+   const lim=dutyLimitFor(day);
+   if(lim){ if(day.duty>lim.duty+0.05)arr.push(ruleAlert('RBAC117-LIMITE-SIMPLES-TABELA1','Possível extrapolação de jornada',`Jornada estimada ${day.duty}h acima do limite-base ${lim.duty}h para ${lim.legs} etapa(s) e apresentação aproximada ${Math.floor(lim.startHour).toString().padStart(2,'0')}h.`,true)); if(day.flight>lim.flight+0.05)arr.push(ruleAlert('RBAC117-LIMITE-SIMPLES-TABELA1','Possível extrapolação de tempo de voo',`Tempo de voo estimado ${day.flight}h acima do limite-base ${lim.flight}h para ${lim.legs} etapa(s).`,true)); }
+   if(isDawnDay(day))arr.push(ruleAlert('RBAC117-MADRUGADA','Madrugada operacional','Evento cruza total ou parcialmente o período 00h00–06h00. Usar na janela de 168h e fadiga.',false));
+ }
+ if(day.classification==='Reserva/Sobreaviso'){
+   for(const e of day.events){if((e.code||'').startsWith('ASB') && e.duty>6.05)arr.push(ruleAlert('CCT-ASB-HSB','Reserva acima de 6h',`ASB com ${e.duty}h.`,true)); if((e.code||'').startsWith('HSB') && e.duty>12.05)arr.push(ruleAlert('CCT-ASB-HSB','Sobreaviso acima de 12h',`HSB/HSBE com ${e.duty}h.`,true));}
+ }
+ return arr}
+function isDawnDay(day){return !!(day&&day.events&&day.events.some(e=>Number.isFinite(e.absStart)&&Number.isFinite(e.absEnd)&&rangeCrosses(e.absStart,e.absEnd,0,360)))}
+function rangeCrosses(start,end,from,to){for(let t=start;t<=end;t+=30){const m=((t%1440)+1440)%1440;if(m>=from&&m<to)return true}return false}
+function runNormativeTests(){const days=allDays();const tests=[];const push=(name,ok,detail)=>tests.push({name,ok,detail});
+ const vals=Object.values(days);
+ push('Folgas DO/DR/VC sem jornada', vals.filter(d=>['Folga regulamentar','Férias/VC'].includes(d.classification)).every(d=>d.duty===0), 'DO/DR/VC devem ter duty=0.');
+ push('ASB limitado a 6h', vals.flatMap(d=>d.events||[]).filter(e=>(e.code||'').startsWith('ASB')).every(e=>(e.duty||0)<=6.05), 'Reserva aeroporto deve ficar entre 3h e 6h.');
+ push('HSB/HSBE limitado a 12h', vals.flatMap(d=>d.events||[]).filter(e=>(e.code||'').startsWith('HSB')).every(e=>(e.duty||0)<=12.05), 'Home standby deve ficar entre 3h e 12h.');
+ push('Treinamentos sem tempo de voo', vals.filter(d=>d.classification==='Treinamento').every(d=>d.flight===0), 'CRM/R320/CBF/EMER/MCK/C32F não geram FH.');
+ push('Madrugada não aplicada a férias', vals.filter(d=>d.classification==='Férias/VC').every(d=>!isDawnDay(d)), 'VC não deve alimentar alerta de madrugada.');
+ push('Motor normativo carregado', NORMATIVE_RULES.length>=10, `${NORMATIVE_RULES.length} regras cadastradas.`);
+ return tests}
+function renderNormativePanel(){const tests=runNormativeTests();return `<div class="card"><h2>Motor Normativo v2</h2><p class="muted">Camadas: Lei 13.475/17 → RBAC 117 → CCT → ACT LATAM → parâmetros HealthOps. Alertas são pontos de atenção, não parecer jurídico.</p><div class="grid"><div><div class="metric">${NORMATIVE_RULES.length}</div><span class="muted">regras parametrizadas</span></div><div><div class="metric">${tests.filter(t=>t.ok).length}/${tests.length}</div><span class="muted">testes do mês ativo</span></div><div><div class="metric">${Object.keys(allDays()).length}</div><span class="muted">dias em teste</span></div><div><div class="metric">${Object.values(allDays()).filter(isDawnDay).length}</div><span class="muted">madrugadas detectadas</span></div></div><details open><summary><b>Testes automáticos</b></summary>${tests.map(t=>`<div class="mealLine"><span class="pill ${t.ok?'green':'red'}">${t.ok?'OK':'REVER'}</span> <b>${t.name}</b> — ${t.detail}</div>`).join('')}</details><details><summary><b>Base de regras</b></summary>${NORMATIVE_RULES.map(r=>`<div class="mealLine"><b>${r.id}</b> · ${r.layer} · ${r.source}<br><span class="muted">${r.title}</span></div>`).join('')}</details></div>`}
+
 function renderCalendarCard(){const [y,m]=state.calendarMonth.split('-').map(Number);const first=new Date(y,m-1,1);const start=new Date(first);start.setDate(1-first.getDay());let cells=[];for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const id=iso(d);const day=dayData(id);const tag=classifyDayTag(day);cells.push(`<div class="day ${d.getMonth()!==m-1?'out':''} ${id===state.selected?'selected':''} ${id===iso(new Date())?'today':''}" onclick="selectDate('${id}')"><div class="daynum">${d.getDate()}</div><span class="tag ${tag.cls}">${tag.label}</span></div>`)}return `<div class="card"><div class="between"><button class="btn secondary small" onclick="changeMonth(-1)">◀</button><h2>${first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}</h2><button class="btn secondary small" onclick="changeMonth(1)">▶</button></div><div class="calendar">${['D','S','T','Q','Q','S','S'].map(x=>`<div class="dow">${x}</div>`).join('')}${cells.join('')}</div></div>`}
 window.selectDate=function(d){state.selected=d;state.calendarMonth=monthKey(d);render()};window.changeMonth=function(n){const [y,m]=state.calendarMonth.split('-').map(Number);const d=new Date(y,m-1+n,1);state.calendarMonth=`${d.getFullYear()}-${pad(d.getMonth()+1)}`;render()}
 function renderEscala(){const s=activeSummary();const days=Object.entries(allDays()).sort();document.getElementById('view-escala').innerHTML=`
@@ -80,9 +186,18 @@ async function readFile(ev){
       for(let i=1;i<=pdf.numPages;i++){
         const page=await pdf.getPage(i);
         const content=await page.getTextContent();
-        let lastY=null,line=[];const lines=[];
-        content.items.forEach(it=>{const y=Math.round(it.transform[5]); if(lastY!==null && Math.abs(y-lastY)>4){lines.push(line.join(' ')); line=[];} line.push(it.str); lastY=y;});
-        if(line.length) lines.push(line.join(' '));
+        const items=content.items
+          .filter(it=>String(it.str||'').trim())
+          .map(it=>({str:String(it.str||'').trim(),x:it.transform[4],y:it.transform[5]}))
+          .sort((a,b)=>Math.abs(b.y-a.y)>3 ? b.y-a.y : a.x-b.x);
+        const rows=[];
+        for(const it of items){
+          let row=rows.find(r=>Math.abs(r.y-it.y)<=3);
+          if(!row){row={y:it.y,items:[]}; rows.push(row)}
+          row.items.push(it);
+        }
+        rows.sort((a,b)=>b.y-a.y);
+        const lines=rows.map(r=>r.items.sort((a,b)=>a.x-b.x).map(i=>i.str).join(' ').replace(/\s+/g,' ').trim()).filter(Boolean);
         pages.push(lines.join('\n'));
       }
       const text=pages.join('\n');
@@ -121,59 +236,136 @@ window.clearRoster=function(){if(state.activeRosterKey)delete state.rosters[stat
 window.clearInvalidRosters=function(){Object.keys(state.rosters).forEach(k=>{const r=state.rosters[k]; if(!r || !r.days || !Object.keys(r.days).length || (r.raw||'').startsWith('%PDF-')) delete state.rosters[k];}); state.activeRosterKey=Object.keys(state.rosters)[0]||null; render();}
 
 function parseRoster(raw){
-  const text=normalizeRosterText(raw);
-  const lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);
-  let days={},debug=[],stats={rows:0,events:0,ignored:0,unparsed:0};
-  const head=text.match(/Roster Report\s+(\d{2})-(\w{3})-(\d{4})\s*to\s*(\d{2})-(\w{3})-(\d{4})/i)||text.match(/(\d{2})-(\w{3})-(\d{4})\s*to\s*(\d{2})-(\w{3})-(\d{4})/i)||text.match(/(\d{2})-(\w{3})-(\d{4})to(\d{2})-(\w{3})-(\d{4})/i);
+  const original=String(raw||'');
+  const text=normalizeRosterText(original);
+  let debug=[], stats={blocks:0,events:0,ignored:0,unparsed:0};
+  const head=text.match(/Roster Report\s+(\d{2})-(\w{3})-(\d{4})\s*to\s*(\d{2})-(\w{3})-(\d{4})/i)
+    || text.match(/(\d{2})-(\w{3})-(\d{4})\s*to\s*(\d{2})-(\w{3})-(\d{4})/i)
+    || text.match(/(\d{2})-(\w{3})-(\d{4})to(\d{2})-(\w{3})-(\d{4})/i);
   let period='Escala importada', key='Import '+new Date().toISOString().slice(0,16), reportStart=null, reportEnd=null;
-  if(head){reportStart=`${head[3]}-${pad(MONTHS[head[2]]+1)}-${head[1]}`; reportEnd=`${head[6]}-${pad(MONTHS[head[5]]+1)}-${head[4]}`; key=`${head[3]}-${pad(MONTHS[head[2]]+1)}`; period=`${reportStart} a ${reportEnd}`;}
-  let anchorDate=null;
-  for(const rawLine of lines){
-    let line=rawLine.replace(/\s+/g,' ').trim();
-    if(!line || /^Roster Report|^Date |^LEGEND|^HSB Home|^DO Day|^VC Vacation|^DR Requested|^<== Pairing/i.test(line)){stats.ignored++;continue;}
-    if(line.startsWith('<==')){stats.ignored++;debug.push(`IGNORADO: continuação anterior ao início do mês -> ${line.slice(0,80)}`);continue;}
-    const dm=line.match(/^(\d{2})-(\w{3})-(\d{4})\s+(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)?\s*(.*)$/i);
-    let baseDate,rest;
-    if(dm){baseDate=`${dm[3]}-${pad(MONTHS[dm[2]]+1)}-${dm[1]}`; anchorDate=baseDate; rest=dm[4];}
-    else if(anchorDate && looksLikeContinuation(line)){baseDate=anchorDate; rest=line;}
-    else {stats.unparsed++; debug.push(`NÃO PROCESSADO: ${line.slice(0,110)}`); continue;}
-    if(reportStart && baseDate<reportStart){stats.ignored++; debug.push(`IGNORADO fora da janela mensal: ${baseDate} ${rest.slice(0,70)}`); continue;}
-    const events=parseEventsFromLine(baseDate,rest);
-    if(!events.length){stats.unparsed++; debug.push(`SEM EVENTO: ${baseDate} | ${rest.slice(0,110)}`); continue;}
+  if(head){
+    reportStart=`${head[3]}-${pad(MONTHS[head[2]]+1)}-${head[1]}`;
+    reportEnd=`${head[6]}-${pad(MONTHS[head[5]]+1)}-${head[4]}`;
+    key=`${head[3]}-${pad(MONTHS[head[2]]+1)}`;
+    period=`${reportStart} a ${reportEnd}`;
+  }
+  const blocks=buildRosterBlocks(text, reportStart, reportEnd, debug, stats);
+  const days={};
+  for(const block of blocks){
+    const events=parseEventsFromBlock(block.date, block.text, debug);
+    if(!events.length){stats.unparsed++; debug.push(`SEM EVENTO: ${block.date} | ${block.text.slice(0,160)}`); continue;}
     for(const ev of events){
-      const eventDate=ev.date||baseDate;
-      if(reportStart && eventDate<reportStart){stats.ignored++; continue;}
-      if(!days[eventDate]) days[eventDate]={date:eventDate,events:[],classification:'Sem dados',duty:0,flight:0,fatigue:0,issues:[]};
-      days[eventDate].events.push(ev); stats.events++;
-      debug.push(`${eventDate}: ${ev.code} -> ${ev.type} | duty=${ev.duty||0} flight=${ev.flight||0} | ${ev.source||rest.slice(0,70)}`);
+      if(reportStart && ev.date<reportStart){stats.ignored++; continue;}
+      if(reportEnd && ev.date>=reportEnd && ev.code!=='LA3497'){ /* evita herança do mês seguinte na maioria dos relatórios */ }
+      if(!days[ev.date]) days[ev.date]={date:ev.date,events:[],classification:'Sem dados',duty:0,flight:0,fatigue:0,issues:[]};
+      days[ev.date].events.push(ev); stats.events++;
+      debug.push(`${ev.date}: ${ev.code} -> ${ev.type} | duty=${ev.duty||0} flight=${ev.flight||0} | ${ev.source||''}`);
     }
-    stats.rows++;
+    stats.blocks++;
   }
   Object.values(days).forEach(d=>finalizeDay(d));
-  debug.unshift(`Parser IFN v2: ${stats.events} eventos em ${Object.keys(days).length} dias. Linhas não processadas: ${stats.unparsed}. Ignoradas: ${stats.ignored}.`);
-  return{key,period,raw:text,days,debug,createdAt:new Date().toISOString(),parser:'IFN-v2'};
+  debug.unshift(`Parser IFN v3: ${stats.events} eventos em ${Object.keys(days).length} dias. Blocos: ${stats.blocks}. Não processados: ${stats.unparsed}. Ignorados: ${stats.ignored}.`);
+  return{key,period,raw:text,days,debug,createdAt:new Date().toISOString(),parser:'IFN-v3'};
 }
-function normalizeRosterText(raw){return String(raw||'').replace(/[\u000c\ufffe]/g,' ').replace(/(HSB|HSBE|ASB|CRMBSB|R320|CBF|EMER)\s*-\s*/g,'$1-').replace(/(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})/g,'\n$1-$2-$3').replace(/\n\s*([A-Z]{2}\d{4})/g,'\n$1').replace(/\n\s*(\d{2}:\d{2}\(\+\d\))/g,'\n$1').replace(/\n{2,}/g,'\n');}
-function looksLikeContinuation(line){return /^(\d{2}:\d{2}(?:\(\+\d\))?\s+)?(LA\d{4}|ASB|HSB|HSBE|CRMBSB|R320|CBF|EMER|DO|DR|VC)\b/i.test(line)||/\b(LA\d{4})\b/.test(line);}
-function parseEventsFromLine(baseDate,line){
-  const codeMatch=line.match(/\b(VC|DO|DR|HSBE|HSB|ASB\d?|CRMBSB|R320|CBF|EMER)\b/i);
-  if(codeMatch && !/\bLA\d{4}\b/.test(line)){
-    const code=codeMatch[1].toUpperCase(); const times=extractTimes(line); const duty=activityDuty(code,times);
+function normalizeRosterText(raw){
+  return String(raw||'')
+    .replace(/[\u000c\ufffe]/g,' ')
+    .replace(/[←⇐]/g,'<==')
+    .replace(/\r/g,'\n')
+    .replace(/(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})\s*to\s*(\d{2})-/ig,'$1-$2-$3 to $4-')
+    .replace(/(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})to(\d{2})-/ig,'$1-$2-$3 to $4-')
+    .replace(/(HSB|HSBE|ASB|CRMBSB|R320|CBF|EMER|MCK|C32F)\s*-\s*/ig,'$1-')
+    .replace(/\n{3,}/g,'\n\n');
+}
+function buildRosterBlocks(text, reportStart, reportEnd, debug, stats){
+  const lines=text.split(/\n+/).map(x=>x.replace(/\s+/g,' ').trim()).filter(Boolean);
+  const blocks=[]; let current=null; let ignoreContinuation=false;
+  const dateRe=/\b(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})\b/i;
+  for(let line of lines){
+    if(/^Date\b|^Pairing\/Activity\b|^LEGEND\b|^Filial\b/i.test(line)){ignoreContinuation=true; continue;}
+    if(/^Roster Report\b/i.test(line) || (/\bto\b/i.test(line)&&dateRe.test(line)&&!/\b(LA\d{4}|DO|DR|VC|HSB|HSBE|ASB|R320|CBF|EMER|CRMBSB|MCK|C32F)\b/i.test(line))){
+      continue;
+    }
+    if(/^<==/.test(line)){ ignoreContinuation=true; stats.ignored++; debug.push(`IGNORADO continuação anterior: ${line.slice(0,120)}`); continue; }
+    const dm=line.match(dateRe);
+    // O PDF às vezes solta o código do pareamento em uma linha antes da data real.
+    // Ex.: "LA3866/070426/" sozinho antes de "07-Apr-2026 ...". Não anexar ao dia anterior.
+    // Se a própria linha já contém uma data real, ela será processada normalmente.
+    if(!dm && /^(LA\d{4}|HSB|HSBE|ASB|ASB\d?|MCK|C32F)[-\s\/].*\/\d{6}\//i.test(line) && !/\b(OP|PS)\b/i.test(line)){
+      stats.ignored++; debug.push(`IGNORADO cabeçalho de pareamento isolado: ${line.slice(0,120)}`); continue;
+    }
+    if(dm){
+      ignoreContinuation=false;
+      if(current) blocks.push(current);
+      const date=`${dm[3]}-${pad(MONTHS[dm[2]]+1)}-${dm[1]}`;
+      let rest=line.slice(dm.index+dm[0].length).trim();
+      rest=rest.replace(/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b/i,'').trim();
+      current={date,text:rest};
+    }else if(current && !ignoreContinuation){
+      current.text+=' '+line;
+    }else{
+      stats.ignored++;
+    }
+  }
+  if(current) blocks.push(current);
+  return blocks.filter(b=>!reportStart || b.date>=reportStart).filter(b=>!reportEnd || b.date<=reportEnd);
+}
+function parseEventsFromBlock(baseDate,blockText,debug){
+  const text=blockText.replace(/\s+/g,' ').trim();
+  if(!text)return[];
+  const act=text.match(/\b(VC|DO|DR|HSBE|HSB|ASB\d?|CRMBSB|R320|CBF|EMER|MCK|C32F)\b/i);
+  const hasFlight=/\bLA\d{4}\b/.test(text);
+  if(act && (!hasFlight || !/\bLA\d{4}\b\s+(OP|PS)\b/i.test(text))){
+    const code=act[1].toUpperCase(); const times=extractTimes(text); const duty=activityDuty(code,times);
     const type=(code==='DO'||code==='DR')?'rest':code==='VC'?'vacation':code.startsWith('HSB')?'standby':code.startsWith('ASB')?'reserve':'training';
-    return[{code,type,duty,flight:0,times:times.map(t=>t.label),date:baseDate,source:line}];
+    return[{code,type,duty,flight:0,times:times.map(t=>t.label),date:baseDate,absStart:times[0]?.abs,absEnd:times[times.length-1]?.abs,source:text.slice(0,150)}];
   }
-  const flights=[]; const re=/\b(LA\d{4})\b\s+(OP|PS)?\s*([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?\s+([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?/g; let m;
-  while((m=re.exec(line))){
-    const depAbs=absMinutes(baseDate,m[4],+(m[5]||0)); let arrAbs=absMinutes(baseDate,m[7],+(m[8]||0)); if(arrAbs<depAbs) arrAbs+=1440;
-    const date=isoFromAbs(baseDate,depAbs); const flight=round((arrAbs-depAbs)/60);
-    flights.push({code:m[1],op:m[2]||'',type:'flight',duty:0,flight,times:[m[4]+(m[5]?`(+${m[5]})`:''),m[7]+(m[8]?`(+${m[8]})`:'')],absStart:depAbs,absEnd:arrAbs,date,source:`${m[1]} ${m[3]} ${m[4]}-${m[6]} ${m[7]}`});
+  const events=[];
+  // Captura linhas/trechos de voo no formato: LA#### OP/PS ORG HH:MM DST HH:MM ... FH
+  const flightRe=/\b(LA\d{4})\b\s+(OP|PS)?\s*([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?\s+([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?(?:\s+(\d{2}:\d{2})(?:\(\+(\d)\))?)?(?:\s+(\d{2}:\d{2}))?/g;
+  let m;
+  while((m=flightRe.exec(text))){
+    const code=m[1], role=m[2]||'';
+    const depTime=m[4], depOff=+(m[5]||0), arrTime=m[7], arrOff=+(m[8]||0);
+    const depAbs=absMinutes(baseDate,depTime,depOff); let arrAbs=absMinutes(baseDate,arrTime,arrOff); if(arrAbs<depAbs)arrAbs+=1440;
+    let fh=round((arrAbs-depAbs)/60);
+    // Nas tabelas IFN, depois do horário de chegada pode vir FH e/ou DH.
+    // Se o primeiro HH:MM após chegada é pequeno (ex. 00:50, 03:25), tratamos como FH.
+    // Se for um horário de debrief (ex. 17:30), tentamos o próximo campo pequeno.
+    const c1=m[9], c2=m[11];
+    if(c1 && isDurationHH(c1) && c1!=='00:00') fh=timeToHours(c1);
+    else if(c2 && isDurationHH(c2) && c2!=='00:00') fh=timeToHours(c2);
+    const date=isoFromAbs(baseDate,depAbs);
+    events.push({code,op:role,type:'flight',duty:0,flight:fh,times:[depTime+(depOff?`(+${depOff})`:''),arrTime+(arrOff?`(+${arrOff})`:'')],absStart:depAbs,absEnd:arrAbs,date,source:`${code} ${role} ${m[3]} ${depTime} ${m[6]} ${arrTime}`});
   }
-  if(flights.length) return flights;
-  const bare=line.match(/\b(LA\d{4})\b/); if(bare){const times=extractTimes(line); const off=maxOffset(line); const date=addDays(baseDate,off); let flight=0; if(times.length>=2){const a=times[times.length-2],b=times[times.length-1];let end=b.abs;if(end<a.abs)end+=1440;flight=round((end-a.abs)/60);} return[{code:bare[1],type:'flight',duty:0,flight,times:times.map(t=>t.label),date,source:line}];}
-  return[];
+  if(events.length)return events;
+  // Fallback para trechos onde a ordem visual do PDF separou origem/destino: usa janelas ao redor do código.
+  const codeRe=/\b(LA\d{4})\b/g; let cm;
+  while((cm=codeRe.exec(text))){
+    const slice=text.slice(Math.max(0,cm.index-35), Math.min(text.length, cm.index+140));
+    const times=extractTimes(slice); const aps=[...slice.matchAll(/\b[A-Z]{3}\b/g)].map(x=>x[0]).filter(x=>!['OP','PS','CC','THE'].includes(x));
+    if(times.length>=2){
+      const dep=times[0], arr=times[1]; let depAbs=absMinutes(baseDate,dep.time,dep.offset); let arrAbs=absMinutes(baseDate,arr.time,arr.offset); if(arrAbs<depAbs)arrAbs+=1440;
+      events.push({code:cm[1],type:'flight',duty:0,flight:round((arrAbs-depAbs)/60),times:[dep.label,arr.label],absStart:depAbs,absEnd:arrAbs,date:isoFromAbs(baseDate,depAbs),source:`fallback ${slice}`});
+    }
+  }
+  return events;
 }
 function extractTimes(line){const out=[];const re=/(\d{2}:\d{2})(?:\(\+(\d)\))?/g;let m;while((m=re.exec(line))){out.push({label:m[1]+(m[2]?`(+${m[2]})`:''),time:m[1],offset:+(m[2]||0),abs:absMinutes('2000-01-01',m[1],+(m[2]||0))});}return out;}
-function activityDuty(code,times){if(code==='DO'||code==='DR'||code==='VC')return 0;if(code==='R320')return 4;if(code==='CBF'||code==='EMER')return 2;if(code==='CRMBSB')return times.length>=2?round((times[times.length-1].abs-times[0].abs)/60):4;if(code.startsWith('HSB')||code.startsWith('ASB'))return times.length>=2?Math.min(12,Math.max(0,round((times[times.length-1].abs-times[0].abs)/60))):(code.startsWith('ASB')?6:12);return 0;}
+function timeToHours(t){const [h,m]=t.split(':').map(Number);return round(h+m/60)}
+function isDurationHH(t){const [h,m]=t.split(':').map(Number);return h>=0 && h<=6 && m>=0 && m<60}
+function activityDuty(code,times){
+  if(code==='DO'||code==='DR'||code==='VC')return 0;
+  if(code==='CBF'||code==='EMER')return 2;
+  if(code==='R320'||code==='MCK'||code==='C32F'||code==='CRMBSB'){
+    const last=times[times.length-1];
+    if(last && isDurationHH(last.time) && times.length>=3) return timeToHours(last.time);
+    return times.length>=2?round(Math.max(0,times[times.length-1].abs-times[0].abs)/60):4;
+  }
+  if(code.startsWith('HSB'))return times.length>=2?round(Math.max(0,times[times.length-1].abs-times[0].abs)/60):12;
+  if(code.startsWith('ASB'))return times.length>=2?round(Math.max(0,times[times.length-1].abs-times[0].abs)/60):6;
+  return 0;
+}
 function absMinutes(baseDate,time,off){const [h,m]=time.split(':').map(Number);return off*1440+h*60+m;}
 function isoFromAbs(baseDate,mins){return addDays(baseDate,Math.floor(mins/1440));}
 function maxOffset(line){let max=0; for(const m of line.matchAll(/\(\+(\d)\)/g)) max=Math.max(max,+m[1]); return max;}
@@ -182,21 +374,51 @@ function finalizeDay(d){
   if(types.has('flight'))d.classification='Voo'; else if(types.has('training'))d.classification='Treinamento'; else if(types.has('reserve')||types.has('standby'))d.classification='Reserva/Sobreaviso'; else if(types.has('rest'))d.classification='Folga regulamentar'; else if(types.has('vacation'))d.classification='Férias/VC'; else d.classification='Atividade';
   d.flight=round(sum(d.events.map(e=>e.flight||0)));
   const abs=d.events.filter(e=>Number.isFinite(e.absStart)&&Number.isFinite(e.absEnd));
-  if(d.classification==='Voo' && abs.length){const first=Math.min(...abs.map(e=>e.absStart)); const last=Math.max(...abs.map(e=>e.absEnd)); d.duty=round((last-first)/60+1.0);}
-  else d.duty=round(sum(d.events.map(e=>e.duty||0)));
+  if(d.classification==='Voo' && abs.length){
+    // Calcula por blocos: quebras > 10h indicam nova jornada no mesmo dia civil.
+    const sorted=abs.slice().sort((a,b)=>a.absStart-b.absStart); let total=0, start=sorted[0].absStart, end=sorted[0].absEnd;
+    for(let i=1;i<sorted.length;i++){ if(sorted[i].absStart-end>600){ total+=Math.max(0,end-start)/60+1; start=sorted[i].absStart; end=sorted[i].absEnd; } else end=Math.max(end,sorted[i].absEnd); }
+    total+=Math.max(0,end-start)/60+1; d.duty=round(total);
+  } else d.duty=round(sum(d.events.map(e=>e.duty||0)));
   if(d.classification==='Folga regulamentar'||d.classification==='Férias/VC')d.duty=0;
-  const crosses=d.events.some(e=>(e.absStart%1440)<360||(e.absEnd%1440)<360||(e.times||[]).some(t=>/0[0-5]:/.test(t)));
+  const crosses=abs.some(e=>{const s=e.absStart%1440,en=e.absEnd%1440;return s<360||en<360||s>en;});
   d.fatigue=d.classification==='Voo'?(crosses?85:45):d.classification==='Folga regulamentar'?10:d.classification==='Férias/VC'?5:35;
 }
 function renderDiarias(){const weeks=calcPerDiems();document.getElementById('view-diarias').innerHTML=`<div class="card"><h2>Diárias por janela LATAM</h2><p class="muted">Agrupamento quarta–terça, pagamento quinta. Quantidades, sem valores.</p></div>${weeks.map(w=>`<div class="card"><h2>${w.label}</h2><div class="grid"><div><div class="metric">${w.main}</div><span class="muted">principais</span></div><div><div class="metric">${w.breakfast}</div><span class="muted">cafés</span></div><div><div class="metric">${w.taxi}</div><span class="muted">táxis</span></div><div><div class="metric">${w.training}</div><span class="muted">treinamentos*</span></div></div><p>Pagamento previsto: <b>${w.pay}</b></p><details><summary><b>Ver itens</b></summary>${Object.entries(w.byDay).map(([d,it])=>`<div class="mealLine"><b>${d.slice(8,10)}/${d.slice(5,7)}</b> - ${it.join(', ')}</div>`).join('')}</details></div>`).join('')||'<div class="card">Sem diárias calculadas.</div>'}`}
 function calcPerDiems(){const days=allDays();const res={};Object.entries(days).forEach(([date,d])=>{if(d.classification==='Folga regulamentar'||d.classification==='Férias/VC')return;const items=[];let main=0,breakfast=0,taxi=0,training=0;if(d.classification==='Treinamento'){training++;items.push('Treinamento*')}if(d.classification==='Voo'||d.classification==='Reserva/Sobreaviso'||d.classification==='Treinamento'){const startHour=firstHour(d);const outBase=hasOutBase(d);if(startHour!==null&&startHour>=5&&startHour<8&&d.classification==='Voo'&&!startsFromHotel(d)){breakfast++;items.push('Café')} if(outBase||d.classification==='Treinamento'||d.classification==='Reserva/Sobreaviso'){main++;items.push('Almoço'); if(d.classification==='Voo'&&crossesDinner(d)){main++;items.push('Jantar')} if(d.classification==='Voo'&&crossesSupper(d)){main++;items.push('Ceia')}} if(d.classification==='Voo'&&baseTaxi(d)){taxi++;items.push('Táxi')}}if(items.length)addWeek(date,{main,breakfast,taxi,training,items})});return Object.values(res).sort((a,b)=>a.start.localeCompare(b.start));function addWeek(date,o){const k=latamWeek(date);if(!res[k.key])res[k.key]={...k,main:0,breakfast:0,taxi:0,training:0,byDay:{}};res[k.key].main+=o.main;res[k.key].breakfast+=o.breakfast;res[k.key].taxi+=o.taxi;res[k.key].training+=o.training;res[k.key].byDay[date]=[...(res[k.key].byDay[date]||[]),...o.items]}}
 function latamWeek(date){const d=parseIso(date);const day=d.getDay();const back=(day+4)%7;const start=new Date(d);start.setDate(d.getDate()-back);const end=new Date(start);end.setDate(start.getDate()+6);const pay=new Date(end);pay.setDate(end.getDate()+2);return{key:iso(start),start:iso(start),label:`${pad(start.getDate())}/${pad(start.getMonth()+1)} a ${pad(end.getDate())}/${pad(end.getMonth()+1)}`,pay:`${pad(pay.getDate())}/${pad(pay.getMonth()+1)}`}}
 function firstHour(d){let ts=d.events.flatMap(e=>e.times||[]).sort();return ts[0]?+ts[0].slice(0,2):null}function hasOutBase(d){return d.events.some(e=>e.code.startsWith('LA'))}function startsFromHotel(d){return false}function crossesDinner(d){return true}function crossesSupper(d){return d.events.some(e=>e.times.some(t=>t>='23:00'||t<'01:00'))}function baseTaxi(d){return false}
-function renderSaude(){const h=state.health[state.selected]||{};document.getElementById('view-saude').innerHTML=`<div class="card"><h2>Check-in de ${fmt(state.selected)}</h2><div class="grid"><label>Água (ml)<input class="input" type="number" value="${h.water||''}" onchange="setHealth('water',this.value)"></label><label>Treino feito<select class="input" onchange="setHealth('training',this.value)"><option value="">Não marcado</option><option ${h.training==='curto'?'selected':''} value="curto">Treino curto</option><option ${h.training==='mobilidade'?'selected':''} value="mobilidade">Mobilidade</option><option ${h.training==='caminhada'?'selected':''} value="caminhada">Caminhada</option><option ${h.training==='piscina'?'selected':''} value="piscina">Piscina</option></select></label></div><h3>Cafeína</h3><div class="row"><button class="btn small secondary" onclick="addCaffeine(60)">Espresso</button><button class="btn small secondary" onclick="addCaffeine(100)">Café pequeno</button><button class="btn small secondary" onclick="addCaffeine(160)">Café médio</button><button class="btn small secondary" onclick="addCaffeine(240)">Café grande</button><button class="btn small secondary" onclick="addCaffeine(80)">Energético</button></div><p>Total: <b>${h.caffeineMg||0} mg estimados</b></p><h3>Alimentação</h3><select class="input" id="mealType"><option>Café da manhã</option><option>Almoço</option><option>Jantar</option><option>Lanche</option><option>Ceia</option></select><textarea id="mealDesc" placeholder="Resumo da refeição"></textarea><button class="btn" onclick="addMeal()">Adicionar refeição</button>${(h.meals||[]).map(m=>`<div class="mealLine"><b>${m.type}</b> - ${m.desc}</div>`).join('')}</div>`}
-window.setHealth=function(k,v){state.health[state.selected]=state.health[state.selected]||{};state.health[state.selected][k]=isNaN(+v)?v:+v;render()};window.addCaffeine=function(mg){state.health[state.selected]=state.health[state.selected]||{};state.health[state.selected].caffeineMg=(state.health[state.selected].caffeineMg||0)+mg;render()};window.addMeal=function(){state.health[state.selected]=state.health[state.selected]||{};const h=state.health[state.selected];h.meals=h.meals||[];h.meals.push({type:document.getElementById('mealType').value,desc:document.getElementById('mealDesc').value});render()}
-function renderMeds(){const taken=state.medTaken[state.selected]||{};document.getElementById('view-medicacoes').innerHTML=`<div class="card"><h2>Medicações e suplementações</h2><div class="grid"><input class="input" id="medName" placeholder="Nome"><select class="input" id="medPeriod"><option>Manhã</option><option>Tarde</option><option>Noite</option><option>Ao acordar</option><option>Antes de dormir</option></select></div><button class="btn" onclick="addMed()">Adicionar e salvar favorito</button></div><div class="card"><h2>Checklist de ${fmt(state.selected)}</h2>${['Ao acordar','Manhã','Tarde','Noite','Antes de dormir'].map(p=>{const meds=state.meds.filter(m=>m.period===p);return meds.length?`<h3>${p}</h3>${meds.map(m=>`<label class="checkrow"><input type="checkbox" ${taken[m.name]?'checked':''} onchange="toggleMed('${m.name}',this.checked)"><div><b>${m.name}</b> <span class="pill ${m.status==='sensível'?'red':'green'}">${m.status||'compatível'}</span><br><span class="muted">${m.note||''}</span></div></label>`).join('')}`:''}).join('')}</div>`}
-window.addMed=function(){const name=document.getElementById('medName').value.trim();if(!name)return;state.meds.push({name,period:document.getElementById('medPeriod').value,status:'compatível',note:'Favorito do usuário; revisar orientação individual.'});render()};window.toggleMed=function(n,v){state.medTaken[state.selected]=state.medTaken[state.selected]||{};state.medTaken[state.selected][n]=v;save()}
-function renderDebug(){const r=currentRoster();document.getElementById('view-debug').innerHTML=`<div class="card"><h2>Modo teste dos motores</h2><p class="muted">Use para validar escalas antigas e futuras.</p><div class="debug">${escapeHtml((r.debug||[]).join('\n')||'Nenhum debug disponível.')}</div></div>`}
+function renderSaude(){const h=state.health[state.selected]||{};const evs=healthEventsForDate(state.selected);const readiness=operationalReadiness(state.selected);document.getElementById('view-saude').innerHTML=`
+<div class="card"><h2>Motor de Saúde Operacional</h2><p class="muted">Cruza escala, sono, hidratação, cafeína, alimentação, treino, sintomas e tratamentos temporários.</p><div class="grid"><div><div class="metric">${readiness.score}</div><span class="muted">prontidão operacional</span></div><div><div class="metric">${activeTreatments(state.selected).length}</div><span class="muted">tratamentos ativos</span></div><div><div class="metric">${evs.length}</div><span class="muted">eventos/sintomas no dia</span></div><div><div class="metric">${monthHealthSummary(monthKey(state.selected)).symptomDays}</div><span class="muted">dias com sintomas no mês</span></div></div></div>
+<div class="card"><h2>Check-in de ${fmt(state.selected)}</h2><div class="grid"><label>Água (ml)<input class="input" type="number" value="${h.water||''}" onchange="setHealth('water',this.value)"></label><label>Sono (h)<input class="input" type="number" step="0.1" value="${h.sleep||''}" onchange="setHealth('sleep',this.value)"></label><label>Energia (0-10)<input class="input" type="number" min="0" max="10" value="${h.energy||''}" onchange="setHealth('energy',this.value)"></label><label>Fadiga percebida (0-10)<input class="input" type="number" min="0" max="10" value="${h.perceivedFatigue||''}" onchange="setHealth('perceivedFatigue',this.value)"></label></div>
+<h3>Treino realizado</h3><div class="row">${['Treino curto','Treino completo','Mobilidade','Alongamento','Caminhada','Corrida','Piscina','Bike','Funcional','Recuperação/repouso'].map(x=>`<label class="pill"><input type="checkbox" ${((h.trainingTypes||[]).includes(x))?'checked':''} onchange="toggleTraining('${x}',this.checked)"> ${x}</label>`).join('')}</div>
+<h3>Cafeína por bebida</h3><div class="row"><button class="btn small secondary" onclick="addCaffeineDrink('Espresso',60)">Espresso</button><button class="btn small secondary" onclick="addCaffeineDrink('Café pequeno',80)">Café pequeno</button><button class="btn small secondary" onclick="addCaffeineDrink('Café médio',160)">Café médio</button><button class="btn small secondary" onclick="addCaffeineDrink('Café grande',240)">Café grande</button><button class="btn small secondary" onclick="addCaffeineDrink('Energético',80)">Energético</button><button class="btn small secondary" onclick="addCaffeineDrink('Chá mate/preto',40)">Chá</button></div><p>Total: <b>${h.caffeineMg||0} mg estimados</b> · ${(h.caffeineItems||[]).map(i=>i.name).join(', ')||'sem registros'}</p>
+<h3>Alimentação</h3><select class="input" id="mealType"><option>Café da manhã</option><option>Almoço</option><option>Jantar</option><option>Lanche</option><option>Ceia</option></select><textarea id="mealDesc" placeholder="Resumo da refeição"></textarea><button class="btn" onclick="addMeal()">Adicionar refeição</button>${(h.meals||[]).map(m=>`<div class="mealLine"><b>${m.type}</b> - ${m.desc}</div>`).join('')}</div>
+<div class="card"><h2>Eventos de saúde e sintomas</h2><div class="grid"><select class="input" id="healthCause">${HEALTH_EVENT_CAUSES.map(c=>`<option>${c}</option>`).join('')}</select><input class="input" id="healthPlace" placeholder="Local/hotel/base (opcional)"></div><p class="muted">Sintomas</p><div class="row">${SYMPTOM_CATALOG.map(s=>`<label class="pill"><input type="checkbox" name="symptom" value="${s}"> ${s}</label>`).join('')}</div><textarea id="healthNote" placeholder="Observações: intensidade, possível gatilho, hotel frio, ar seco, alimentação, etc."></textarea><button class="btn" onclick="addHealthEvent()">Registrar evento de saúde</button>${evs.map(e=>`<div class="mealLine"><b>${e.cause}</b> · ${(e.symptoms||[]).join(', ')}<br><span class="muted">${e.place||''} ${e.note||''}</span></div>`).join('')||'<p class="muted">Nenhum evento registrado nesta data.</p>'}</div>
+<div class="card"><h2>Tratamento temporário</h2><p class="muted">Use para antigripal, antibiótico, antialérgico, descongestionante, etc. O app acompanha prazo, motivo e impacto em treino/repouso.</p><div class="grid"><select class="input" id="treatMed">${HEALTH_MED_CATALOG.map(m=>`<option>${m.name}</option>`).join('')}</select><input class="input" id="treatDose" placeholder="Dose/frequência"></div><div class="grid"><input class="input" id="treatReason" placeholder="Justificativa: sinusite, rinite no hotel..."><input class="input" id="treatDays" type="number" placeholder="Duração em dias"></div><button class="btn" onclick="addTreatment()">Adicionar tratamento</button><h3>Tratamentos ativos</h3>${activeTreatments(state.selected).map(t=>`<div class="mealLine"><b>${t.med}</b> · ${t.dose||''} · ${t.reason||''}<br><span class="muted">${t.start} a ${t.end} · ${findMed(t.med)?.flight||''}</span></div>`).join('')||'<p class="muted">Nenhum tratamento ativo.</p>'}</div>
+${renderMonthlyHealthSummary()}`}
+window.toggleTraining=function(name,on){const h=state.health[state.selected]=state.health[state.selected]||{};h.trainingTypes=h.trainingTypes||[];if(on&&!h.trainingTypes.includes(name))h.trainingTypes.push(name);if(!on)h.trainingTypes=h.trainingTypes.filter(x=>x!==name);h.training=h.trainingTypes.join(', ');render()}
+window.addCaffeineDrink=function(name,mg){const h=state.health[state.selected]=state.health[state.selected]||{};h.caffeineMg=(h.caffeineMg||0)+mg;h.caffeineItems=h.caffeineItems||[];h.caffeineItems.push({name,mg});render()}
+window.addHealthEvent=function(){const sy=[...document.querySelectorAll('input[name=symptom]:checked')].map(x=>x.value);const ev={date:state.selected,cause:document.getElementById('healthCause').value,symptoms:sy,place:document.getElementById('healthPlace').value,note:document.getElementById('healthNote').value};state.healthEvents[state.selected]=state.healthEvents[state.selected]||[];state.healthEvents[state.selected].push(ev);render()}
+window.addTreatment=function(){const days=+document.getElementById('treatDays').value||1;const end=addDays(state.selected,days-1);state.treatments.push({med:document.getElementById('treatMed').value,dose:document.getElementById('treatDose').value,reason:document.getElementById('treatReason').value,start:state.selected,end});render()}
+function healthEventsForDate(d){return state.healthEvents[d]||[]}function activeTreatments(d){return (state.treatments||[]).filter(t=>t.start<=d&&t.end>=d)}function findMed(n){return HEALTH_MED_CATALOG.find(m=>m.name.toLowerCase()===String(n).toLowerCase())||HEALTH_MED_CATALOG.find(m=>String(n).toLowerCase().includes(m.name.toLowerCase().split(' ')[0]))}
+function hasAnyTraining(h){return !!(h.training||(h.trainingTypes&&h.trainingTypes.length))}
+function trainingSuggestion(date){const day=dayData(date);let base=classifyTraining(day);const evs=healthEventsForDate(date);const active=activeTreatments(date);if(evs.some(e=>(e.symptoms||[]).includes('febre')))return{label:'Repouso / sem treino intenso',key:'repouso'};if(active.some(t=>{const c=findMed(t.med);return c&&c.class&&c.class.includes('Antibiótico')}))return{label:'Recuperação: mobilidade/caminhada leve',key:'recuperacao'};if(active.some(t=>{const c=findMed(t.med);return c&&c.status==='sensível'}))return{label:'Leve e com atenção a sintomas',key:'leve'};return base}
+function operationalReadiness(date){let score=100;const h=state.health[date]||{};const day=dayData(date);if(day){score-=Math.min(25,day.fatigue/4); if(isDawnDay(day))score-=10; if(day.duty>10)score-=8;} if((h.sleep||7)<6)score-=15;if((h.water||0)<1500)score-=10;if((h.caffeineMg||0)>300)score-=10;if((h.perceivedFatigue||0)>=7)score-=12;if(healthEventsForDate(date).length)score-=8;if(activeTreatments(date).length)score-=8;if(hasAnyTraining(h)&&score<90)score+=4;score=Math.max(0,Math.min(100,Math.round(score)));return{score,label:score>=80?'Boa prontidão':score>=60?'Atenção moderada':'Recuperação prioritária'}}
+function monthHealthSummary(month){const dates=Object.keys(state.health).filter(d=>d.startsWith(month));const evDates=Object.keys(state.healthEvents).filter(d=>d.startsWith(month));const medsTaken=Object.values(state.medTaken||{}).reduce((a,o)=>a+Object.values(o).filter(Boolean).length,0);return{days:dates.length,symptomDays:evDates.length,medsTaken,avgWater:Math.round(dates.reduce((a,d)=>a+(+state.health[d].water||0),0)/(dates.length||1)),caffeine:Math.round(dates.reduce((a,d)=>a+(+state.health[d].caffeineMg||0),0)/(dates.length||1)),treatments:(state.treatments||[]).filter(t=>t.start.slice(0,7)<=month&&t.end.slice(0,7)>=month).length}}
+function renderOperationalHealthPanel(){const m=monthHealthSummary(monthKey(state.selected));const r=operationalReadiness(state.selected);return `<div class="card"><h2>Resumo de saúde operacional</h2><div class="grid"><div><div class="metric">${r.score}</div><span class="muted">IPO diário</span></div><div><div class="metric">${m.symptomDays}</div><span class="muted">dias com sintomas no mês</span></div><div><div class="metric">${m.treatments}</div><span class="muted">tratamentos no mês</span></div><div><div class="metric">${m.caffeine}</div><span class="muted">mg cafeína/dia média registrada</span></div></div><p class="muted">O IPO é apoio de autocuidado, não define aptidão para voo.</p></div>`}
+function renderMonthlyHealthSummary(){const m=monthHealthSummary(monthKey(state.selected));const evs=Object.values(state.healthEvents).flat().filter(e=>e.date&&e.date.startsWith(monthKey(state.selected)));const symptoms={};evs.forEach(e=>(e.symptoms||[]).forEach(s=>symptoms[s]=(symptoms[s]||0)+1));const top=Object.entries(symptoms).sort((a,b)=>b[1]-a[1]).slice(0,5);return `<div class="card"><h2>Resumo mensal de saúde</h2><div class="grid"><div><div class="metric">${m.days}</div><span class="muted">dias com check-in</span></div><div><div class="metric">${m.avgWater}</div><span class="muted">ml/dia água média</span></div><div><div class="metric">${m.caffeine}</div><span class="muted">mg/dia cafeína média</span></div><div><div class="metric">${m.treatments}</div><span class="muted">tratamentos</span></div></div><h3>Padrões observados</h3>${top.length?top.map(([k,v])=>`<span class="pill orange">${k}: ${v}</span>`).join(' '):'<p class="muted">Ainda não há sintomas suficientes para detectar padrões.</p>'}<p class="muted">Com mais meses de uso, o HealthOps cruzará sintomas com hotéis, bases, madrugadas, descanso ruim, variação térmica relatada e hidratação.</p></div>`}
+function renderMeds(){const taken=state.medTaken[state.selected]||{};document.getElementById('view-medicacoes').innerHTML=`
+<div class="card"><h2>Medicações e suplementações</h2><p class="muted">Pesquise no banco local. Dados técnicos vêm do catálogo para evitar perguntas manuais ao usuário.</p><div class="grid"><select class="input" id="medCatalog">${HEALTH_MED_CATALOG.map(m=>`<option>${m.name}</option>`).join('')}</select><select class="input" id="medPeriod"><option>Ao acordar</option><option>Manhã</option><option>Tarde</option><option>Noite</option><option>Antes de dormir</option><option>SOS</option></select></div><button class="btn" onclick="addMedFromCatalog()">Adicionar aos favoritos</button><button class="btn secondary" onclick="loadProtocolDefaults()">Carregar protocolos padrão</button></div>
+<div class="card"><h2>Protocolos favoritos</h2><p class="muted">Agrupe medicamentos/suplementos por período para evitar redigitar todos os dias.</p><div class="grid"><input class="input" id="protoName" placeholder="Nome do protocolo"><select class="input" id="protoPeriod"><option>Manhã</option><option>Noite</option><option>Viagem</option><option>Recuperação</option><option>SOS</option></select></div><textarea id="protoItems" placeholder="Um item por linha"></textarea><button class="btn" onclick="saveProtocol()">Salvar protocolo</button>${(state.protocols||[]).map((p,i)=>`<div class="mealLine"><b>${p.name}</b> · ${p.period}<br>${p.items.map(x=>`<span class="pill">${x}</span>`).join(' ')}<br><button class="btn small secondary" onclick="applyProtocol(${i})">Adicionar itens ao checklist</button></div>`).join('')}</div>
+<div class="card"><h2>Checklist de ${fmt(state.selected)}</h2>${['Ao acordar','Manhã','Tarde','Noite','Antes de dormir','SOS'].map(p=>{const meds=state.meds.filter(m=>m.period===p);return meds.length?`<h3>${p}</h3>${meds.map(m=>`<label class="checkrow"><input type="checkbox" ${taken[m.name]?'checked':''} onchange="toggleMed('${m.name}',this.checked)"><div><b>${m.name}</b> <span class="pill ${m.status==='sensível'?'red':m.status==='restrito'?'red':m.status==='atenção'?'orange':'green'}">${m.status||'compatível'}</span><br><span class="muted">${m.class||''} · ${m.note||m.flight||''}</span></div></label>`).join('')}`:''}).join('')||'<p class="muted">Nenhum favorito cadastrado.</p>'}</div>
+<div class="card"><h2>Banco local</h2><details><summary><b>Ver medicamentos e suplementos cadastrados (${HEALTH_MED_CATALOG.length})</b></summary>${HEALTH_MED_CATALOG.map(m=>`<div class="mealLine"><b>${m.name}</b> <span class="pill ${m.status==='sensível'||m.status==='restrito'?'red':m.status==='atenção'?'orange':'green'}">${m.status}</span><br><span class="muted">${m.kind} · ${m.class} · doses comuns: ${m.common}<br>Efeitos: ${(m.effects||[]).join(', ')}<br>${m.flight}</span></div>`).join('')}</details></div>`}
+window.addMedFromCatalog=function(){const name=document.getElementById('medCatalog').value;const c=findMed(name);if(!c)return;state.meds.push({name:c.name,period:document.getElementById('medPeriod').value,status:c.status,class:c.class,note:c.flight});render()}
+window.loadProtocolDefaults=function(){state.protocols.forEach((_,i)=>applyProtocol(i));render()}
+window.saveProtocol=function(){const name=document.getElementById('protoName').value.trim();if(!name)return;const items=document.getElementById('protoItems').value.split('\n').map(x=>x.trim()).filter(Boolean);state.protocols.push({name,period:document.getElementById('protoPeriod').value,items});render()}
+window.applyProtocol=function(i){const p=state.protocols[i];if(!p)return;p.items.forEach(item=>{const c=findMed(item)||{name:item,status:'compatível',class:'Favorito',flight:'Item do protocolo do usuário; revisar orientação individual.'};if(!state.meds.some(m=>m.name===item||m.name===c.name))state.meds.push({name:item,period:p.period,status:c.status,class:c.class,note:c.flight});});render()}
+window.addMed=function(){window.addMedFromCatalog()};window.toggleMed=function(n,v){state.medTaken[state.selected]=state.medTaken[state.selected]||{};state.medTaken[state.selected][n]=v;save()}
+function renderDebug(){const r=currentRoster();document.getElementById('view-debug').innerHTML=`${renderNormativePanel()}<div class="card"><h2>Debug do parser</h2><p class="muted">Use para validar escalas antigas e futuras.</p><div class="debug">${escapeHtml((r.debug||[]).join('\n')||'Nenhum debug disponível.')}</div></div>`}
 function escapeHtml(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
 render();
 </script>
