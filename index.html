@@ -228,6 +228,7 @@ async function readFile(ev){
           pageText=rows.map(r=>r.items.sort((a,b)=>a.x-b.x).map(i=>i.str).join(' ').replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
         }
         pages.push(pageText);
+      }
       const text=pages.join('\n');
       rawBox.value=text;
       if(!/Roster Report|\d{2}-[A-Z][a-z]{2}-\d{4}|\bLA\d{4}\b|\bDO\b|\bHSB/.test(text)){
@@ -535,7 +536,7 @@ window.resetPwaCache = async function(){
   }catch(e){ alert('Não foi possível limpar automaticamente: '+e.message); }
 };
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js?v=2.0-alpha.6-clean').catch(()=>{}));
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js?v=2.0-alpha.8-clean').catch(()=>{}));
 }
 </script>
 </body>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'healthops-v2-0-alpha-7-clean';
+const CACHE_NAME = 'healthops-v2-0-alpha-8-clean';
 const ASSETS = ['./','./index.html?v=2.0-alpha.6-clean','./manifest.json'];
 self.addEventListener('install', event => {
   self.skipWaiting();
