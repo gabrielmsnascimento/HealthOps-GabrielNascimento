@@ -1,3 +1,3 @@
-# HealthOps v3.3.5 Parser Timefix
+# HealthOps v4.0 Parser Engine
 
-Corrige mistura entre minutos relativos da chave e minutos absolutos de data no Parser Core.
+Importação padrão de escalas publicadas/executadas por conteúdo do PDF, com múltiplos arquivos e normalizador de 10 colunas.
