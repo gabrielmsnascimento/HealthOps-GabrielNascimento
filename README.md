@@ -1,5 +1,14 @@
-# HealthOps Aeronautas v2.2 Operational Health
+# HealthOps Aeronautas v3.0 modular
 
-Motor farmacológico refeito com busca digitável, campos dinâmicos por medicação, protocolos pessoais, tratamentos temporários e alertas aeronáuticos.
+Reestruturação modular para reduzir regressões e preparar testes de parser, regulamentação, saúde operacional e banco farmacológico.
 
-Prioridade do projeto: parser fiel da escala IFN/iFlight, regulamentação, recuperação operacional, autocuidado em rotina irregular e relatórios claros para acompanhamento médico/nutricional.
+## Arquivos principais
+- `index.html`: shell do app
+- `css/styles.css`: design system básico
+- `js/app.js`: roteador e inicialização
+- `js/core/*`: motores isolados
+- `js/ui/*`: renderização das abas
+- `data/medications.json`: banco farmacológico inicial
+
+## Deploy GitHub Pages
+Suba todos os arquivos da pasta para a raiz do repositório. Depois remova o PWA antigo do celular ou limpe o cache.
