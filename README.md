@@ -1,3 +1,3 @@
-# HealthOps v3.3.2 Parser HOTFIX
+HealthOps v3.3.4 Parser Offset HOTFIX
 
-Corrige divisão de linhas quando PDF.js junta múltiplas datas em uma única linha, evitando que voos de vários dias sejam agrupados no primeiro dia do bloco.
+Parser determinístico por 10 colunas essenciais e regra global (+1)/(+2)/(+3).
