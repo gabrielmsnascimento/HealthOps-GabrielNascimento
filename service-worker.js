@@ -1,5 +1,16 @@
-const CACHE_NAME='healthops-v5-4-parser-layout-core';
-const ASSETS=['./','./index.html','./manifest.json','./README.md'];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)).catch(()=>null));self.skipWaiting();});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))));self.clients.claim();});
-self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});
+const CACHE_NAME = 'healthops-v5-5-parser-real';
+const ASSETS = ['./','./index.html','./manifest.json','./service-worker.js'];
+self.addEventListener('install', event => {
+  self.skipWaiting();
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS).catch(() => null)));
+});
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+});
+self.addEventListener('fetch', event => {
+  event.respondWith(fetch(event.request).then(res => {
+    const copy = res.clone();
+    caches.open(CACHE_NAME).then(cache => { if (event.request.method === 'GET') cache.put(event.request, copy).catch(() => null); });
+    return res;
+  }).catch(() => caches.match(event.request)));
+});

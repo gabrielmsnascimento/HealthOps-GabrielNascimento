@@ -1,14 +1,16 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HealthOps Aeronautas v5.4 Parser Layout Core</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HealthOps Aeronautas v5.5 Parser Real</title>
 <style>
-:root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--green:#eaf7ee;--yellow:#fff4cd;--red:#faeaea;--bluebg:#eaf4fb;--gray:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:900;font-size:12px;z-index:30}header{max-width:1180px;margin:auto;padding:24px 18px 8px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--copper);text-transform:uppercase}h1{font-size:clamp(34px,5vw,60px);line-height:.95;margin:8px 0 8px}.wrap{max-width:1180px;margin:auto;padding:0 16px 96px}p,.muted{color:var(--muted)}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);z-index:20}.tab{flex:1;border:0;background:#e9e6df;color:#67635d;border-radius:16px;padding:14px 8px;font-weight:900;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{font-size:34px;font-weight:900;color:#153846}.btn{border:0;background:var(--brand);color:#fff;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:12px}details>summary{font-size:22px;font-weight:900;cursor:pointer;margin-bottom:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;margin:2px;background:#eef0ef}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.green{background:var(--green);color:var(--ok)}.pill.yellow{background:var(--yellow);color:var(--warn)}.pill.red{background:var(--red);color:var(--bad)}.pill.gray{background:var(--gray);color:#777}.listrow{display:grid;grid-template-columns:110px 1.4fr 90px 90px 1.5fr;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;font-size:12px;color:var(--muted)}.day{min-height:82px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.tag{display:inline-flex;margin-top:6px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:900}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.rest{background:var(--green);color:var(--ok)}.tag.none{background:var(--gray);color:#777}.alert{border-left:5px solid var(--warn);background:var(--yellow);padding:14px;border-radius:16px}.alert.bad{border-color:var(--bad);background:var(--red)}.hidden{display:none}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.hidden{display:none}.modalCard{background:#fff;width:min(620px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}.checkrow{display:flex;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px}.medcard{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.section{display:none}.section.active{display:block}pre{white-space:pre-wrap;background:#0f1d2a;color:#e9f3f5;border-radius:14px;padding:14px;overflow:auto}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.listrow{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:68px;padding:6px}.tabs{overflow-x:auto}.tab{min-width:120px}.wrap{padding-bottom:105px}}
+:root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ddd6cc;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--green:#eaf7ee;--yellow:#fff4cd;--red:#faeaea;--bluebg:#eaf4fb;--gray:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:900;font-size:12px;z-index:30}header{max-width:1180px;margin:auto;padding:24px 18px 8px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--copper);text-transform:uppercase}h1{font-size:clamp(34px,5vw,58px);line-height:.95;margin:8px 0}.wrap{max-width:1180px;margin:auto;padding:0 16px 96px}p,.muted{color:var(--muted)}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.97);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);z-index:20}.tab{flex:1;border:0;background:#e9e6df;color:#67635d;border-radius:16px;padding:14px 8px;font-weight:900;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.section{display:none}.section.active{display:block}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{font-size:34px;font-weight:900;color:#153846}.btn{border:0;background:var(--brand);color:#fff;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:12px}details>summary{font-size:22px;font-weight:900;cursor:pointer;margin-bottom:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;margin:2px;background:#eef0ef}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.green{background:var(--green);color:var(--ok)}.pill.yellow{background:var(--yellow);color:var(--warn)}.pill.red{background:var(--red);color:var(--bad)}.pill.gray{background:var(--gray);color:#777}.listrow{display:grid;grid-template-columns:110px 1.45fr 90px 90px 1.6fr;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;font-size:12px;color:var(--muted)}.day{min-height:82px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}.day.out{opacity:.35}.tag{display:inline-flex;margin-top:6px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:900}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.rest{background:var(--green);color:var(--ok)}.tag.none{background:var(--gray);color:#777}.alert{border-left:5px solid var(--warn);background:var(--yellow);padding:14px;border-radius:16px}.alert.bad{border-color:var(--bad);background:var(--red)}pre{white-space:pre-wrap;background:#0f1d2a;color:#e9f3f5;border-radius:14px;padding:14px;overflow:auto}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.hidden{display:none}.modalCard{background:#fff;width:min(620px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}.checkrow{display:flex;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px}.medcard{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.small{font-size:12px}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.listrow{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:68px;padding:6px}.tabs{overflow-x:auto}.tab{min-width:115px}.wrap{padding-bottom:105px}}
 </style>
-</head><body>
-<div class="version" id="version">v5.4-parser-layout-core</div>
-<header><div class="eyebrow">HealthOps Aeronautas</div><h1 id="pageTitle">Início operacional</h1><p id="pageSub">Base estável: parser → estado central → interface. Os módulos usam a mesma fonte de dados.</p></header>
+</head>
+<body>
+<div class="version" id="version">v5.5-parser-real</div>
+<header><div class="eyebrow">HealthOps Aeronautas</div><h1 id="pageTitle">Início operacional</h1><p id="pageSub">Parser por layout real do PDF, estado central e módulos preservados.</p></header>
 <main class="wrap">
 <section id="inicio" class="section active"></section>
 <section id="escala" class="section"></section>
@@ -20,273 +22,109 @@
 </main>
 <nav class="tabs" id="tabs"></nav>
 <div class="modal hidden" id="modal"><div class="modalCard"><div class="between"><h3 id="modalTitle">Detalhes</h3><button class="btn secondary small" onclick="HealthOps.ui.closeModal()">Fechar</button></div><div id="modalBody"></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 'use strict';
-const VERSION='v5.4-parser-layout-core';
+const VERSION='v5.5-parser-real';
+const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+const MEDS=[
+ {name:'Aciclovir',active:'aciclovir',class:'Antiviral',use:'infecções',status:'compatível',doses:['200 mg','400 mg','800 mg'],schedules:['5x ao dia','12/12h','conforme prescrição']},
+ {name:'Ácido acetilsalicílico',active:'AAS',class:'Antiagregante/analgésico',use:'dor/inflamação',status:'atenção',doses:['100 mg','500 mg'],schedules:['1x ao dia','SOS']},
+ {name:'Amoxicilina',active:'amoxicilina',class:'Antibiótico',use:'infecções',status:'atenção',doses:['500 mg','875 mg'],schedules:['8/8h','12/12h']},
+ {name:'Amoxicilina + clavulanato',active:'amoxicilina clavulanato',class:'Antibiótico',use:'sinusite/infecções',status:'atenção',doses:['500/125 mg','875/125 mg'],schedules:['8/8h','12/12h']},
+ {name:'Atentah',active:'atomoxetina',class:'TDAH',use:'atenção',status:'sensível',doses:['18 mg','25 mg','40 mg','60 mg','80 mg'],schedules:['manhã','conforme médico']},
+ {name:'Atorvastatina',active:'atorvastatina',class:'Estatina',use:'colesterol',status:'compatível',doses:['10 mg','20 mg','40 mg','80 mg'],schedules:['noite','1x ao dia']},
+ {name:'Azitromicina',active:'azitromicina',class:'Antibiótico',use:'infecções respiratórias',status:'atenção',doses:['500 mg'],schedules:['1x ao dia por 3 a 5 dias']},
+ {name:'Cetirizina',active:'cetirizina',class:'Antialérgico',use:'rinite/alergia',status:'atenção',doses:['10 mg'],schedules:['1x ao dia']},
+ {name:'Clonazepam',active:'clonazepam',class:'Benzodiazepínico',use:'ansiedade/sono',status:'proibido',doses:['0,25 mg','0,5 mg','2 mg'],schedules:['conforme médico']},
+ {name:'Creatina',active:'creatina',class:'Suplemento',use:'treino',status:'compatível',doses:['3 g','5 g'],schedules:['1x ao dia']},
+ {name:'Desloratadina',active:'desloratadina',class:'Antialérgico',use:'rinite/alergia',status:'compatível',doses:['5 mg'],schedules:['1x ao dia']},
+ {name:'Dipirona',active:'dipirona',class:'Analgésico',use:'dor/febre',status:'compatível',doses:['500 mg','1 g'],schedules:['SOS','6/6h se prescrito']},
+ {name:'Fexofenadina',active:'fexofenadina',class:'Antialérgico',use:'rinite/alergia',status:'compatível',doses:['120 mg','180 mg'],schedules:['1x ao dia']},
+ {name:'Ibuprofeno',active:'ibuprofeno',class:'Anti-inflamatório',use:'dor/inflamação',status:'atenção',doses:['400 mg','600 mg'],schedules:['8/8h se prescrito']},
+ {name:'Levotiroxina',active:'levotiroxina',class:'Tireoide',use:'hipotireoidismo',status:'compatível',doses:['25 mcg','50 mcg','75 mcg','100 mcg','125 mcg'],schedules:['ao acordar']},
+ {name:'Losartana',active:'losartana',class:'Anti-hipertensivo',use:'pressão',status:'compatível',doses:['25 mg','50 mg','100 mg'],schedules:['1x ao dia','12/12h']},
+ {name:'Metformina',active:'metformina',class:'Antidiabético',use:'diabetes/resistência insulínica',status:'compatível',doses:['500 mg','850 mg','1000 mg'],schedules:['com refeição','12/12h']},
+ {name:'Ômega 3',active:'EPA/DHA',class:'Suplemento',use:'metabólico',status:'compatível',doses:['1 cápsula','2 cápsulas'],schedules:['com refeição']},
+ {name:'Omeprazol',active:'omeprazol',class:'Gastrointestinal',use:'gastrite/refluxo',status:'compatível',doses:['20 mg','40 mg'],schedules:['manhã em jejum']},
+ {name:'Paracetamol',active:'paracetamol',class:'Analgésico',use:'dor/febre',status:'compatível',doses:['500 mg','750 mg'],schedules:['SOS','6/6h se prescrito']},
+ {name:'Rosuvastatina',active:'rosuvastatina',class:'Estatina',use:'colesterol',status:'compatível',doses:['5 mg','10 mg','20 mg','40 mg'],schedules:['noite','1x ao dia']},
+ {name:'Sibutramina',active:'sibutramina',class:'Inibidor de apetite',use:'controle de peso',status:'sensível',doses:['10 mg','15 mg'],schedules:['manhã']},
+ {name:'Vitamina D3',active:'colecalciferol',class:'Suplemento',use:'vitamina',status:'compatível',doses:['1000 UI','2000 UI','5000 UI','10000 UI'],schedules:['com refeição']},
+ {name:'Whey protein',active:'proteína do soro',class:'Suplemento',use:'proteína',status:'compatível',doses:['1 scoop','2 scoops'],schedules:['pós-treino','lanche']}
+].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
 const HealthOps={
- state:{activeTab:'inicio',selectedMonth:null,imports:{},journeys:[],events:[],debug:[],meds:[],protocols:[],health:{water:0,caffeine:[],meals:[],sleep:[]}},
- refs:{},
- init(){this.refs.tabs=document.getElementById('tabs');this.refs.modal=document.getElementById('modal');this.storage.load();this.ui.renderTabs();this.ui.render();this.debug('init','Aplicação inicializada sem dependências globais antigas.');},
- debug(scope,msg,obj){const line={time:new Date().toLocaleTimeString(),scope,msg,obj:obj||null};this.state.debug.unshift(line);if(this.state.debug.length>150)this.state.debug.pop();},
- storage:{load(){try{const raw=localStorage.getItem('healthops.v5.state');if(raw){const s=JSON.parse(raw);Object.assign(HealthOps.state,s);}}catch(e){HealthOps.debug('storage','Falha ao carregar estado',String(e));}},save(){try{localStorage.setItem('healthops.v5.state',JSON.stringify(HealthOps.state));}catch(e){HealthOps.debug('storage','Falha ao salvar estado',String(e));}}},
- utils:{
-  pad(n){return String(n).padStart(2,'0')},
-  ym(d){return d.getFullYear()+'-'+this.pad(d.getMonth()+1)},
-  dmy(d){return this.pad(d.getDate())+'/'+this.pad(d.getMonth()+1)},
-  minToHH(m){if(m==null||isNaN(m))return '—';m=Math.round(m);const sign=m<0?'-':'';m=Math.abs(m);return sign+Math.floor(m/60)+'h'+this.pad(m%60)},
-  parseDate(s){if(!s)return null;const mon={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};let m=s.match(/(\d{2})[-\/]([A-Za-z]{3})[-\/](\d{4})/);if(m)return new Date(+m[3],mon[m[2]],+m[1]);m=s.match(/(\d{2})\/(\d{2})\/(\d{4})/);if(m)return new Date(+m[3],+m[2]-1,+m[1]);return null;},
-  parseTimeToken(tok,baseDate){if(!tok||!baseDate)return null;const m=String(tok).match(/(\d{1,2}):(\d{2})(?:\s*\(\+(\d+)\))?/);if(!m)return null;const d=new Date(baseDate.getFullYear(),baseDate.getMonth(),baseDate.getDate()+ (m[3]?+m[3]:0), +m[1], +m[2],0,0);return d;},
-  diffHours(a,b){if(!a||!b)return null;return (b-a)/3600000;},
-  classifyHotel(h){if(h==null)return {cls:'gray',txt:'Recup. n/d'};if(h<10)return {cls:'red',txt:`Hotel ${h.toFixed(1)}h · Crítica (<10h)`};if(h<12)return {cls:'yellow',txt:`Hotel ${h.toFixed(1)}h · Atenção (10–12h)`};return {cls:'green',txt:`Hotel ${h.toFixed(1)}h · Adequada`};}
- },
+ state:{activeTab:'inicio',imports:{},journeys:[],events:[],debug:[],meds:[],health:{water:0,caffeine:[],meals:[],sleep:[]}},refs:{},
+ init(){this.refs.tabs=document.getElementById('tabs');this.refs.modal=document.getElementById('modal');this.storage.load();this.ui.renderTabs();this.ui.render();this.debug('init','v5.5 inicializado');if('serviceWorker' in navigator)navigator.serviceWorker.register('./service-worker.js').catch(()=>{});},
+ debug(scope,msg,obj){this.state.debug.unshift({time:new Date().toLocaleTimeString(),scope,msg,obj:obj||null});if(this.state.debug.length>200)this.state.debug.pop();},
+ storage:{load(){try{const raw=localStorage.getItem('healthops.v55.state');if(raw)Object.assign(HealthOps.state,JSON.parse(raw));}catch(e){console.warn(e)}},save(){try{localStorage.setItem('healthops.v55.state',JSON.stringify(HealthOps.state));}catch(e){HealthOps.debug('storage','Falha ao salvar',String(e));}}},
+ utils:{pad:n=>String(n).padStart(2,'0'),dateKey(d){return d.getFullYear()+'-'+this.pad(d.getMonth()+1)+'-'+this.pad(d.getDate())},monthKey(d){return d.getFullYear()+'-'+this.pad(d.getMonth()+1)},dmy(d){return this.pad(d.getDate())+'/'+this.pad(d.getMonth()+1)},hm(d){return d?d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'—'},parseDate(s){let m=String(s||'').match(/(\d{2})[-/]([A-Za-z]{3})[-/](\d{4})/);if(m)return new Date(+m[3],MONTHS[m[2]],+m[1]);m=String(s||'').match(/(\d{2})\/(\d{2})\/(\d{4})/);if(m)return new Date(+m[3],+m[2]-1,+m[1]);return null;},parsePairDate(pair, fallback){const m=String(pair||'').match(/\/(\d{2})(\d{2})(\d{2})\//);if(m)return new Date(2000+Number(m[3]),Number(m[2])-1,Number(m[1]));return fallback;},parseTime(tok,currentDate,pairDate){if(!tok)return null;const m=String(tok).replace(/\s+/g,'').match(/(\d{1,2}):(\d{2})(?:\(\+(\d+)\))?/);if(!m)return null;const base=m[3]&&pairDate?pairDate:currentDate;return new Date(base.getFullYear(),base.getMonth(),base.getDate()+(m[3]?Number(m[3]):0),Number(m[1]),Number(m[2]));},diffH(a,b){return (b-a)/3600000},classHotel(h){if(h==null)return ['gray','Recup. n/d'];if(h<10)return ['red',`Hotel ${h.toFixed(1)}h · Crítica (<10h)`];if(h<12)return ['yellow',`Hotel ${h.toFixed(1)}h · Atenção`];return ['green',`Hotel ${h.toFixed(1)}h · Adequada`];}},
  parser:{
-  async importFiles(files){
-   const list=[...files];let total=0;
-   for(const f of list){try{
-     HealthOps.debug('parser',`Iniciando leitura: ${f.name}`);
-     const text=await this.extractFile(f);
-     if(!text || text.length<30) throw new Error('Texto extraído vazio ou insuficiente.');
-     const kind=this.detectKind(text);
-     const rows=this.normalizeText(text);
-     const parsed=this.parseRoster(text,rows,f.name,kind);
-     HealthOps.state.imports[parsed.monthKey]={...(HealthOps.state.imports[parsed.monthKey]||{}),[kind]:parsed,updated:new Date().toISOString()};
-     total+=parsed.journeys.length;
-     HealthOps.debug('parser',`Arquivo processado: ${f.name}`,{kind,month:parsed.monthKey,rows:rows.length,events:parsed.events.length,journeys:parsed.journeys.length});
-   }catch(e){HealthOps.debug('parser',`Erro ao processar ${f.name}`,String(e && e.stack ? e.stack : e));}}
-   this.rebuild();HealthOps.storage.save();HealthOps.ui.render();return total;
-  },
-  async extractFile(file){
-   const name=(file.name||'').toLowerCase();
-   if(file.type.includes('text')||name.endsWith('.txt')) return await file.text();
-   if(file.type.includes('pdf')||name.endsWith('.pdf')) return await this.extractPdf(file);
-   return await file.text();
-  },
-  async extractPdf(file){
-   await this.ensurePdfJs();
-   const buf=await file.arrayBuffer();
-   const pdf=await pdfjsLib.getDocument({data:buf}).promise;
-   let out=[];
-   for(let p=1;p<=pdf.numPages;p++){
-    const page=await pdf.getPage(p);
-    const content=await page.getTextContent();
-    const items=content.items.map(it=>({x:it.transform[4],y:it.transform[5],str:(it.str||'').trim()})).filter(it=>it.str);
-    if(!items.length)continue;
-    // IFN/LATAM costuma vir como página rotacionada: o eixo X representa a linha visual e o eixo Y representa as colunas.
-    // Para não perder a tabela, extraímos nos dois modos e escolhemos o que gera mais linhas operacionais reconhecíveis.
-    const horizontal=this.extractRowsByAxis(items,'horizontal');
-    const vertical=this.extractRowsByAxis(items,'vertical');
-    const score=(rows)=>rows.reduce((n,r)=>n+(/\d{2}-[A-Za-z]{3}-\d{4}/.test(r)||/LA\d{4}/.test(r)||/(HSB|HSBE|ASB|DO|DR|VC|OFF)/.test(r)?1:0),0);
-    const chosen=score(vertical)>=score(horizontal)?vertical:horizontal;
-    out=out.concat(chosen);
-   }
-   return out.join('
-');
-  },
-  extractRowsByAxis(items,mode){
-   const vertical=mode==='vertical';
-   const groups=[]; const tol=vertical?12:3.6;
-   for(const it of items){
-    const key=vertical?it.x:it.y;
-    let g=groups.find(r=>Math.abs(r.key-key)<tol);
-    if(!g){g={key,items:[]};groups.push(g);} g.items.push(it);
-   }
-   groups.sort((a,b)=>vertical?a.key-b.key:b.key-a.key);
-   const rows=[];
-   for(const g of groups){
-    g.items.sort((a,b)=>vertical?b.y-a.y:a.x-b.x);
-    const plain=g.items.map(i=>i.str).join(' ').replace(/\s+/g,' ').trim();
-    const cols=['','','','','','','','','',''];
-    for(const it of g.items){
-     let c=-1;
-     if(vertical){
-      const y=it.y;
-      if(y>1185)c=0;          // data
-      else if(y>1110)c=1;     // dia da semana
-      else if(y>1010)c=2;     // pairing/tipo
-      else if(y>940)c=3;      // apresentação
-      else if(y>850)c=4;      // voo/atividade
-      else if(y>790)c=5;      // ignorar
-      else if(y>720)c=6;      // OP/PS
-      else if(y>630)c=7;      // origem + decolagem
-      else if(y>535)c=8;      // destino + pouso/corte
-      else if(y>465)c=9;      // fim jornada/debrief
-      else c=-1;              // FH/DH/SDC/AC/Hotel ignorados
-     }else{
-      const x=it.x;
-      if(x<105)c=0; else if(x<165)c=1; else if(x<270)c=2; else if(x<350)c=3; else if(x<455)c=4; else if(x<520)c=5; else if(x<570)c=6; else if(x<660)c=7; else if(x<750)c=8; else if(x<835)c=9; else c=-1;
-     }
-     if(c>=0)cols[c]+=(cols[c]?' ':'')+it.str;
+  async importFiles(files){let total=0;for(const file of [...files]){try{const parsed=await this.parseFile(file);const k=parsed.monthKey;HealthOps.state.imports[k]=HealthOps.state.imports[k]||{};HealthOps.state.imports[k][parsed.kind]=parsed;total+=parsed.journeys.length;HealthOps.debug('parser','Arquivo processado',{file:file.name,kind:parsed.kind,month:k,events:parsed.events.length,journeys:parsed.journeys.length});}catch(e){HealthOps.debug('parser','Erro ao processar '+file.name,String(e.stack||e.message||e));}}
+   this.rebuild();HealthOps.storage.save();HealthOps.ui.render();return total;},
+  async parseFile(file){const name=(file.name||'').toLowerCase();let table=[],text='';if(name.endsWith('.pdf')||file.type.includes('pdf')){const res=await this.extractPdfTable(file);table=res.table;text=res.text;}else{text=await file.text();table=this.textRows(text).map(r=>({text:r,cols:null}));}
+   return this.parseTable(table,text,file.name);},
+  async ensurePdf(){if(!window.pdfjsLib)throw new Error('PDF.js não carregou. Confira conexão ou recarregue a página.');pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';},
+  async extractPdfTable(file){await this.ensurePdf();const buf=await file.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:buf}).promise;let all=[],textParts=[];for(let p=1;p<=pdf.numPages;p++){const page=await pdf.getPage(p);const content=await page.getTextContent();const items=content.items.map(it=>({x:it.transform[4],y:it.transform[5],str:(it.str||'').trim()})).filter(it=>it.str);const rows=this.itemsToRows(items);all=all.concat(rows);textParts.push(rows.map(r=>r.text).join('\n'));}return {table:all,text:textParts.join('\n')};},
+  itemsToRows(items){const rows=[];items.sort((a,b)=>b.y-a.y||a.x-b.x);for(const it of items){let r=rows.find(row=>Math.abs(row.y-it.y)<4);if(!r){r={y:it.y,items:[]};rows.push(r);}r.items.push(it);}rows.sort((a,b)=>b.y-a.y);return rows.map(r=>{r.items.sort((a,b)=>a.x-b.x);const cols=this.assignCols(r.items);return {text:r.items.map(i=>i.str).join(' ').replace(/\s+/g,' ').trim(),cols,y:r.y};}).filter(r=>r.text);},
+  assignCols(items){const cols=Array(10).fill('');const boundaries=[0,78,155,265,335,438,500,565,655,745,840,1300];for(const it of items){let c=0;for(let i=0;i<boundaries.length-1;i++){if(it.x>=boundaries[i]&&it.x<boundaries[i+1]){c=i;break;}}if(c>9)c=9;cols[c]=(cols[c]+' '+it.str).trim();}return cols;},
+  textRows(text){return String(text||'').split(/\n+/).map(s=>s.trim()).filter(Boolean);},
+  detectKind(text){if(/Demonstrativo Escala Planejada/i.test(text))return 'comparativo';if(/TIPO DI[ÁA]RIA|VALOR DI[ÁA]RIA/i.test(text))return 'diarias';return 'escala';},
+  parseTable(table,text,fileName){const period=String(text).match(/(\d{2}-[A-Za-z]{3}-\d{4})\s*to\s*(\d{2}-[A-Za-z]{3}-\d{4})/i);const start=period?HealthOps.utils.parseDate(period[1]):this.firstDate(table)||new Date();const monthKey=HealthOps.utils.monthKey(start);const kind=this.detectKind(text);let currentDate=start,currentPair='',pairDate=start,pairingBuffer='',events=[];
+   for(let idx=0;idx<table.length;idx++){let row=table[idx];let cols=row.cols?[...row.cols]:null;let line=row.text.replace(/\s+\(\+(\d+)\)/g,'(+$1)').replace(/\s+/g,' ').trim();if(!line||/^(Roster|Report|Date |Pairing|Activity|Opt Rank|DH :|FH :)/i.test(line))continue;
+    // Pairing quebrado em duas linhas: cola JJCC320-P na linha anterior quando necessário.
+    if(cols&&/^JJCC/i.test(line)&&events.length===0){pairingBuffer=(pairingBuffer+' '+line).trim();continue;}
+    const dateMatch=line.match(/\d{2}-[A-Za-z]{3}-\d{4}/);if(dateMatch)currentDate=HealthOps.utils.parseDate(dateMatch[0])||currentDate;
+    let pairing='';let reportTok='',activity='',cond='',origin='',depTok='',dest='',arrTok='',relTok='';
+    if(cols){
+      if(/\d{2}-[A-Za-z]{3}-\d{4}/.test(cols[0]))currentDate=HealthOps.utils.parseDate(cols[0])||currentDate;
+      pairing=(cols[2]||'').replace(/\s+/g,'').toUpperCase();
+      if(pairing && /LA\d{4}\/?\d{6}\/?/.test(pairing) && table[idx+1] && table[idx+1].cols && /^JJCC/i.test((table[idx+1].text||'').trim())){pairing+=table[idx+1].text.trim().replace(/\s+/g,'');}
+      reportTok=this.timeFrom(cols[3]);
+      activity=(cols[4]||'').trim().toUpperCase();
+      cond=(cols[6]||'').trim().toUpperCase();
+      const od1=this.airTime(cols[7]);const od2=this.airTime(cols[8]);origin=od1.ap;depTok=od1.time;dest=od2.ap;arrTok=od2.time;relTok=this.timeFrom(cols[9]);
     }
-    // remove cabeçalhos de coluna, mas mantém Roster Report para identificação do período no texto geral
-    rows.push('__ROW__'+cols.join('	')+'	__PLAIN__ '+plain);
-   }
-   return rows;
-  },
-  ensurePdfJs(){return new Promise((resolve,reject)=>{if(window.pdfjsLib){try{pdfjsLib.GlobalWorkerOptions.workerSrc=pdfjsLib.GlobalWorkerOptions.workerSrc||'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}catch(e){} return resolve();}const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=()=>{try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}catch(e){} resolve();};s.onerror=()=>reject(new Error('Não foi possível carregar PDF.js. Confira internet/cache ou envie TXT.'));document.head.appendChild(s);});},
-  detectKind(text){if(/Demonstrativo\s+Escala\s+Planejada/i.test(text))return 'comparativo'; if(/TIPO\s+DI[ÁA]RIA|VALOR\s+DI[ÁA]RIA/i.test(text))return 'diarias'; return 'escala';},
-  normalizeText(text){return text.split(/\n+/).map(s=>s.trim()).filter(Boolean);},
-  tokenIsTime(t){return /^\d{1,2}:\d{2}(?:\(\+\d+\))?$/.test(String(t||'').replace(/\s+/g,''));},
-  tokenIsDate(t){return /^\d{2}-[A-Za-z]{3}-\d{4}$/.test(t)||/^\d{2}\/\d{2}\/\d{4}$/.test(t);},
-  tokenIsFlight(t){return /^LA\d{4}$/.test(t);},
-  isActivityToken(t){return /^LA\d{4}$/.test(t)||/^(ASB|HSB|HSBE|DO|DR|VC|OFF|R\d{3,4}|CRM\w*|CBF|EMER)$/i.test(t||'');},
-  isPairingToken(t){return /^(LA\d{4}|ASB|HSBE?|R\d{3,4}|CRM\w*|CBF|EMER)[\w\-\/]*\/\d{6}\//i.test(t||'')||/^(DO|DR|VC|OFF)$/i.test(t||'');},
-  parsePairDate(pair, fallback){
-   const m=String(pair||'').match(/\/(\d{2})(\d{2})(\d{2})\//);
-   if(m)return new Date(2000+Number(m[3]), Number(m[2])-1, Number(m[1]));
-   return fallback;
-  },
-  parseAirportTime(s){
-   const m=String(s||'').match(/\b([A-Z]{3})\s+(\d{1,2}:\d{2}(?:\(\+\d+\))?)/);
-   return m?{ap:m[1],time:m[2]}:{ap:'',time:''};
-  },
-  mergeOD(a,b){a=a||{o:{},d:{}};b=b||{o:{},d:{}};return {o:{ap:(a.o&&a.o.ap)||(b.o&&b.o.ap)||'',time:(a.o&&a.o.time)||(b.o&&b.o.time)||''},d:{ap:(a.d&&a.d.ap)||(b.d&&b.d.ap)||'',time:(a.d&&a.d.time)||(b.d&&b.d.time)||''}};},
-  releaseToken(col){const times=[...String(col||'').matchAll(/\d{1,2}:\d{2}(?:\(\+\d+\))?/g)].map(m=>m[0]);return times.find(t=>!/^0?0:00(?:\(\+\d+\))?$/.test(t))||'';},
-  plainFromRow(raw){return raw.includes('__PLAIN__')?raw.split('__PLAIN__')[1].trim():raw;},
-  parseRoster(text,rows,fileName,kind){
-   let period=text.match(/(\d{2}-[A-Za-z]{3}-\d{4})\s*to\s*(\d{2}-[A-Za-z]{3}-\d{4})/i)||text.match(/(\d{2}-[A-Za-z]{3}-\d{4})to(\d{2}-[A-Za-z]{3}-\d{4})/i);
-   let start=period?HealthOps.utils.parseDate(period[1]):new Date();
-   let monthKey=HealthOps.utils.ym(start);
-   let events=[], currentDate=start, currentPair='', pairDate=start, pendingOD=null;
-   const structured=rows.some(r=>r.startsWith('__ROW__'));
-   if(structured){
-    for(const raw of rows){
-     if(!raw.startsWith('__ROW__'))continue;
-     let body=raw.slice(7), parts=body.split('\t');
-     const cols=parts.slice(0,10).map(x=>String(x||'').replace(/\s+/g,' ').trim());
-     const plain=this.plainFromRow(raw).replace(/\s*\(\+(\d+)\)/g,'(+$1)').trim();
-     if(!plain || /^Roster Report|^Date\b/i.test(plain))continue;
-     if(this.tokenIsDate(cols[0])) currentDate=HealthOps.utils.parseDate(cols[0]);
-     // pairing pode estar quebrado entre linhas; use a parte que tem /DDMMYY/
-     if(cols[2]){
-      const pairMatch=cols[2].match(/(LA\d{4}|ASB|HSBE?|R\d{3,4}|CRM\w*|CBF|EMER)[\w\-\/]*\/\d{6}\//i) || cols[2].match(/\b(DO|DR|VC|OFF)\b/i);
-      if(pairMatch){ currentPair=pairMatch[0].toUpperCase(); pairDate=this.parsePairDate(currentPair,currentDate)||currentDate; }
-     }
-     // linhas de origem/destino sem atividade costumam estar visualmente acima da linha do voo
-     const preOD={o:this.parseAirportTime(cols[7]), d:this.parseAirportTime(cols[8])};
-     if(!cols[4] && (preOD.o.ap||preOD.d.ap)){ pendingOD=preOD; continue; }
-     const activity=(cols[4] || (['DO','DR','VC','OFF'].includes((cols[2]||'').toUpperCase())?cols[2]:'')).toUpperCase();
-     if(!activity || !this.isActivityToken(activity))continue;
-     if(['DO','DR','VC','OFF'].includes(activity)){
-      events.push({date:currentDate.toISOString().slice(0,10),baseDate:currentDate.toISOString().slice(0,10),pairing:activity,activity,cond:'',origin:'',dest:'',report:null,dep:null,arr:null,release:null,sourceLine:plain});
-      pendingOD=null; continue;
-     }
-     const base=pairDate||currentDate;
-     const reportTok=(cols[3].match(/\d{1,2}:\d{2}(?:\(\+\d+\))?/)||[''])[0];
-     const currentOD={o:this.parseAirportTime(cols[7]),d:this.parseAirportTime(cols[8])};
-     const od=this.mergeOD(pendingOD,currentOD);
-     const origin=od.o.ap, depTok=od.o.time, dest=od.d.ap, arrTok=od.d.time;
-     const relTok=this.releaseToken(cols[9]);
-     const cond=/^(OP|PS)$/i.test(cols[6])?cols[6].toUpperCase():'';
-     const report=this.tokenIsTime(reportTok)?HealthOps.utils.parseTimeToken(reportTok,base):null;
-     const dep=this.tokenIsTime(depTok)?HealthOps.utils.parseTimeToken(depTok,base):null;
-     const arr=this.tokenIsTime(arrTok)?HealthOps.utils.parseTimeToken(arrTok,base):null;
-     let release=this.tokenIsTime(relTok)?HealthOps.utils.parseTimeToken(relTok,base):null;
-     if(!release && /^(ASB|HSB|HSBE|R\d{3,4}|CRM\w*|CBF|EMER)$/i.test(activity) && arr)release=arr;
-     events.push({date:currentDate.toISOString().slice(0,10),baseDate:base.toISOString().slice(0,10),pairing:currentPair||activity,activity,cond,origin,depTok,dest,arrTok,relTok,reportTok,report,dep,arr,release,sourceLine:plain});
-     pendingOD=null;
+    if(!activity){
+      const rest=line.match(/\b(DO|DR|VC|OFF|HSBE|HSB|ASB|R\d{3,4}|CRM\w*|CBF|EMER)\b/i);const act=line.match(/\bLA\d{4}\b/);activity=(act?act[0]:rest?rest[1]:'').toUpperCase();
+      const pair=line.match(/LA\d{4}\/\d{6}\/[A-Z0-9-]+/i);pairing=pair?pair[0].toUpperCase():'';
+      const before=activity?line.slice(0,line.indexOf(activity)):line;reportTok=([...before.matchAll(/\d{1,2}:\d{2}(?:\(\+\d+\))?/g)].pop()||[])[0]||'';
+      const cm=line.match(/\b(OP|PS)\b/i);cond=cm?cm[1].toUpperCase():'';
+      const after=cond?line.slice(line.indexOf(cond)+cond.length):line;
+      const aps=[...after.matchAll(/\b([A-Z]{3})\s+(\d{1,2}:\d{2}(?:\(\+\d+\))?)/g)];if(aps[0]){origin=aps[0][1];depTok=aps[0][2];}if(aps[1]){dest=aps[1][1];arrTok=aps[1][2];}
+      const times=[...after.matchAll(/\d{1,2}:\d{2}(?:\(\+\d+\))?/g)].map(m=>m[0]);relTok=times.find((t,i)=>i>1&&!/^0?0:00(?:\(\+\d+\))?$/.test(t))||'';
     }
-   } else {
-    // Fallback para texto colado: mantém comportamento anterior, mas com menos inferência.
-    for(const raw of rows){
-     let line=raw.replace(/\s*\(\+(\d+)\)/g,'(+$1)').trim();
-     const tokens=line.split(/\s+/).filter(Boolean); if(!tokens.length)continue;
-     let idx=0; if(this.tokenIsDate(tokens[0])){currentDate=HealthOps.utils.parseDate(tokens[0]);idx=1;}
-     const pairPos=tokens.findIndex(t=>this.isPairingToken(t)); if(pairPos>=0){currentPair=tokens[pairPos].toUpperCase();pairDate=this.parsePairDate(currentPair,currentDate)||currentDate;}
-     const actIdx=tokens.findIndex(t=>this.isActivityToken(t)&&!String(t).includes('/')); if(actIdx<0)continue;
-     const activity=tokens[actIdx].toUpperCase();
-     if(['DO','DR','VC','OFF'].includes(activity)){events.push({date:currentDate.toISOString().slice(0,10),baseDate:currentDate.toISOString().slice(0,10),pairing:activity,activity,cond:'',origin:'',dest:'',report:null,dep:null,arr:null,release:null,sourceLine:line});continue;}
-     const reportTok=[...tokens.slice(0,actIdx)].reverse().find(t=>this.tokenIsTime(t))||'';
-     const condIdx=tokens.findIndex((t,i)=>i>actIdx&&/^(OP|PS)$/i.test(t));
-     const cond=condIdx>0?tokens[condIdx].toUpperCase():'';
-     const tail=tokens.slice(condIdx>0?condIdx+1:actIdx+1).join(' ');
-     const ads=[...tail.matchAll(/\b([A-Z]{3})\s+(\d{1,2}:\d{2}(?:\(\+\d+\))?)/g)].map(m=>({ap:m[1],time:m[2]}));
-     const origin=ads[0]?.ap||'', depTok=ads[0]?.time||'', dest=ads[1]?.ap||'', arrTok=ads[1]?.time||'';
-     const times=[...tail.matchAll(/\d{1,2}:\d{2}(?:\(\+\d+\))?/g)].map(m=>m[0]);
-     const relTok=times.find((t,i)=>i>1 && !/^0?0:00(?:\(\+\d+\))?$/.test(t))||''; const base=pairDate||currentDate;
-     events.push({date:currentDate.toISOString().slice(0,10),baseDate:base.toISOString().slice(0,10),pairing:currentPair||activity,activity,cond,origin,depTok,dest,arrTok,relTok,reportTok,report:this.tokenIsTime(reportTok)?HealthOps.utils.parseTimeToken(reportTok,base):null,dep:this.tokenIsTime(depTok)?HealthOps.utils.parseTimeToken(depTok,base):null,arr:this.tokenIsTime(arrTok)?HealthOps.utils.parseTimeToken(arrTok,base):null,release:this.tokenIsTime(relTok)?HealthOps.utils.parseTimeToken(relTok,base):null,sourceLine:line});
-    }
+    const isRest=['DO','DR','VC','OFF'].includes(activity);const isSpecial=['HSB','HSBE','ASB'].includes(activity)||/^R\d|CRM|CBF|EMER/.test(activity);
+    if(pairing){currentPair=pairing;pairDate=HealthOps.utils.parsePairDate(pairing,currentDate)||currentDate;}
+    if(!activity && !isRest)continue;
+    if(isRest){events.push({kind:'rest',date:HealthOps.utils.dateKey(currentDate),activity,source:line});continue;}
+    const basePair=pairDate||currentDate;const report=HealthOps.utils.parseTime(reportTok,currentDate,basePair);const dep=HealthOps.utils.parseTime(depTok,currentDate,basePair);const arr=HealthOps.utils.parseTime(arrTok,currentDate,basePair);let release=HealthOps.utils.parseTime(relTok,currentDate,basePair);
+    if(!release&&isSpecial&&arr)release=arr;
+    if(activity&&(/^LA\d{4}/.test(activity)||isSpecial)){events.push({kind:/^LA/.test(activity)?'flight':'special',date:HealthOps.utils.dateKey(currentDate),baseDate:HealthOps.utils.dateKey(basePair),pairing:currentPair||activity,activity,cond,origin,depTok,dest,arrTok,relTok,reportTok,report,dep,arr,release,source:line});}
    }
-   const journeys=this.buildJourneys(events);
-   return {fileName,kind,monthKey,period:{start:start.toISOString().slice(0,10),end:period?HealthOps.utils.parseDate(period[2]).toISOString().slice(0,10):null},events,journeys,raw:text.slice(0,6000)};
-  },
-  buildJourneys(events){
-   const js=[];let cur=null;
-   for(const e of events){
-    const isRest=['DO','DR','VC','OFF'].includes(e.activity);
-    const isFlight=/^LA\d{4}/.test(e.activity);
-    const isReserve=['ASB','HSB','HSBE'].includes(e.activity);
-    const isTraining=/^R|CRM|CBF|EMER/.test(e.activity);
-    if(isRest){if(cur){js.push(this.finishJourney(cur));cur=null;}continue;}
-    const startsNew=!!e.report || !cur || isReserve || isTraining;
-    if(startsNew){if(cur)js.push(this.finishJourney(cur));cur={type:isFlight?'Jornada de voo':isReserve?'Reserva/Sobreaviso':'Treinamento',start:e.report||e.dep||new Date(e.baseDate+'T00:00:00'),events:[],flights:[],release:null};}
-    cur.events.push(e);if(isFlight)cur.flights.push(e);if(e.release)cur.release=e.release;else if(e.arr)cur.lastArr=e.arr;
-    if(isReserve||isTraining){cur.release=e.release||e.arr||e.dep||cur.start;js.push(this.finishJourney(cur));cur=null;}
-   }
-   if(cur)js.push(this.finishJourney(cur));
-   return js.filter(j=>j.start&&j.end&&isFinite(j.dutyHours)&&j.dutyHours>=0&&j.dutyHours<30);
-  },
-  finishJourney(j){
-   const lastFlight=j.flights[j.flights.length-1];
-   let end=j.release;
-   const lastArr=lastFlight?.arr || j.lastArr;
-   if(!end && lastArr) end=new Date(lastArr.getTime()+30*60000);
-   if(lastFlight && /^LA8/.test(lastFlight.activity) && end && lastArr && (end-lastArr)<40*60000) end=new Date(lastArr.getTime()+45*60000);
-   if(lastFlight && !/^LA8/.test(lastFlight.activity) && end && lastArr && (end-lastArr)<25*60000) end=new Date(lastArr.getTime()+30*60000);
-   if(!end)end=j.start;
-   const fh=j.flights.reduce((s,f)=>s+(f.dep&&f.arr?Math.max(0,(f.arr-f.dep)/3600000):0),0);
-   return {...j,end,flightHours:fh,dutyHours:(end-j.start)/3600000,labels:j.flights.map(f=>f.activity),date:j.start.toISOString().slice(0,10)};
-  },
-  rebuild(){
-   const imports=Object.values(HealthOps.state.imports);let journeys=[];let events=[];
-   for(const imp of imports){const p=imp.escala||imp.executada||imp.publicada; if(p){journeys=journeys.concat(p.journeys||[]);events=events.concat(p.events||[]);}}
-   journeys.sort((a,b)=>new Date(a.start)-new Date(b.start));
-   for(let i=0;i<journeys.length;i++){const next=journeys[i+1];journeys[i].restNext=next?HealthOps.utils.diffHours(new Date(journeys[i].end),new Date(next.start)):null;journeys[i].hotelEst=journeys[i].restNext==null?null:Math.max(0,journeys[i].restNext-2.5);}
-   HealthOps.state.journeys=journeys;HealthOps.state.events=events;
-  }
+   const journeys=this.buildJourneys(events);return {fileName,kind,monthKey,period:{start:HealthOps.utils.dateKey(start),end:period?HealthOps.utils.dateKey(HealthOps.utils.parseDate(period[2])):null},events,journeys,raw:text.slice(0,8000)};},
+  firstDate(table){for(const r of table){const m=r.text.match(/\d{2}-[A-Za-z]{3}-\d{4}/);if(m)return HealthOps.utils.parseDate(m[0]);}return null;},timeFrom(s){const m=String(s||'').match(/\d{1,2}:\d{2}(?:\(\+\d+\))?/);return m?m[0]:'';},airTime(s){const m=String(s||'').match(/\b([A-Z]{3})\s+(\d{1,2}:\d{2}(?:\(\+\d+\))?)/);return {ap:m?m[1]:'',time:m?m[2]:''};},
+  buildJourneys(events){const js=[];let cur=null;for(const e of events){if(e.kind==='rest')continue;const isFlight=e.kind==='flight';const isSpecial=e.kind==='special';const starts=!!e.report||!cur||isSpecial;if(starts){if(cur)js.push(this.finish(cur));cur={type:isFlight?'Jornada de voo':this.specialType(e.activity),start:e.report||e.dep||e.arr,events:[],flights:[],release:null};}
+    if(!cur)continue;cur.events.push(e);if(isFlight)cur.flights.push(e);if(e.release)cur.release=e.release;else if(e.arr)cur.lastArr=e.arr;if(isSpecial){js.push(this.finish(cur));cur=null;}}
+   if(cur)js.push(this.finish(cur));return js.filter(j=>j.start&&j.end&&isFinite(j.dutyHours)&&j.dutyHours>=0&&j.dutyHours<36);},
+  specialType(a){if(['HSB','HSBE','ASB'].includes(a))return 'Reserva/Sobreaviso';return 'Treinamento';},
+  finish(j){const last=j.flights[j.flights.length-1];const lastArr=last?.arr||j.lastArr||j.start;let end=j.release;if(!end&&lastArr)end=new Date(lastArr.getTime()+30*60000);if(last&&/^LA8/.test(last.activity)&&end-lastArr<40*60000)end=new Date(lastArr.getTime()+45*60000);if(last&&!/^LA8/.test(last.activity)&&end-lastArr<25*60000)end=new Date(lastArr.getTime()+30*60000);const flightHours=j.flights.reduce((s,f)=>s+(f.dep&&f.arr?Math.max(0,HealthOps.utils.diffH(f.dep,f.arr)):0),0);return {...j,end,flightHours,dutyHours:HealthOps.utils.diffH(j.start,end),labels:j.events.map(e=>e.activity),date:HealthOps.utils.dateKey(j.start)};},
+  rebuild(){let journeys=[],events=[];Object.values(HealthOps.state.imports).forEach(i=>{const p=i.escala||i.publicada||i.executada;if(p){journeys=journeys.concat(p.journeys||[]);events=events.concat(p.events||[]);}});journeys.sort((a,b)=>new Date(a.start)-new Date(b.start));for(let i=0;i<journeys.length;i++){const next=journeys[i+1];journeys[i].restNext=next?HealthOps.utils.diffH(new Date(journeys[i].end),new Date(next.start)):null;journeys[i].hotelEst=journeys[i].restNext==null?null:Math.max(0,journeys[i].restNext-2.5);}HealthOps.state.journeys=journeys;HealthOps.state.events=events;}
  },
- ui:{tabs:[['inicio','Início'],['escala','Escala'],['saude','Saúde'],['medicacoes','Medicações'],['relatorio','Relatório'],['validacao','Validação'],['debug','Debug']],renderTabs(){HealthOps.refs.tabs.innerHTML=this.tabs.map(([id,label])=>`<button class="tab ${HealthOps.state.activeTab===id?'active':''}" data-tab="${id}">${label}</button>`).join('');HealthOps.refs.tabs.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{HealthOps.state.activeTab=b.dataset.tab;HealthOps.storage.save();this.render();});},render(){document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===HealthOps.state.activeTab));this.renderTabs();const title={inicio:'Início operacional',escala:'Escala operacional',saude:'Saúde operacional',medicacoes:'Medicações e suplementações',relatorio:'Relatório',validacao:'Validação do parser',debug:'Debug'}[HealthOps.state.activeTab];document.getElementById('pageTitle').textContent=title;this[HealthOps.state.activeTab]();},openModal(t,b){document.getElementById('modalTitle').textContent=t;document.getElementById('modalBody').innerHTML=b;HealthOps.refs.modal.classList.remove('hidden');},closeModal(){HealthOps.refs.modal.classList.add('hidden');},
-  inicio(){const el=document.getElementById('inicio');const js=HealthOps.state.journeys;const now=new Date();const next=js.find(j=>new Date(j.end)>now)||js[0];el.innerHTML=`<div class="grid"><div class="card"><b>Jornadas</b><div class="metric">${js.length}</div><span class="muted">processadas</span></div><div class="card"><b>Tempo de voo</b><div class="metric">${js.reduce((s,j)=>s+j.flightHours,0).toFixed(1)}h</div></div><div class="card"><b>Jornada</b><div class="metric">${js.reduce((s,j)=>s+j.dutyHours,0).toFixed(1)}h</div></div><div class="card"><b>Próxima</b><div class="metric">${next?HealthOps.utils.dmy(new Date(next.start)):'—'}</div></div></div><div class="card"><h2>Leitura operacional</h2><p>O HealthOps v5 usa estado central: a escala importada alimenta calendário, regulamentação, descanso, treino, diárias e saúde sem cada tela reinterpretar o PDF.</p>${next?`<div class="alert"><b>Próxima jornada:</b> ${next.labels.join(', ')||next.type} · início ${new Date(next.start).toLocaleString()} · fim ${new Date(next.end).toLocaleString()}</div>`:''}</div>`;},
-  escala(){const el=document.getElementById('escala');const js=HealthOps.state.journeys;el.innerHTML=`<div class="card"><h2>Importar documentos operacionais</h2><p>Selecione um ou vários PDFs/TXT de escala publicada ou executada. O nome do arquivo é ignorado; a identificação é feita pelo conteúdo.</p><input class="input" id="fileInput" type="file" multiple accept=".pdf,.txt,application/pdf,text/plain"><div class="row" style="margin-top:10px"><button class="btn" id="processBtn">Processar e salvar</button><button class="btn danger" id="clearBtn">Limpar importações</button></div><p class="muted">${js.length} jornadas processadas.</p></div><details class="card" open><summary>1. Jornada do mês</summary>${this.journeyTable(js)}</details><details class="card"><summary>2. Calendário</summary>${this.calendar(js)}</details><details class="card"><summary>3. Diárias estimadas</summary>${this.perdiem(js)}</details>`;document.getElementById('processBtn').onclick=async()=>{const f=document.getElementById('fileInput').files;if(!f.length)return this.openModal('Importação','Selecione ao menos um arquivo.');document.getElementById('processBtn').disabled=true;await HealthOps.parser.importFiles(f);document.getElementById('processBtn').disabled=false;};document.getElementById('clearBtn').onclick=()=>{HealthOps.state.imports={};HealthOps.state.journeys=[];HealthOps.state.events=[];HealthOps.storage.save();this.render();};},
-  journeyTable(js){if(!js.length)return '<p class="muted">Nenhuma jornada processada.</p>';return js.map((j,i)=>{const hotel=HealthOps.utils.classifyHotel(j.hotelEst);return `<div class="listrow"><b>${new Date(j.start).toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})}</b><div><b>${j.type}</b><br><span class="muted">Apres. ${new Date(j.start).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} · Fim ${new Date(j.end).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span><br><span class="pill ${hotel.cls}">${hotel.txt}</span></div><div>${j.dutyHours.toFixed(1)}h</div><div>${j.flightHours.toFixed(1)}h</div><div>${j.labels.map(x=>`<span class="pill blue" onclick="HealthOps.ui.openModal('Voo ${x}','${this.flightDetails(j,x).replace(/'/g,'&apos;')}')">${x}</span>`).join('')}</div></div>`}).join('');},
-  flightDetails(j,x){const f=j.flights.find(f=>f.activity===x);if(!f)return 'Sem detalhes.';return `<p><b>${x}</b> ${f.origin||''}–${f.dest||''}</p><p>Decolagem: ${f.dep?new Date(f.dep).toLocaleString():f.depTok||'—'}<br>Pouso/corte: ${f.arr?new Date(f.arr).toLocaleString():f.arrTok||'—'}<br>Condição: ${f.cond||'—'}</p><p>Jornada: ${new Date(j.start).toLocaleString()} → ${new Date(j.end).toLocaleString()}</p>`;},
+ ui:{tabs:[['inicio','Início'],['escala','Escala'],['saude','Saúde'],['medicacoes','Medicações'],['relatorio','Relatório'],['validacao','Validação'],['debug','Debug']],renderTabs(){HealthOps.refs.tabs.innerHTML=this.tabs.map(([id,label])=>`<button class="tab ${HealthOps.state.activeTab===id?'active':''}" data-tab="${id}">${label}</button>`).join('');HealthOps.refs.tabs.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{HealthOps.state.activeTab=b.dataset.tab;HealthOps.storage.save();this.render();});},render(){document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===HealthOps.state.activeTab));this.renderTabs();document.getElementById('pageTitle').textContent={inicio:'Início operacional',escala:'Escala operacional',saude:'Saúde operacional',medicacoes:'Medicações e suplementações',relatorio:'Relatório',validacao:'Validação do parser',debug:'Debug'}[HealthOps.state.activeTab];try{this[HealthOps.state.activeTab]();}catch(e){document.getElementById(HealthOps.state.activeTab).innerHTML=`<div class="card"><h2>Erro nesta aba</h2><pre>${e.stack||e}</pre></div>`;HealthOps.debug('ui','Erro render',String(e.stack||e));}},openModal(t,b){document.getElementById('modalTitle').textContent=t;document.getElementById('modalBody').innerHTML=b;HealthOps.refs.modal.classList.remove('hidden');},closeModal(){HealthOps.refs.modal.classList.add('hidden');},
+  inicio(){const js=HealthOps.state.journeys;const next=js.find(j=>new Date(j.end)>new Date())||js[0];document.getElementById('inicio').innerHTML=`<div class="grid"><div class="card"><b>Jornadas</b><div class="metric">${js.length}</div><span class="muted">processadas</span></div><div class="card"><b>Tempo de voo</b><div class="metric">${js.reduce((s,j)=>s+j.flightHours,0).toFixed(1)}h</div></div><div class="card"><b>Jornada</b><div class="metric">${js.reduce((s,j)=>s+j.dutyHours,0).toFixed(1)}h</div></div><div class="card"><b>Próxima</b><div class="metric">${next?HealthOps.utils.dmy(new Date(next.start)):'—'}</div></div></div><div class="card"><h2>Leitura operacional</h2><p>Importe a escala publicada/executada. O sistema lê as colunas visuais do PDF e reconstrói jornadas por apresentação, decolagem, pouso/corte e fim de jornada.</p>${next?`<div class="alert"><b>Próxima jornada:</b> ${next.labels.join(', ')} · ${new Date(next.start).toLocaleString()} → ${new Date(next.end).toLocaleString()}</div>`:''}</div>`;},
+  escala(){const js=HealthOps.state.journeys;document.getElementById('escala').innerHTML=`<div class="card"><h2>Importar documentos operacionais</h2><p>Selecione um ou vários PDFs/TXT de escala publicada ou executada. Nome do arquivo é ignorado.</p><input class="input" id="fileInput" type="file" multiple accept=".pdf,.txt,application/pdf,text/plain"><div class="row" style="margin-top:10px"><button class="btn" id="processBtn">Processar e salvar</button><button class="btn danger" id="clearBtn">Limpar importações</button></div><p class="muted">${js.length} jornadas processadas.</p></div><details class="card" open><summary>1. Jornada do mês</summary>${this.journeyTable(js)}</details><details class="card"><summary>2. Calendário</summary>${this.calendar(js)}</details><details class="card"><summary>3. Diárias estimadas</summary>${this.perdiem(js)}</details>`;document.getElementById('processBtn').onclick=async()=>{const f=document.getElementById('fileInput').files;if(!f.length)return this.openModal('Importação','Selecione ao menos um arquivo.');document.getElementById('processBtn').disabled=true;await HealthOps.parser.importFiles(f);document.getElementById('processBtn').disabled=false;};document.getElementById('clearBtn').onclick=()=>{HealthOps.state.imports={};HealthOps.state.journeys=[];HealthOps.state.events=[];HealthOps.storage.save();this.render();};},
+  journeyTable(js){if(!js.length)return '<p class="muted">Nenhuma jornada processada.</p>';return js.map(j=>{const h=HealthOps.utils.classHotel(j.hotelEst);return `<div class="listrow"><b>${new Date(j.start).toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})}</b><div><b>${j.type}</b><br><span class="muted">Apres. ${HealthOps.utils.hm(new Date(j.start))} · Fim ${HealthOps.utils.hm(new Date(j.end))}</span><br><span class="pill ${h[0]}">${h[1]}</span></div><div>${j.dutyHours.toFixed(1)}h</div><div>${j.flightHours.toFixed(1)}h</div><div>${j.labels.map(x=>`<span class="pill blue">${x}</span>`).join('')}</div></div>`}).join('');},
   calendar(js){const base=js[0]?new Date(js[0].start):new Date();const y=base.getFullYear(),m=base.getMonth();const first=new Date(y,m,1);const start=new Date(y,m,1-first.getDay());let html='<div class="calendar">'+['D','S','T','Q','Q','S','S'].map(d=>`<div class="dow">${d}</div>`).join('');for(let i=0;i<42;i++){const d=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i);const dayJs=js.filter(j=>new Date(j.start).toDateString()===d.toDateString());html+=`<div class="day ${d.getMonth()!=m?'out':''}"><b>${d.getDate()}</b><br>${dayJs.length?`<span class="tag flight">${dayJs.length} jorn.</span>`:`<span class="tag none">Sem dados</span>`}</div>`;}return html+'</div>';},
-  perdiem(js){if(!js.length)return '<p class="muted">Sem dados.</p>';const items=[];for(const j of js){const away=j.flights.some(f=>f.origin&&f.origin!=='BSB')||j.flights.some(f=>f.dest&&f.dest!=='BSB');if(away){const d=HealthOps.utils.dmy(new Date(j.start));items.push(`${d} · almoço/jantar conforme janelas e pernoite operacional · ${j.labels.join(', ')}`)}}return items.length?items.map(x=>`<div class="medcard">${x}</div>`).join(''):'<p class="muted">Nenhuma diária estimada.</p>';},
-  saude(){const h=HealthOps.state.health;document.getElementById('saude').innerHTML=`<div class="grid"><div class="card"><b>Água</b><div class="metric">${h.water||0}ml</div><div class="row"><button class="btn small" onclick="HealthOps.state.health.water=Math.max(0,(HealthOps.state.health.water||0)-250);HealthOps.storage.save();HealthOps.ui.render()">-250</button><button class="btn small" onclick="HealthOps.state.health.water=(HealthOps.state.health.water||0)+250;HealthOps.storage.save();HealthOps.ui.render()">+250</button></div></div><div class="card"><b>Cafeína</b><div class="metric">${(h.caffeine||[]).length}</div><span class="muted">registros</span></div><div class="card"><b>Refeições</b><div class="metric">${(h.meals||[]).length}</div></div><div class="card"><b>Sono</b><div class="metric">${(h.sleep||[]).length}</div></div></div><div class="card"><h2>Check-in rápido</h2><div class="row"><input class="input" id="mealTxt" placeholder="Resumo da refeição, cafeína, sintomas ou sono"><button class="btn" onclick="const v=document.getElementById('mealTxt').value.trim();if(v){HealthOps.state.health.meals.push({date:new Date().toISOString(),text:v});HealthOps.storage.save();HealthOps.ui.render()}">Adicionar</button></div></div>`;},
-  medicacoes(){const meds=HealthOps.medCatalog;const saved=HealthOps.state.meds||[];document.getElementById('medicacoes').innerHTML=`<div class="card"><h2>Adicionar medicação/suplemento</h2><input class="input" id="medSearch" placeholder="Digite nome, princípio ativo, classe ou finalidade"><div id="medResults"></div></div><div class="card"><h2>Checklist / protocolo pessoal</h2>${saved.length?saved.map((m,i)=>`<div class="checkrow"><input type="checkbox" ${m.done?'checked':''} onchange="HealthOps.state.meds[${i}].done=this.checked;HealthOps.storage.save()"><div><b>${m.name}</b> <span class="pill ${m.status==='sensível'?'yellow':m.status==='proibido'?'red':'green'}">${m.status}</span><br><span class="muted">${m.dose||''} · ${m.schedule||''}</span><br><button class="btn secondary small" onclick="HealthOps.state.meds.splice(${i},1);HealthOps.storage.save();HealthOps.ui.render()">Remover</button></div></div>`).join(''):'<p class="muted">Nenhum item salvo.</p>'}</div>`;const inp=document.getElementById('medSearch');const render=()=>{const q=inp.value.toLowerCase();const arr=meds.filter(m=>(m.name+' '+m.class+' '+m.use+' '+m.active).toLowerCase().includes(q)).slice(0,25);document.getElementById('medResults').innerHTML=arr.map((m,idx)=>`<div class="medcard"><b>${m.name}</b> <span class="pill ${m.status==='sensível'?'yellow':m.status==='proibido'?'red':'green'}">${m.status}</span><br><span class="muted">${m.class} · ${m.use} · ${m.active}</span><div class="row" style="margin-top:8px"><select id="dose${idx}" class="input" style="max-width:190px">${m.doses.map(d=>`<option>${d}</option>`).join('')}</select><select id="sched${idx}" class="input" style="max-width:190px">${m.schedules.map(d=>`<option>${d}</option>`).join('')}</select><button class="btn small" onclick="HealthOps.state.meds.push({name:'${m.name}',status:'${m.status}',dose:document.getElementById('dose${idx}').value,schedule:document.getElementById('sched${idx}').value,done:false});HealthOps.storage.save();HealthOps.ui.render()">Adicionar</button></div></div>`).join('');};inp.oninput=render;render();},
-  relatorio(){document.getElementById('relatorio').innerHTML=`<div class="card"><h2>Relatório operacional</h2><p>Resumo exportável em PDF pelo navegador: use Ctrl+P / Salvar como PDF.</p>${this.journeyTable(HealthOps.state.journeys)}</div>`;},
-  validacao(){const imports=Object.values(HealthOps.state.imports);document.getElementById('validacao').innerHTML=`<div class="card"><h2>Parser Validation Suite</h2><p>Use esta tela para comparar totais do cabeçalho com o que o parser reconstruiu.</p>${imports.map(i=>{const p=i.escala||i.executada||i.publicada;return p?`<div class="medcard"><b>${p.fileName}</b><br>Mês: ${p.monthKey}<br>Jornadas: ${p.journeys.length}<br>Eventos: ${p.events.length}</div>`:''}).join('')||'<p class="muted">Sem importações.</p>'}</div>`;},
-  debug(){document.getElementById('debug').innerHTML=`<div class="card"><h2>Debug</h2><button class="btn danger" onclick="localStorage.removeItem('healthops.v5.state');location.reload()">Resetar app</button><pre>${HealthOps.state.debug.map(d=>`[${d.time}] ${d.scope}: ${d.msg}${d.obj?'\n'+JSON.stringify(d.obj,null,2):''}`).join('\n\n')}</pre></div>`;}
- },
- medCatalog:[
-  {name:'Aciclovir',active:'aciclovir',class:'Antiviral',use:'infecções',status:'compatível',doses:['200 mg','400 mg','800 mg'],schedules:['conforme prescrição','5x/dia','8/8h']},
-  {name:'Ácido acetilsalicílico',active:'AAS',class:'Antiagregante/analgésico',use:'dor/inflamação/cardiovascular',status:'atenção',doses:['81 mg','100 mg','500 mg'],schedules:['1x/dia','se dor','conforme prescrição']},
-  {name:'Amoxicilina',active:'amoxicilina',class:'Antibiótico',use:'infecções',status:'atenção',doses:['500 mg','875 mg'],schedules:['8/8h','12/12h','conforme prescrição']},
-  {name:'Amoxicilina + clavulanato',active:'amoxicilina clavulanato',class:'Antibiótico',use:'infecções',status:'atenção',doses:['500/125 mg','875/125 mg'],schedules:['8/8h','12/12h']},
-  {name:'Amlodipino',active:'anlodipino',class:'Anti-hipertensivo',use:'pressão',status:'compatível',doses:['2,5 mg','5 mg','10 mg'],schedules:['1x/dia']},
-  {name:'Atentah',active:'atomoxetina',class:'TDAH',use:'saúde mental',status:'sensível',doses:['18 mg','25 mg','40 mg','60 mg','80 mg'],schedules:['manhã','conforme prescrição']},
-  {name:'Atorvastatina',active:'atorvastatina',class:'Estatina',use:'colesterol',status:'compatível',doses:['10 mg','20 mg','40 mg','80 mg'],schedules:['noite','1x/dia']},
-  {name:'Azitromicina',active:'azitromicina',class:'Antibiótico',use:'infecções',status:'atenção',doses:['500 mg'],schedules:['1x/dia por 3 dias','1x/dia por 5 dias']},
-  {name:'Cetirizina',active:'cetirizina',class:'Antialérgico',use:'rinite/alergia',status:'atenção',doses:['10 mg'],schedules:['1x/dia','noite']},
-  {name:'Cloridrato de pseudoefedrina',active:'pseudoefedrina',class:'Descongestionante',use:'gripal/rinite',status:'sensível',doses:['60 mg','120 mg'],schedules:['12/12h','conforme prescrição']},
-  {name:'Creatina',active:'creatina',class:'Suplemento',use:'performance',status:'compatível',doses:['3 g','5 g'],schedules:['1x/dia']},
-  {name:'Desloratadina',active:'desloratadina',class:'Antialérgico',use:'rinite/alergia',status:'compatível',doses:['5 mg'],schedules:['1x/dia']},
-  {name:'Dipirona',active:'dipirona',class:'Analgésico',use:'dor/febre',status:'compatível',doses:['500 mg','1 g'],schedules:['se dor/febre','6/6h se prescrito']},
-  {name:'Empagliflozina',active:'empagliflozina',class:'Diabetes/metabólico',use:'diabetes',status:'compatível',doses:['10 mg','25 mg'],schedules:['manhã','1x/dia']},
-  {name:'Fexofenadina',active:'fexofenadina',class:'Antialérgico',use:'rinite/alergia',status:'compatível',doses:['120 mg','180 mg'],schedules:['1x/dia']},
-  {name:'Ibuprofeno',active:'ibuprofeno',class:'Anti-inflamatório',use:'dor/inflamação',status:'atenção',doses:['400 mg','600 mg'],schedules:['8/8h se prescrito','se dor']},
-  {name:'Levotiroxina',active:'levotiroxina',class:'Tireoide',use:'hipotireoidismo',status:'compatível',doses:['25 mcg','50 mcg','75 mcg','100 mcg','125 mcg'],schedules:['jejum']},
-  {name:'Loratadina',active:'loratadina',class:'Antialérgico',use:'rinite/alergia',status:'compatível',doses:['10 mg'],schedules:['1x/dia']},
-  {name:'Losartana',active:'losartana',class:'Anti-hipertensivo',use:'pressão',status:'compatível',doses:['25 mg','50 mg','100 mg'],schedules:['1x/dia','12/12h']},
-  {name:'Magnésio dimalato',active:'magnésio',class:'Suplemento mineral',use:'suplementação',status:'compatível',doses:['300 mg','500 mg'],schedules:['noite']},
-  {name:'Metformina',active:'metformina',class:'Diabetes/metabólico',use:'diabetes/resistência insulínica',status:'compatível',doses:['500 mg','850 mg','1000 mg'],schedules:['com refeição','12/12h']},
-  {name:'Ômega 3',active:'EPA DHA',class:'Suplemento',use:'metabólico',status:'compatível',doses:['1 g','2 g','3 g'],schedules:['com refeição']},
-  {name:'Omeprazol',active:'omeprazol',class:'Gastrointestinal',use:'gastrite/refluxo',status:'compatível',doses:['20 mg','40 mg'],schedules:['jejum']},
-  {name:'Paracetamol',active:'paracetamol',class:'Analgésico',use:'dor/febre',status:'compatível',doses:['500 mg','750 mg'],schedules:['se dor/febre']},
-  {name:'Rosuvastatina',active:'rosuvastatina',class:'Estatina',use:'colesterol',status:'compatível',doses:['5 mg','10 mg','20 mg','40 mg'],schedules:['noite','1x/dia']},
-  {name:'Sibutramina',active:'sibutramina',class:'Inibidor de apetite',use:'peso/metabólico',status:'sensível',doses:['10 mg','15 mg'],schedules:['manhã']},
-  {name:'Vitamina D3',active:'colecalciferol',class:'Suplemento vitamínico',use:'suplementação',status:'compatível',doses:['1000 UI','2000 UI','5000 UI','10000 UI'],schedules:['com refeição','conforme exames']}
- ]
+  perdiem(js){if(!js.length)return '<p class="muted">Sem dados.</p>';const items=[];for(const j of js){const away=j.flights.some(f=>f.origin&&f.origin!=='BSB')||j.flights.some(f=>f.dest&&f.dest!=='BSB');if(away)items.push(`${HealthOps.utils.dmy(new Date(j.start))} · ${j.labels.join(', ')} · verificar almoço/jantar/ceia conforme janela operacional`);}return items.length?items.map(x=>`<div class="medcard">${x}</div>`).join(''):'<p class="muted">Nenhuma diária estimada.</p>';},
+  saude(){const h=HealthOps.state.health;document.getElementById('saude').innerHTML=`<div class="grid"><div class="card"><b>Água</b><div class="metric">${h.water||0}ml</div><div class="row"><button class="btn small" onclick="HealthOps.state.health.water=Math.max(0,(HealthOps.state.health.water||0)-250);HealthOps.storage.save();HealthOps.ui.render()">-250</button><button class="btn small" onclick="HealthOps.state.health.water=(HealthOps.state.health.water||0)+250;HealthOps.storage.save();HealthOps.ui.render()">+250</button></div></div><div class="card"><b>Cafeína</b><div class="metric">${(h.caffeine||[]).length}</div></div><div class="card"><b>Refeições</b><div class="metric">${(h.meals||[]).length}</div></div><div class="card"><b>Sono</b><div class="metric">${(h.sleep||[]).length}</div></div></div><div class="card"><h2>Check-in rápido</h2><div class="row"><input class="input" id="mealTxt" placeholder="Resumo de refeição, cafeína, sintomas ou sono"><button class="btn" onclick="const v=document.getElementById('mealTxt').value.trim();if(v){HealthOps.state.health.meals.push({date:new Date().toISOString(),text:v});HealthOps.storage.save();HealthOps.ui.render()}">Adicionar</button></div></div>`;},
+  medicacoes(){const saved=HealthOps.state.meds||[];document.getElementById('medicacoes').innerHTML=`<div class="card"><h2>Adicionar medicação/suplemento</h2><input class="input" id="medSearch" placeholder="Digite nome, princípio ativo, classe ou finalidade"><div id="medResults"></div></div><div class="card"><h2>Checklist / protocolo pessoal</h2>${saved.length?saved.map((m,i)=>`<div class="checkrow"><input type="checkbox" ${m.done?'checked':''} onchange="HealthOps.state.meds[${i}].done=this.checked;HealthOps.storage.save()"><div><b>${m.name}</b> <span class="pill ${m.status==='sensível'?'yellow':m.status==='proibido'?'red':'green'}">${m.status}</span><br><span class="muted">${m.dose||''} · ${m.schedule||''}</span><br><button class="btn secondary small" onclick="HealthOps.state.meds.splice(${i},1);HealthOps.storage.save();HealthOps.ui.render()">Remover</button></div></div>`).join(''):'<p class="muted">Nenhum item salvo.</p>'}</div>`;const inp=document.getElementById('medSearch');const render=()=>{const q=inp.value.toLowerCase();const arr=MEDS.filter(m=>(m.name+' '+m.class+' '+m.use+' '+m.active).toLowerCase().includes(q)).slice(0,30);document.getElementById('medResults').innerHTML=arr.map((m,idx)=>`<div class="medcard"><b>${m.name}</b> <span class="pill ${m.status==='sensível'?'yellow':m.status==='proibido'?'red':'green'}">${m.status}</span><br><span class="muted">${m.class} · ${m.use} · ${m.active}</span><div class="row" style="margin-top:8px"><select id="dose${idx}" class="input" style="max-width:190px">${m.doses.map(d=>`<option>${d}</option>`).join('')}</select><select id="sched${idx}" class="input" style="max-width:190px">${m.schedules.map(d=>`<option>${d}</option>`).join('')}</select><button class="btn small" onclick="HealthOps.state.meds.push({name:'${m.name}',status:'${m.status}',dose:document.getElementById('dose${idx}').value,schedule:document.getElementById('sched${idx}').value,done:false});HealthOps.storage.save();HealthOps.ui.render()">Adicionar</button></div></div>`).join('');};inp.oninput=render;render();},
+  relatorio(){document.getElementById('relatorio').innerHTML=`<div class="card"><h2>Relatório operacional</h2><p>Base para dossiê mensal de sono, hidratação, cafeína, alimentação, treino e escala.</p><button class="btn" onclick="window.print()">Salvar / imprimir PDF</button></div>`;},
+  validacao(){const imports=Object.values(HealthOps.state.imports);document.getElementById('validacao').innerHTML=`<div class="card"><h2>Parser Validation Suite</h2>${imports.map(i=>{const p=i.escala||i.publicada||i.executada;return p?`<div class="medcard"><b>${p.fileName}</b><br>Mês: ${p.monthKey}<br>Eventos: ${p.events.length}<br>Jornadas: ${p.journeys.length}</div>`:''}).join('')||'<p class="muted">Sem importações.</p>'}</div>`;},
+  debug(){document.getElementById('debug').innerHTML=`<div class="card"><h2>Debug</h2><button class="btn danger" onclick="localStorage.removeItem('healthops.v55.state');location.reload()">Resetar app</button><pre>${HealthOps.state.debug.map(d=>`[${d.time}] ${d.scope}: ${d.msg}${d.obj?'\n'+JSON.stringify(d.obj,null,2):''}`).join('\n\n')}</pre></div>`;}
+ }
 };
-window.HealthOps=HealthOps;document.addEventListener('DOMContentLoaded',()=>HealthOps.init());
+window.HealthOps=HealthOps;HealthOps.init();
 </script>
-</body></html>
+</body>
+</html>
