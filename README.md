@@ -1,3 +1,5 @@
-# HealthOps Aeronautas v2.1-med-clean
+# HealthOps Aeronautas v2.2 Operational Health
 
-Versão limpa com módulo de medicações reformulado: busca por digitação, filtros por tipo/finalidade, dose e posologia responsivas ao item selecionado, protocolos pessoais editáveis e cache PWA atualizado.
+Motor farmacológico refeito com busca digitável, campos dinâmicos por medicação, protocolos pessoais, tratamentos temporários e alertas aeronáuticos.
+
+Prioridade do projeto: parser fiel da escala IFN/iFlight, regulamentação, recuperação operacional, autocuidado em rotina irregular e relatórios claros para acompanhamento médico/nutricional.
