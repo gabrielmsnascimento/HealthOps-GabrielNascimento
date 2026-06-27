@@ -1,14 +1,11 @@
-# HealthOps Aeronautas v3.0 modular
+# HealthOps v3.1 Parser Lab
 
-Reestruturação modular para reduzir regressões e preparar testes de parser, regulamentação, saúde operacional e banco farmacológico.
+Versão CLEAN baseada na última versão funcional completa, restaurando módulos que haviam desaparecido na reestruturação modular e corrigindo `journeyPills is not defined`.
 
-## Arquivos principais
-- `index.html`: shell do app
-- `css/styles.css`: design system básico
-- `js/app.js`: roteador e inicialização
-- `js/core/*`: motores isolados
-- `js/ui/*`: renderização das abas
-- `data/medications.json`: banco farmacológico inicial
+Foco desta versão:
+- restaurar Escala, Diárias, Saúde, Medicações, Relatório e Debug;
+- usar as escalas executadas jan-mai/2026 como suíte de validação;
+- preparar comparação futura: escala publicada × escala executada × demonstrativos.
 
-## Deploy GitHub Pages
-Suba todos os arquivos da pasta para a raiz do repositório. Depois remova o PWA antigo do celular ou limpe o cache.
+Commit sugerido:
+`v3.1-parser-lab - Restaura módulos e inicia validação com escalas executadas`

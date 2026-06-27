@@ -1,1 +1,834 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HealthOps Aeronautas v3.0 modular</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="css/styles.css"></head><body><main class="wrap"><div class="eyebrow">HealthOps Aeronautas</div><h1>Início operacional</h1><p class="sub">Base modular para leitura de escala, regulamentação, recuperação e autocuidado.</p><div id="app"></div></main><nav class="nav" id="nav"></nav><div class="modal" id="modal"><div class="card"><h2 id="modalTitle"></h2><div id="modalBody"></div><br><button class="btn primary" onclick="HealthOps.closeModal()">Fechar</button></div></div><script type="module" src="js/app.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HealthOps Aeronautas v3.1-parser-lab</title>
+<style>
+:root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--purple:#7353a4;--greenbg:#eaf7ee;--yellowbg:#fff4cd;--redbg:#faeaea;--bluebg:#eaf4fb;--purplebg:#f1ecf8;--graybg:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{padding:26px 20px 14px;max-width:1180px;margin:auto}.eyebrow{font-weight:800;letter-spacing:.14em;color:var(--copper);font-size:12px;text-transform:uppercase}h1{font-size:clamp(30px,5vw,56px);line-height:.95;margin:8px 0 10px}p{color:var(--muted)}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;z-index:10}.wrap{max-width:1180px;margin:auto;padding:0 16px 92px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;z-index:9;border-top:1px solid var(--line)}.tab{flex:1;border:0;border-radius:16px;padding:14px 8px;background:#e9e6df;color:#6d6a63;font-weight:800;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}details.card>summary{cursor:pointer;font-weight:900;font-size:22px;margin-bottom:10px} details.card[open]>summary{margin-bottom:12px}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.metric{font-size:34px;font-weight:900;color:#153846}.muted{color:var(--muted);font-size:14px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{display:flex;align-items:center;justify-content:space-between;gap:12px}.btn{border:0;background:var(--brand);color:#fff;padding:12px 16px;border-radius:14px;font-weight:800;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:8px 12px;min-height:36px;font-size:13px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;color:var(--muted);font-size:12px}.day{min-height:86px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;cursor:pointer;position:relative}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.day.today{box-shadow:0 0 0 2px var(--copper) inset}.daynum{font-weight:900}.tag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-top:6px}.tag.rest{background:var(--greenbg);color:var(--ok)}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.train{background:var(--purplebg);color:var(--purple)}.tag.reserve{background:var(--yellowbg);color:var(--warn)}.tag.fatigue{background:var(--redbg);color:var(--bad)}.tag.none{background:var(--graybg);color:#777}.timeline{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:12px}.timebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;cursor:pointer}.timebox.active{background:var(--brand);color:#fff}.timebox.active p{color:#dce8eb}.pill{display:inline-block;background:#eef0ef;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900;margin:2px}.info{cursor:pointer;user-select:none}.info:active{transform:scale(.98)}.pill.green{background:var(--greenbg);color:var(--ok)}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.purple{background:var(--purplebg);color:var(--purple)}.pill.orange{background:var(--yellowbg);color:var(--warn)}.pill.red{background:var(--redbg);color:var(--bad)}.listday{display:grid;grid-template-columns:120px 1fr 80px 80px 1.6fr;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:12px 0}.alert{border-left:5px solid var(--warn);background:var(--yellowbg);padding:14px;border-radius:16px;margin:10px 0}.alert.bad{border-color:var(--bad);background:var(--redbg)}.hidden{display:none}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.hidden{display:none}.modalCard{background:#fff;width:min(560px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25);border:1px solid var(--line)}.modalCard h3{margin:0 0 8px}.modalBody{color:var(--ink);line-height:1.45}.modalBody p{color:var(--ink)}.mealLine{padding:9px 0;border-bottom:1px dashed var(--line)}.checkrow{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px;accent-color:var(--brand);flex:0 0 auto}.debug{white-space:pre-wrap;background:#111b22;color:#d9f1e4;border-radius:16px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;max-height:320px;overflow:auto}.chart{display:flex;align-items:flex-end;gap:8px;height:170px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 8px 0;overflow-x:auto}.bar{min-width:28px;border-radius:8px 8px 0 0;background:var(--brand);position:relative}.bar span{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:var(--muted)}.bar small{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted)}.reportPage{background:#fff;border-radius:22px;padding:22px;margin-bottom:16px;border:1px solid var(--line)}.miniTable{width:100%;border-collapse:collapse}.miniTable th,.miniTable td{border-bottom:1px solid var(--line);padding:8px;text-align:left}.deltaPlus{color:var(--bad);font-weight:900}.deltaMinus{color:var(--ok);font-weight:900}.limitBox{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.limitBox>div{background:#f7f6f2;border:1px solid var(--line);border-radius:16px;padding:12px}@media(max-width:650px){.limitBox{grid-template-columns:1fr 1fr}.miniTable{font-size:13px}}.printOnly{display:none}@media print{body{background:#fff}.tabs,.version,header .eyebrow,button,.noPrint{display:none!important}.wrap{max-width:none;padding:0}.view{display:none!important}#view-relatorio{display:block!important}.card,.reportPage{box-shadow:none;border:1px solid #ddd;break-inside:avoid;page-break-inside:avoid}.printOnly{display:block}.metric{font-size:26px}}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:1fr}.listday{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:70px;padding:6px}.tag{font-size:10px;padding:3px 6px}h1{font-size:38px}}
+@media(max-width:600px){
+  header{padding:18px 14px 10px}.wrap{padding:0 10px 104px}.card{border-radius:18px;padding:14px;margin-bottom:12px}.version{top:8px;right:8px;font-size:11px;padding:7px 10px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{font-size:30px}.between h2{font-size:24px;text-align:center;margin:8px 0}.between .btn.small{min-width:44px;border-radius:14px;padding:9px 10px}
+  .calendar{grid-template-columns:repeat(7,minmax(38px,1fr));gap:4px;max-width:100%;overflow:hidden}.dow{font-size:11px}.day{min-height:62px;border-radius:13px;padding:5px 3px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}.daynum{font-size:18px;line-height:1.1}.tag{font-size:9px;line-height:1.05;padding:4px 5px;max-width:100%;white-space:normal;word-break:break-word;justify-content:center}.tag.none{font-size:9px;max-width:48px}
+  .tabs{overflow-x:auto;justify-content:flex-start;padding:8px 8px calc(8px + env(safe-area-inset-bottom));gap:6px}.tab{flex:0 0 auto;min-width:86px;padding:13px 12px;border-radius:15px;white-space:nowrap}
+}
+@media(max-width:390px){.calendar{gap:3px}.day{min-height:58px;border-radius:12px}.daynum{font-size:16px}.tag{font-size:8.5px;padding:3px 4px}.tag.none{max-width:42px}.between h2{font-size:22px}.tab{min-width:78px;font-size:14px}}
+
+
+.medResults{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.medResult{text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px;cursor:pointer;color:var(--ink)}.medResult.selected{outline:3px solid var(--brand);background:#f7fbfc}.medResult small{color:var(--muted)}.chipBtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 9px;margin:3px;font-weight:800;cursor:pointer;font-size:12px}@media(max-width:650px){.medResults{grid-template-columns:1fr}.chipBtn{font-size:11px}}
+</style>
+</head>
+<body>
+<div class="version">v3.1-parser-lab</div>
+<header>
+<div class="eyebrow">HealthOps Aeronautas</div>
+<h1>Início operacional</h1>
+<p>Resumo integrado de escala, saúde operacional, medicações, fadiga e prontidão por data selecionada.</p>
+</header>
+<div class="wrap">
+<section id="view-inicio" class="view"></section>
+<section id="view-escala" class="view hidden"></section>
+<section id="view-diarias" class="view hidden"></section>
+<section id="view-saude" class="view hidden"></section>
+<section id="view-medicacoes" class="view hidden"></section>
+<section id="view-relatorio" class="view hidden"></section>
+<section id="view-debug" class="view hidden"></section>
+</div>
+<nav class="tabs">
+<button class="tab active" data-view="inicio">Início</button>
+<button class="tab" data-view="escala">Escala</button>
+<button class="tab" data-view="saude">Saúde</button>
+<button class="tab" data-view="medicacoes">Medicações</button>
+<button class="tab" data-view="relatorio">Relatório</button>
+<button class="tab" data-view="debug">Debug</button>
+</nav>
+<div id="infoModal" class="modal hidden" onclick="hideInfo(event)"><div class="modalCard" onclick="event.stopPropagation()"><div class="between"><h3 id="infoTitle">Detalhes</h3><button class="btn secondary small" onclick="hideInfo()">Fechar</button></div><div id="infoBody" class="modalBody"></div></div></div>
+<script>
+const VERSION='v2.2-operational-health';
+const LS='healthops_v2_alpha6_clean';
+const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+const PTW=['dom.','seg.','ter.','qua.','qui.','sex.','sáb.'];
+const state=load()||{selected:iso(new Date()), calendarMonth:null, rosters:{}, activeRosterKey:null, meds:[], medTaken:{}, health:{}, caffeine:[], importMode:'planned', compare:{}};
+
+const NORMATIVE_RULES=[
+ {id:'LEI-13475-TRIPULANTE-EXTRA',layer:'Lei 13.475/17',source:'Art. 4º §1º',title:'Tripulante extra a serviço conta para limites de jornada, repouso e remuneração',severity:'info'},
+ {id:'LEI-13475-MADRUGADAS-168H',layer:'Lei 13.475/17',source:'Art. 42',title:'Máximo de 2 madrugadas consecutivas e 4 em 168h; reinício com 48h livres',severity:'warn'},
+ {id:'RBAC117-JORNADA-DEFINICAO',layer:'RBAC 117',source:'117.3(n)',title:'Jornada conta da apresentação ao encerramento; doméstico encerra 30 min após parada final',severity:'info'},
+ {id:'RBAC117-MADRUGADA',layer:'RBAC 117',source:'117.3(r) e Apêndice B',title:'Operação na madrugada: evento entre 00h00 e 06h00 na hora aclimatada',severity:'warn'},
+ {id:'RBAC117-LIMITE-SIMPLES-TABELA1',layer:'RBAC 117 Apêndice B',source:'Tabela 1 do guia SNA',title:'Limite de jornada/voo por hora de apresentação e número de etapas para tripulação simples',severity:'warn'},
+ {id:'RBAC117-ACUMULADO',layer:'RBAC 117 Apêndice B',source:'Limites acumulados',title:'Limites acumulados: 60h/7d, 100h/14d, 176h/mês e 176h/28d',severity:'warn'},
+ {id:'CCT-DIARIAS-JANELAS',layer:'CCT 2025/2026',source:'2.3',title:'Diárias: café, almoço, jantar e ceia por janelas; café não devido se incluso no hotel',severity:'info'},
+ {id:'CCT-FOLGA-SIMPLES',layer:'CCT 2025/2026',source:'3.4.4 e 3.4.10',title:'Folga simples é 24h; monofolga exige apresentação após 10h, exceto treinamento em solo',severity:'warn'},
+ {id:'CCT-ASB-HSB',layer:'CCT/ACT',source:'Reserva e sobreaviso',title:'Reserva: 3h a 6h; sobreaviso: 3h a 12h',severity:'warn'},
+ {id:'ACT-LATAM-2025-2027',layer:'ACT LATAM Comissários 2025/2027',source:'ACT TAM/SNA',title:'Camada específica LATAM prevalece sobre regras genéricas quando mais específica',severity:'info'},
+ {id:'HEALTHOPS-RECUPERACAO-HOTEL',layer:'HealthOps / oportunidade estimada de recuperação',source:'parâmetro operacional',title:'Tempo estimado de hotel: <10h crítico, 10–12h atenção, >12h adequado; não substitui repouso regulamentar oficial',severity:'info'},
+ {id:'ACT-LATAM-DIARIAS-SEMANA',layer:'LATAM Pagamentos',source:'parâmetro HealthOps',title:'Agrupamento de diárias quarta–terça, pagamento previsto na quinta',severity:'info'}
+];
+
+const HEALTH_MED_CATALOG=[
+ {name:"Sibutramina",kind:"Medicamento",class:"Inibidor de apetite",status:"sensível",common:"10 mg, 15 mg",effects:["insônia", "boca seca", "taquicardia/palpitações", "aumento de pressão", "ansiedade"],flight:"Atenção CMA/empresa. Pode impactar sono, pressão e frequência cardíaca; registrar sintomas e procurar médico do trabalho/CMA."},
+ {name:"Rosuvastatina",kind:"Medicamento",class:"Estatina",status:"compatível",common:"5 mg, 10 mg, 20 mg, 40 mg",effects:["dor muscular", "desconforto gastrointestinal", "alteração hepática rara"],flight:"Uso contínuo comum; atenção a mialgia persistente."},
+ {name:"Ômega 3",kind:"Suplemento",class:"Ácidos graxos",status:"compatível",common:"1–3 g/dia",effects:["refluxo", "desconforto gastrointestinal"],flight:"Compatível; atenção individual."},
+ {name:"Metilcobalamina",kind:"Suplemento",class:"Vitamina B12",status:"compatível",common:"500 mcg, 1 mg, 5 mg",effects:["raramente desconforto gastrointestinal"],flight:"Suplemento; usar conforme orientação."},
+ {name:"Metilfolato",kind:"Suplemento",class:"Folato ativo",status:"compatível",common:"400 mcg–5 mg",effects:["náusea", "irritabilidade em alguns casos"],flight:"Suplemento; usar conforme orientação."},
+ {name:"Vitamina D3",kind:"Suplemento",class:"Vitamina",status:"compatível",common:"1000–10000 UI",effects:["hipercalcemia se excesso"],flight:"Acompanhar exames quando dose alta."},
+ {name:"Vitamina K2 MK7",kind:"Suplemento",class:"Vitamina",status:"compatível",common:"90–200 mcg",effects:["interação com anticoagulantes"],flight:"Atenção se usar anticoagulante."},
+ {name:"Vitamina A",kind:"Suplemento",class:"Vitamina",status:"atenção",common:"500–5000 UI",effects:["toxicidade em excesso"],flight:"Evitar excesso cumulativo."},
+ {name:"Citrato de cálcio",kind:"Suplemento",class:"Mineral",status:"compatível",common:"150–600 mg",effects:["constipação"],flight:"Atenção a interações com outros medicamentos."},
+ {name:"Zinco quelado",kind:"Suplemento",class:"Mineral",status:"compatível",common:"15–30 mg",effects:["náusea", "redução de cobre se excesso"],flight:"Atenção a excesso prolongado."},
+ {name:"Picolinato de cromo",kind:"Suplemento",class:"Mineral",status:"compatível",common:"200–500 mcg",effects:["hipoglicemia em predispostos"],flight:"Atenção se sintomas de queda glicêmica."},
+ {name:"Selênio quelado",kind:"Suplemento",class:"Mineral",status:"compatível",common:"100–200 mcg",effects:["toxicidade se excesso"],flight:"Evitar somatório de doses altas."},
+ {name:"Magnésio dimalato",kind:"Suplemento",class:"Mineral",status:"compatível",common:"200–400 mg",effects:["diarreia", "sonolência leve"],flight:"Preferir à noite se causar relaxamento."},
+ {name:"Creatina",kind:"Suplemento",class:"Ergogênico",status:"compatível",common:"3–5 g/dia",effects:["retenção hídrica", "desconforto gastrointestinal"],flight:"Reforçar hidratação."},
+ {name:"Whey protein",kind:"Suplemento",class:"Proteína",status:"compatível",common:"20–40 g",effects:["desconforto gastrointestinal"],flight:"Apoio nutricional; atenção à tolerância individual."},
+ {name:"Albumina",kind:"Suplemento",class:"Proteína",status:"compatível",common:"20–40 g",effects:["gases", "desconforto gastrointestinal"],flight:"Apoio nutricional; atenção à tolerância."},
+ {name:"Eletrólitos / sais de hidratação",kind:"Suplemento",class:"Hidratação",status:"compatível",common:"conforme rótulo",effects:["náusea se excesso", "sódio elevado"],flight:"Útil em baixa hidratação, calor ou diarreia; cuidado em hipertensão."},
+ {name:"Probióticos",kind:"Suplemento",class:"Microbiota",status:"compatível",common:"conforme produto",effects:["gases", "distensão abdominal"],flight:"Pode ser útil em tratamentos com antibiótico; registrar tolerância."},
+ {name:"Psyllium",kind:"Suplemento",class:"Fibra",status:"compatível",common:"5–10 g",effects:["gases", "distensão"],flight:"Reforçar água; separar de medicamentos."},
+ {name:"Melatonina",kind:"Suplemento",class:"Sono",status:"atenção",common:"0,5–5 mg",effects:["sonolência residual", "sonhos vívidos"],flight:"Atenção para aeronautas; não usar antes de atividade sem conhecer resposta individual."},
+ {name:"Juba de Leão (Lion’s Mane)",kind:"Suplemento",class:"Fitoterápico/cognição",status:"atenção",common:"500–1000 mg",effects:["desconforto gastrointestinal", "alergia rara"],flight:"Evidência variável; registrar efeitos individuais."},
+ {name:"Ashwagandha",kind:"Suplemento",class:"Fitoterápico/adaptógeno",status:"atenção",common:"300–600 mg",effects:["sonolência", "desconforto gastrointestinal"],flight:"Pode sedar em alguns usuários; atenção antes de serviço."},
+ {name:"Rhodiola rosea",kind:"Suplemento",class:"Fitoterápico/adaptógeno",status:"atenção",common:"200–400 mg",effects:["insônia", "irritabilidade"],flight:"Evitar perto do horário de dormir se estimulante."},
+ {name:"Ginkgo biloba",kind:"Suplemento",class:"Fitoterápico",status:"atenção",common:"120–240 mg",effects:["sangramento", "cefaleia"],flight:"Atenção com anticoagulantes/antiagregantes."},
+ {name:"Ginseng",kind:"Suplemento",class:"Fitoterápico",status:"atenção",common:"100–400 mg",effects:["insônia", "palpitação"],flight:"Pode estimular; atenção a sono e FC."},
+ {name:"Atorvastatina",kind:"Medicamento",class:"Estatina",status:"compatível",common:"10 mg, 20 mg, 40 mg, 80 mg",effects:["dor muscular", "desconforto gastrointestinal"],flight:"Uso contínuo comum; atenção a mialgia persistente."},
+ {name:"Sinvastatina",kind:"Medicamento",class:"Estatina",status:"compatível",common:"10 mg, 20 mg, 40 mg",effects:["dor muscular", "alteração hepática rara"],flight:"Uso contínuo comum; atenção a mialgia persistente."},
+ {name:"Pravastatina",kind:"Medicamento",class:"Estatina",status:"compatível",common:"10 mg, 20 mg, 40 mg",effects:["dor muscular", "náusea"],flight:"Uso contínuo comum; atenção a mialgia."},
+ {name:"Pitavastatina",kind:"Medicamento",class:"Estatina",status:"compatível",common:"2 mg, 4 mg",effects:["dor muscular", "desconforto gastrointestinal"],flight:"Uso contínuo comum; atenção a mialgia."},
+ {name:"Ezetimiba",kind:"Medicamento",class:"Colesterol/inibidor absorção",status:"compatível",common:"10 mg",effects:["desconforto gastrointestinal", "dor muscular rara"],flight:"Uso contínuo comum."},
+ {name:"Fenofibrato",kind:"Medicamento",class:"Fibrato/triglicerídeos",status:"atenção",common:"145 mg, 160 mg, 200 mg",effects:["dor muscular", "alteração hepática", "desconforto gastrointestinal"],flight:"Atenção com estatinas e dores musculares."},
+ {name:"Ciprofibrato",kind:"Medicamento",class:"Fibrato/triglicerídeos",status:"atenção",common:"100 mg",effects:["dor muscular", "náusea"],flight:"Atenção com estatinas e mialgia."},
+ {name:"Ácido bempedoico",kind:"Medicamento",class:"Colesterol/ACL",status:"atenção",common:"180 mg",effects:["dor muscular", "aumento ácido úrico"],flight:"Uso contínuo; acompanhar sintomas."},
+ {name:"Levotiroxina",kind:"Medicamento",class:"Tireóide/T4",status:"compatível",common:"25–200 mcg",effects:["palpitação se excesso", "insônia", "tremor"],flight:"Uso contínuo comum; monitorar sinais de dose excessiva."},
+ {name:"Puran T4 (levotiroxina)",kind:"Medicamento",class:"Tireóide/T4",status:"compatível",common:"25–200 mcg",effects:["palpitação se excesso", "insônia", "tremor"],flight:"Uso contínuo comum; tomar conforme orientação."},
+ {name:"Euthyrox (levotiroxina)",kind:"Medicamento",class:"Tireóide/T4",status:"compatível",common:"25–200 mcg",effects:["palpitação se excesso", "insônia", "tremor"],flight:"Uso contínuo comum; tomar conforme orientação."},
+ {name:"Metimazol / Tapazol",kind:"Medicamento",class:"Antitireoidiano",status:"atenção",common:"5–20 mg",effects:["náusea", "rash", "alterações hematológicas raras"],flight:"Exige acompanhamento médico e exames."},
+ {name:"Propiltiouracil",kind:"Medicamento",class:"Antitireoidiano",status:"atenção",common:"50–100 mg",effects:["náusea", "risco hepático", "rash"],flight:"Exige acompanhamento médico e exames."},
+ {name:"Losartana",kind:"Medicamento",class:"Anti-hipertensivo/BRA",status:"compatível",common:"25–100 mg",effects:["tontura", "hipotensão"],flight:"Uso contínuo comum; observar tontura e hidratação."},
+ {name:"Valsartana",kind:"Medicamento",class:"Anti-hipertensivo/BRA",status:"compatível",common:"80–320 mg",effects:["tontura", "hipotensão"],flight:"Uso contínuo comum; observar tontura."},
+ {name:"Olmesartana",kind:"Medicamento",class:"Anti-hipertensivo/BRA",status:"compatível",common:"20–40 mg",effects:["tontura", "hipotensão"],flight:"Uso contínuo comum; observar resposta individual."},
+ {name:"Candesartana",kind:"Medicamento",class:"Anti-hipertensivo/BRA",status:"compatível",common:"8–32 mg",effects:["tontura", "hipotensão"],flight:"Uso contínuo comum."},
+ {name:"Telmisartana",kind:"Medicamento",class:"Anti-hipertensivo/BRA",status:"compatível",common:"40–80 mg",effects:["tontura", "hipotensão"],flight:"Uso contínuo comum."},
+ {name:"Enalapril",kind:"Medicamento",class:"Anti-hipertensivo/IECA",status:"compatível",common:"5–20 mg",effects:["tosse", "tontura", "hipotensão"],flight:"Uso contínuo comum; observar tontura."},
+ {name:"Ramipril",kind:"Medicamento",class:"Anti-hipertensivo/IECA",status:"compatível",common:"2,5–10 mg",effects:["tosse", "tontura"],flight:"Uso contínuo comum."},
+ {name:"Lisinopril",kind:"Medicamento",class:"Anti-hipertensivo/IECA",status:"compatível",common:"5–40 mg",effects:["tosse", "tontura"],flight:"Uso contínuo comum."},
+ {name:"Amlodipina",kind:"Medicamento",class:"Anti-hipertensivo/bloqueador de cálcio",status:"compatível",common:"5–10 mg",effects:["edema", "tontura", "rubor"],flight:"Uso contínuo comum; observar efeitos individuais."},
+ {name:"Nifedipina",kind:"Medicamento",class:"Anti-hipertensivo/bloqueador de cálcio",status:"atenção",common:"30–60 mg",effects:["tontura", "cefaleia", "edema"],flight:"Observar tontura e hipotensão."},
+ {name:"Hidroclorotiazida",kind:"Medicamento",class:"Diurético",status:"atenção",common:"12,5–25 mg",effects:["desidratação", "cãibras", "tontura"],flight:"Atenção a hidratação, eletrólitos e calor/frio em viagens."},
+ {name:"Clortalidona",kind:"Medicamento",class:"Diurético",status:"atenção",common:"12,5–25 mg",effects:["desidratação", "hipocalemia", "tontura"],flight:"Atenção a hidratação e cãibras."},
+ {name:"Indapamida",kind:"Medicamento",class:"Diurético",status:"atenção",common:"1,5–2,5 mg",effects:["tontura", "desidratação"],flight:"Atenção a hidratação."},
+ {name:"Espironolactona",kind:"Medicamento",class:"Diurético poupador de potássio",status:"atenção",common:"25–100 mg",effects:["tontura", "hipercalemia", "ginecomastia"],flight:"Exige acompanhamento; atenção a tontura."},
+ {name:"Furosemida",kind:"Medicamento",class:"Diurético de alça",status:"atenção",common:"20–40 mg",effects:["desidratação", "tontura", "cãibras"],flight:"Pode impactar hidratação em voo; usar conforme orientação."},
+ {name:"Atenolol",kind:"Medicamento",class:"Beta-bloqueador",status:"atenção",common:"25–100 mg",effects:["bradicardia", "fadiga", "tontura"],flight:"Pode reduzir FC e causar fadiga/tontura; avaliar resposta."},
+ {name:"Bisoprolol",kind:"Medicamento",class:"Beta-bloqueador",status:"atenção",common:"1,25–10 mg",effects:["bradicardia", "fadiga", "tontura"],flight:"Pode reduzir FC; atenção a tontura."},
+ {name:"Nebivolol",kind:"Medicamento",class:"Beta-bloqueador",status:"atenção",common:"5 mg",effects:["bradicardia", "fadiga", "tontura"],flight:"Atenção a sintomas individuais."},
+ {name:"Carvedilol",kind:"Medicamento",class:"Beta-bloqueador",status:"atenção",common:"3,125–25 mg",effects:["tontura", "bradicardia", "fadiga"],flight:"Atenção a sintomas."},
+ {name:"Propranolol",kind:"Medicamento",class:"Beta-bloqueador",status:"restrito",common:"10–80 mg",effects:["bradicardia", "fadiga", "tontura", "alteração de alerta"],flight:"Pode afetar desempenho e mascarar sintomas; exige avaliação individual."},
+ {name:"Metformina",kind:"Medicamento",class:"Diabetes/insulino-sensibilizador",status:"compatível",common:"500–1000 mg",effects:["náusea", "diarreia"],flight:"Atenção a alimentação irregular e sintomas gastrointestinais."},
+ {name:"Gliclazida",kind:"Medicamento",class:"Diabetes/sulfonilureia",status:"atenção",common:"30–60 mg",effects:["hipoglicemia", "tontura", "sudorese"],flight:"Atenção importante a hipoglicemia, especialmente em escala irregular."},
+ {name:"Glibenclamida",kind:"Medicamento",class:"Diabetes/sulfonilureia",status:"atenção",common:"5 mg",effects:["hipoglicemia", "tontura", "sudorese"],flight:"Risco de hipoglicemia; atenção operacional."},
+ {name:"Glimepirida",kind:"Medicamento",class:"Diabetes/sulfonilureia",status:"atenção",common:"1–4 mg",effects:["hipoglicemia", "tontura"],flight:"Atenção a alimentação irregular."},
+ {name:"Sitagliptina",kind:"Medicamento",class:"Diabetes/DPP-4",status:"compatível",common:"100 mg",effects:["cefaleia", "náusea"],flight:"Uso comum; atenção individual."},
+ {name:"Linagliptina",kind:"Medicamento",class:"Diabetes/DPP-4",status:"compatível",common:"5 mg",effects:["cefaleia", "rinofaringite"],flight:"Uso comum."},
+ {name:"Vildagliptina",kind:"Medicamento",class:"Diabetes/DPP-4",status:"compatível",common:"50 mg",effects:["tontura rara", "náusea"],flight:"Uso comum; observar sintomas."},
+ {name:"Empagliflozina",kind:"Medicamento",class:"Diabetes/SGLT2",status:"atenção",common:"10–25 mg",effects:["desidratação", "infecção urinária", "tontura"],flight:"Reforçar hidratação e atenção a sintomas."},
+ {name:"Dapagliflozina",kind:"Medicamento",class:"Diabetes/SGLT2",status:"atenção",common:"5–10 mg",effects:["desidratação", "infecção urinária", "tontura"],flight:"Atenção a hidratação e sintomas urinários."},
+ {name:"Semaglutida",kind:"Medicamento",class:"Controle metabólico/GLP-1",status:"atenção",common:"0,25–2,4 mg semanal",effects:["náusea", "vômitos", "hipoglicemia se combinado"],flight:"Atenção a baixa ingestão alimentar, náusea e hidratação em voo."},
+ {name:"Liraglutida",kind:"Medicamento",class:"Controle metabólico/GLP-1",status:"atenção",common:"0,6–3 mg/dia",effects:["náusea", "vômitos", "baixa ingestão"],flight:"Atenção a alimentação e hidratação."},
+ {name:"Tirzepatida",kind:"Medicamento",class:"Controle metabólico/GIP-GLP-1",status:"atenção",common:"2,5–15 mg semanal",effects:["náusea", "vômitos", "baixa ingestão"],flight:"Atenção a sintomas GI e hidratação."},
+ {name:"Orlistate",kind:"Medicamento",class:"Controle de peso/inibidor lipase",status:"atenção",common:"120 mg",effects:["diarreia oleosa", "urgência evacuatória"],flight:"Pode impactar conforto operacional; registrar tolerância."},
+ {name:"Omeprazol",kind:"Medicamento",class:"Gastroprotetor/IBP",status:"compatível",common:"20–40 mg",effects:["cefaleia", "desconforto gastrointestinal"],flight:"Uso comum; observar uso prolongado."},
+ {name:"Pantoprazol",kind:"Medicamento",class:"Gastroprotetor/IBP",status:"compatível",common:"20–40 mg",effects:["cefaleia", "náusea"],flight:"Uso comum; observar uso prolongado."},
+ {name:"Esomeprazol",kind:"Medicamento",class:"Gastroprotetor/IBP",status:"compatível",common:"20–40 mg",effects:["cefaleia", "náusea"],flight:"Uso comum; observar uso prolongado."},
+ {name:"Lansoprazol",kind:"Medicamento",class:"Gastroprotetor/IBP",status:"compatível",common:"15–30 mg",effects:["cefaleia", "diarreia"],flight:"Uso comum."},
+ {name:"Famotidina",kind:"Medicamento",class:"Antagonista H2",status:"compatível",common:"20–40 mg",effects:["cefaleia", "tontura rara"],flight:"Uso comum; observar tontura."},
+ {name:"Domperidona",kind:"Medicamento",class:"Procinetico/antiemético",status:"atenção",common:"10 mg",effects:["alteração cardíaca rara", "boca seca"],flight:"Usar com orientação; atenção a palpitações."},
+ {name:"Bromoprida",kind:"Medicamento",class:"Antiemético/procinético",status:"atenção",common:"10 mg",effects:["sonolência", "tontura", "inquietação"],flight:"Pode sedar; atenção antes de atividade."},
+ {name:"Metoclopramida",kind:"Medicamento",class:"Antiemético/procinético",status:"sensível",common:"10 mg",effects:["sonolência", "reações extrapiramidais", "tontura"],flight:"Pode afetar alerta/cognição; buscar avaliação antes de serviço."},
+ {name:"Ondansetrona",kind:"Medicamento",class:"Antiemético",status:"atenção",common:"4–8 mg",effects:["constipação", "cefaleia", "alteração QT rara"],flight:"Atenção a tontura/sonolência individual."},
+ {name:"Loperamida",kind:"Medicamento",class:"Antidiarreico",status:"atenção",common:"2 mg",effects:["constipação", "sonolência rara"],flight:"Quadro gastrointestinal pode exigir repouso/hidratação."},
+ {name:"Loratadina",kind:"Medicamento",class:"Antialérgico 2ª geração",status:"atenção",common:"10 mg",effects:["sonolência em alguns casos", "boca seca"],flight:"Registrar resposta individual; atenção se sonolência."},
+ {name:"Desloratadina",kind:"Medicamento",class:"Antialérgico 2ª geração",status:"atenção",common:"5 mg",effects:["sonolência em alguns casos", "cefaleia"],flight:"Registrar resposta individual."},
+ {name:"Fexofenadina",kind:"Medicamento",class:"Antialérgico 2ª geração",status:"atenção",common:"120–180 mg",effects:["cefaleia", "náusea"],flight:"Menor sedação em geral, mas observar resposta individual."},
+ {name:"Bilastina",kind:"Medicamento",class:"Antialérgico 2ª geração",status:"atenção",common:"20 mg",effects:["sonolência rara", "cefaleia"],flight:"Registrar resposta individual."},
+ {name:"Cetirizina",kind:"Medicamento",class:"Antialérgico 2ª geração",status:"atenção",common:"10 mg",effects:["sonolência", "boca seca"],flight:"Pode sedar em parte dos usuários; testar fora de serviço."},
+ {name:"Levocetirizina",kind:"Medicamento",class:"Antialérgico 2ª geração",status:"atenção",common:"5 mg",effects:["sonolência", "fadiga"],flight:"Pode sedar; atenção operacional."},
+ {name:"Rupatadina",kind:"Medicamento",class:"Antialérgico 2ª geração",status:"atenção",common:"10 mg",effects:["sonolência", "cefaleia"],flight:"Registrar resposta individual."},
+ {name:"Dexclorfeniramina",kind:"Medicamento",class:"Antialérgico 1ª geração",status:"sensível",common:"2 mg, 6 mg",effects:["sonolência", "lentidão de reflexos", "boca seca"],flight:"Evitar em serviço; alto risco de sedação. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Difenidramina",kind:"Medicamento",class:"Antialérgico 1ª geração",status:"sensível",common:"25–50 mg",effects:["sedação", "confusão", "lentidão"],flight:"Não sugerir para aeronauta em atividade. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Prometazina",kind:"Medicamento",class:"Antialérgico 1ª geração/sedativo",status:"sensível",common:"25 mg",effects:["sonolência intensa", "lentidão de reflexos", "hipotensão"],flight:"Sedativo; incompatível com operação sem avaliação formal."},
+ {name:"Hidroxizina",kind:"Medicamento",class:"Antialérgico/ansiolítico sedativo",status:"sensível",common:"25 mg",effects:["sedação", "lentidão", "boca seca"],flight:"Sedativo; buscar médico do trabalho/CMA."},
+ {name:"Pseudoefedrina",kind:"Medicamento",class:"Descongestionante sistêmico",status:"sensível",common:"60–120 mg",effects:["taquicardia", "insônia", "ansiedade", "aumento de pressão"],flight:"Atenção para aeronautas; pode impactar sono/FC/PA."},
+ {name:"Fenilefrina",kind:"Medicamento",class:"Descongestionante sistêmico",status:"atenção",common:"10 mg",effects:["palpitação", "aumento de pressão", "ansiedade"],flight:"Atenção a pressão/FC e sono."},
+ {name:"Oximetazolina nasal",kind:"Medicamento",class:"Descongestionante tópico",status:"atenção",common:"spray nasal",effects:["rebote nasal", "palpitação rara"],flight:"Evitar uso prolongado; registrar motivo."},
+ {name:"Xilometazolina nasal",kind:"Medicamento",class:"Descongestionante tópico",status:"atenção",common:"spray nasal",effects:["rebote nasal", "ressecamento", "palpitação rara"],flight:"Evitar uso prolongado."},
+ {name:"Budesonida nasal",kind:"Medicamento",class:"Corticoide nasal",status:"compatível",common:"spray nasal",effects:["ressecamento nasal", "epistaxe"],flight:"Uso local; acompanhar sintomas."},
+ {name:"Mometasona nasal",kind:"Medicamento",class:"Corticoide nasal",status:"compatível",common:"spray nasal",effects:["ressecamento", "epistaxe"],flight:"Uso local; acompanhar sintomas."},
+ {name:"Fluticasona nasal",kind:"Medicamento",class:"Corticoide nasal",status:"compatível",common:"spray nasal",effects:["ressecamento", "epistaxe"],flight:"Uso local; acompanhar sintomas."},
+ {name:"Montelucaste",kind:"Medicamento",class:"Asma/rinite",status:"atenção",common:"10 mg",effects:["cefaleia", "alterações de humor raras"],flight:"Atenção a alterações de humor/sono."},
+ {name:"Salbutamol inalatório",kind:"Medicamento",class:"Broncodilatador",status:"atenção",common:"100 mcg/jato",effects:["tremor", "taquicardia", "ansiedade"],flight:"Atenção a sintomas respiratórios e palpitações."},
+ {name:"Formoterol + budesonida",kind:"Medicamento",class:"Asma/DPOC inalatório",status:"atenção",common:"conforme prescrição",effects:["tremor", "taquicardia", "irritação garganta"],flight:"Atenção a sintomas respiratórios e resposta individual."},
+ {name:"Soro fisiológico nasal",kind:"Suplemento/apoio",class:"Higiene nasal",status:"compatível",common:"spray/jato",effects:["mínimos"],flight:"Útil em ressecamento/hotel/ar condicionado."},
+ {name:"Paracetamol",kind:"Medicamento",class:"Analgésico/antitérmico",status:"compatível",common:"500–750 mg",effects:["risco hepático em excesso"],flight:"Atenção a febre/doença de base e dose máxima."},
+ {name:"Dipirona",kind:"Medicamento",class:"Analgésico/antitérmico",status:"compatível",common:"500 mg–1 g",effects:["queda de pressão em alguns casos", "alergia rara"],flight:"Observar tontura/hipotensão."},
+ {name:"Ibuprofeno",kind:"Medicamento",class:"Anti-inflamatório",status:"atenção",common:"400–600 mg",effects:["gastrite", "retenção hídrica", "pressão"],flight:"Atenção a estômago, hidratação e pressão."},
+ {name:"Naproxeno",kind:"Medicamento",class:"Anti-inflamatório",status:"atenção",common:"250–500 mg",effects:["gastrite", "retenção hídrica", "pressão"],flight:"Atenção a estômago e pressão."},
+ {name:"Diclofenaco",kind:"Medicamento",class:"Anti-inflamatório",status:"atenção",common:"50 mg",effects:["gastrite", "pressão", "risco cardiovascular"],flight:"Atenção a estômago, pressão e hidratação."},
+ {name:"Cetoprofeno",kind:"Medicamento",class:"Anti-inflamatório",status:"atenção",common:"50–100 mg",effects:["gastrite", "tontura", "retenção"],flight:"Atenção a estômago e tontura."},
+ {name:"Meloxicam",kind:"Medicamento",class:"Anti-inflamatório",status:"atenção",common:"7,5–15 mg",effects:["gastrite", "retenção hídrica"],flight:"Atenção a estômago e pressão."},
+ {name:"Nimesulida",kind:"Medicamento",class:"Anti-inflamatório",status:"atenção",common:"100 mg",effects:["risco hepático", "desconforto GI"],flight:"Usar somente com orientação."},
+ {name:"Prednisona",kind:"Medicamento",class:"Corticoide oral",status:"atenção",common:"5–40 mg",effects:["insônia", "agitação", "aumento glicemia", "retenção hídrica"],flight:"Pode alterar sono, humor e glicemia; ajustar treino/recuperação."},
+ {name:"Prednisolona",kind:"Medicamento",class:"Corticoide oral",status:"atenção",common:"5–40 mg",effects:["insônia", "agitação", "aumento glicemia"],flight:"Pode impactar sono e recuperação."},
+ {name:"Relaxante muscular (ciclobenzaprina)",kind:"Medicamento",class:"Relaxante muscular",status:"sensível",common:"5–10 mg",effects:["sonolência", "lentidão de reflexos", "boca seca"],flight:"Sedativo; não usar em serviço sem avaliação formal."},
+ {name:"Torsilax / Tandrilax",kind:"Medicamento",class:"Associação analgésica/relaxante",status:"sensível",common:"conforme bula",effects:["sonolência", "tontura", "risco hepático/GI"],flight:"Pode conter relaxante e componentes sedativos; consultar médico do trabalho."},
+ {name:"Amoxicilina",kind:"Medicamento",class:"Antibiótico",status:"atenção",common:"500 mg, 875 mg",effects:["diarreia", "náusea", "alergia"],flight:"Tratamento temporário. Avaliar infecção, febre, repouso e hidratação."},
+ {name:"Amoxicilina + clavulanato",kind:"Medicamento",class:"Antibiótico",status:"atenção",common:"875/125 mg",effects:["diarreia", "náusea", "candidíase"],flight:"Tratamento temporário. Ajustar treino para recuperação."},
+ {name:"Azitromicina",kind:"Medicamento",class:"Antibiótico",status:"atenção",common:"500 mg",effects:["náusea", "diarreia", "alteração cardíaca rara"],flight:"Tratamento temporário. Monitorar sintomas e repouso."},
+ {name:"Claritromicina",kind:"Medicamento",class:"Antibiótico",status:"atenção",common:"500 mg",effects:["náusea", "gosto metálico", "interações"],flight:"Atenção a interações e sintomas GI."},
+ {name:"Cefalexina",kind:"Medicamento",class:"Antibiótico",status:"atenção",common:"500 mg",effects:["diarreia", "náusea", "alergia"],flight:"Tratamento temporário; observar sintomas sistêmicos."},
+ {name:"Cefuroxima",kind:"Medicamento",class:"Antibiótico",status:"atenção",common:"250–500 mg",effects:["diarreia", "náusea"],flight:"Tratamento temporário; avaliar quadro infeccioso."},
+ {name:"Ciprofloxacino",kind:"Medicamento",class:"Antibiótico/quinolona",status:"atenção",common:"500 mg",effects:["tendinite", "tontura", "náusea", "insônia"],flight:"Atenção a tendões, treino e tontura."},
+ {name:"Levofloxacino",kind:"Medicamento",class:"Antibiótico/quinolona",status:"atenção",common:"500–750 mg",effects:["tendinite", "tontura", "alteração QT"],flight:"Evitar treino intenso; atenção a sintomas."},
+ {name:"Doxiciclina",kind:"Medicamento",class:"Antibiótico",status:"atenção",common:"100 mg",effects:["náusea", "fotossensibilidade", "esofagite"],flight:"Hidratação e cuidado solar; tratamento temporário."},
+ {name:"Clindamicina",kind:"Medicamento",class:"Antibiótico",status:"atenção",common:"300 mg",effects:["diarreia", "náusea"],flight:"Atenção a diarreia e hidratação."},
+ {name:"Sulfametoxazol + trimetoprima",kind:"Medicamento",class:"Antibiótico",status:"atenção",common:"800/160 mg",effects:["náusea", "rash", "fotossensibilidade"],flight:"Tratamento temporário; atenção a alergias."},
+ {name:"Nitrofurantoína",kind:"Medicamento",class:"Antibiótico urinário",status:"atenção",common:"100 mg",effects:["náusea", "tontura", "urina escura"],flight:"Quadro infeccioso pode exigir repouso/hidratação."},
+ {name:"Metronidazol",kind:"Medicamento",class:"Antimicrobiano",status:"atenção",common:"250–500 mg",effects:["náusea", "gosto metálico", "tontura"],flight:"Evitar álcool; atenção a tontura."},
+ {name:"Oseltamivir",kind:"Medicamento",class:"Antiviral",status:"atenção",common:"75 mg",effects:["náusea", "cefaleia", "fadiga"],flight:"Quadro viral pode exigir repouso e avaliação."},
+ {name:"Aciclovir",kind:"Medicamento",class:"Antiviral",status:"compatível",common:"200–400 mg",effects:["náusea", "cefaleia"],flight:"Atenção a hidratação."},
+ {name:"Valaciclovir",kind:"Medicamento",class:"Antiviral",status:"compatível",common:"500 mg, 1 g",effects:["náusea", "cefaleia"],flight:"Atenção a hidratação."},
+ {name:"Benegrip",kind:"Medicamento",class:"Antigripal combinado",status:"atenção",common:"conforme bula",effects:["sonolência possível", "taquicardia se descongestionante", "boca seca"],flight:"Ver composição. Pode conter anti-histamínico/descongestionante; cautela operacional."},
+ {name:"Cimegripe",kind:"Medicamento",class:"Antigripal combinado",status:"atenção",common:"conforme bula",effects:["sonolência possível", "boca seca", "palpitação dependendo composição"],flight:"Ver composição; registrar sintomas e evitar sedativos em serviço."},
+ {name:"Naldecon",kind:"Medicamento",class:"Antigripal combinado",status:"atenção",common:"conforme bula",effects:["sonolência possível", "palpitação", "insônia dependendo versão"],flight:"Ver composição; cautela com descongestionantes/anti-histamínicos."},
+ {name:"Resfenol",kind:"Medicamento",class:"Antigripal combinado",status:"atenção",common:"conforme bula",effects:["sonolência", "boca seca", "tontura"],flight:"Pode conter anti-histamínico sedativo; atenção em serviço."},
+ {name:"Coristina D",kind:"Medicamento",class:"Antigripal/descongestionante",status:"sensível",common:"conforme bula",effects:["sonolência", "taquicardia", "aumento de pressão"],flight:"Associação pode impactar alerta/FC/PA; buscar avaliação antes de serviço."},
+ {name:"Tylenol Sinus",kind:"Medicamento",class:"Antigripal/descongestionante",status:"atenção",common:"conforme bula",effects:["insônia", "palpitação", "aumento de pressão"],flight:"Cautela se houver descongestionante sistêmico."},
+ {name:"Atentah (atomoxetina)",kind:"Medicamento",class:"TDAH não estimulante",status:"restrito",common:"10–80 mg",effects:["sonolência ou insônia", "tontura", "náusea", "alteração de pressão/FC"],flight:"Exige validação médica/CMA. Não sugerir automaticamente para aeronautas."},
+ {name:"Sertralina",kind:"Medicamento",class:"Antidepressivo/ISRS",status:"restrito",common:"25–100 mg",effects:["náusea", "sonolência ou insônia", "tontura"],flight:"Requer avaliação individual pelo médico examinador/CMA antes de atividade aérea."},
+ {name:"Escitalopram",kind:"Medicamento",class:"Antidepressivo/ISRS",status:"restrito",common:"5–20 mg",effects:["sonolência ou insônia", "tontura", "náusea"],flight:"Requer avaliação individual pelo médico examinador/CMA antes de atividade aérea."},
+ {name:"Fluoxetina",kind:"Medicamento",class:"Antidepressivo/ISRS",status:"restrito",common:"20 mg",effects:["insônia", "náusea", "ansiedade inicial"],flight:"Requer avaliação individual/CMA."},
+ {name:"Paroxetina",kind:"Medicamento",class:"Antidepressivo/ISRS",status:"restrito",common:"10–40 mg",effects:["sonolência", "tontura", "náusea"],flight:"Requer avaliação individual/CMA."},
+ {name:"Venlafaxina",kind:"Medicamento",class:"Antidepressivo/IRSN",status:"restrito",common:"37,5–150 mg",effects:["aumento de pressão", "insônia", "tontura"],flight:"Requer avaliação individual/CMA."},
+ {name:"Duloxetina",kind:"Medicamento",class:"Antidepressivo/IRSN",status:"restrito",common:"30–60 mg",effects:["sonolência", "tontura", "náusea"],flight:"Requer avaliação individual/CMA."},
+ {name:"Bupropiona",kind:"Medicamento",class:"Antidepressivo/NDRI",status:"restrito",common:"150–300 mg",effects:["insônia", "ansiedade", "risco convulsivo raro"],flight:"Requer avaliação individual/CMA."},
+ {name:"Clonazepam",kind:"Medicamento",class:"Benzodiazepínico/ansiolítico",status:"sensível",common:"0,25–2 mg",effects:["sedação", "lentidão de reflexos", "amnésia", "dependência"],flight:"Substância sensível/proibitiva para operação: buscar médico do trabalho/CMA. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Alprazolam",kind:"Medicamento",class:"Benzodiazepínico/ansiolítico",status:"sensível",common:"0,25–1 mg",effects:["sedação", "lentidão", "dependência"],flight:"Substância sensível/proibitiva para operação: buscar médico do trabalho/CMA. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Diazepam",kind:"Medicamento",class:"Benzodiazepínico/ansiolítico",status:"sensível",common:"5–10 mg",effects:["sedação", "lentidão", "amnésia"],flight:"Benzodiazepínico: buscar médico do trabalho/CMA. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Lorazepam",kind:"Medicamento",class:"Benzodiazepínico/ansiolítico",status:"sensível",common:"1–2 mg",effects:["sedação", "lentidão", "dependência"],flight:"Benzodiazepínico: buscar médico do trabalho/CMA."},
+ {name:"Zolpidem",kind:"Medicamento",class:"Hipnótico/sedativo",status:"sensível",common:"5–10 mg",effects:["sonolência residual", "confusão", "amnésia"],flight:"Não usar em atividade sem avaliação formal. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Metilfenidato",kind:"Medicamento",class:"Estimulante/TDAH",status:"sensível",common:"10–54 mg",effects:["insônia", "taquicardia", "ansiedade", "aumento de pressão"],flight:"Estimulante/psicoativo: procurar médico do trabalho/CMA. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Lisdexanfetamina",kind:"Medicamento",class:"Estimulante/TDAH/anfetamínico",status:"sensível",common:"30–70 mg",effects:["insônia", "taquicardia", "ansiedade", "perda de apetite"],flight:"Anfetamina/psicoativo: incompatível sem avaliação formal. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Modafinila",kind:"Medicamento",class:"Estimulante/promotor de vigília",status:"sensível",common:"100–200 mg",effects:["insônia", "ansiedade", "taquicardia"],flight:"Psicoestimulante; requer avaliação formal/CMA."},
+ {name:"Tramadol",kind:"Medicamento",class:"Analgésico opioide",status:"sensível",common:"50–100 mg",effects:["sonolência", "tontura", "confusão", "náusea"],flight:"Opioide/narcótico: buscar médico do trabalho/CMA. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Codeína",kind:"Medicamento",class:"Opioide",status:"sensível",common:"15–60 mg",effects:["sonolência", "tontura", "constipação"],flight:"Opioide/narcótico: buscar médico do trabalho/CMA. Referências: RBAC 120, RBAC 67 e IS nº 67-004."},
+ {name:"Morfina",kind:"Medicamento",class:"Opioide",status:"sensível",common:"conforme prescrição",effects:["sedação", "confusão", "dependência"],flight:"Opioide/narcótico: incompatível sem avaliação formal; buscar médico do trabalho/CMA."},
+ {name:"Oxicodona",kind:"Medicamento",class:"Opioide",status:"sensível",common:"conforme prescrição",effects:["sedação", "confusão", "dependência"],flight:"Opioide/narcótico: buscar médico do trabalho/CMA."},
+ {name:"Topiramato",kind:"Medicamento",class:"Anticonvulsivante/modulador",status:"restrito",common:"25–100 mg",effects:["sonolência", "alteração cognitiva", "parestesias"],flight:"Pode afetar cognição/alerta; exige avaliação individual/CMA."},
+ {name:"Pregabalina",kind:"Medicamento",class:"Anticonvulsivante/neuropático",status:"sensível",common:"75–300 mg",effects:["sonolência", "tontura", "lentidão"],flight:"Pode afetar alerta; buscar avaliação formal."},
+ {name:"Gabapentina",kind:"Medicamento",class:"Anticonvulsivante/neuropático",status:"sensível",common:"300 mg",effects:["sonolência", "tontura", "lentidão"],flight:"Pode afetar alerta; buscar avaliação formal."},
+ {name:"Carbamazepina",kind:"Medicamento",class:"Anticonvulsivante",status:"sensível",common:"200 mg",effects:["sonolência", "tontura", "alterações cognitivas"],flight:"Anticonvulsivante: requer avaliação formal/CMA."},
+ {name:"Valproato / Ácido valproico",kind:"Medicamento",class:"Anticonvulsivante/estabilizador",status:"sensível",common:"250–500 mg",effects:["sonolência", "tremor", "alteração cognitiva"],flight:"Requer avaliação formal/CMA."},
+ {name:"Carbonato de lítio",kind:"Medicamento",class:"Estabilizador de humor",status:"sensível",common:"300 mg",effects:["tremor", "sede", "alterações cognitivas"],flight:"Modulador de humor: requer avaliação médica formal antes de operação."},
+ {name:"Quetiapina",kind:"Medicamento",class:"Antipsicótico/modulador",status:"sensível",common:"25–300 mg",effects:["sonolência", "tontura", "ganho de peso"],flight:"Sedação/cognição: buscar médico do trabalho/CMA."},
+ {name:"Risperidona",kind:"Medicamento",class:"Antipsicótico/modulador",status:"sensível",common:"0,5–2 mg",effects:["sonolência", "tontura", "alterações motoras"],flight:"Requer avaliação formal/CMA."},
+ {name:"Anticoncepcional oral combinado",kind:"Medicamento",class:"Hormonal",status:"compatível",common:"conforme prescrição",effects:["náusea", "cefaleia", "risco trombótico"],flight:"Atenção individual e fatores de risco."},
+ {name:"Finasterida",kind:"Medicamento",class:"Inibidor 5-alfa-redutase",status:"compatível",common:"1 mg, 5 mg",effects:["redução libido", "alteração humor rara"],flight:"Uso contínuo comum; observar efeitos."},
+ {name:"Dutasterida",kind:"Medicamento",class:"Inibidor 5-alfa-redutase",status:"compatível",common:"0,5 mg",effects:["redução libido", "alteração humor rara"],flight:"Uso contínuo comum."},
+ {name:"Tadalafila",kind:"Medicamento",class:"Vasodilatador/PDE5",status:"atenção",common:"5–20 mg",effects:["cefaleia", "queda de pressão", "rubor"],flight:"Atenção a hipotensão e associação com nitratos."},
+ {name:"Sildenafila",kind:"Medicamento",class:"Vasodilatador/PDE5",status:"atenção",common:"25–100 mg",effects:["cefaleia", "rubor", "queda de pressão"],flight:"Atenção a hipotensão e associação com nitratos."},
+ {name:"Isotretinoína",kind:"Medicamento",class:"Retinoide",status:"atenção",common:"10–40 mg",effects:["ressecamento", "alteração hepática/lipídios", "humor"],flight:"Acompanhamento médico/laboratorial; atenção a sintomas."},
+ {name:"Anticoagulante oral (varfarina)",kind:"Medicamento",class:"Anticoagulante",status:"restrito",common:"conforme INR",effects:["sangramento", "interações"],flight:"Exige acompanhamento; avaliar aptidão/risco individual."},
+ {name:"Rivaroxabana",kind:"Medicamento",class:"Anticoagulante DOAC",status:"restrito",common:"10–20 mg",effects:["sangramento", "hematomas"],flight:"Exige avaliação médica e cautela ocupacional."},
+ {name:"Apixabana",kind:"Medicamento",class:"Anticoagulante DOAC",status:"restrito",common:"2,5–5 mg",effects:["sangramento", "hematomas"],flight:"Exige avaliação médica e cautela ocupacional."},
+ {name:"Ácido acetilsalicílico (AAS)",kind:"Medicamento",class:"Antiagregante/analgésico",status:"atenção",common:"81–100 mg",effects:["sangramento", "gastrite"],flight:"Atenção a sangramento e gastrite."}
+];
+const HEALTH_MED_CATALOG_EXTRA=[{"name": "Aciclovir", "kind": "Medicamento", "class": "Antiviral", "status": "atenção", "common": "200 mg, 400 mg, 800 mg", "effects": ["náusea", "cefaleia"], "flight": "Confirmar indicação e tolerância; atenção a tontura/cefaleia."}, {"name": "Alprazolam", "kind": "Medicamento", "class": "Benzodiazepínico/ansiolítico", "status": "proibido", "common": "0,25 mg, 0,5 mg, 1 mg", "effects": ["sonolência", "lentidão psicomotora", "dependência"], "flight": "Substância psicotrópica/sedativa. Incompatível com atividade aérea sem afastamento/avaliação; verificar RBAC 120, RBAC 67 e IS nº 67-004."}, {"name": "Amoxicilina", "kind": "Medicamento", "class": "Antibiótico penicilina", "status": "atenção", "common": "500 mg, 875 mg", "effects": ["diarreia", "náusea", "alergia"], "flight": "Tratamento temporário; atenção a febre, infecção ativa, efeitos gastrointestinais e necessidade de repouso."}, {"name": "Amoxicilina + Clavulanato", "kind": "Medicamento", "class": "Antibiótico penicilina", "status": "atenção", "common": "500/125 mg, 875/125 mg", "effects": ["diarreia", "náusea", "candidíase"], "flight": "Tratamento temporário; registrar motivo e duração. Infecção ativa pode impactar aptidão e recuperação."}, {"name": "Anlodipino", "kind": "Medicamento", "class": "Anti-hipertensivo bloqueador de canal de cálcio", "status": "compatível", "common": "2,5 mg, 5 mg, 10 mg", "effects": ["edema", "tontura", "cefaleia"], "flight": "Uso contínuo comum; atenção a tontura/hipotensão individual."}, {"name": "Atenolol", "kind": "Medicamento", "class": "Beta-bloqueador", "status": "atenção", "common": "25 mg, 50 mg, 100 mg", "effects": ["bradicardia", "fadiga", "tontura"], "flight": "Pode reduzir frequência cardíaca e tolerância ao esforço; avaliação individual para atividade aérea."}, {"name": "Atorvastatina", "kind": "Medicamento", "class": "Estatina", "status": "compatível", "common": "10 mg, 20 mg, 40 mg, 80 mg", "effects": ["mialgia", "alteração hepática rara"], "flight": "Uso contínuo comum; atenção a dores musculares persistentes."}, {"name": "Azitromicina", "kind": "Medicamento", "class": "Antibiótico macrolídeo", "status": "atenção", "common": "500 mg", "effects": ["náusea", "diarreia", "alteração de QT rara"], "flight": "Tratamento temporário; atenção a sintomas da infecção e tolerância."}, {"name": "Benegrip", "kind": "Medicamento", "class": "Antigripal combinado", "status": "sensível", "common": "conforme apresentação", "effects": ["sonolência", "taquicardia", "boca seca"], "flight": "Antigripais combinados podem conter anti-histamínicos/descongestionantes. Conferir composição e evitar atividade aérea sem avaliação."}, {"name": "Bisoprolol", "kind": "Medicamento", "class": "Beta-bloqueador", "status": "atenção", "common": "1,25 mg, 2,5 mg, 5 mg, 10 mg", "effects": ["bradicardia", "fadiga", "tontura"], "flight": "Avaliar tolerância individual; pode impactar treino e sintomas de fadiga."}, {"name": "Bromoprida", "kind": "Medicamento", "class": "Antiemético/procinético", "status": "sensível", "common": "10 mg", "effects": ["sonolência", "inquietação", "efeitos extrapiramidais raros"], "flight": "Pode causar sonolência/alterações neurológicas; cautela para aeronautas."}, {"name": "Candesartana", "kind": "Medicamento", "class": "Anti-hipertensivo BRA", "status": "compatível", "common": "8 mg, 16 mg, 32 mg", "effects": ["tontura", "hipotensão"], "flight": "Uso contínuo comum; atenção a hipotensão."}, {"name": "Carvedilol", "kind": "Medicamento", "class": "Beta-bloqueador", "status": "atenção", "common": "3,125 mg, 6,25 mg, 12,5 mg, 25 mg", "effects": ["bradicardia", "tontura", "fadiga"], "flight": "Pode impactar resposta ao esforço e pressão; avaliação individual."}, {"name": "Cefalexina", "kind": "Medicamento", "class": "Antibiótico cefalosporina", "status": "atenção", "common": "500 mg", "effects": ["diarreia", "náusea", "alergia"], "flight": "Tratamento temporário; registrar motivo e sintomas."}, {"name": "Cetirizina", "kind": "Medicamento", "class": "Anti-histamínico 2ª geração", "status": "atenção", "common": "10 mg", "effects": ["sonolência em alguns usuários", "boca seca"], "flight": "Pode causar sonolência em parte dos usuários; testar tolerância fora de serviço."}, {"name": "Cimegripe", "kind": "Medicamento", "class": "Antigripal combinado", "status": "sensível", "common": "conforme apresentação", "effects": ["sonolência", "taquicardia", "boca seca"], "flight": "Conferir composição. Pode conter substâncias sedativas ou simpaticomiméticas."}, {"name": "Ciprofloxacino", "kind": "Medicamento", "class": "Antibiótico quinolona", "status": "atenção", "common": "500 mg", "effects": ["tendinite", "tontura", "náusea"], "flight": "Atenção a dor tendínea, tontura e efeitos no treino; tratamento temporário."}, {"name": "Claritromicina", "kind": "Medicamento", "class": "Antibiótico macrolídeo", "status": "atenção", "common": "500 mg", "effects": ["náusea", "diarreia", "interações"], "flight": "Atenção a interações medicamentosas."}, {"name": "Clonazepam", "kind": "Medicamento", "class": "Benzodiazepínico/antiepiléptico", "status": "proibido", "common": "0,25 mg, 0,5 mg, 2 mg", "effects": ["sonolência", "lentidão psicomotora", "dependência"], "flight": "Sedativo/psicotrópico. Incompatível com atividade aérea sem afastamento/avaliação; verificar RBAC 120, RBAC 67 e IS nº 67-004."}, {"name": "Clortalidona", "kind": "Medicamento", "class": "Diurético tiazídico", "status": "atenção", "common": "12,5 mg, 25 mg, 50 mg", "effects": ["desidratação", "hipocalemia", "tontura"], "flight": "Reforçar hidratação e monitorar tontura/cãibras."}, {"name": "Coristina D", "kind": "Medicamento", "class": "Antigripal/anti-histamínico", "status": "sensível", "common": "conforme apresentação", "effects": ["sonolência", "taquicardia", "boca seca"], "flight": "Pode conter anti-histamínico sedativo e descongestionante; atenção RBAC/atividade aérea."}, {"name": "Dapagliflozina", "kind": "Medicamento", "class": "Diabetes SGLT2", "status": "atenção", "common": "5 mg, 10 mg", "effects": ["desidratação", "infecção urinária", "hipoglicemia se combinado"], "flight": "Atenção à hidratação, principalmente em voo/hotel."}, {"name": "Desloratadina", "kind": "Medicamento", "class": "Anti-histamínico 2ª geração", "status": "compatível", "common": "5 mg", "effects": ["sonolência rara", "boca seca"], "flight": "Geralmente pouco sedativo; confirmar resposta individual."}, {"name": "Dexclorfeniramina", "kind": "Medicamento", "class": "Anti-histamínico 1ª geração", "status": "proibido", "common": "2 mg, 6 mg", "effects": ["sonolência", "lentidão", "boca seca"], "flight": "Sedativo. Evitar atividade aérea; verificar RBAC 120, RBAC 67 e IS nº 67-004/médico do trabalho."}, {"name": "Diazepam", "kind": "Medicamento", "class": "Benzodiazepínico/ansiolítico", "status": "proibido", "common": "5 mg, 10 mg", "effects": ["sonolência", "lentidão psicomotora", "dependência"], "flight": "Sedativo/psicotrópico. Incompatível com atividade aérea sem afastamento/avaliação."}, {"name": "Dipirona", "kind": "Medicamento", "class": "Analgésico/antitérmico", "status": "compatível", "common": "500 mg, 1 g", "effects": ["queda de pressão rara", "alergia"], "flight": "Atenção a febre/dor como causa de inaptidão funcional."}, {"name": "Domperidona", "kind": "Medicamento", "class": "Procinético/antiemético", "status": "atenção", "common": "10 mg", "effects": ["alteração de QT rara", "boca seca"], "flight": "Atenção a interações e sintomas gastrointestinais."}, {"name": "Doxiciclina", "kind": "Medicamento", "class": "Antibiótico tetraciclina", "status": "atenção", "common": "100 mg", "effects": ["fotossensibilidade", "náusea", "esofagite"], "flight": "Tratamento temporário; atenção a náusea e hidratação."}, {"name": "Empagliflozina", "kind": "Medicamento", "class": "Diabetes SGLT2", "status": "atenção", "common": "10 mg, 25 mg", "effects": ["desidratação", "infecção urinária"], "flight": "Reforçar hidratação; atenção a voos longos e baixa ingestão de água."}, {"name": "Enalapril", "kind": "Medicamento", "class": "Anti-hipertensivo IECA", "status": "compatível", "common": "5 mg, 10 mg, 20 mg", "effects": ["tosse", "tontura", "hipotensão"], "flight": "Uso contínuo comum; atenção a tosse/tontura."}, {"name": "Escitalopram", "kind": "Medicamento", "class": "Antidepressivo ISRS", "status": "restrito", "common": "5 mg, 10 mg, 20 mg", "effects": ["náusea", "sonolência ou insônia", "alteração de libido"], "flight": "Psicotrópico: requer avaliação do médico examinador/empresa antes de atividade aérea."}, {"name": "Esomeprazol", "kind": "Medicamento", "class": "IBP/gastrite", "status": "compatível", "common": "20 mg, 40 mg", "effects": ["cefaleia", "desconforto gastrointestinal"], "flight": "Uso comum; atenção a sintomas persistentes."}, {"name": "Ezetimiba", "kind": "Medicamento", "class": "Hipolipemiante", "status": "compatível", "common": "10 mg", "effects": ["diarreia", "dor abdominal"], "flight": "Uso contínuo comum."}, {"name": "Fenofibrato", "kind": "Medicamento", "class": "Fibrato/triglicerídeos", "status": "compatível", "common": "160 mg, 200 mg", "effects": ["mialgia", "alteração hepática"], "flight": "Atenção a associação com estatinas e dor muscular."}, {"name": "Fexofenadina", "kind": "Medicamento", "class": "Anti-histamínico 2ª geração", "status": "compatível", "common": "120 mg, 180 mg", "effects": ["cefaleia", "sonolência rara"], "flight": "Geralmente pouco sedativo; confirmar resposta individual."}, {"name": "Fluoxetina", "kind": "Medicamento", "class": "Antidepressivo ISRS", "status": "restrito", "common": "20 mg", "effects": ["insônia", "náusea", "agitação"], "flight": "Psicotrópico: requer avaliação do médico examinador/empresa."}, {"name": "Furosemida", "kind": "Medicamento", "class": "Diurético de alça", "status": "atenção", "common": "20 mg, 40 mg", "effects": ["desidratação", "hipocalemia", "tontura"], "flight": "Pode impactar hidratação e pressão; atenção para voo."}, {"name": "Gliclazida", "kind": "Medicamento", "class": "Diabetes sulfonilureia", "status": "atenção", "common": "30 mg, 60 mg, 80 mg", "effects": ["hipoglicemia", "tontura"], "flight": "Risco de hipoglicemia; planejamento alimentar é essencial em escala irregular."}, {"name": "Glibenclamida", "kind": "Medicamento", "class": "Diabetes sulfonilureia", "status": "atenção", "common": "5 mg", "effects": ["hipoglicemia", "sudorese", "tontura"], "flight": "Risco de hipoglicemia; atenção alta em voo/escala irregular."}, {"name": "Glimepirida", "kind": "Medicamento", "class": "Diabetes sulfonilureia", "status": "atenção", "common": "1 mg, 2 mg, 4 mg", "effects": ["hipoglicemia", "tontura"], "flight": "Risco de hipoglicemia."}, {"name": "Hidroclorotiazida", "kind": "Medicamento", "class": "Diurético tiazídico", "status": "atenção", "common": "12,5 mg, 25 mg", "effects": ["desidratação", "hipocalemia", "tontura"], "flight": "Reforçar hidratação; atenção a câimbras/tontura."}, {"name": "Hidroxizina", "kind": "Medicamento", "class": "Anti-histamínico sedativo/ansiolítico", "status": "proibido", "common": "25 mg", "effects": ["sonolência intensa", "lentidão", "boca seca"], "flight": "Sedativo. Evitar atividade aérea e consultar médico do trabalho/CMA."}, {"name": "Ibuprofeno", "kind": "Medicamento", "class": "Anti-inflamatório AINE", "status": "atenção", "common": "400 mg, 600 mg", "effects": ["gastrite", "retenção hídrica", "alteração renal"], "flight": "Atenção a gastrite, hidratação e uso repetido."}, {"name": "Levotiroxina / Puran T4", "kind": "Medicamento", "class": "Hormônio tireoidiano", "status": "compatível", "common": "25 mcg, 50 mcg, 75 mcg, 88 mcg, 100 mcg, 112 mcg, 125 mcg", "effects": ["palpitação se excesso", "insônia se excesso"], "flight": "Uso contínuo comum; tomar conforme orientação e manter rotina."}, {"name": "Levofloxacino", "kind": "Medicamento", "class": "Antibiótico quinolona", "status": "atenção", "common": "500 mg, 750 mg", "effects": ["tendinite", "tontura", "alteração de QT"], "flight": "Atenção a dor tendínea e tontura; ajustar treino."}, {"name": "Linagliptina", "kind": "Medicamento", "class": "Diabetes DPP-4", "status": "compatível", "common": "5 mg", "effects": ["nasofaringite", "desconforto gastrointestinal"], "flight": "Uso contínuo comum; atenção individual."}, {"name": "Loratadina", "kind": "Medicamento", "class": "Anti-histamínico 2ª geração", "status": "compatível", "common": "10 mg", "effects": ["sonolência rara", "boca seca"], "flight": "Geralmente pouco sedativo; confirmar resposta individual."}, {"name": "Losartana", "kind": "Medicamento", "class": "Anti-hipertensivo BRA", "status": "compatível", "common": "25 mg, 50 mg, 100 mg", "effects": ["tontura", "hipotensão"], "flight": "Uso contínuo comum; atenção a tontura."}, {"name": "Metformina", "kind": "Medicamento", "class": "Diabetes/biguanida", "status": "compatível", "common": "500 mg, 850 mg, 1000 mg", "effects": ["diarreia", "náusea", "desconforto abdominal"], "flight": "Planejar tomada com alimentação quando indicado; atenção a sintomas GI."}, {"name": "Metilfenidato", "kind": "Medicamento", "class": "Estimulante TDAH", "status": "proibido", "common": "10 mg, 20 mg, 30 mg, 36 mg, 54 mg", "effects": ["insônia", "taquicardia", "ansiedade", "perda de apetite"], "flight": "Estimulante/anfetamínico correlato para regras toxicológicas. Proibido/restrito para aeronautas sem autorização; verificar RBAC 120, RBAC 67 e IS nº 67-004."}, {"name": "Naldecon", "kind": "Medicamento", "class": "Antigripal combinado", "status": "sensível", "common": "conforme apresentação", "effects": ["sonolência", "taquicardia", "boca seca"], "flight": "Conferir composição; pode conter anti-histamínicos/descongestionantes."}, {"name": "Naproxeno", "kind": "Medicamento", "class": "Anti-inflamatório AINE", "status": "atenção", "common": "250 mg, 500 mg", "effects": ["gastrite", "retenção hídrica"], "flight": "Atenção a uso repetido e hidratação."}, {"name": "Nebivolol", "kind": "Medicamento", "class": "Beta-bloqueador", "status": "atenção", "common": "2,5 mg, 5 mg", "effects": ["bradicardia", "fadiga", "tontura"], "flight": "Avaliar tolerância e impacto no exercício."}, {"name": "Olmesartana", "kind": "Medicamento", "class": "Anti-hipertensivo BRA", "status": "compatível", "common": "20 mg, 40 mg", "effects": ["tontura", "hipotensão"], "flight": "Uso contínuo comum."}, {"name": "Omeprazol", "kind": "Medicamento", "class": "IBP/gastrite", "status": "compatível", "common": "20 mg, 40 mg", "effects": ["cefaleia", "desconforto gastrointestinal"], "flight": "Uso comum; atenção a sintomas persistentes."}, {"name": "Pantoprazol", "kind": "Medicamento", "class": "IBP/gastrite", "status": "compatível", "common": "20 mg, 40 mg", "effects": ["cefaleia", "desconforto gastrointestinal"], "flight": "Uso comum; atenção a sintomas persistentes."}, {"name": "Paracetamol", "kind": "Medicamento", "class": "Analgésico/antitérmico", "status": "compatível", "common": "500 mg, 750 mg, 1 g", "effects": ["hepatotoxicidade em excesso"], "flight": "Atenção a febre/dor e dose máxima diária."}, {"name": "Prednisona", "kind": "Medicamento", "class": "Corticosteroide", "status": "atenção", "common": "5 mg, 20 mg", "effects": ["insônia", "agitação", "aumento de glicemia"], "flight": "Pode piorar sono e glicemia; ajustar treino/recuperação."}, {"name": "Prometazina", "kind": "Medicamento", "class": "Anti-histamínico 1ª geração", "status": "proibido", "common": "25 mg", "effects": ["sonolência intensa", "lentidão", "boca seca"], "flight": "Sedativo. Evitar atividade aérea; verificar RBAC 120/RBAC 67/IS nº 67-004."}, {"name": "Propranolol", "kind": "Medicamento", "class": "Beta-bloqueador", "status": "atenção", "common": "10 mg, 40 mg, 80 mg", "effects": ["bradicardia", "fadiga", "broncoespasmo"], "flight": "Pode impactar frequência cardíaca e esforço; avaliação individual."}, {"name": "Pseudoefedrina", "kind": "Medicamento", "class": "Descongestionante sistêmico", "status": "sensível", "common": "30 mg, 60 mg", "effects": ["taquicardia", "insônia", "ansiedade", "aumento de pressão"], "flight": "Simpaticomimético; atenção para RBAC/atividade aérea e sintomas cardiovasculares."}, {"name": "Resfenol", "kind": "Medicamento", "class": "Antigripal combinado", "status": "sensível", "common": "conforme apresentação", "effects": ["sonolência", "boca seca", "taquicardia"], "flight": "Conferir composição; cautela por sedação/simpaticomimético."}, {"name": "Rivaroxabana", "kind": "Medicamento", "class": "Anticoagulante DOAC", "status": "restrito", "common": "10 mg, 15 mg, 20 mg", "effects": ["sangramento", "hematomas"], "flight": "Exige avaliação médica e cautela ocupacional."}, {"name": "Semaglutida / Ozempic", "kind": "Medicamento", "class": "GLP-1/metabólico", "status": "atenção", "common": "0,25 mg, 0,5 mg, 1 mg, 2 mg semanal", "effects": ["náusea", "vômitos", "hiporexia"], "flight": "Atenção a náusea, baixa ingestão alimentar e hidratação em voo."}, {"name": "Sertralina", "kind": "Medicamento", "class": "Antidepressivo ISRS", "status": "restrito", "common": "25 mg, 50 mg, 100 mg", "effects": ["náusea", "sonolência ou insônia", "tontura"], "flight": "Psicotrópico: requer avaliação do médico examinador/empresa."}, {"name": "Sildenafila", "kind": "Medicamento", "class": "Inibidor PDE5", "status": "atenção", "common": "25 mg, 50 mg, 100 mg", "effects": ["cefaleia", "hipotensão", "rubor"], "flight": "Atenção a hipotensão, cefaleia e interações."}, {"name": "Sinvastatina", "kind": "Medicamento", "class": "Estatina", "status": "compatível", "common": "10 mg, 20 mg, 40 mg", "effects": ["mialgia", "alteração hepática rara"], "flight": "Uso contínuo comum; atenção a dores musculares."}, {"name": "Sitagliptina", "kind": "Medicamento", "class": "Diabetes DPP-4", "status": "compatível", "common": "50 mg, 100 mg", "effects": ["cefaleia", "nasofaringite"], "flight": "Uso contínuo comum."}, {"name": "Tadalafila", "kind": "Medicamento", "class": "Inibidor PDE5", "status": "atenção", "common": "5 mg, 10 mg, 20 mg", "effects": ["cefaleia", "hipotensão", "dor lombar"], "flight": "Atenção a hipotensão/interações."}, {"name": "Tiamazol / Tapazol", "kind": "Medicamento", "class": "Antitireoidiano", "status": "atenção", "common": "5 mg, 10 mg", "effects": ["rash", "alteração hepática", "agranulocitose rara"], "flight": "Exige acompanhamento médico; febre/dor de garganta requer avaliação."}, {"name": "Tirzepatida / Mounjaro", "kind": "Medicamento", "class": "GIP/GLP-1 metabólico", "status": "atenção", "common": "2,5 mg, 5 mg, 7,5 mg, 10 mg semanal", "effects": ["náusea", "vômitos", "hiporexia"], "flight": "Atenção a alimentação/hidratação em escala irregular."}, {"name": "Tramadol", "kind": "Medicamento", "class": "Analgésico opioide", "status": "proibido", "common": "50 mg, 100 mg", "effects": ["sonolência", "tontura", "náusea", "dependência"], "flight": "Opioide/analgésico narcótico. Incompatível com atividade aérea sem afastamento/avaliação; verificar RBAC 120/RBAC 67/IS nº 67-004."}, {"name": "Valsartana", "kind": "Medicamento", "class": "Anti-hipertensivo BRA", "status": "compatível", "common": "80 mg, 160 mg, 320 mg", "effects": ["tontura", "hipotensão"], "flight": "Uso contínuo comum; atenção a tontura."}, {"name": "Varfarina", "kind": "Medicamento", "class": "Anticoagulante", "status": "restrito", "common": "1 mg, 2,5 mg, 5 mg", "effects": ["sangramento", "interações"], "flight": "Exige acompanhamento e avaliação ocupacional."}, {"name": "Zolpidem", "kind": "Medicamento", "class": "Hipnótico sedativo", "status": "proibido", "common": "5 mg, 10 mg", "effects": ["sonolência residual", "amnésia", "alteração psicomotora"], "flight": "Hipnótico. Incompatível com atividade aérea sem afastamento/avaliação; verificar RBAC 120/RBAC 67/IS nº 67-004."}];
+HEALTH_MED_CATALOG.push(...HEALTH_MED_CATALOG_EXTRA.filter(x=>!HEALTH_MED_CATALOG.some(y=>y.name.toLowerCase()===x.name.toLowerCase())));
+HEALTH_MED_CATALOG.sort((a,b)=>a.name.localeCompare(b.name,'pt-BR',{sensitivity:'base'}));
+const SYMPTOM_CATALOG=['cefaleia','rinite','sinusite','congestão nasal','dor de garganta','tosse','febre','fadiga','sonolência','insônia','palpitação','tontura','náusea','diarreia','dor muscular','ansiedade','boca seca','olhos secos'];
+const HEALTH_EVENT_CAUSES=['rinite no hotel','sinusite','resfriado/gripe','variação brusca de temperatura','ar condicionado seco','sono insuficiente','sequência de madrugadas','alimentação irregular','baixa hidratação','dor/lesão','outro'];
+
+const DUTY_LIMIT_SIMPLE=[
+ {from:6,to:6.99,limits:[[11,9],[11,9],[10,8],[9,8],[9,8]]},
+ {from:7,to:7.99,limits:[[12,9.5],[12,9],[11,9],[10,8],[9,8]]},
+ {from:8,to:11.99,limits:[[12,10],[12,9.5],[12,9],[11,9],[10,8]]},
+ {from:12,to:13.99,limits:[[12,9.5],[12,9],[11,9],[10,8],[9,8]]},
+ {from:14,to:15.99,limits:[[11,9],[11,9],[10,8],[9,8],[9,8]]},
+ {from:16,to:17.99,limits:[[10,8],[10,8],[9,8],[9,8],[9,8]]},
+ {from:18,to:29.99,limits:[[9,8],[9,8],[9,7],[9,7],[9,7]]},
+ {from:0,to:5.99,limits:[[9,8],[9,8],[9,7],[9,7],[9,7]]}
+];
+
+
+state.healthEvents=state.healthEvents||{};
+state.treatments=state.treatments||[];
+state.protocols=state.protocols||[];
+state.userProfile=state.userProfile||{base:'BSB',company:'LATAM',role:'Comissário',cma:''};
+state.medTaken=state.medTaken||{};
+state.meds=state.meds||[];
+if(!state.calendarMonth) state.calendarMonth=state.selected.slice(0,7);
+function save(){localStorage.setItem(LS,JSON.stringify(state))}function load(){try{return JSON.parse(localStorage.getItem(LS))}catch(e){return null}}function iso(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate()).toISOString().slice(0,10)}function pad(n){return String(n).padStart(2,'0')}function parseIso(s){const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}function fmt(s){const d=parseIso(s);return `${PTW[d.getDay()]}, ${pad(d.getDate())}/${pad(d.getMonth()+1)}`}function addDays(s,n){const d=parseIso(s);d.setDate(d.getDate()+n);return iso(d)}function monthKey(d){return d.slice(0,7)}function currentRoster(){return state.rosters[state.activeRosterKey]||{days:{},raw:'',debug:[]}}
+function allDays(){return combinedDays()}
+function combinedDays(){const merged={};Object.values(state.rosters||{}).forEach(r=>{Object.entries((r&&r.days)||{}).forEach(([d,v])=>{merged[d]=v})});return merged}
+function daysForMonth(month){return Object.fromEntries(Object.entries(allDays()).filter(([d])=>d.startsWith(month)).sort())}
+function dayData(date){return allDays()[date]||null}
+function classifyTraining(day){if(!day) return {key:'sem',label:'Sem dados',color:'none'}; if(day.classification==='Folga regulamentar'||day.classification==='Férias/VC'||day.classification==='Treinamento')return{key:'forte',label:'Treino possível',color:'rest'}; if(day.classification==='Voo'&&day.fatigue>=75)return{key:'recuperacao',label:'Recuperação',color:'fatigue'}; if(day.classification==='Voo'&&day.fatigue>=45)return{key:'leve',label:'Leve/mobilidade',color:'reserve'}; if(day.classification==='Reserva/Sobreaviso')return{key:'curto',label:'Curto flexível',color:'reserve'}; return{key:'moderado',label:'Moderado',color:'flight'}}
+function classifyDayTag(day){if(!day)return {label:'Sem dados',cls:'none'}; if(day.classification==='Folga regulamentar')return{label:'Folga',cls:'rest'}; if(day.classification==='Férias/VC')return{label:'Férias',cls:'rest'}; if(day.classification==='Voo'&&day.fatigue>=75)return{label:'Madrugada',cls:'fatigue'}; if(day.classification==='Voo')return{label:'Voo',cls:'flight'}; if(day.classification==='Treinamento')return{label:'Treino',cls:'train'}; if(day.classification==='Reserva/Sobreaviso')return{label:'Reserva',cls:'reserve'}; return{label:day.classification||'Atividade',cls:'none'}}
+function activeSummary(){const days=Object.values(allDays());return{count:days.length,jornada:sum(days.map(d=>d.duty)),flight:sum(days.map(d=>d.flight)),folgas:days.filter(d=>d.classification==='Folga regulamentar').length,reserva:days.filter(d=>d.classification==='Reserva/Sobreaviso'||d.classification==='Treinamento').length}}function sum(a){return Math.round(a.reduce((x,y)=>x+(+y||0),0)*10)/10}function round(n){return Math.round((+n||0)*10)/10}
+function render(){
+  const blocks=[['inicio',renderInicio],['escala',renderEscala],['diarias',renderDiarias],['saude',renderSaude],['medicacoes',renderMeds],['relatorio',renderRelatorio],['debug',renderDebug]];
+  blocks.forEach(([id,fn])=>{try{fn()}catch(e){console.error('Erro ao renderizar',id,e);const el=document.getElementById('view-'+id);if(el)el.innerHTML=`<div class="card"><h2>Erro nesta aba</h2><p>Não foi possível carregar este módulo. Abra a aba Debug ou atualize a página.</p><pre class="debug">${String(e&&e.stack||e)}</pre></div>`;}});
+  initNav(); initInfoDelegation(); save();
+}
+function initNav(){document.querySelectorAll('.tab').forEach(b=>{b.onclick=()=>switchView(b.dataset.view);});}
+function switchView(v){const target=document.getElementById('view-'+v);if(!target)return;document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));target.classList.remove('hidden');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===v));window.scrollTo({top:0,behavior:'smooth'});}
+
+function renderInicio(){const day=dayData(state.selected);const tr=classifyTraining(day);const prev=addDays(state.selected,-1),next=addDays(state.selected,1);const readiness=operationalReadiness(state.selected);document.getElementById('view-inicio').innerHTML=`
+<div class="timeline"><div class="timebox" onclick="selectDate('${prev}')"><b>${fmt(prev)}</b><p>${dayData(prev)?.classification||'Sem dados'}</p></div><div class="timebox active"><b>Data selecionada</b><h2>${fmt(state.selected)}</h2><p>${day?.classification||'Sem dados disponíveis para esta data.'}</p></div><div class="timebox" onclick="selectDate('${next}')"><b>${fmt(next)}</b><p>${dayData(next)?.classification||'Sem dados'}</p></div></div>
+<div class="grid"><div class="card"><b>Prontidão operacional</b><div class="metric">${readiness.score}</div><span class="muted">${readiness.label}</span></div><div class="card"><b>Jornada</b><div class="metric">${day?day.duty+'h':'—'}</div></div><div class="card"><b>Voo</b><div class="metric">${day?day.flight+'h':'—'}</div></div><div class="card"><b>Treino sugerido</b><div class="metric" style="font-size:22px">${trainingSuggestion(state.selected).label}</div></div></div>
+${renderOperationalHealthPanel()}
+<div class="card"><h2>Alertas da data</h2>${alerts(day).map(a=>`<div class="alert ${a.bad?'bad':''}"><b>${a.title}</b><br>${a.text}</div>`).join('')||'<p>Sem alertas relevantes para a data selecionada.</p>'}</div>
+${renderCalendarCard()}`}
+function alerts(day){let arr=[];const h=state.health[state.selected]||{};if(!day)arr.push({title:'Sem dados operacionais',text:'Importe uma escala para analisar esta data.'});arr.push(...normativeAlertsForDate(state.selected,day));if(day&&day.fatigue>=75)arr.push({title:'Atenção à fadiga',text:'Dia com carga elevada ou madrugada operacional. Priorize sono, hidratação e recuperação.',bad:true});
+const selJourney=(buildJourneys(monthKey(state.selected))||[]).find(j=>j.date===state.selected&&j.recovery); if(selJourney){const r=selJourney.recovery;if(r.avg<10)arr.push({title:'Recuperação estimada crítica',text:`Janela provável de hotel estimada em ${r.hotelMin}–${r.hotelMax}h. Abaixo de 10h deve ser tratado como alerta vermelho para conferência da programação e eventual contato operacional.`,bad:true}); else if(r.avg<12)arr.push({title:'Recuperação estimada reduzida',text:`Janela provável de hotel estimada em ${r.hotelMin}–${r.hotelMax}h. Entre 10h e 12h: atenção e monitoramento de fadiga.`});}if((h.water||0)<1500)arr.push({title:'Hidratação',text:'Você ainda não registrou água suficiente para esta data.'});if((h.caffeineMg||0)>300)arr.push({title:'Cafeína elevada',text:'Consumo registrado acima de 300 mg. Observe sono, ansiedade, palpitações e hidratação.',bad:true});if(!hasAnyTraining(h))arr.push({title:'Treino',text:'Já fez exercício hoje? Não esqueça de marcar ou registrar recuperação.'});
+ const evs=healthEventsForDate(state.selected); if(evs.some(e=>(e.symptoms||[]).includes('febre')))arr.push({title:'Febre/sintomas sistêmicos',text:'Considere repouso e avaliação médica. Evite treino intenso enquanto houver febre.',bad:true});
+ activeTreatments(state.selected).forEach(t=>{const cat=findMed(t.med); if(cat&&cat.class&&cat.class.includes('Antibiótico'))arr.push({title:'Tratamento com antibiótico em andamento',text:`${t.med} por ${t.reason||'tratamento temporário'}. Sugestão: reduzir intensidade do treino e priorizar recuperação/hidratação.`}); if(cat&&cat.status==='sensível')arr.push({title:'Medicamento sensível para aeronauta',text:`${t.med}: ${cat.flight||'requer avaliação individual.'}`,bad:true});});
+ return arr}
+function ruleById(id){return NORMATIVE_RULES.find(r=>r.id===id)||{id,title:id,layer:'Motor',source:'HealthOps'}}
+function ruleAlert(id,title,text,bad=false){const r=ruleById(id);return{title:title||r.title,text:`${text} Referência: ${r.layer} · ${r.source}.`,bad,ruleId:id}}
+function eventStartHour(ev){const t=(ev.times||[])[0]; if(!t)return null; return +t.slice(0,2)+(+(t.slice(3,5)||0))/60}
+function flightLegCount(day){return day?day.events.filter(e=>e.type==='flight').length:0}
+function dutyLimitFor(day){if(!day||day.classification!=='Voo')return null;const flights=day.events.filter(e=>e.type==='flight');if(!flights.length)return null;const hour=eventStartHour(flights[0]);if(hour===null)return null;const h=hour<6?hour:hour;const idx=Math.min(4,Math.max(0,flights.length<=2?0:flights.length<=4?1:flights.length===5?2:flights.length===6?3:4));const row=DUTY_LIMIT_SIMPLE.find(r=>h>=r.from&&h<=r.to) || DUTY_LIMIT_SIMPLE[DUTY_LIMIT_SIMPLE.length-1];const [duty,flight]=row.limits[idx];return{duty,flight,legs:flights.length,startHour:hour}}
+function normativeAlertsForDate(date,day){const arr=[];if(!day)return arr;if(day.classification==='Folga regulamentar'||day.classification==='Férias/VC')return arr;
+ if(day.classification==='Voo'){
+   const lim=dutyLimitFor(day);
+   if(lim){ if(day.duty>lim.duty+0.05)arr.push(ruleAlert('RBAC117-LIMITE-SIMPLES-TABELA1','Possível extrapolação de jornada',`Jornada estimada ${day.duty}h acima do limite-base ${lim.duty}h para ${lim.legs} etapa(s) e apresentação aproximada ${Math.floor(lim.startHour).toString().padStart(2,'0')}h.`,true)); if(day.flight>lim.flight+0.05)arr.push(ruleAlert('RBAC117-LIMITE-SIMPLES-TABELA1','Possível extrapolação de tempo de voo',`Tempo de voo estimado ${day.flight}h acima do limite-base ${lim.flight}h para ${lim.legs} etapa(s).`,true)); }
+   if(isDawnDay(day))arr.push(ruleAlert('RBAC117-MADRUGADA','Madrugada operacional','Evento cruza total ou parcialmente o período 00h00–06h00. Usar na janela de 168h e fadiga.',false));
+ }
+ if(day.classification==='Reserva/Sobreaviso'){
+   for(const e of day.events){if((e.code||'').startsWith('ASB') && e.duty>6.05)arr.push(ruleAlert('CCT-ASB-HSB','Reserva acima de 6h',`ASB com ${e.duty}h.`,true)); if((e.code||'').startsWith('HSB') && e.duty>12.05)arr.push(ruleAlert('CCT-ASB-HSB','Sobreaviso acima de 12h',`HSB/HSBE com ${e.duty}h.`,true));}
+ }
+ return arr}
+function isDawnDay(day){return !!(day&&day.events&&day.events.some(e=>Number.isFinite(e.absStart)&&Number.isFinite(e.absEnd)&&rangeCrosses(e.absStart,e.absEnd,0,360)))}
+function rangeCrosses(start,end,from,to){for(let t=start;t<=end;t+=30){const m=((t%1440)+1440)%1440;if(m>=from&&m<to)return true}return false}
+function runNormativeTests(){const days=allDays();const tests=[];const push=(name,ok,detail)=>tests.push({name,ok,detail});
+ const vals=Object.values(days);
+ push('Folgas DO/DR/VC sem jornada', vals.filter(d=>['Folga regulamentar','Férias/VC'].includes(d.classification)).every(d=>d.duty===0), 'DO/DR/VC devem ter duty=0.');
+ push('ASB limitado a 6h', vals.flatMap(d=>d.events||[]).filter(e=>(e.code||'').startsWith('ASB')).every(e=>(e.duty||0)<=6.05), 'Reserva aeroporto deve ficar entre 3h e 6h.');
+ push('HSB/HSBE limitado a 12h', vals.flatMap(d=>d.events||[]).filter(e=>(e.code||'').startsWith('HSB')).every(e=>(e.duty||0)<=12.05), 'Home standby deve ficar entre 3h e 12h.');
+ push('Treinamentos sem tempo de voo', vals.filter(d=>d.classification==='Treinamento').every(d=>d.flight===0), 'CRM/R320/CBF/EMER/MCK/C32F não geram FH.');
+ push('Madrugada não aplicada a férias', vals.filter(d=>d.classification==='Férias/VC').every(d=>!isDawnDay(d)), 'VC não deve alimentar alerta de madrugada.');
+ push('Motor normativo carregado', NORMATIVE_RULES.length>=10, `${NORMATIVE_RULES.length} regras cadastradas.`);
+ return tests}
+function renderNormativePanel(){const tests=runNormativeTests();return `<div class="card"><h2>Motor Normativo v2</h2><p class="muted">Camadas: Lei 13.475/17 → RBAC 117 → CCT → ACT LATAM → parâmetros HealthOps. Alertas são pontos de atenção, não parecer jurídico.</p><div class="grid"><div><div class="metric">${NORMATIVE_RULES.length}</div><span class="muted">regras parametrizadas</span></div><div><div class="metric">${tests.filter(t=>t.ok).length}/${tests.length}</div><span class="muted">testes do mês ativo</span></div><div><div class="metric">${Object.keys(allDays()).length}</div><span class="muted">dias em teste</span></div><div><div class="metric">${Object.values(allDays()).filter(isDawnDay).length}</div><span class="muted">madrugadas detectadas</span></div></div><details open><summary><b>Testes automáticos</b></summary>${tests.map(t=>`<div class="mealLine"><span class="pill ${t.ok?'green':'red'}">${t.ok?'OK':'REVER'}</span> <b>${t.name}</b> — ${t.detail}</div>`).join('')}</details><details><summary><b>Base de regras</b></summary>${NORMATIVE_RULES.map(r=>`<div class="mealLine"><b>${r.id}</b> · ${r.layer} · ${r.source}<br><span class="muted">${r.title}</span></div>`).join('')}</details></div>`}
+
+function renderCalendarCard(){const [y,m]=state.calendarMonth.split('-').map(Number);const first=new Date(y,m-1,1);const start=new Date(first);start.setDate(1-first.getDay());let cells=[];const payMap=perDiemPaymentMap();for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const id=iso(d);const day=dayData(id);const tag=classifyDayTag(day);const pay=payMap[id];const payTag=pay?`<span class="tag reserve info" onpointerdown="startInfoPress(event,'${escapeAttr('Diárias '+pay.label)}','${escapeAttr(perDiemInfo(pay))}')" onclick="event.stopPropagation(); showInfo('${escapeAttr('Diárias '+pay.label)}','${escapeAttr(perDiemInfo(pay))}')">Diárias</span>`:'';cells.push(`<div class="day ${d.getMonth()!==m-1?'out':''} ${id===state.selected?'selected':''} ${id===iso(new Date())?'today':''}" onclick="selectDate('${id}')"><div class="daynum">${d.getDate()}</div><span class="tag ${tag.cls}">${tag.label}</span>${payTag}</div>`)}return `<div class="card"><div class="between"><button class="btn secondary small" onclick="changeMonth(-1)">◀</button><h2>${first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}</h2><button class="btn secondary small" onclick="changeMonth(1)">▶</button></div><div class="calendar">${['D','S','T','Q','Q','S','S'].map(x=>`<div class="dow">${x}</div>`).join('')}${cells.join('')}</div></div>`}
+window.selectDate=function(d){state.selected=d;state.calendarMonth=monthKey(d);render()};window.changeMonth=function(n){const [y,m]=state.calendarMonth.split('-').map(Number);const d=new Date(y,m-1+n,1);state.calendarMonth=`${d.getFullYear()}-${pad(d.getMonth()+1)}`;render()}
+function renderEscala(){const s=activeSummary();const month=state.calendarMonth||monthKey(state.selected);const days=Object.entries(daysForMonth(month)).sort();const journeys=buildJourneys(month);document.getElementById('view-escala').innerHTML=`
+<div class="grid"><div class="card"><b>Dias processados</b><div class="metric">${Object.keys(allDays()).length}</div></div><div class="card"><b>Jornada total</b><div class="metric">${s.jornada}h</div></div><div class="card"><b>Tempo de voo</b><div class="metric">${s.flight}h</div></div><div class="card"><b>Folgas/Férias</b><div class="metric">${Object.values(allDays()).filter(d=>d.classification==='Folga regulamentar'||d.classification==='Férias/VC').length}</div></div></div>
+${renderCalendarCard()}
+<details class="card" open><summary>1. Jornada do mês</summary><p class="muted">Somente programações. Folgas e férias não aparecem nesta tabela. Tripulação simples e aclimatada por padrão. Repouso oficial = fim da jornada → próxima apresentação; recuperação estimada = janela provável de hotel/sono.</p>${journeys.map(j=>`<div class="listday" onclick="selectDate('${j.date}')"><b>${fmt(j.date)}</b><span>${j.label}<br><small class="muted">Apres. ${j.report||'—'} · Limite corte ${j.limitCut||'—'} · Fim ${j.limitEnd||'—'}${j.international?' · internacional/45min':''}</small><br>${regulatoryRestBadge(j)} ${recoveryBadge(j)}</span><span>${j.duty}h</span><span>${j.flight}h</span><span>${journeyPills(j)}</span></div>`).join('')||'<p>Nenhuma programação processada neste mês.</p>'}</details>
+<details class="card"><summary>2. Pagamentos de diárias</summary><p class="muted">Agrupamento quarta–terça, pagamento quinta. Quantidades, sem valores.</p>${paymentRowsForMonth(month).join('')||'<p>Sem diárias calculadas neste mês.</p>'}</details>
+<details class="card"><summary>3. Linha do tempo do mês</summary>${days.filter(([date,d])=>!['Folga regulamentar','Férias/VC'].includes(d.classification)).map(([date,d])=>`<div class="listday" onclick="selectDate('${date}')"><b>${fmt(date)}</b><span>${d.classification}</span><span>${d.duty}h</span><span>${d.flight}h</span><span>${d.events.map(e=>eventPill(e)).join('')}</span></div>`).join('')||'<p>Nenhuma programação processada.</p>'}</details>
+<div class="card"><h2>Dias por treino recomendado</h2>${renderTrainingGroups(month)}</div>
+<div class="card"><h2>Biblioteca de escalas importadas</h2><p class="muted">O calendário acima navega por todos os meses já processados. Os botões abaixo apenas ativam uma escala para debug/importação.</p><div class="row">${Object.keys(state.rosters).sort().map(k=>`<button class="btn ${k===state.activeRosterKey?'':'secondary'} small" onclick="setRoster('${k}')">${k}</button>`).join(' ')||'<p>Nenhuma escala salva.</p>'}</div><button class="btn danger small" onclick="clearInvalidRosters()">Limpar imports inválidos</button></div>
+<div class="card"><h2>Importar escala IFN/iFlight Neo</h2><p class="muted">Carregue PDF/TXT ou cole o texto. Use para escala publicada ou executada; o parser-lab mantém a biblioteca por mês para comparação e validação.</p><input class="input" type="file" id="file" accept=".txt,.pdf"><label><b>Texto extraído/colado</b></label><textarea id="raw">${escapeHtml(currentRoster().raw||'')}</textarea><div class="row"><button class="btn" onclick="processRaw()">Processar e salvar escala</button><button class="btn danger" onclick="clearRoster()">Limpar escala ativa</button></div><p class="muted">${s.count} dias processados na escala ativa.</p></div>`;setTimeout(()=>{const f=document.getElementById('file');if(f)f.onchange=readFile},0)}
+function renderTrainingGroups(month=state.calendarMonth){const groups={forte:[],moderado:[],curto:[],leve:[],recuperacao:[],sem:[]};Object.entries(daysForMonth(month)).forEach(([date,d])=>groups[classifyTraining(d).key].push(date));const labels={forte:'Treino possível',moderado:'Treino moderado',curto:'Treino curto/flexível',leve:'Leve/mobilidade',recuperacao:'Recuperação',sem:'Sem dados'};return Object.entries(groups).map(([k,arr])=>arr.length?`<details open><summary><b>${labels[k]}</b> · ${arr.length} dia(s)</summary>${arr.map(d=>`<span class="pill">${fmt(d)}</span>`).join('')}</details>`:'').join('')||'<p>Sem dados.</p>'}
+window.setRoster=function(k){state.activeRosterKey=k;const dates=Object.keys((state.rosters[k]&&state.rosters[k].days)||{}).sort();if(dates[0]){state.calendarMonth=monthKey(dates[0]); if(!dayData(state.selected)||monthKey(state.selected)!==state.calendarMonth)state.selected=dates[0]}render()}
+
+async function ensurePdfJs(){
+  if(window.pdfjsLib) return window.pdfjsLib;
+  await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  return window.pdfjsLib;
+}
+async function readFile(ev){
+  const file=ev.target.files[0]; if(!file)return;
+  const rawBox=document.getElementById('raw');
+  rawBox.value='Lendo arquivo...';
+  try{
+    if(file.type==='application/pdf' || file.name.toLowerCase().endsWith('.pdf')){
+      const pdfjs=await ensurePdfJs();
+      const buf=await file.arrayBuffer();
+      const pdf=await pdfjs.getDocument({data:buf}).promise;
+      const pages=[];
+      for(let i=1;i<=pdf.numPages;i++){
+        const page=await pdf.getPage(i);
+        const content=await page.getTextContent();
+        // IFN/iFlight Neo pode vir como texto em fluxo, não como linhas visuais.
+        // Ordenar por coordenadas embaralha alguns PDFs em colunas (ex.: maio/2026).
+        // Por isso, primeiro usamos a ordem nativa do PDF.js + hasEOL.
+        let streamLines=[];
+        let line='';
+        for(const it of content.items){
+          const piece=String(it.str||'').trim();
+          if(piece){ line+=(line?' ':'')+piece; }
+          if(it.hasEOL){
+            if(line.trim()) streamLines.push(line.replace(/\s+/g,' ').trim());
+            line='';
+          }
+        }
+        if(line.trim()) streamLines.push(line.replace(/\s+/g,' ').trim());
+        let pageText=streamLines.join('\n');
+
+        // Fallback por coordenadas apenas quando a ordem nativa não trouxer sinais de escala.
+        if(!/\d{2}-[A-Z][a-z]{2}-\d{4}|\bLA\d{4}\b|\bDO\b|\bHSB\b|\bVC\b/.test(pageText)){
+          const items=content.items
+            .filter(it=>String(it.str||'').trim())
+            .map(it=>({str:String(it.str||'').trim(),x:it.transform[4],y:it.transform[5]}))
+            .sort((a,b)=>Math.abs(b.y-a.y)>3 ? b.y-a.y : a.x-b.x);
+          const rows=[];
+          for(const it of items){
+            let row=rows.find(r=>Math.abs(r.y-it.y)<=3);
+            if(!row){row={y:it.y,items:[]}; rows.push(row)}
+            row.items.push(it);
+          }
+          rows.sort((a,b)=>b.y-a.y);
+          pageText=rows.map(r=>r.items.sort((a,b)=>a.x-b.x).map(i=>i.str).join(' ').replace(/\s+/g,' ').trim()).filter(Boolean).join('\n');
+        }
+        pages.push(pageText);
+      }
+      const text=pages.join('\n');
+      rawBox.value=text;
+      if(!/Roster Report|\d{2}-[A-Z][a-z]{2}-\d{4}|\bLA\d{4}\b|\bDO\b|\bHSB/.test(text)){
+        alert('PDF lido, mas o texto extraído não parece uma escala IFN. Tente copiar/colar o texto ou enviar outro formato.');
+      }
+    }else{
+      rawBox.value=await file.text();
+    }
+  }catch(err){
+    console.error(err);
+    rawBox.value='';
+    alert('Não consegui extrair texto deste PDF no navegador. Tente atualizar a página, limpar cache do PWA ou copiar/colar o texto da escala.');
+  }
+}
+
+
+window.processRaw=function(){
+  const raw=document.getElementById('raw').value||'';
+  if(raw.trim().startsWith('%PDF-') || raw.includes('/Type/Pages') || raw.includes('endobj')){
+    alert('O conteúdo carregado é o binário do PDF, não o texto da escala. Selecione novamente o PDF nesta versão ou copie/cole o texto extraído.');
+    return;
+  }
+  const roster=parseRoster(raw);
+  if(!Object.keys(roster.days||{}).length){
+    alert('Nenhum dia foi processado. Verifique se o texto contém linhas como 01-May-2026, DO, HSB ou voos LAxxxx.');
+    return;
+  }
+  const mode=document.getElementById('importMode')?.value||state.importMode||'planned';
+  roster.importMode=mode;
+  const key=roster.key;
+  const existing=state.rosters[key];
+  if(existing){
+    existing.versions=existing.versions||[];
+    existing.versions.push({createdAt:existing.createdAt,mode:existing.importMode||'planned',days:existing.days,raw:existing.raw,period:existing.period,parser:existing.parser});
+    if(mode==='executed'){
+      existing.executed={createdAt:new Date().toISOString(),days:roster.days,raw:roster.raw,period:roster.period,parser:roster.parser};
+      existing.days=roster.days;
+      existing.raw=roster.raw;
+      existing.debug=roster.debug;
+      existing.importMode='executed';
+      state.rosters[key]=existing;
+    }else{
+      state.rosters[key]=roster;
+    }
+  }else{
+    state.rosters[key]=roster;
+  }
+  state.activeRosterKey=key;
+  const dates=Object.keys(state.rosters[key].days||{}).sort();
+  if(dates[0]){state.selected=dates.includes(iso(new Date()))?iso(new Date()):dates[0];state.calendarMonth=monthKey(state.selected)}
+  render();
+};
+window.clearRoster=function(){if(state.activeRosterKey)delete state.rosters[state.activeRosterKey];state.activeRosterKey=Object.keys(state.rosters)[0]||null;render()}
+window.clearInvalidRosters=function(){Object.keys(state.rosters).forEach(k=>{const r=state.rosters[k]; if(!r || !r.days || !Object.keys(r.days).length || (r.raw||'').startsWith('%PDF-')) delete state.rosters[k];}); state.activeRosterKey=Object.keys(state.rosters)[0]||null; render();}
+
+function parseRoster(raw){
+  const original=String(raw||'');
+  const text=normalizeRosterText(original);
+  let debug=[], stats={blocks:0,events:0,ignored:0,unparsed:0};
+  const head=text.match(/Roster Report\s+(\d{2})-(\w{3})-(\d{4})\s*to\s*(\d{2})-(\w{3})-(\d{4})/i)
+    || text.match(/(\d{2})-(\w{3})-(\d{4})\s*to\s*(\d{2})-(\w{3})-(\d{4})/i)
+    || text.match(/(\d{2})-(\w{3})-(\d{4})to(\d{2})-(\w{3})-(\d{4})/i);
+  let period='Escala importada', key='Import '+new Date().toISOString().slice(0,16), reportStart=null, reportEnd=null;
+  if(head){
+    reportStart=`${head[3]}-${pad(MONTHS[head[2]]+1)}-${head[1]}`;
+    reportEnd=`${head[6]}-${pad(MONTHS[head[5]]+1)}-${head[4]}`;
+    key=`${head[3]}-${pad(MONTHS[head[2]]+1)}`;
+    period=`${reportStart} a ${reportEnd}`;
+  }
+  const blocks=buildRosterBlocks(text, reportStart, reportEnd, debug, stats);
+  const days={};
+  for(const block of blocks){
+    const events=parseEventsFromBlock(block.date, block.text, debug);
+    if(!events.length){stats.unparsed++; debug.push(`SEM EVENTO: ${block.date} | ${block.text.slice(0,160)}`); continue;}
+    for(const ev of events){
+      if(reportStart && ev.date<reportStart){stats.ignored++; continue;}
+      if(reportEnd && ev.date>=reportEnd && ev.code!=='LA3497'){ /* evita herança do mês seguinte na maioria dos relatórios */ }
+      if(!days[ev.date]) days[ev.date]={date:ev.date,events:[],classification:'Sem dados',duty:0,flight:0,fatigue:0,issues:[]};
+      days[ev.date].events.push(ev); stats.events++;
+      debug.push(`${ev.date}: ${ev.code} -> ${ev.type} | duty=${ev.duty||0} flight=${ev.flight||0} | ${ev.source||''}`);
+    }
+    stats.blocks++;
+  }
+  Object.values(days).forEach(d=>finalizeDay(d));
+  debug.unshift(`Parser IFN v4: ${stats.events} eventos em ${Object.keys(days).length} dias. Blocos: ${stats.blocks}. Não processados: ${stats.unparsed}. Ignorados: ${stats.ignored}.`);
+  return{key,period,raw:text,days,debug,createdAt:new Date().toISOString(),parser:'IFN-v4'};
+}
+function normalizeRosterText(raw){
+  return String(raw||'')
+    .replace(/[\u000c\ufffe]/g,' ')
+    .replace(/[←⇐]/g,'<==')
+    .replace(/\r/g,'\n')
+    .replace(/(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})\s*to\s*(\d{2})-/ig,'$1-$2-$3 to $4-')
+    .replace(/(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})to(\d{2})-/ig,'$1-$2-$3 to $4-')
+    .replace(/(HSB|HSBE|ASB|CRMBSB|R320|CBF|EMER|MCK|C32F)\s*-\s*/ig,'$1-')
+    .replace(/\n{3,}/g,'\n\n');
+}
+function buildRosterBlocks(text, reportStart, reportEnd, debug, stats){
+  const lines=text.split(/\n+/).map(x=>x.replace(/\s+/g,' ').trim()).filter(Boolean);
+  const blocks=[]; let current=null; let ignoreContinuation=false;
+  const dateRe=/\b(\d{2})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{4})\b/i;
+  for(let line of lines){
+    if(/^Date\b|^Pairing\/Activity\b|^LEGEND\b|^Filial\b/i.test(line)){ignoreContinuation=true; continue;}
+    if(/^Roster Report\b/i.test(line) || (/\bto\b/i.test(line)&&dateRe.test(line)&&!/\b(LA\d{4}|DO|DR|VC|HSB|HSBE|ASB|R320|CBF|EMER|CRMBSB|MCK|C32F)\b/i.test(line))){
+      continue;
+    }
+    if(/^<==/.test(line)){ ignoreContinuation=true; stats.ignored++; debug.push(`IGNORADO continuação anterior: ${line.slice(0,120)}`); continue; }
+    const dm=line.match(dateRe);
+    // O PDF às vezes solta o código do pareamento em uma linha antes da data real.
+    // Ex.: "LA3866/070426/" sozinho antes de "07-Apr-2026 ...". Não anexar ao dia anterior.
+    // Se a própria linha já contém uma data real, ela será processada normalmente.
+    if(!dm && /^(LA\d{4}|HSB|HSBE|ASB|ASB\d?|MCK|C32F)[-\s\/].*\/\d{6}\//i.test(line) && !/\b(OP|PS)\b/i.test(line)){
+      stats.ignored++; debug.push(`IGNORADO cabeçalho de pareamento isolado: ${line.slice(0,120)}`); continue;
+    }
+    if(dm){
+      ignoreContinuation=false;
+      if(current) blocks.push(current);
+      const date=`${dm[3]}-${pad(MONTHS[dm[2]]+1)}-${dm[1]}`;
+      let rest=line.slice(dm.index+dm[0].length).trim();
+      rest=rest.replace(/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b/i,'').trim();
+      current={date,text:rest};
+    }else if(current && !ignoreContinuation){
+      current.text+=' '+line;
+    }else{
+      stats.ignored++;
+    }
+  }
+  if(current) blocks.push(current);
+  return blocks.filter(b=>!reportStart || b.date>=reportStart).filter(b=>!reportEnd || b.date<=reportEnd);
+}
+function parseEventsFromBlock(baseDate,blockText,debug){
+  const text=blockText.replace(/\s+/g,' ').trim();
+  if(!text)return[];
+  const act=text.match(/\b(VC|DO|DR|HSBE|HSB|ASB\d?|CRMBSB|R320|CBF|EMER|MCK|C32F)\b/i);
+  const hasFlight=/\bLA\d{4}\b/.test(text);
+  if(act && (!hasFlight || !/\bLA\d{4}\b\s+(OP|PS)\b/i.test(text))){
+    const code=act[1].toUpperCase(); const times=extractTimes(text); const duty=activityDuty(code,times);
+    const type=(code==='DO'||code==='DR')?'rest':code==='VC'?'vacation':code.startsWith('HSB')?'standby':code.startsWith('ASB')?'reserve':'training';
+    return[{code,type,duty,flight:0,times:times.map(t=>t.label),date:baseDate,absStart:times[0]?.abs,absEnd:times[times.length-1]?.abs,source:text.slice(0,150)}];
+  }
+  const events=[];
+  // Captura linhas/trechos de voo no formato: LA#### OP/PS ORG HH:MM DST HH:MM ... FH
+  const flightRe=/\b(LA\d{4})\b\s+(OP|PS)?\s*([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?\s+([A-Z]{3})\s+(\d{2}:\d{2})(?:\(\+(\d)\))?(?:\s+(\d{2}:\d{2})(?:\(\+(\d)\))?)?(?:\s+(\d{2}:\d{2}))?/g;
+  let m; let lastFlightEnd=0;
+  while((m=flightRe.exec(text))){
+    const code=m[1], role=m[2]||'';
+    const prefix=text.slice(lastFlightEnd,m.index); const pTimes=extractTimes(prefix); const rep=pTimes[pTimes.length-1]||null;
+    const depTime=m[4], depOff=+(m[5]||0), arrTime=m[7], arrOff=+(m[8]||0);
+    const depAbs=absMinutes(baseDate,depTime,depOff); let arrAbs=absMinutes(baseDate,arrTime,arrOff); if(arrAbs<depAbs)arrAbs+=1440;
+    let fh=round((arrAbs-depAbs)/60);
+    // Nas tabelas IFN, depois do horário de chegada pode vir FH e/ou DH.
+    // Se o primeiro HH:MM após chegada é pequeno (ex. 00:50, 03:25), tratamos como FH.
+    // Se for um horário de debrief (ex. 17:30), tentamos o próximo campo pequeno.
+    const c1=m[9], c2=m[11];
+    if(c1 && isDurationHH(c1) && c1!=='00:00') fh=timeToHours(c1);
+    else if(c2 && isDurationHH(c2) && c2!=='00:00') fh=timeToHours(c2);
+    const date=isoFromAbs(baseDate,depAbs);
+    events.push({code,op:role,type:'flight',from:m[3],to:m[6],duty:0,flight:fh,times:[depTime+(depOff?`(+${depOff})`:''),arrTime+(arrOff?`(+${arrOff})`:'')],absStart:depAbs,absEnd:arrAbs,reportTime:rep?rep.label:null,reportAbs:rep?absMinutes(baseDate,rep.time,rep.offset):null,date,source:`${code} ${role} ${m[3]} ${depTime} ${m[6]} ${arrTime}`});
+    lastFlightEnd=flightRe.lastIndex;
+  }
+  if(events.length)return events;
+  // Fallback para trechos onde a ordem visual do PDF separou origem/destino: usa janelas ao redor do código.
+  const codeRe=/\b(LA\d{4})\b/g; let cm;
+  while((cm=codeRe.exec(text))){
+    const slice=text.slice(Math.max(0,cm.index-35), Math.min(text.length, cm.index+140));
+    const times=extractTimes(slice); const aps=[...slice.matchAll(/\b[A-Z]{3}\b/g)].map(x=>x[0]).filter(x=>!['OP','PS','CC','THE'].includes(x));
+    if(times.length>=2){
+      const dep=times[0], arr=times[1]; let depAbs=absMinutes(baseDate,dep.time,dep.offset); let arrAbs=absMinutes(baseDate,arr.time,arr.offset); if(arrAbs<depAbs)arrAbs+=1440;
+      events.push({code:cm[1],type:'flight',from:aps[0]||'',to:aps[1]||'',duty:0,flight:round((arrAbs-depAbs)/60),times:[dep.label,arr.label],absStart:depAbs,absEnd:arrAbs,date:isoFromAbs(baseDate,depAbs),source:`fallback ${slice}`});
+    }
+  }
+  return events;
+}
+function extractTimes(line){const out=[];const re=/(\d{2}:\d{2})(?:\(\+(\d)\))?/g;let m;while((m=re.exec(line))){out.push({label:m[1]+(m[2]?`(+${m[2]})`:''),time:m[1],offset:+(m[2]||0),abs:absMinutes('2000-01-01',m[1],+(m[2]||0))});}return out;}
+function timeToHours(t){const [h,m]=t.split(':').map(Number);return round(h+m/60)}
+function isDurationHH(t){const [h,m]=t.split(':').map(Number);return h>=0 && h<=6 && m>=0 && m<60}
+function activityDuty(code,times){
+  if(code==='DO'||code==='DR'||code==='VC')return 0;
+  if(code==='CBF'||code==='EMER')return 2;
+  if(code==='R320'||code==='MCK'||code==='C32F'||code==='CRMBSB'){
+    const last=times[times.length-1];
+    if(last && isDurationHH(last.time) && times.length>=3) return timeToHours(last.time);
+    return times.length>=2?round(Math.max(0,times[times.length-1].abs-times[0].abs)/60):4;
+  }
+  if(code.startsWith('HSB'))return times.length>=2?round(Math.max(0,times[times.length-1].abs-times[0].abs)/60):12;
+  if(code.startsWith('ASB'))return times.length>=2?round(Math.max(0,times[times.length-1].abs-times[0].abs)/60):6;
+  return 0;
+}
+function absMinutes(baseDate,time,off){const [h,m]=time.split(':').map(Number);return off*1440+h*60+m;}
+function isoFromAbs(baseDate,mins){return addDays(baseDate,Math.floor(mins/1440));}
+function maxOffset(line){let max=0; for(const m of line.matchAll(/\(\+(\d)\)/g)) max=Math.max(max,+m[1]); return max;}
+function finalizeDay(d){
+  const types=new Set(d.events.map(e=>e.type));
+  if(types.has('flight'))d.classification='Voo'; else if(types.has('training'))d.classification='Treinamento'; else if(types.has('reserve')||types.has('standby'))d.classification='Reserva/Sobreaviso'; else if(types.has('rest'))d.classification='Folga regulamentar'; else if(types.has('vacation'))d.classification='Férias/VC'; else d.classification='Atividade';
+  d.flight=round(sum(d.events.map(e=>e.flight||0)));
+  const abs=d.events.filter(e=>Number.isFinite(e.absStart)&&Number.isFinite(e.absEnd));
+  if(d.classification==='Voo' && abs.length){
+    // Calcula por blocos: quebras > 10h indicam nova jornada no mesmo dia civil.
+    const sorted=abs.slice().sort((a,b)=>a.absStart-b.absStart); let total=0, start=sorted[0].absStart, end=sorted[0].absEnd;
+    for(let i=1;i<sorted.length;i++){ if(sorted[i].absStart-end>600){ total+=Math.max(0,end-start)/60+1; start=sorted[i].absStart; end=sorted[i].absEnd; } else end=Math.max(end,sorted[i].absEnd); }
+    total+=Math.max(0,end-start)/60+1; d.duty=round(total);
+  } else d.duty=round(sum(d.events.map(e=>e.duty||0)));
+  if(d.classification==='Folga regulamentar'||d.classification==='Férias/VC')d.duty=0;
+  const crosses=abs.some(e=>{const s=e.absStart%1440,en=e.absEnd%1440;return s<360||en<360||s>en;});
+  d.fatigue=d.classification==='Voo'?(crosses?85:45):d.classification==='Folga regulamentar'?10:d.classification==='Férias/VC'?5:35;
+}
+
+function perDiemPaymentMap(){const map={};calcPerDiems().forEach(w=>{const [dd,mm]=w.pay.split('/');const y=w.start.slice(0,4);let pay=`${y}-${mm}-${dd}`;if(pay<w.start){pay=`${+y+1}-${mm}-${dd}`}map[pay]=w});return map}
+function paymentRowsForMonth(month){return Object.entries(perDiemPaymentMap()).filter(([d])=>d.startsWith(month)).map(([d,w])=>`<div class="listday" onclick="selectDate('${d}')"><b>${fmt(d)}</b><span>Pagamento de diárias<br><small class="muted">${w.label}</small></span><span>${w.main} princ.</span><span>${w.breakfast} cafés</span><span><span class="pill orange">Diárias</span> <span class="pill">Táxi ${w.taxi}</span></span></div>`)}
+function eventGlobalStart(e){const day=parseIso(e.date||state.selected).getTime()/60000;return day+(Number.isFinite(e.absStart)?(e.absStart%1440):0)}
+function eventGlobalEnd(e){let s=eventGlobalStart(e);let dur=(e.flight||e.duty||0)*60;if(Number.isFinite(e.absStart)&&Number.isFinite(e.absEnd)){dur=e.absEnd-e.absStart;if(dur<0)dur+=1440}return s+Math.max(0,dur)}
+function minutesToLabel(total){total=((Math.round(total)%1440)+1440)%1440;return `${pad(Math.floor(total/60))}:${pad(total%60)}`}
+function addHoursLabel(date,min,h){return minutesToLabel((min%1440)+h*60)}
+function reportForBlock(firstEv){if(firstEv.reportTime)return firstEv.reportTime;const dep=eventGlobalStart(firstEv)%1440;return minutesToLabel(dep-50)}
+function rbacSimpleLimitHours(reportMin,stages){const h=Math.floor(((reportMin%1440)+1440)%1440/60);let base=(h>=5&&h<17)?12:(h>=17&&h<22)?11:10;if(stages>=5)base-=1;if(stages>=7)base-=2;return Math.max(8,base)}
+function buildJourneys(month){
+ const evs=Object.values(daysForMonth(month)).flatMap(d=>(d.events||[]).map(e=>({...e,date:e.date||d.date,dayClass:d.classification}))).sort((a,b)=>eventGlobalStart(a)-eventGlobalStart(b));
+ const out=[];let cur=null;
+ function close(){
+  if(!cur)return;
+  const first=cur.events[0];const report=reportForBlock(first);const reportMin=(+report.slice(0,2))*60+(+report.slice(3,5));
+  const stages=cur.events.filter(e=>e.type==='flight').length;const limit=cur.type==='flight'?rbacSimpleLimitHours(reportMin,stages):null;
+  const intl=cur.events.some(e=>/^LA8/.test(e.code||''));const debrief=intl?0.75:0.5;
+  cur.report=report;cur.reportGlobal=parseIso(cur.date).getTime()/60000+reportMin;cur.international=intl;cur.debrief=debrief;
+  cur.limitCut=limit?addHoursLabel(cur.date,reportMin,limit-debrief):'—';cur.limitEnd=limit?addHoursLabel(cur.date,reportMin,limit):'—';
+  cur.officialEnd=cur.end+(cur.type==='flight'?debrief*60:0);
+  cur.duty=round(Math.max(0,cur.officialEnd-cur.reportGlobal)/60);
+  if(!Number.isFinite(cur.duty)||cur.duty<=0)cur.duty=round(Math.max(0,cur.end-cur.start)/60 + (cur.type==='flight'?debrief:0));
+  cur.flight=round(sum(cur.events.map(e=>e.flight||0)));cur.codes=[...new Set(cur.events.map(e=>e.code))];out.push(cur);cur=null
+ }
+ for(const e of evs){
+  const s=eventGlobalStart(e), en=eventGlobalEnd(e);const type=e.type==='flight'?'flight':e.type==='training'?'training':(e.type==='rest'?'rest':(e.type==='vacation'?'vacation':'standby'));
+  if(type==='rest'||type==='vacation')continue;
+  if(type!=='flight'){close();out.push({date:e.date,type,label:e.dayClass||e.code,report:e.times&&e.times[0]||'—',reportGlobal:eventGlobalStart(e),officialEnd:eventGlobalEnd(e),limitCut:'—',limitEnd:'—',duty:round(e.duty||0),flight:0,codes:[e.code],recovery:null});continue}
+  if(!cur){cur={date:e.date,type:'flight',label:'Jornada de voo',start:s,end:en,events:[e]};continue}
+  const explicitNewDuty = Number.isFinite(e.reportAbs) && (e.reportAbs - (cur.end%1440) > 120 || s-cur.end>300);
+  if(s-cur.end>600 || explicitNewDuty){close();cur={date:e.date,type:'flight',label:'Jornada de voo',start:s,end:en,events:[e]}}else{cur.end=Math.max(cur.end,en);cur.events.push(e)}
+ }
+ close();
+ const filtered=out.filter(j=>j.date&&j.date.startsWith(month)).sort((a,b)=>(a.reportGlobal||0)-(b.reportGlobal||0));
+ addRecoveryEstimates(filtered);
+ return filtered
+}
+function addRecoveryEstimates(journeys){
+ for(let i=1;i<journeys.length;i++){
+  const prev=journeys[i-1], cur=journeys[i];
+  if(prev.type!=='flight'||cur.type!=='flight'||!Number.isFinite(prev.officialEnd)||!Number.isFinite(cur.reportGlobal)){cur.recovery=null;continue;}
+  const firstFlight=cur.events.find(e=>e.type==='flight'); const dep=firstFlight?eventGlobalStart(firstFlight):cur.reportGlobal+50;
+  const regulatoryRest=(cur.reportGlobal-prev.officialEnd)/60;
+  const hotelMin=(dep-120-(prev.officialEnd+90))/60; // pior cenário: saída hotel 2h antes + chegada hotel 90min após fim da jornada
+  const hotelMax=(dep-90-(prev.officialEnd+45))/60;  // melhor cenário: saída hotel 1h30 antes + chegada hotel 45min após fim da jornada
+  const avg=(hotelMin+hotelMax)/2;
+  let level='green',label='Adequada'; if(avg<10){level='red';label='Crítica (<10h)'} else if(avg<12){level='orange';label='Atenção (10–12h)'}
+  cur.recovery={regulatoryRest:round(regulatoryRest,1),hotelMin:round(Math.max(0,hotelMin),1),hotelMax:round(Math.max(0,hotelMax),1),avg:round(Math.max(0,avg),1),level,label,arrivalMin:minutesToLabel(prev.officialEnd+45),arrivalMax:minutesToLabel(prev.officialEnd+90),leaveMin:minutesToLabel(dep-120),leaveMax:minutesToLabel(dep-90),assumption:'chegada ao hotel entre 45 e 90 min após o fim oficial da jornada; saída do hotel entre 1h30 e 2h antes da decolagem seguinte'};
+ }
+}
+
+function journeyPills(j){
+  const evs = Array.isArray(j.events) ? j.events : [];
+  if(!evs.length) return '<span class="pill">Sem eventos</span>';
+  return evs.map(e=>eventPillWithJourney(e,j)).join('');
+}
+
+function recoveryBadge(j){if(!j.recovery)return '<span class="pill">Recup. n/d</span>';const c=j.recovery.level==='red'?'red':j.recovery.level==='orange'?'orange':'green';const title='Recuperação estimada de hotel';const body=hotelRecoveryInfo(j);return `<span class="pill ${c} info" data-info-title="${escapeAttr(title)}" data-info-body="${escapeAttr(body)}">Hotel ${j.recovery.hotelMin}–${j.recovery.hotelMax}h · ${j.recovery.label}</span>`}
+function regulatoryRestBadge(j){if(!j.recovery)return '';const ok=j.recovery.regulatoryRest>=12;return `<span class="pill ${ok?'green':'red'}">Repouso oficial ${j.recovery.regulatoryRest}h</span>`}
+
+function renderDiarias(){const weeks=calcPerDiems();document.getElementById('view-diarias').innerHTML=`<div class="card"><h2>Diárias por janela LATAM</h2><p class="muted">Agrupamento quarta–terça, pagamento quinta. Quantidades, sem valores.</p></div>${weeks.map(w=>`<div class="card"><h2>${w.label}</h2><div class="grid"><div><div class="metric">${w.main}</div><span class="muted">principais</span></div><div><div class="metric">${w.breakfast}</div><span class="muted">cafés</span></div><div><div class="metric">${w.taxi}</div><span class="muted">táxis</span></div><div><div class="metric">${w.training}</div><span class="muted">treinamentos*</span></div></div><p>Pagamento previsto: <b>${w.pay}</b></p><details><summary><b>Ver itens</b></summary>${Object.entries(w.byDay).map(([d,it])=>`<div class="mealLine"><b>${d.slice(8,10)}/${d.slice(5,7)}</b> - ${it.join(', ')}</div>`).join('')}</details></div>`).join('')||'<div class="card">Sem diárias calculadas.</div>'}`}
+function calcPerDiems(){const days=allDays();const res={};Object.entries(days).forEach(([date,d])=>{if(d.classification==='Folga regulamentar'||d.classification==='Férias/VC')return;const items=[];let main=0,breakfast=0,taxi=0,training=0;if(d.classification==='Treinamento'){training++;items.push('Treinamento*')}if(d.classification==='Voo'||d.classification==='Reserva/Sobreaviso'||d.classification==='Treinamento'){const startHour=firstHour(d);const outBase=hasOutBase(d);if(startHour!==null&&startHour>=5&&startHour<8&&d.classification==='Voo'&&!startsFromHotel(d)){breakfast++;items.push('Café')} if(outBase||d.classification==='Treinamento'||d.classification==='Reserva/Sobreaviso'){main++;items.push('Almoço'); if(d.classification==='Voo'&&crossesDinner(d)){main++;items.push('Jantar')} if(d.classification==='Voo'&&crossesSupper(d)){main++;items.push('Ceia')}} if(d.classification==='Voo'&&baseTaxi(d)){taxi++;items.push('Táxi')}}if(items.length)addWeek(date,{main,breakfast,taxi,training,items})});return Object.values(res).sort((a,b)=>a.start.localeCompare(b.start));function addWeek(date,o){const k=latamWeek(date);if(!res[k.key])res[k.key]={...k,main:0,breakfast:0,taxi:0,training:0,byDay:{}};res[k.key].main+=o.main;res[k.key].breakfast+=o.breakfast;res[k.key].taxi+=o.taxi;res[k.key].training+=o.training;res[k.key].byDay[date]=[...(res[k.key].byDay[date]||[]),...o.items]}}
+function latamWeek(date){const d=parseIso(date);const day=d.getDay();const back=(day+4)%7;const start=new Date(d);start.setDate(d.getDate()-back);const end=new Date(start);end.setDate(start.getDate()+6);const pay=new Date(end);pay.setDate(end.getDate()+2);return{key:iso(start),start:iso(start),label:`${pad(start.getDate())}/${pad(start.getMonth()+1)} a ${pad(end.getDate())}/${pad(end.getMonth()+1)}`,pay:`${pad(pay.getDate())}/${pad(pay.getMonth()+1)}`}}
+function firstHour(d){let ts=d.events.flatMap(e=>e.times||[]).sort();return ts[0]?+ts[0].slice(0,2):null}function hasOutBase(d){return d.events.some(e=>e.code.startsWith('LA'))}function startsFromHotel(d){return false}function crossesDinner(d){return true}function crossesSupper(d){return d.events.some(e=>e.times.some(t=>t>='23:00'||t<'01:00'))}function baseTaxi(d){return false}
+function renderSaude(){const h=state.health[state.selected]||{};const evs=healthEventsForDate(state.selected);const readiness=operationalReadiness(state.selected);document.getElementById('view-saude').innerHTML=`
+<div class="card"><h2>Motor de Saúde Operacional</h2><p class="muted">Cruza escala, sono, hidratação, cafeína, alimentação, treino, sintomas e tratamentos temporários.</p><div class="grid"><div><div class="metric">${readiness.score}</div><span class="muted">prontidão operacional</span></div><div><div class="metric">${activeTreatments(state.selected).length}</div><span class="muted">tratamentos ativos</span></div><div><div class="metric">${evs.length}</div><span class="muted">eventos/sintomas no dia</span></div><div><div class="metric">${monthHealthSummary(monthKey(state.selected)).symptomDays}</div><span class="muted">dias com sintomas no mês</span></div></div></div>
+<div class="card"><h2>Check-in de ${fmt(state.selected)}</h2><div class="grid"><label>Água (ml)<div class="row"><button class="btn secondary small" onclick="adjustWater(-250)">−250</button><input class="input" style="max-width:140px" type="number" step="250" value="${h.water||0}" onchange="setHealth('water',this.value)"><button class="btn secondary small" onclick="adjustWater(250)">+250</button></div></label><label>Sono (h)<input class="input" type="number" step="0.1" value="${h.sleep||''}" onchange="setHealth('sleep',this.value)"></label><label>Energia (0-10)<input class="input" type="number" min="0" max="10" value="${h.energy||''}" onchange="setHealth('energy',this.value)"></label><label>Fadiga percebida (0-10)<input class="input" type="number" min="0" max="10" value="${h.perceivedFatigue||''}" onchange="setHealth('perceivedFatigue',this.value)"></label></div>
+<h3>Treino realizado</h3><div class="row">${['Treino curto','Treino completo','Mobilidade','Alongamento','Caminhada','Corrida','Piscina','Bike','Funcional','Recuperação/repouso'].map(x=>`<label class="pill"><input type="checkbox" ${((h.trainingTypes||[]).includes(x))?'checked':''} onchange="toggleTraining('${x}',this.checked)"> ${x}</label>`).join('')}</div>
+<h3>Cafeína por bebida</h3><div class="row"><button class="btn small secondary" onclick="addCaffeineDrink('Espresso',60)">Espresso</button><button class="btn small secondary" onclick="addCaffeineDrink('Café pequeno',80)">Café pequeno</button><button class="btn small secondary" onclick="addCaffeineDrink('Café médio',160)">Café médio</button><button class="btn small secondary" onclick="addCaffeineDrink('Café grande',240)">Café grande</button><button class="btn small secondary" onclick="addCaffeineDrink('Energético',80)">Energético</button><button class="btn small secondary" onclick="addCaffeineDrink('Chá mate/preto',40)">Chá</button></div><p>Total: <b>${h.caffeineMg||0} mg estimados</b> · ${(h.caffeineItems||[]).map(i=>i.name).join(', ')||'sem registros'}</p>
+<h3>Alimentação</h3><select class="input" id="mealType"><option>Café da manhã</option><option>Almoço</option><option>Jantar</option><option>Lanche</option><option>Ceia</option></select><textarea id="mealDesc" placeholder="Resumo da refeição"></textarea><button class="btn" onclick="addMeal()">Adicionar refeição</button>${(h.meals||[]).map(m=>`<div class="mealLine"><b>${m.type}</b> - ${m.desc}</div>`).join('')}</div>
+<div class="card"><h2>Eventos de saúde e sintomas</h2><div class="grid"><select class="input" id="healthCause">${HEALTH_EVENT_CAUSES.map(c=>`<option>${c}</option>`).join('')}</select><input class="input" id="healthPlace" placeholder="Local/hotel/base (opcional)"></div><p class="muted">Sintomas</p><div class="row">${SYMPTOM_CATALOG.map(s=>`<label class="pill"><input type="checkbox" name="symptom" value="${s}"> ${s}</label>`).join('')}</div><textarea id="healthNote" placeholder="Observações: intensidade, possível gatilho, hotel frio, ar seco, alimentação, etc."></textarea><button class="btn" onclick="addHealthEvent()">Registrar evento de saúde</button>${evs.map(e=>`<div class="mealLine"><b>${e.cause}</b> · ${(e.symptoms||[]).join(', ')}<br><span class="muted">${e.place||''} ${e.note||''}</span></div>`).join('')||'<p class="muted">Nenhum evento registrado nesta data.</p>'}</div>
+<div class="card"><h2>Tratamento temporário</h2><p class="muted">Registre remédios temporários por motivo: antibiótico por sinusite, antialérgico por rinite no hotel, antigripal, corticoide etc. O HealthOps usa isso para ajustar recuperação, treino e relatórios.</p><div class="grid"><div><label><b>Pesquisar medicação</b></label><input class="input" id="treatMedSearch" list="treatMedList" placeholder="Digite: amoxicilina, loratadina, prednisona..." oninput="refreshTreatmentMed()"><datalist id="treatMedList">${temporaryMedicationCatalog().map(m=>`<option value="${escapeAttr(m.name)}">${medPurpose(m)} · ${m.class}</option>`).join('')}</datalist></div><div><label><b>Duração</b></label><div class="row"><input class="input" style="max-width:120px" id="treatDays" type="number" min="1" max="60" value="7"><span class="muted">dia(s)</span></div></div></div><div id="treatDynamicFields">${renderTreatmentDynamicFields(null)}</div><input class="input" id="treatReason" placeholder="Motivo: sinusite, crise de rinite no hotel, gripe, dor, antibiótico..."><button class="btn" onclick="addTreatment()">Adicionar tratamento</button><h3>Tratamentos ativos</h3>${activeTreatments(state.selected).map((t,i)=>`<div class="mealLine"><b>${t.med}</b> · ${t.dose||''} · ${t.frequency||''} · ${t.reason||''}<br><span class="muted">${t.start} a ${t.end} · ${findMed(t.med)?.flight||''}</span><br><button class="btn small secondary" onclick="editTreatment(${i})">Editar</button><button class="btn small danger" onclick="removeTreatment(${i})">Remover</button></div>`).join('')||'<p class="muted">Nenhum tratamento ativo.</p>'}</div>
+${renderMonthlyHealthSummary()}`}
+function setHealth(k,v){const h=state.health[state.selected]=state.health[state.selected]||{};h[k]=['water','energy','perceivedFatigue'].includes(k)?Math.max(0,+v||0):(+v||v);render()}
+window.adjustWater=function(delta){const h=state.health[state.selected]=state.health[state.selected]||{};h.water=Math.max(0,(+h.water||0)+delta);render()}
+function temporaryMedicationCatalog(){return catalogSorted('Medicamento').filter(m=>/antibiótico|antiviral|antigripal|anti-histamínico|descongestionante|analgésico|anti-inflamatório|aine|corticoide|antiemético|procinético|ibp|gastrite|rinite|infecções|dor/i.test([m.class,medPurpose(m),m.name].join(' ')))}
+function renderTreatmentDynamicFields(m){m=m||findMed(document.getElementById('treatMedSearch')?.value)||temporaryMedicationCatalog()[0]; if(!m)return'';const doses=splitCommonOptions(m);const pos=medPosologySuggestions(m);return `<div class="card" style="box-shadow:none;background:#f8f7f3"><div class="grid"><div><b>${m.name}</b><br><span class="pill ${medStatusClass(m.status)}">${m.status}</span><p class="muted">${m.kind} · ${medPurpose(m)} · ${m.class}</p></div><div><label><b>Dose</b></label><input class="input" id="treatDose" value="${escapeAttr(doses[0]||'')}"></div><div><label><b>Posologia</b></label><input class="input" id="treatPosology" value="${escapeAttr(pos[0]||'Conforme prescrição')}"></div></div><p class="muted"><b>Doses comuns:</b> ${doses.map(d=>`<button type="button" class="chipBtn" onclick="setTreatDose('${escapeAttr(d)}')">${d}</button>`).join(' ')||'não cadastrado'}<br><b>Posologias comuns:</b> ${pos.map(p=>`<button type="button" class="chipBtn" onclick="setTreatPosology('${escapeAttr(p)}')">${p}</button>`).join(' ')}</p>${medicationAeronautWarning(m)}<p class="muted">Em tratamentos temporários, o motivo clínico e os sintomas podem pesar mais do que o remédio em si para fadiga, treino e recuperação.</p></div>`}
+window.refreshTreatmentMed=function(){const v=document.getElementById('treatMedSearch')?.value||'';const m=findMed(v)||temporaryMedicationCatalog().find(x=>normText(x.name).includes(normText(v)));const d=document.getElementById('treatDynamicFields');if(d)d.innerHTML=renderTreatmentDynamicFields(m)}
+window.setTreatDose=function(v){const el=document.getElementById('treatDose');if(el)el.value=v}
+window.setTreatPosology=function(v){const el=document.getElementById('treatPosology');if(el)el.value=v}
+
+window.toggleTraining=function(name,on){const h=state.health[state.selected]=state.health[state.selected]||{};h.trainingTypes=h.trainingTypes||[];if(on&&!h.trainingTypes.includes(name))h.trainingTypes.push(name);if(!on)h.trainingTypes=h.trainingTypes.filter(x=>x!==name);h.training=h.trainingTypes.join(', ');render()}
+window.addCaffeineDrink=function(name,mg){const h=state.health[state.selected]=state.health[state.selected]||{};h.caffeineMg=(h.caffeineMg||0)+mg;h.caffeineItems=h.caffeineItems||[];h.caffeineItems.push({name,mg});render()}
+window.addHealthEvent=function(){const sy=[...document.querySelectorAll('input[name=symptom]:checked')].map(x=>x.value);const ev={date:state.selected,cause:document.getElementById('healthCause').value,symptoms:sy,place:document.getElementById('healthPlace').value,note:document.getElementById('healthNote').value};state.healthEvents[state.selected]=state.healthEvents[state.selected]||[];state.healthEvents[state.selected].push(ev);render()}
+window.addTreatment=function(){const days=+document.getElementById('treatDays').value||1;const end=addDays(state.selected,days-1);const med=document.getElementById('treatMedSearch')?.value||'';const dose=document.getElementById('treatDose')?.value||'';const frequency=document.getElementById('treatPosology')?.value||'';if(!med)return;state.treatments.push({med,dose,frequency,reason:document.getElementById('treatReason').value,start:state.selected,end});render()}
+window.removeTreatment=function(i){state.treatments.splice(i,1);render()}
+window.editTreatment=function(i){const t=state.treatments[i];if(!t)return;const med=prompt('Medicação',t.med);if(med===null)return;const dose=prompt('Dose',t.dose||'')??t.dose;const frequency=prompt('Posologia',t.frequency||'')??t.frequency;const reason=prompt('Motivo',t.reason||'')??t.reason;state.treatments[i]={...t,med,dose,frequency,reason};render()}
+function healthEventsForDate(d){return state.healthEvents[d]||[]}function activeTreatments(d){return (state.treatments||[]).filter(t=>t.start<=d&&t.end>=d)}function findMed(n){return HEALTH_MED_CATALOG.find(m=>m.name.toLowerCase()===String(n).toLowerCase())||HEALTH_MED_CATALOG.find(m=>String(n).toLowerCase().includes(m.name.toLowerCase().split(' ')[0]))}
+function hasAnyTraining(h){return !!(h.training||(h.trainingTypes&&h.trainingTypes.length))}
+function trainingSuggestion(date){const day=dayData(date);let base=classifyTraining(day);const evs=healthEventsForDate(date);const active=activeTreatments(date);if(evs.some(e=>(e.symptoms||[]).includes('febre')))return{label:'Repouso / sem treino intenso',key:'repouso'};if(active.some(t=>{const c=findMed(t.med);return c&&c.class&&c.class.includes('Antibiótico')}))return{label:'Recuperação: mobilidade/caminhada leve',key:'recuperacao'};if(active.some(t=>{const c=findMed(t.med);return c&&c.status==='sensível'}))return{label:'Leve e com atenção a sintomas',key:'leve'};return base}
+function operationalReadiness(date){let score=100;const h=state.health[date]||{};const day=dayData(date);if(day){score-=Math.min(25,day.fatigue/4); if(isDawnDay(day))score-=10; if(day.duty>10)score-=8;} if((h.sleep||7)<6)score-=15;if((h.water||0)<1500)score-=10;if((h.caffeineMg||0)>300)score-=10;if((h.perceivedFatigue||0)>=7)score-=12;if(healthEventsForDate(date).length)score-=8;if(activeTreatments(date).length)score-=8;if(hasAnyTraining(h)&&score<90)score+=4;score=Math.max(0,Math.min(100,Math.round(score)));return{score,label:score>=80?'Boa prontidão':score>=60?'Atenção moderada':'Recuperação prioritária'}}
+function monthHealthSummary(month){const dates=Object.keys(state.health).filter(d=>d.startsWith(month));const evDates=Object.keys(state.healthEvents).filter(d=>d.startsWith(month));const medsTaken=Object.values(state.medTaken||{}).reduce((a,o)=>a+Object.values(o).filter(Boolean).length,0);return{days:dates.length,symptomDays:evDates.length,medsTaken,avgWater:Math.round(dates.reduce((a,d)=>a+(+state.health[d].water||0),0)/(dates.length||1)),caffeine:Math.round(dates.reduce((a,d)=>a+(+state.health[d].caffeineMg||0),0)/(dates.length||1)),treatments:(state.treatments||[]).filter(t=>t.start.slice(0,7)<=month&&t.end.slice(0,7)>=month).length}}
+function renderOperationalHealthPanel(){const m=monthHealthSummary(monthKey(state.selected));const r=operationalReadiness(state.selected);return `<div class="card"><h2>Resumo de saúde operacional</h2><div class="grid"><div><div class="metric">${r.score}</div><span class="muted">IPO diário</span></div><div><div class="metric">${m.symptomDays}</div><span class="muted">dias com sintomas no mês</span></div><div><div class="metric">${m.treatments}</div><span class="muted">tratamentos no mês</span></div><div><div class="metric">${m.caffeine}</div><span class="muted">mg cafeína/dia média registrada</span></div></div><p class="muted">O IPO é apoio de autocuidado, não define aptidão para voo.</p></div>`}
+function renderMonthlyHealthSummary(){const m=monthHealthSummary(monthKey(state.selected));const evs=Object.values(state.healthEvents).flat().filter(e=>e.date&&e.date.startsWith(monthKey(state.selected)));const symptoms={};evs.forEach(e=>(e.symptoms||[]).forEach(s=>symptoms[s]=(symptoms[s]||0)+1));const top=Object.entries(symptoms).sort((a,b)=>b[1]-a[1]).slice(0,5);return `<div class="card"><h2>Resumo mensal de saúde</h2><div class="grid"><div><div class="metric">${m.days}</div><span class="muted">dias com check-in</span></div><div><div class="metric">${m.avgWater}</div><span class="muted">ml/dia água média</span></div><div><div class="metric">${m.caffeine}</div><span class="muted">mg/dia cafeína média</span></div><div><div class="metric">${m.treatments}</div><span class="muted">tratamentos</span></div></div><h3>Padrões observados</h3>${top.length?top.map(([k,v])=>`<span class="pill orange">${k}: ${v}</span>`).join(' '):'<p class="muted">Ainda não há sintomas suficientes para detectar padrões.</p>'}<p class="muted">Com mais meses de uso, o HealthOps cruzará sintomas com hotéis, bases, madrugadas, descanso ruim, variação térmica relatada e hidratação.</p></div>`}
+function catalogSorted(kind){return HEALTH_MED_CATALOG.slice().filter(m=>isValidMed(m)&&(!kind||m.kind===kind)).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR',{sensitivity:'base'}))}
+function splitCommonOptions(m){return String(m&&m.common||'').split(/,|;/).map(x=>x.trim()).filter(Boolean).slice(0,10)}
+function medStatusClass(st){return st==='sensível'||st==='restrito'||st==='proibido'?'red':st==='atenção'?'orange':'green'}
+function medicationAeronautWarning(m){if(!m)return'';const txt=String(m.flight||''); if(m.status==='proibido'||/RBAC 120|RBAC 67|IS nº 67-004|Portaria 344/i.test(txt)) return '<div class="alert bad"><b>Atenção aeronáutica</b><br>Item classificado como sensível/proibido ou dependente de avaliação. Confira RBAC 120, RBAC 67, IS nº 67-004 e procure o médico do trabalho/CMA antes de atividade aérea.</div>'; if(m.status==='sensível'||m.status==='restrito') return '<div class="alert"><b>Uso sensível para aeronautas</b><br>Registrar sintomas e confirmar compatibilidade com médico examinador/médico do trabalho.</div>'; return '';}
+function catalogSorted(kind){return HEALTH_MED_CATALOG.slice().filter(m=>isValidMed(m)&&(!kind||m.kind===kind)).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR',{sensitivity:'base'}))}
+function splitCommonOptions(m){return String(m&&m.common||'').split(/,|;/).map(x=>x.trim()).filter(Boolean).slice(0,10)}
+function medStatusClass(st){return st==='sensível'||st==='restrito'||st==='proibido'?'red':st==='atenção'?'orange':'green'}
+function medPurpose(m){const c=(m.class||'').toLowerCase(), n=(m.name||'').toLowerCase(), k=(m.kind||'').toLowerCase();
+ if(k.includes('suplemento'))return 'Suplementação';
+ if(/antibiótico|antiviral|antifúngico/.test(c))return 'Infecções';
+ if(/anti-histamínico|antigripal|descongestionante|asma|rinite|respirat/.test(c+n))return 'Respiratório/alergias';
+ if(/anti-hipertensivo|estatina|hipolipemiante|fibrato|diurético|beta-bloqueador|anticoagulante|cardio/.test(c+n))return 'Cardiometabólico';
+ if(/diabetes|glp|sglt|dpp|metabólico|glicemia/.test(c+n))return 'Diabetes/metabólico';
+ if(/tireoid|hormônio tireoidiano|antitireoidiano/.test(c+n))return 'Tireoide/hormonal';
+ if(/analgésico|anti-inflamatório|aine|opioide|dor/.test(c+n))return 'Dor/inflamação';
+ if(/gastrite|ibp|antiemético|procinético|gastro/.test(c+n))return 'Gastrointestinal';
+ if(/antidepressivo|benzodiazepínico|ansiolítico|hipnótico|tdah|estimulante|psicotrópico/.test(c+n))return 'Saúde mental/sono';
+ return 'Outros';}
+function medicationAeronautWarning(m){if(!m)return'';const txt=String(m.flight||''); if(m.status==='proibido'||/RBAC 120|RBAC 67|IS nº 67-004|Portaria 344/i.test(txt)) return '<div class="alert bad"><b>Atenção aeronáutica</b><br>Este item exige cautela elevada ou pode ser incompatível com atividade aérea. Confira RBAC 120, RBAC 67, IS nº 67-004 e procure o médico do trabalho/CMA antes de operar.</div>'; if(m.status==='sensível'||m.status==='restrito') return '<div class="alert"><b>Uso sensível para aeronautas</b><br>Registrar sintomas, testar tolerância fora de serviço e confirmar compatibilidade com médico examinador/médico do trabalho.</div>'; return '';}
+function medPosologySuggestions(m){const c=(m.class||'').toLowerCase(), n=(m.name||'').toLowerCase(), k=(m.kind||'').toLowerCase();
+ if(k.includes('suplemento'))return ['1x ao dia','Conforme prescrição','Dias alternados','Após refeição'];
+ if(/antibiótico/.test(c))return ['1x ao dia','2x ao dia','3x ao dia','A cada 8h','A cada 12h','Conforme prescrição'];
+ if(/antigripal|descongestionante/.test(c+n))return ['SOS','A cada 8h se necessário','A cada 12h se necessário','Conforme bula/prescrição'];
+ if(/anti-histamínico/.test(c))return ['1x ao dia','À noite','SOS','Conforme prescrição'];
+ if(/estatina|hipolipemiante|fibrato/.test(c))return ['1x ao dia','À noite','Conforme prescrição'];
+ if(/tireoid|levotiroxina/.test(c+n))return ['1x ao dia em jejum','Ao acordar','Conforme prescrição'];
+ if(/anti-hipertensivo|beta-bloqueador|diurético/.test(c))return ['1x ao dia','2x ao dia','Pela manhã','Conforme prescrição'];
+ if(/diabetes|glp|sglt|dpp|metabólico/.test(c+n))return ['1x ao dia','Com refeição','Semanal','Conforme prescrição'];
+ if(/ibp|gastrite/.test(c+n))return ['1x ao dia em jejum','Antes da refeição','Conforme prescrição'];
+ if(/analgésico|anti-inflamatório|aine/.test(c))return ['SOS','A cada 6h se necessário','A cada 8h se necessário','A cada 12h se necessário','Conforme prescrição'];
+ return ['1x ao dia','2x ao dia','SOS','Conforme prescrição'];}
+function medFilteredList(){const q=normText(document.getElementById('medSearch')?.value||'').trim();const kind=document.getElementById('medKindFilter')?.value||'';const purpose=document.getElementById('medPurposeFilter')?.value||'';return catalogSorted(kind).filter(m=>isValidMed(m)&&(!purpose||medPurpose(m)===purpose)&&(!q||normText([m.name,m.class,medPurpose(m),m.common,(m.effects||[]).join(' ')].join(' ')).includes(q))).slice(0,30)}
+function medPurposeOptions(){return [...new Set(HEALTH_MED_CATALOG.map(m=>medPurpose(m)))].sort((a,b)=>a.localeCompare(b,'pt-BR'))}
+function renderMedSearchResults(list){if(!list.length)return '<p class="muted">Nenhum item encontrado. Verifique grafia, princípio ativo ou classe.</p>';return list.map(m=>`<button type="button" class="medResult ${state.medSelection===m.name?'selected':''}" onclick="chooseMed('${escapeAttr(m.name)}')"><b>${m.name}</b><span class="pill ${medStatusClass(m.status)}">${m.status}</span><br><small>${m.kind} · ${medPurpose(m)} · ${m.class}</small></button>`).join('')}
+function medPurposeOptions(){return [...new Set(HEALTH_MED_CATALOG.filter(isValidMed).map(m=>medPurpose(m)))].sort((a,b)=>a.localeCompare(b,'pt-BR'))}
+function renderMedSearchResults(list){if(!list.length)return '<p class="muted">Nenhum item encontrado. Tente nome comercial, princípio ativo, classe ou finalidade.</p>';return list.map(m=>`<button type="button" class="medResult ${state.medSelection===m.name?'selected':''}" onclick="chooseMed('${escapeAttr(m.name)}')"><b>${m.name}</b> <span class="pill ${medStatusClass(m.status)}">${m.status}</span><br><small>${m.kind} · ${medPurpose(m)} · ${m.class}</small></button>`).join('')}
+function renderMeds(){const taken=state.medTaken[state.selected]||{};const all=catalogSorted();if(!state.medSelection&&all[0])state.medSelection=all[0].name;const sel=findMed(state.medSelection)||all[0];const list=medFilteredList().length?medFilteredList():all.slice(0,18);document.getElementById('view-medicacoes').innerHTML=`
+<div class="card"><h2>Motor farmacológico</h2><p class="muted">Pesquise pelo nome do remédio, princípio ativo, classe ou finalidade. Após selecionar, o HealthOps abre somente os campos úteis para aquele item: dose, posologia comum, período e alerta aeronáutico.</p>
+<div class="grid"><div><label><b>Pesquisar medicação/suplemento</b></label><input class="input" id="medSearch" placeholder="Ex.: rosuvastatina, antibiótico, rinite, tireoide, TDAH" oninput="refreshMedSearch()"></div><div><label><b>Tipo</b></label><select class="input" id="medKindFilter" onchange="refreshMedSearch()"><option value="">Todos</option><option>Medicamento</option><option>Suplemento</option></select></div><div><label><b>Finalidade</b></label><select class="input" id="medPurposeFilter" onchange="refreshMedSearch()"><option value="">Todas</option>${medPurposeOptions().map(p=>`<option>${p}</option>`).join('')}</select></div><div><label><b>Período padrão</b></label><select class="input" id="medPeriod"><option>Ao acordar</option><option>Manhã</option><option>Almoço</option><option>Tarde</option><option>Noite</option><option>Antes de dormir</option><option>SOS</option></select></div></div>
+<div id="medResults" class="medResults">${renderMedSearchResults(list)}</div>
+<div id="medDynamicFields">${renderMedDynamicFields(sel)}</div><div class="row"><button class="btn" onclick="addMedFromCatalog()">Adicionar ao checklist do dia</button><button class="btn secondary" onclick="addMedToProtocolDraft()">Adicionar ao protocolo em edição</button></div></div>
+<div class="card"><h2>Checklist de ${fmt(state.selected)}</h2>${state.meds.length?state.meds.map((m,i)=>renderMedRow(m,i,taken)).join(''):'<p>Nenhum item no checklist. Pesquise no banco acima e adicione apenas o que for usar neste dia.</p>'}</div>
+<div class="card"><h2>Protocolos pessoais</h2><p class="muted">Protocolos são do usuário. Crie grupos como “manhã”, “noite”, “viagem” ou “tratamento”. Nada vem pré-carregado para outras pessoas.</p><div class="grid"><input class="input" id="protoName" placeholder="Nome do protocolo"><select class="input" id="protoPeriod"><option>Manhã</option><option>Tarde</option><option>Noite</option><option>Viagem</option><option>Tratamento temporário</option><option>SOS</option></select></div><textarea id="protoItems" placeholder="Itens do protocolo. Use o botão acima para preencher automaticamente com dose/posologia."></textarea><button class="btn" onclick="saveProtocol()">Salvar protocolo</button>${(state.protocols||[]).length?(state.protocols||[]).map((p,i)=>`<div class="mealLine"><b>${p.name}</b> · ${p.period}<br>${p.items.map(x=>`<span class="pill">${x}</span>`).join(' ')}<br><button class="btn small secondary" onclick="applyProtocol(${i})">Adicionar ao checklist</button><button class="btn small secondary" onclick="editProtocol(${i})">Editar</button><button class="btn small danger" onclick="removeProtocol(${i})">Remover</button></div>`).join(''):'<p>Nenhum protocolo salvo.</p>'}</div>
+<div class="card"><h2>Banco local</h2><details><summary><b>Ver itens cadastrados (${all.length})</b></summary>${all.map(m=>`<div class="mealLine"><b>${m.name}</b> <span class="pill ${medStatusClass(m.status)}">${m.status}</span><br><span class="muted">${m.kind} · ${medPurpose(m)} · ${m.class} · doses comuns: ${m.common}<br>Efeitos possíveis: ${(m.effects||[]).join(', ')}<br>${m.flight}</span></div>`).join('')}</details></div>`}
+function renderMedDynamicFields(m){if(!m)return'';const doses=splitCommonOptions(m);const pos=medPosologySuggestions(m);const doseDefault=doses[0]||'';const posDefault=pos[0]||'';return `<div class="card" style="box-shadow:none;background:#f8f7f3"><div class="grid"><div><b>${m.name}</b><br><span class="pill ${medStatusClass(m.status)}">${m.status}</span><p class="muted">${m.kind} · ${medPurpose(m)} · ${m.class}</p></div><div><label><b>Dose / dosimetria</b></label><input class="input" id="medDose" value="${escapeAttr(doseDefault)}" placeholder="Dose"></div><div><label><b>Posologia</b></label><input class="input" id="medPosology" value="${escapeAttr(posDefault)}" placeholder="Ex.: 1x ao dia, 12/12h, semanal, SOS"></div><div><label><b>Observação</b></label><input class="input" id="medNoteCustom" placeholder="Motivo/observação opcional"></div></div><p class="muted"><b>Doses comuns:</b> ${doses.map(d=>`<button type="button" class="chipBtn" onclick="setMedDose('${escapeAttr(d)}')">${d}</button>`).join(' ')||'não cadastrado'}<br><b>Posologias comuns:</b> ${pos.map(p=>`<button type="button" class="chipBtn" onclick="setMedPosology('${escapeAttr(p)}')">${p}</button>`).join(' ')}</p><p class="muted"><b>Efeitos possíveis:</b> ${(m.effects||[]).join(', ')||'não cadastrado'}<br>${m.flight||''}</p>${medicationAeronautWarning(m)}</div>`}
+function renderMedRow(m,i,taken){return `<div class="checkrow"><input type="checkbox" ${taken[i]?'checked':''} onchange="toggleMed(${i},this.checked)"><div style="flex:1"><b>${m.name}</b> <span class="pill ${medStatusClass(m.status)}">${m.status||'compatível'}</span><br><span class="muted">${m.period||'—'} · ${m.dose||''} · ${m.frequency||''}<br>${m.note||''}</span></div><div class="row"><button class="btn small secondary" onclick="editMed(${i})">Editar</button><button class="btn small danger" onclick="removeMed(${i})">Remover</button></div></div>`}
+window.chooseMed=function(name){state.medSelection=name;const m=findMed(name);const d=document.getElementById('medDynamicFields');if(d)d.innerHTML=renderMedDynamicFields(m);const res=document.getElementById('medResults');if(res)res.innerHTML=renderMedSearchResults(medFilteredList().length?medFilteredList():catalogSorted().slice(0,18));}
+window.refreshMedSearch=function(){const list=medFilteredList();const res=document.getElementById('medResults');if(res)res.innerHTML=renderMedSearchResults(list.length?list:catalogSorted().slice(0,18));if(list[0]){state.medSelection=list[0].name;const d=document.getElementById('medDynamicFields');if(d)d.innerHTML=renderMedDynamicFields(list[0]);}}
+window.setMedDose=function(v){const el=document.getElementById('medDose');if(el)el.value=v}
+window.setMedPosology=function(v){const el=document.getElementById('medPosology');if(el)el.value=v}
+window.addMedFromCatalog=function(){const c=findMed(state.medSelection);if(!c)return;const dose=document.getElementById('medDose')?.value||'';const freq=document.getElementById('medPosology')?.value||'';const period=document.getElementById('medPeriod')?.value||'';const custom=document.getElementById('medNoteCustom')?.value.trim();state.meds.push({name:c.name,period,dose,frequency:freq,status:c.status,class:c.class,note:custom||c.flight});render()}
+window.addMedToProtocolDraft=function(){const c=findMed(state.medSelection);if(!c)return;const dose=document.getElementById('medDose')?.value||'';const freq=document.getElementById('medPosology')?.value||'';const period=document.getElementById('medPeriod')?.value||'';const line=`${c.name}${dose?' '+dose:''}${freq?' — '+freq:''}${period?' — '+period:''}`;const ta=document.getElementById('protoItems');if(ta)ta.value=(ta.value?ta.value+'\n':'')+line}
+window.editMed=function(i){const m=state.meds[i];if(!m)return;const name=prompt('Nome',m.name);if(name===null)return;const dose=prompt('Dose',m.dose||'')??m.dose;const frequency=prompt('Posologia',m.frequency||'')??m.frequency;const period=prompt('Período',m.period||'')??m.period;const note=prompt('Observação',m.note||'')??m.note;state.meds[i]={...m,name,dose,frequency,period,note};render()}
+window.removeMed=function(i){state.meds.splice(i,1);render()}
+window.saveProtocol=function(){const name=document.getElementById('protoName').value.trim();if(!name)return;const items=document.getElementById('protoItems').value.split('\n').map(x=>x.trim()).filter(Boolean);if(!items.length)return;state.protocols.push({name,period:document.getElementById('protoPeriod').value,items});render()}
+window.applyProtocol=function(i){const p=state.protocols[i];if(!p)return;p.items.forEach(item=>{const c=findMed(item)||{name:item,status:'compatível',class:'Personalizado',flight:'Item do protocolo do usuário; revisar orientação individual.'};state.meds.push({name:item,period:p.period,status:c.status,class:c.class,note:c.flight});});render()}
+window.editProtocol=function(i){const p=state.protocols[i];if(!p)return;const name=prompt('Nome do protocolo',p.name);if(name===null)return;const items=prompt('Itens, separados por ponto e vírgula',p.items.join('; '));if(items===null)return;state.protocols[i]={...p,name,items:items.split(';').map(x=>x.trim()).filter(Boolean)};render()}
+window.removeProtocol=function(i){state.protocols.splice(i,1);render()}
+window.toggleMed=function(i,checked){state.medTaken[state.selected]=state.medTaken[state.selected]||{};state.medTaken[state.selected][i]=checked;save()}
+function renderRelatorio(){
+ const month=monthKey(state.selected); const data=buildOperationalHealthReport(month);
+ document.getElementById('view-relatorio').innerHTML=`
+ <div class="card noPrint"><div class="between"><div><h2>Dossiê de Saúde Operacional</h2><p class="muted">Relatório mensal para o próprio aeronauta e, quando útil, nutricionista/endócrino. Foco em constância dentro da escala irregular, sem exigir aparelhos ou biometria de mala.</p></div><button class="btn" onclick="window.print()">Exportar / salvar em PDF</button></div></div>
+ <div class="reportPage"><div class="eyebrow">HealthOps Aeronautas</div><h1 style="font-size:36px;line-height:1.05;margin:8px 0">Dossiê de Saúde Operacional</h1><p><b>Período:</b> ${data.label} · <b>Versão:</b> ${VERSION}</p><div class="grid"><div><div class="metric">${data.ops.days}</div><span class="muted">dias na escala</span></div><div><div class="metric">${data.ops.duty}h</div><span class="muted">jornada</span></div><div><div class="metric">${data.ops.flight}h</div><span class="muted">voo</span></div><div><div class="metric">${data.ops.dawn}</div><span class="muted">madrugadas</span></div></div><p class="muted">Este relatório não substitui avaliação médica, nutricional ou regulatória. Ele organiza padrões observados para contextualizar a rotina operacional.</p></div>
+ <div class="reportPage"><h2>1. Resumo executivo</h2><div class="grid"><div><div class="metric">${data.health.checkins}</div><span class="muted">check-ins</span></div><div><div class="metric">${data.health.avgSleep}h</div><span class="muted">sono médio</span></div><div><div class="metric">${data.health.avgWater}</div><span class="muted">ml água/dia</span></div><div><div class="metric">${data.health.avgCaffeine}</div><span class="muted">mg cafeína/dia</span></div></div><div class="grid"><div><div class="metric">${data.health.trainingDays}</div><span class="muted">dias com atividade</span></div><div><div class="metric">${data.health.mealDays}</div><span class="muted">dias com refeição registrada</span></div><div><div class="metric">${data.health.symptomDays}</div><span class="muted">dias com sintomas</span></div><div><div class="metric">${data.health.treatments}</div><span class="muted">tratamentos temporários</span></div></div>${renderInsightList(data.insights)}</div>
+ <div class="reportPage"><h2>2. Calendário operacional e constância</h2><p class="muted">O objetivo é visualizar onde a irregularidade da escala impacta hábitos básicos.</p>${renderMiniMonthReport(month)}<h3>Distribuição por tipo de dia</h3>${renderBarChart(data.byType.map(x=>({label:x[0],value:x[1]})), 'dias')}</div>
+ <div class="reportPage"><h2>3. Sono, hidratação e cafeína</h2><div class="grid"><div><h3>Sono por tipo de programação</h3>${renderSimpleTable(data.sleepByType,['Tipo','Sono médio'])}</div><div><h3>Hidratação por tipo de programação</h3>${renderSimpleTable(data.waterByType,['Tipo','Água média'])}</div></div><h3>Cafeína por dia registrado</h3>${renderBarChart(data.caffeineSeries,'mg')}</div>
+ <div class="reportPage"><h2>4. Alimentação</h2><p class="muted">Sem calorias. O foco é regularidade, tipo de refeição e palavras mais frequentes no diário alimentar.</p><div class="grid"><div><h3>Refeições registradas</h3>${renderSimpleTable(data.mealTypes,['Refeição','Quantidade'])}</div><div><h3>Alimentos/termos mais citados</h3>${data.foodWords.length?data.foodWords.map(x=>`<span class="pill orange">${x[0]} · ${x[1]}</span>`).join(' '):'<p class="muted">Ainda não há descrições suficientes.</p>'}</div></div></div>
+ <div class="reportPage"><h2>5. Exercício e recuperação</h2><div class="grid"><div><h3>Atividades realizadas</h3>${renderSimpleTable(data.trainingTypes,['Atividade','Dias'])}</div><div><h3>Treino sugerido × realizado</h3>${renderSimpleTable(data.trainingAlignment,['Categoria','Quantidade'])}</div></div></div>
+ <div class="reportPage"><h2>6. Saúde, sintomas e medicamentos temporários</h2><div class="grid"><div><h3>Sintomas mais registrados</h3>${data.symptoms.length?data.symptoms.map(x=>`<span class="pill red">${x[0]} · ${x[1]}</span>`).join(' '):'<p class="muted">Sem sintomas registrados.</p>'}</div><div><h3>Tratamentos no período</h3>${data.treatmentList.length?data.treatmentList.map(t=>`<div class="mealLine"><b>${t.med}</b> · ${t.reason||'sem justificativa'}<br><span class="muted">${t.start} a ${t.end}</span></div>`).join(''):'<p class="muted">Nenhum tratamento temporário no mês.</p>'}</div></div></div>
+ <div class="reportPage"><h2>7. Correlações observadas</h2><p class="muted">Associações simples, não causalidade. Servem para discussão e ajustes práticos.</p>${renderSimpleTable(data.correlations,['Comparação','Resultado observado'])}</div>
+ <div class="reportPage"><h2>8. Observações para consulta</h2><ul>${data.consultNotes.map(x=>`<li>${x}</li>`).join('')}</ul></div>`
+}
+function buildOperationalHealthReport(month){
+ const days=allDays(); const dates=[...new Set([...Object.keys(days),...Object.keys(state.health||{})].filter(d=>d.startsWith(month)))].sort();
+ const ops={days:Object.keys(days).filter(d=>d.startsWith(month)).length,duty:round(sum(Object.entries(days).filter(([d])=>d.startsWith(month)).map(([,x])=>x.duty||0))),flight:round(sum(Object.entries(days).filter(([d])=>d.startsWith(month)).map(([,x])=>x.flight||0))),dawn:Object.entries(days).filter(([d,x])=>d.startsWith(month)&&isDawnDay(x)).length};
+ const healthDates=Object.keys(state.health||{}).filter(d=>d.startsWith(month));
+ const avg=(arr)=>arr.length?round(sum(arr)/arr.length,1):0;
+ const health={checkins:healthDates.length,avgSleep:avg(healthDates.map(d=>+state.health[d].sleep||0).filter(Boolean)),avgWater:Math.round(avg(healthDates.map(d=>+state.health[d].water||0).filter(Boolean))),avgCaffeine:Math.round(avg(healthDates.map(d=>+state.health[d].caffeineMg||0).filter(x=>x>=0))),trainingDays:healthDates.filter(d=>hasAnyTraining(state.health[d])).length,mealDays:healthDates.filter(d=>(state.health[d].meals||[]).length).length,symptomDays:Object.keys(state.healthEvents||{}).filter(d=>d.startsWith(month)&&(state.healthEvents[d]||[]).length).length,treatments:(state.treatments||[]).filter(t=>t.start.slice(0,7)<=month&&t.end.slice(0,7)>=month).length};
+ const byType=countBy(Object.entries(days).filter(([d])=>d.startsWith(month)).map(([,x])=>x.classification||'Sem dados'));
+ const sleepByType=avgMetricByType(month,'sleep','h'); const waterByType=avgMetricByType(month,'water','ml');
+ const caffeineSeries=healthDates.map(d=>({label:d.slice(8,10),value:+state.health[d].caffeineMg||0}));
+ const mealTypes=countBy(healthDates.flatMap(d=>(state.health[d].meals||[]).map(m=>m.type||'Refeição')));
+ const foodWords=topWords(healthDates.flatMap(d=>(state.health[d].meals||[]).map(m=>m.desc||'')).join(' '));
+ const trainingTypes=countBy(healthDates.flatMap(d=>(state.health[d].trainingTypes||[])));
+ const trainingAlignment=countBy(healthDates.map(d=>{const sug=trainingSuggestion(d).label; const done=hasAnyTraining(state.health[d]); return done?'Realizado com registro':(sug.includes('Recuperação')||sug.includes('Repouso')?'Não realizado em dia de recuperação':'Não registrado');}));
+ const evs=Object.entries(state.healthEvents||{}).filter(([d])=>d.startsWith(month)).flatMap(([d,a])=>a.map(e=>({...e,date:d})));
+ const symptoms=countBy(evs.flatMap(e=>e.symptoms||[]));
+ const treatmentList=(state.treatments||[]).filter(t=>t.start.slice(0,7)<=month&&t.end.slice(0,7)>=month);
+ const correlations=buildCorrelations(month,days,healthDates);
+ const insights=[];
+ if(ops.dawn) insights.push(`${ops.dawn} dia(s) com madrugada operacional no período, aumentando a necessidade de recuperação planejada.`);
+ if(health.checkins<10) insights.push(`Há poucos check-ins no mês (${health.checkins}). As correlações ficam mais confiáveis com registro diário simples.`);
+ if(health.avgSleep && health.avgSleep<6.5) insights.push(`Sono médio registrado abaixo de 6h30, ponto relevante para nutricionista/endócrino entender adesão e fome/cafeína.`);
+ if(health.avgCaffeine>250) insights.push(`Cafeína média registrada elevada (${health.avgCaffeine} mg/dia). Avaliar relação com sono e ansiedade percebida.`);
+ if(health.trainingDays) insights.push(`${health.trainingDays} dia(s) com atividade física registrada, útil para avaliar constância apesar de escala irregular.`);
+ const consultNotes=[`Levar este relatório como contexto da rotina: ele mostra a irregularidade operacional, não apenas hábitos isolados.`,`Avaliar estratégias realistas para dias de hotel, madrugada e pós-jornada longa.`,`As associações são observacionais e dependem da constância do registro.`];
+ return{label:new Date(month+'-01T00:00').toLocaleDateString('pt-BR',{month:'long',year:'numeric'}),ops,health,byType:Object.entries(byType),sleepByType,waterByType,caffeineSeries,mealTypes:Object.entries(mealTypes),foodWords,trainingTypes:Object.entries(trainingTypes),trainingAlignment:Object.entries(trainingAlignment),symptoms:Object.entries(symptoms).sort((a,b)=>b[1]-a[1]),treatmentList,correlations,insights,consultNotes};
+}
+function avgMetricByType(month,field,suffix){const days=allDays();const buckets={};Object.keys(state.health||{}).filter(d=>d.startsWith(month)).forEach(d=>{const v=+state.health[d][field]||0;if(!v)return;const type=(days[d]&&days[d].classification)||'Sem escala';buckets[type]=buckets[type]||[];buckets[type].push(v);});return Object.entries(buckets).map(([k,a])=>[k,`${field==='sleep'?round(sum(a)/a.length,1):Math.round(sum(a)/a.length)} ${suffix}`]);}
+function buildCorrelations(month,days,healthDates){const out=[];const byClass={};healthDates.forEach(d=>{const c=(days[d]&&days[d].classification)||'Sem escala';byClass[c]=byClass[c]||[];byClass[c].push(state.health[d]);});Object.entries(byClass).forEach(([c,arr])=>{const sl=arr.map(h=>+h.sleep||0).filter(Boolean);const caf=arr.map(h=>+h.caffeineMg||0).filter(x=>x>=0);if(sl.length)out.push([`Sono em ${c}`,`${round(sum(sl)/sl.length,1)}h em média (${sl.length} registro(s))`]);if(caf.length)out.push([`Cafeína em ${c}`,`${Math.round(sum(caf)/caf.length)} mg/dia em média`]);});const highCaf=healthDates.filter(d=>(+state.health[d].caffeineMg||0)>250);if(highCaf.length){const avgSleep=round(sum(highCaf.map(d=>+state.health[d].sleep||0).filter(Boolean))/(highCaf.map(d=>+state.health[d].sleep||0).filter(Boolean).length||1),1);out.push(['Dias com cafeína >250 mg',`${highCaf.length} dia(s); sono médio registrado ${avgSleep||'sem dados'}h`]);}return out.length?out:[['Dados insuficientes','Registre sono, água, cafeína, refeições e treino por algumas semanas para gerar correlações úteis.']];}
+function countBy(arr){return arr.filter(Boolean).reduce((a,x)=>(a[x]=(a[x]||0)+1,a),{})}
+function topWords(text){const stop=new Set('de da do das dos e a o as os um uma para com no na em ao ou que sem por mais menos muito pouco hotel aeroporto bordo comida lanche café almoço jantar ceia'.split(' '));const counts=String(text||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(w=>w.length>2&&!stop.has(w)).reduce((a,w)=>(a[w]=(a[w]||0)+1,a),{});return Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,12)}
+function renderBarChart(data,unit){if(!data||!data.length)return '<p class="muted">Sem dados para gráfico.</p>';const max=Math.max(1,...data.map(x=>+x.value||0));return `<div class="chart">${data.map(x=>`<div class="bar" style="height:${Math.max(4,((+x.value||0)/max)*145)}px"><span>${x.value}</span><small>${String(x.label).slice(0,6)}</small></div>`).join('')}</div><p class="muted">${unit}</p>`}
+function renderSimpleTable(rows,heads){if(!rows||!rows.length)return '<p class="muted">Sem dados.</p>';return `<table style="width:100%;border-collapse:collapse"><thead><tr>${heads.map(h=>`<th style="text-align:left;border-bottom:1px solid var(--line);padding:8px">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td style="border-bottom:1px solid var(--line);padding:8px">${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`}
+function renderInsightList(arr){return arr&&arr.length?`<div class="alert"><b>Principais leituras do mês</b><ul>${arr.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}
+function renderMiniMonthReport(month){const days=allDays();const [y,m]=month.split('-').map(Number);const first=new Date(y,m-1,1), start=new Date(first);start.setDate(1-first.getDay());let cells=[];for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const id=iso(d);const tag=classifyDayTag(days[id]);cells.push(`<div class="day ${d.getMonth()!==m-1?'out':''}"><div class="daynum">${d.getDate()}</div><span class="tag ${tag.cls}">${tag.label}</span></div>`)}return `<div class="calendar">${['D','S','T','Q','Q','S','S'].map(x=>`<div class="dow">${x}</div>`).join('')}${cells.join('')}</div>`}
+
+
+function escapeAttr(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
+function showInfo(title,body){document.getElementById('infoTitle').textContent=title||'Detalhes';document.getElementById('infoBody').innerHTML=body||'';document.getElementById('infoModal').classList.remove('hidden')}
+function hideInfo(ev){if(ev&&ev.target&&ev.target.id!=='infoModal')return;document.getElementById('infoModal').classList.add('hidden')}
+let infoDelegationReady=false;function initInfoDelegation(){if(infoDelegationReady)return;infoDelegationReady=true;document.body.addEventListener('click',ev=>{const el=ev.target.closest('[data-info-title]');if(!el)return;ev.stopPropagation();showInfo(el.dataset.infoTitle,el.dataset.infoBody)});}
+function startInfoPress(ev,title,body){ev.stopPropagation();clearTimeout(infoPressTimer);infoPressTimer=setTimeout(()=>showInfo(title,body),450);const clear=()=>clearTimeout(infoPressTimer);ev.currentTarget.addEventListener('pointerup',clear,{once:true});ev.currentTarget.addEventListener('pointerleave',clear,{once:true})}
+function eventPill(e){const cls=e.type==='flight'?'blue':e.type==='training'?'purple':(e.type==='rest'||e.type==='vacation'?'green':'orange');const title=e.type==='flight'?`${e.code} ${e.from||''}-${e.to||''}`:e.code;return `<span class="pill ${cls} info" data-info-title="${escapeAttr(title)}" data-info-body="${escapeAttr(eventInfo(e))}">${e.code}</span>`}
+function eventInfo(e,j){let lines=[];if(e.type==='flight'){lines.push(`<b>${e.code}</b> ${e.from||'—'} → ${e.to||'—'}`);lines.push(`Decolagem ${e.dep||e.times?.[0]||'—'} · Pouso/corte ${e.arr||e.times?.[1]||'—'}`);lines.push(`Tempo de voo estimado: ${e.flight||0}h`);if(j){lines.push(`Apresentação da jornada: ${j.report||'—'}`);lines.push(`Limite estimado para corte: ${j.limitCut||j.cutLimit||'—'}`);lines.push(`Limite estimado para fim de jornada: ${j.limitEnd||j.endLimit||'—'}`);if(j.international)lines.push(`Voo internacional detectado na jornada: pós-corte considerado 45 min.`)}}else{lines.push(`<b>${e.code}</b>`);lines.push(`Tipo: ${e.type||'atividade'}`);lines.push(`Período: ${(e.times||[]).join(' → ')||e.start||'—'}`);lines.push(`Duração estimada: ${e.duty||0}h`)}lines.push(`<small>Toque nos alertas e chips para ver premissas. Dados dependem da leitura do PDF IFN/iFlight.</small>`);return lines.map(x=>`<p>${x}</p>`).join('')}
+function eventPillWithJourney(e,j){const cls=e.type==='flight'?'blue':e.type==='training'?'purple':'orange';const title=e.type==='flight'?`${e.code} ${e.from||''}-${e.to||''}`:e.code;return `<span class="pill ${cls} info" data-info-title="${escapeAttr(title)}" data-info-body="${escapeAttr(eventInfo(e,j))}">${e.code}</span>`}
+function hotelRecoveryInfo(j){const r=j.recovery;if(!r)return 'Sem estimativa disponível.';return `<p><b>Janela provável de hotel:</b> ${r.hotelMin}–${r.hotelMax}h (${r.label}).</p><p><b>Chegada estimada ao hotel:</b> ${r.arrivalMin}–${r.arrivalMax}.</p><p><b>Saída estimada do hotel:</b> ${r.leaveMin}–${r.leaveMax}.</p><p>Premissa: ${r.assumption}. O objetivo é indicar risco operacional de recuperação, não substituir os horários reais de transporte/hotel.</p><p>Confirme os horários ao chegar ao hotel e na API/escala operacional para validação.</p>`}
+function perDiemInfo(w){let items=Object.entries(w.byDay||{}).map(([d,it])=>`${d.slice(8,10)}/${d.slice(5,7)}: ${it.join(', ')}`).join('<br>');return `<p><b>Período:</b> ${w.label}</p><p><b>Pagamento previsto:</b> ${w.pay}</p><p><b>Resumo:</b> ${w.main} refeição(ões) principais, ${w.breakfast} café(s), ${w.taxi} táxi(s).</p><p>${items||'Sem itens detalhados.'}</p>`}
+
+function renderDebug(){const r=currentRoster();document.getElementById('view-debug').innerHTML=`${renderNormativePanel()}<div class="card"><h2>Debug do parser</h2><p class="muted">Use para validar escalas antigas e futuras.</p><div class="debug">${escapeHtml((r.debug||[]).join('\n')||'Nenhum debug disponível.')}</div></div>`}
+function escapeHtml(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+render();
+
+// HealthOps clean-test build: helper para limpar caches antigos sem perder localStorage.
+window.resetPwaCache = async function(){
+  try{
+    if('serviceWorker' in navigator){
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r=>r.unregister()));
+    }
+    if(window.caches){
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k=>caches.delete(k)));
+    }
+    alert('Cache do PWA limpo. Recarregue a página com Ctrl+F5 ou feche/abra o app.');
+  }catch(e){ alert('Não foi possível limpar automaticamente: '+e.message); }
+};
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js?v=2.0-alpha.14-clean').catch(()=>{}));
+}
+</script>
+</body>
+</html>
