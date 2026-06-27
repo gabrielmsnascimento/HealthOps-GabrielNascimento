@@ -1,21 +1,26 @@
-const CACHE_NAME = 'healthops-v1-0-beta-7-full';
-const ASSETS = [
-  './', './index.html', './manifest.json', './README.md',
-  './css/styles.css', './js/app.js',
-  './js/engines/parser-ifn.js', './js/engines/operational-engine.js',
-  './js/engines/regulatory-engine.js', './js/engines/perdiem-engine.js',
-  './js/engines/health-engine.js', './js/engines/medication-engine.js',
-  './js/engines/storage-engine.js', './js/data/activity-catalog.js',
-  './js/data/medication-catalog.js', './js/ui/components.js'
-];
+const CACHE_NAME = 'healthops-v2-0-alpha-6-clean';
+const ASSETS = ['./','./index.html?v=2.0-alpha.6-clean','./manifest.json'];
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS).catch(() => null)));
   self.skipWaiting();
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).catch(()=>null));
 });
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))));
-  self.clients.claim();
+  event.waitUntil((async()=>{
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 self.addEventListener('fetch', event => {
-  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request)));
+  if(event.request.method !== 'GET') return;
+  event.respondWith((async()=>{
+    try {
+      const fresh = await fetch(event.request, {cache:'no-store'});
+      const cache = await caches.open(CACHE_NAME);
+      cache.put(event.request, fresh.clone()).catch(()=>{});
+      return fresh;
+    } catch(e) {
+      return (await caches.match(event.request)) || (await caches.match('./index.html?v=2.0-alpha.6-clean'));
+    }
+  })());
 });
