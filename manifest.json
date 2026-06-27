@@ -1,9 +1,1 @@
-{
-  "name": "HealthOps Aeronautas",
-  "short_name": "HealthOps",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#f4f1eb",
-  "theme_color": "#23404a",
-  "icons": []
-}
+{"name":"HealthOps Aeronautas","short_name":"HealthOps","start_url":"./","display":"standalone","background_color":"#f4f1eb","theme_color":"#23404a"}

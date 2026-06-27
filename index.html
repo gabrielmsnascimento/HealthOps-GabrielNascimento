@@ -2,12 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HealthOps Aeronautas v5.2 Parser Layout</title>
+<title>HealthOps Aeronautas v5.3 Import Parser Fix</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ded8cf;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#c7861d;--bad:#a33a3a;--blue:#2f6f9f;--green:#eaf7ee;--yellow:#fff4cd;--red:#faeaea;--bluebg:#eaf4fb;--gray:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:900;font-size:12px;z-index:30}header{max-width:1180px;margin:auto;padding:24px 18px 8px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--copper);text-transform:uppercase}h1{font-size:clamp(34px,5vw,60px);line-height:.95;margin:8px 0 8px}.wrap{max-width:1180px;margin:auto;padding:0 16px 96px}p,.muted{color:var(--muted)}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);z-index:20}.tab{flex:1;border:0;background:#e9e6df;color:#67635d;border-radius:16px;padding:14px 8px;font-weight:900;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{font-size:34px;font-weight:900;color:#153846}.btn{border:0;background:var(--brand);color:#fff;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.input,textarea,select{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:12px}details>summary{font-size:22px;font-weight:900;cursor:pointer;margin-bottom:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;margin:2px;background:#eef0ef}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.green{background:var(--green);color:var(--ok)}.pill.yellow{background:var(--yellow);color:var(--warn)}.pill.red{background:var(--red);color:var(--bad)}.pill.gray{background:var(--gray);color:#777}.listrow{display:grid;grid-template-columns:110px 1.4fr 90px 90px 1.5fr;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;font-size:12px;color:var(--muted)}.day{min-height:82px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}.day.out{opacity:.35}.day.selected{outline:3px solid var(--brand)}.tag{display:inline-flex;margin-top:6px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:900}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.rest{background:var(--green);color:var(--ok)}.tag.none{background:var(--gray);color:#777}.alert{border-left:5px solid var(--warn);background:var(--yellow);padding:14px;border-radius:16px}.alert.bad{border-color:var(--bad);background:var(--red)}.hidden{display:none}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.hidden{display:none}.modalCard{background:#fff;width:min(620px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}.checkrow{display:flex;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px}.medcard{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.section{display:none}.section.active{display:block}pre{white-space:pre-wrap;background:#0f1d2a;color:#e9f3f5;border-radius:14px;padding:14px;overflow:auto}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.listrow{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:68px;padding:6px}.tabs{overflow-x:auto}.tab{min-width:120px}.wrap{padding-bottom:105px}}
 </style>
 </head><body>
-<div class="version" id="version">v5.2-parser-layout</div>
+<div class="version" id="version">v5.3-import-parser-fix</div>
 <header><div class="eyebrow">HealthOps Aeronautas</div><h1 id="pageTitle">Início operacional</h1><p id="pageSub">Base estável: parser → estado central → interface. Os módulos usam a mesma fonte de dados.</p></header>
 <main class="wrap">
 <section id="inicio" class="section active"></section>
@@ -22,7 +22,7 @@
 <div class="modal hidden" id="modal"><div class="modalCard"><div class="between"><h3 id="modalTitle">Detalhes</h3><button class="btn secondary small" onclick="HealthOps.ui.closeModal()">Fechar</button></div><div id="modalBody"></div></div></div>
 <script>
 'use strict';
-const VERSION='v5.2-parser-layout';
+const VERSION='v5.3-import-parser-fix';
 const HealthOps={
  state:{activeTab:'inicio',selectedMonth:null,imports:{},journeys:[],events:[],debug:[],meds:[],protocols:[],health:{water:0,caffeine:[],meals:[],sleep:[]}},
  refs:{},
@@ -101,6 +101,7 @@ const HealthOps={
    }
    return out.join('\n');
   },
+  ensurePdfJs(){return new Promise((resolve,reject)=>{if(window.pdfjsLib){try{pdfjsLib.GlobalWorkerOptions.workerSrc=pdfjsLib.GlobalWorkerOptions.workerSrc||'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}catch(e){} return resolve();}const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=()=>{try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}catch(e){} resolve();};s.onerror=()=>reject(new Error('Não foi possível carregar PDF.js. Confira internet/cache ou envie TXT.'));document.head.appendChild(s);});},
   detectKind(text){if(/Demonstrativo\s+Escala\s+Planejada/i.test(text))return 'comparativo'; if(/TIPO\s+DI[ÁA]RIA|VALOR\s+DI[ÁA]RIA/i.test(text))return 'diarias'; return 'escala';},
   normalizeText(text){return text.split(/\n+/).map(s=>s.trim()).filter(Boolean);},
   tokenIsTime(t){return /^\d{1,2}:\d{2}(?:\(\+\d+\))?$/.test(String(t||'').replace(/\s+/g,''));},
@@ -117,6 +118,8 @@ const HealthOps={
    const m=String(s||'').match(/\b([A-Z]{3})\s+(\d{1,2}:\d{2}(?:\(\+\d+\))?)/);
    return m?{ap:m[1],time:m[2]}:{ap:'',time:''};
   },
+  mergeOD(a,b){a=a||{o:{},d:{}};b=b||{o:{},d:{}};return {o:{ap:(a.o&&a.o.ap)||(b.o&&b.o.ap)||'',time:(a.o&&a.o.time)||(b.o&&b.o.time)||''},d:{ap:(a.d&&a.d.ap)||(b.d&&b.d.ap)||'',time:(a.d&&a.d.time)||(b.d&&b.d.time)||''}};},
+  releaseToken(col){const times=[...String(col||'').matchAll(/\d{1,2}:\d{2}(?:\(\+\d+\))?/g)].map(m=>m[0]);return times.find(t=>!/^0?0:00(?:\(\+\d+\))?$/.test(t))||'';},
   plainFromRow(raw){return raw.includes('__PLAIN__')?raw.split('__PLAIN__')[1].trim():raw;},
   parseRoster(text,rows,fileName,kind){
    let period=text.match(/(\d{2}-[A-Za-z]{3}-\d{4})\s*to\s*(\d{2}-[A-Za-z]{3}-\d{4})/i)||text.match(/(\d{2}-[A-Za-z]{3}-\d{4})to(\d{2}-[A-Za-z]{3}-\d{4})/i);
@@ -148,9 +151,10 @@ const HealthOps={
      }
      const base=pairDate||currentDate;
      const reportTok=(cols[3].match(/\d{1,2}:\d{2}(?:\(\+\d+\))?/)||[''])[0];
-     const od=pendingOD||{o:this.parseAirportTime(cols[7]),d:this.parseAirportTime(cols[8])};
+     const currentOD={o:this.parseAirportTime(cols[7]),d:this.parseAirportTime(cols[8])};
+     const od=this.mergeOD(pendingOD,currentOD);
      const origin=od.o.ap, depTok=od.o.time, dest=od.d.ap, arrTok=od.d.time;
-     const relTok=(cols[9].match(/\d{1,2}:\d{2}(?:\(\+\d+\))?/)||[''])[0];
+     const relTok=this.releaseToken(cols[9]);
      const cond=/^(OP|PS)$/i.test(cols[6])?cols[6].toUpperCase():'';
      const report=this.tokenIsTime(reportTok)?HealthOps.utils.parseTimeToken(reportTok,base):null;
      const dep=this.tokenIsTime(depTok)?HealthOps.utils.parseTimeToken(depTok,base):null;
@@ -177,7 +181,7 @@ const HealthOps={
      const ads=[...tail.matchAll(/\b([A-Z]{3})\s+(\d{1,2}:\d{2}(?:\(\+\d+\))?)/g)].map(m=>({ap:m[1],time:m[2]}));
      const origin=ads[0]?.ap||'', depTok=ads[0]?.time||'', dest=ads[1]?.ap||'', arrTok=ads[1]?.time||'';
      const times=[...tail.matchAll(/\d{1,2}:\d{2}(?:\(\+\d+\))?/g)].map(m=>m[0]);
-     const relTok=times.length>2?times[2]:''; const base=pairDate||currentDate;
+     const relTok=times.find((t,i)=>i>1 && !/^0?0:00(?:\(\+\d+\))?$/.test(t))||''; const base=pairDate||currentDate;
      events.push({date:currentDate.toISOString().slice(0,10),baseDate:base.toISOString().slice(0,10),pairing:currentPair||activity,activity,cond,origin,depTok,dest,arrTok,relTok,reportTok,report:this.tokenIsTime(reportTok)?HealthOps.utils.parseTimeToken(reportTok,base):null,dep:this.tokenIsTime(depTok)?HealthOps.utils.parseTimeToken(depTok,base):null,arr:this.tokenIsTime(arrTok)?HealthOps.utils.parseTimeToken(arrTok,base):null,release:this.tokenIsTime(relTok)?HealthOps.utils.parseTimeToken(relTok,base):null,sourceLine:line});
     }
    }

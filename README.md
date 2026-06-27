@@ -1,3 +1,3 @@
-# HealthOps v5.2 Parser Layout
+# HealthOps v5.3 Import Parser Fix
 
-Correção do parser para usar colunas visuais do PDF IFN/LATAM, offsets (+1/+2/+3) e múltiplos PDFs.
+Corrige carregamento do PDF.js e tratamento de horários 00:00 nas colunas finais, além de mesclar origem/destino quando o PDF divide a linha visual.
