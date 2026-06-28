@@ -1,0 +1,772 @@
+{
+  "meta": {
+    "document_type": "ifn_roster",
+    "pages": [
+      {
+        "page": 1,
+        "tables": 1,
+        "width": 1300,
+        "height": 750
+      },
+      {
+        "page": 2,
+        "tables": 1,
+        "width": 1300,
+        "height": 750
+      },
+      {
+        "page": 3,
+        "tables": 1,
+        "width": 1300,
+        "height": 750
+      }
+    ],
+    "row_count": 56
+  },
+  "normalized_rows_count": 54,
+  "journeys_count": 12,
+  "journeys": [
+    {
+      "date": "2026-04-28",
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-04-28T07:50",
+      "release": "2026-04-28T13:25",
+      "duty_hours": 5.58,
+      "flight_hours": 3.83,
+      "flights": [
+        {
+          "number": "LA8108",
+          "condition": "OP",
+          "origin": "BSB",
+          "departure": "2026-04-28T08:50",
+          "destination": "SCL",
+          "arrival": "2026-04-28T12:40"
+        }
+      ],
+      "activities": [],
+      "warnings": [],
+      "international": true
+    },
+    {
+      "date": "2026-04-29",
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-04-29T18:00",
+      "release": "2026-04-30T00:50",
+      "duty_hours": 6.83,
+      "flight_hours": 5.08,
+      "flights": [
+        {
+          "number": "LA8179",
+          "condition": "OP",
+          "origin": "SCL",
+          "departure": "2026-04-29T19:00",
+          "destination": "GRU",
+          "arrival": "2026-04-30T00:05"
+        }
+      ],
+      "activities": [],
+      "warnings": [],
+      "international": true
+    },
+    {
+      "date": "2026-04-30",
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-04-30T13:43",
+      "release": "2026-05-01T00:20",
+      "duty_hours": 10.62,
+      "flight_hours": 6.5,
+      "flights": [
+        {
+          "number": "LA3664",
+          "condition": "OP",
+          "origin": "GRU",
+          "departure": "2026-04-30T14:30",
+          "destination": "OPS",
+          "arrival": "2026-04-30T16:05"
+        },
+        {
+          "number": "LA3969",
+          "condition": "OP",
+          "origin": "OPS",
+          "departure": "2026-04-30T16:55",
+          "destination": "BSB",
+          "arrival": "2026-04-30T19:40"
+        },
+        {
+          "number": "LA3852",
+          "condition": "OP",
+          "origin": "BSB",
+          "departure": "2026-04-30T21:40",
+          "destination": "THE",
+          "arrival": "2026-04-30T23:50"
+        }
+      ],
+      "activities": [],
+      "warnings": []
+    },
+    {
+      "date": "2026-05-01",
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-05-01T15:40",
+      "release": "2026-05-01T18:55",
+      "duty_hours": 3.25,
+      "flight_hours": 2.17,
+      "flights": [
+        {
+          "number": "LA3853",
+          "condition": "OP",
+          "origin": "THE",
+          "departure": "2026-05-01T16:15",
+          "destination": "BSB",
+          "arrival": "2026-05-01T18:25"
+        }
+      ],
+      "activities": [],
+      "warnings": []
+    },
+    {
+      "date": "2026-05-04",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-05-04T08:35",
+      "release": "2026-05-04T17:15",
+      "duty_hours": 8.67,
+      "flight_hours": 5.25,
+      "flights": [
+        {
+          "number": "LA3280",
+          "condition": "OP",
+          "origin": "BSB",
+          "departure": "2026-05-04T09:25",
+          "destination": "VCP",
+          "arrival": "2026-05-04T11:05"
+        },
+        {
+          "number": "LA3281",
+          "condition": "OP",
+          "origin": "VCP",
+          "departure": "2026-05-04T11:45",
+          "destination": "BSB",
+          "arrival": "2026-05-04T13:20"
+        },
+        {
+          "number": "LA3794",
+          "condition": "OP",
+          "origin": "BSB",
+          "departure": "2026-05-04T14:45",
+          "destination": "CWB",
+          "arrival": "2026-05-04T16:45"
+        }
+      ],
+      "activities": [],
+      "warnings": []
+    },
+    {
+      "date": "2026-05-05",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-05-05T06:35",
+      "release": "2026-05-05T09:00",
+      "duty_hours": 2.42,
+      "flight_hours": 1.33,
+      "flights": [
+        {
+          "number": "LA3283",
+          "condition": "OP",
+          "origin": "CWB",
+          "departure": "2026-05-05T07:10",
+          "destination": "GRU",
+          "arrival": "2026-05-05T08:30"
+        }
+      ],
+      "activities": [],
+      "warnings": []
+    },
+    {
+      "date": "2026-05-05",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-05-05T21:43",
+      "release": "2026-05-06T06:15",
+      "duty_hours": 8.53,
+      "flight_hours": 6.16,
+      "flights": [
+        {
+          "number": "LA3196",
+          "condition": "OP",
+          "origin": "GRU",
+          "departure": "2026-05-05T22:30",
+          "destination": "THE",
+          "arrival": "2026-05-06T01:35"
+        },
+        {
+          "number": "LA3197",
+          "condition": "OP",
+          "origin": "THE",
+          "departure": "2026-05-06T02:40",
+          "destination": "GRU",
+          "arrival": "2026-05-06T05:45"
+        }
+      ],
+      "activities": [],
+      "warnings": []
+    },
+    {
+      "date": "2026-05-06",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-05-06T19:05",
+      "release": "2026-05-07T00:10",
+      "duty_hours": 5.08,
+      "flight_hours": 3.33,
+      "flights": [
+        {
+          "number": "LA8054",
+          "condition": "OP",
+          "origin": "GRU",
+          "departure": "2026-05-06T20:05",
+          "destination": "SCL",
+          "arrival": "2026-05-06T23:25"
+        }
+      ],
+      "activities": [],
+      "warnings": [],
+      "international": true
+    },
+    {
+      "date": "2026-05-07",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-05-07T12:50",
+      "release": "2026-05-07T19:35",
+      "duty_hours": 6.75,
+      "flight_hours": 5.17,
+      "flights": [
+        {
+          "number": "LA8109",
+          "condition": "PS",
+          "origin": "SCL",
+          "departure": "2026-05-07T13:40",
+          "destination": "BSB",
+          "arrival": "2026-05-07T18:50"
+        }
+      ],
+      "activities": [],
+      "warnings": [],
+      "international": true
+    },
+    {
+      "date": "2026-05-08",
+      "pairing": "LA3755/080526/ JJCC320-P",
+      "type": "voo",
+      "report": "2026-05-08T08:50",
+      "release": "2026-05-08T19:50",
+      "duty_hours": 11.0,
+      "flight_hours": 6.91,
+      "flights": [
+        {
+          "number": "LA3755",
+          "condition": "OP",
+          "origin": "BSB",
+          "departure": "2026-05-08T09:40",
+          "destination": "GYN",
+          "arrival": "2026-05-08T10:30"
+        },
+        {
+          "number": "LA4648",
+          "condition": "OP",
+          "origin": "GYN",
+          "departure": "2026-05-08T11:15",
+          "destination": "BSB",
+          "arrival": "2026-05-08T12:00"
+        },
+        {
+          "number": "LA4724",
+          "condition": "OP",
+          "origin": "BSB",
+          "departure": "2026-05-08T13:10",
+          "destination": "REC",
+          "arrival": "2026-05-08T15:45"
+        },
+        {
+          "number": "LA3425",
+          "condition": "OP",
+          "origin": "REC",
+          "departure": "2026-05-08T16:35",
+          "destination": "BSB",
+          "arrival": "2026-05-08T19:20"
+        }
+      ],
+      "activities": [],
+      "warnings": []
+    },
+    {
+      "date": "2026-05-15",
+      "pairing": "HSBE- 15/150526/JJCC 320-P",
+      "type": "programacao",
+      "report": null,
+      "release": "2026-05-15T00:00",
+      "duty_hours": 0.0,
+      "flight_hours": 0.0,
+      "flights": [],
+      "activities": [
+        {
+          "code": null,
+          "origin": null,
+          "start": null,
+          "end": null
+        }
+      ],
+      "warnings": [
+        "Apresentação não identificada na linha normalizada"
+      ]
+    },
+    {
+      "date": "2026-05-18",
+      "pairing": "HSBE- 22/180526/JJCC 320-P",
+      "type": "programacao",
+      "report": null,
+      "release": "2026-05-18T00:00",
+      "duty_hours": 0.0,
+      "flight_hours": 0.0,
+      "flights": [],
+      "activities": [
+        {
+          "code": null,
+          "origin": null,
+          "start": null,
+          "end": null
+        }
+      ],
+      "warnings": [
+        "Apresentação não identificada na linha normalizada"
+      ]
+    }
+  ],
+  "normalized_rows_sample": [
+    {
+      "source_date": null,
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "pairing_start_date": "2026-04-28",
+      "report_raw": "07:50",
+      "activity": "LA8108",
+      "condition": "OP",
+      "origin": "BSB",
+      "departure_raw": "08:50",
+      "destination": "SCL",
+      "arrival_raw": "12:40",
+      "release_raw": "13:25",
+      "row_preview": "<== Tue LA8108/280426/ JJCC320-P  07:50 LA8108  OP  BSB 08:50 SCL 12:40 13:25 00:00 00:00  321   "
+    },
+    {
+      "source_date": null,
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "pairing_start_date": "2026-04-28",
+      "report_raw": "18:00(+1)",
+      "activity": "LA8179",
+      "condition": "OP",
+      "origin": "SCL",
+      "departure_raw": "19:00(+1)",
+      "destination": "GRU",
+      "arrival_raw": "00:05(+2)",
+      "release_raw": "00:50(+2)",
+      "row_preview": "    18:00(+1) LA8179  OP  SCL 19:00(+1) GRU 00:05(+2) 00:50(+2) 00:00 00:00  320   "
+    },
+    {
+      "source_date": null,
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "pairing_start_date": "2026-04-28",
+      "report_raw": "13:43(+2)",
+      "activity": "LA3664",
+      "condition": "OP",
+      "origin": "GRU",
+      "departure_raw": "14:30(+2)",
+      "destination": "OPS",
+      "arrival_raw": "16:05(+2)",
+      "release_raw": null,
+      "row_preview": "    13:43(+2) LA3664  OP  GRU 14:30(+2) OPS 16:05(+2)  00:00 00:00  320   "
+    },
+    {
+      "source_date": null,
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "pairing_start_date": "2026-04-28",
+      "report_raw": null,
+      "activity": "LA3969",
+      "condition": "OP",
+      "origin": "OPS",
+      "departure_raw": "16:55(+2)",
+      "destination": "BSB",
+      "arrival_raw": "19:40(+2)",
+      "release_raw": null,
+      "row_preview": "     LA3969  OP  OPS 16:55(+2) BSB 19:40(+2)  00:00   320   "
+    },
+    {
+      "source_date": null,
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "pairing_start_date": "2026-04-28",
+      "report_raw": null,
+      "activity": "LA3852",
+      "condition": "OP",
+      "origin": "BSB",
+      "departure_raw": "21:40(+2)",
+      "destination": "THE",
+      "arrival_raw": "23:50(+2)",
+      "release_raw": "00:20(+3)",
+      "row_preview": "     LA3852  OP  BSB 21:40(+2) THE 23:50(+2) 00:20(+3) 00:00   320   "
+    },
+    {
+      "source_date": null,
+      "pairing": "LA8108/280426/ JJCC320-P",
+      "pairing_start_date": "2026-04-28",
+      "report_raw": "15:40(+3)",
+      "activity": "LA3853",
+      "condition": "OP",
+      "origin": "THE",
+      "departure_raw": "16:15(+3)",
+      "destination": "BSB",
+      "arrival_raw": "18:25(+3)",
+      "release_raw": "18:55(+3)",
+      "row_preview": "    15:40(+3) LA3853  OP  THE 16:15(+3) BSB 18:25(+3) 18:55(+3) 00:00 00:00  321   "
+    },
+    {
+      "source_date": "2026-05-02",
+      "pairing": "DO",
+      "pairing_start_date": "2026-05-02",
+      "report_raw": null,
+      "activity": null,
+      "condition": null,
+      "origin": "BSB",
+      "departure_raw": "07:56",
+      "destination": "BSB",
+      "arrival_raw": "07:55(+1)",
+      "release_raw": null,
+      "row_preview": "02-May-2026 Sat DO       BSB 07:56 BSB 07:55(+1)  00:00 00:00     "
+    },
+    {
+      "source_date": "2026-05-03",
+      "pairing": "DO",
+      "pairing_start_date": "2026-05-03",
+      "report_raw": null,
+      "activity": null,
+      "condition": null,
+      "origin": "BSB",
+      "departure_raw": "07:56",
+      "destination": "BSB",
+      "arrival_raw": "07:55(+1)",
+      "release_raw": null,
+      "row_preview": "03-May-2026 Sun DO       BSB 07:56 BSB 07:55(+1)  00:00 00:00     "
+    },
+    {
+      "source_date": "2026-05-04",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "pairing_start_date": "2026-05-04",
+      "report_raw": "08:35",
+      "activity": "LA3280",
+      "condition": "OP",
+      "origin": "BSB",
+      "departure_raw": "09:25",
+      "destination": "VCP",
+      "arrival_raw": "11:05",
+      "release_raw": null,
+      "row_preview": "04-May-2026 Mon LA3280/040526/ JJCC320-P  08:35 LA3280  OP  BSB 09:25 VCP 11:05  00:00 00:00  319   "
+    },
+    {
+      "source_date": "2026-05-04",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "pairing_start_date": "2026-05-04",
+      "report_raw": null,
+      "activity": "LA3281",
+      "condition": "OP",
+      "origin": "VCP",
+      "departure_raw": "11:45",
+      "destination": "BSB",
+      "arrival_raw": "13:20",
+      "release_raw": null,
+      "row_preview": "     LA3281  OP  VCP 11:45 BSB 13:20  00:00   319   "
+    },
+    {
+      "source_date": "2026-05-04",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "pairing_start_date": "2026-05-04",
+      "report_raw": null,
+      "activity": "LA3794",
+      "condition": "OP",
+      "origin": "BSB",
+      "departure_raw": "14:45",
+      "destination": "CWB",
+      "arrival_raw": "16:45",
+      "release_raw": "17:15",
+      "row_preview": "     LA3794  OP  BSB 14:45 CWB 16:45 17:15 00:00   321   "
+    },
+    {
+      "source_date": "2026-05-04",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "pairing_start_date": "2026-05-04",
+      "report_raw": "06:35(+1)",
+      "activity": "LA3283",
+      "condition": "OP",
+      "origin": "CWB",
+      "departure_raw": "07:10(+1)",
+      "destination": "GRU",
+      "arrival_raw": "08:30(+1)",
+      "release_raw": "09:00(+1)",
+      "row_preview": "    06:35(+1) LA3283  OP  CWB 07:10(+1) GRU 08:30(+1) 09:00(+1) 00:00 00:00  321   "
+    },
+    {
+      "source_date": "2026-05-04",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "pairing_start_date": "2026-05-04",
+      "report_raw": "21:43(+1)",
+      "activity": "LA3196",
+      "condition": "OP",
+      "origin": "GRU",
+      "departure_raw": "22:30(+1)",
+      "destination": "THE",
+      "arrival_raw": "01:35(+2)",
+      "release_raw": null,
+      "row_preview": "    21:43(+1) LA3196  OP  GRU 22:30(+1) THE 01:35(+2)  00:00 00:00  320   "
+    },
+    {
+      "source_date": "2026-05-04",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "pairing_start_date": "2026-05-04",
+      "report_raw": null,
+      "activity": "LA3197",
+      "condition": "OP",
+      "origin": "THE",
+      "departure_raw": "02:40(+2)",
+      "destination": "GRU",
+      "arrival_raw": "05:45(+2)",
+      "release_raw": "06:15(+2)",
+      "row_preview": "     LA3197  OP  THE 02:40(+2) GRU 05:45(+2) 06:15(+2) 00:00   32S   "
+    },
+    {
+      "source_date": "2026-05-04",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "pairing_start_date": "2026-05-04",
+      "report_raw": "19:05(+2)",
+      "activity": "LA8054",
+      "condition": "OP",
+      "origin": "GRU",
+      "departure_raw": "20:05(+2)",
+      "destination": "SCL",
+      "arrival_raw": "23:25(+2)",
+      "release_raw": "00:10(+3)",
+      "row_preview": "    19:05(+2) LA8054  OP  GRU 20:05(+2) SCL 23:25(+2) 00:10(+3) 00:00 00:00  328   "
+    },
+    {
+      "source_date": "2026-05-04",
+      "pairing": "LA3280/040526/ JJCC320-P",
+      "pairing_start_date": "2026-05-04",
+      "report_raw": "12:50(+3)",
+      "activity": "LA8109",
+      "condition": "PS",
+      "origin": "SCL",
+      "departure_raw": "13:40(+3)",
+      "destination": "BSB",
+      "arrival_raw": "18:50(+3)",
+      "release_raw": "19:35(+3)",
+      "row_preview": "    12:50(+3) LA8109  PS  SCL 13:40(+3) BSB 18:50(+3) 19:35(+3) 00:00 00:00  32S   "
+    },
+    {
+      "source_date": "2026-05-08",
+      "pairing": "LA3755/080526/ JJCC320-P",
+      "pairing_start_date": "2026-05-08",
+      "report_raw": "08:50",
+      "activity": "LA3755",
+      "condition": "OP",
+      "origin": "BSB",
+      "departure_raw": "09:40",
+      "destination": "GYN",
+      "arrival_raw": "10:30",
+      "release_raw": null,
+      "row_preview": "08-May-2026 Fri LA3755/080526/ JJCC320-P  08:50 LA3755  OP  BSB 09:40 GYN 10:30  00:00 00:00  328   "
+    },
+    {
+      "source_date": "2026-05-08",
+      "pairing": "LA3755/080526/ JJCC320-P",
+      "pairing_start_date": "2026-05-08",
+      "report_raw": null,
+      "activity": "LA4648",
+      "condition": "OP",
+      "origin": "GYN",
+      "departure_raw": "11:15",
+      "destination": "BSB",
+      "arrival_raw": "12:00",
+      "release_raw": null,
+      "row_preview": "     LA4648  OP  GYN 11:15 BSB 12:00  00:00   328   "
+    },
+    {
+      "source_date": "2026-05-08",
+      "pairing": "LA3755/080526/ JJCC320-P",
+      "pairing_start_date": "2026-05-08",
+      "report_raw": null,
+      "activity": "LA4724",
+      "condition": "OP",
+      "origin": "BSB",
+      "departure_raw": "13:10",
+      "destination": "REC",
+      "arrival_raw": "15:45",
+      "release_raw": null,
+      "row_preview": "     LA4724  OP  BSB 13:10 REC 15:45  00:00   31R   "
+    },
+    {
+      "source_date": "2026-05-08",
+      "pairing": "LA3755/080526/ JJCC320-P",
+      "pairing_start_date": "2026-05-08",
+      "report_raw": null,
+      "activity": "LA3425",
+      "condition": "OP",
+      "origin": "REC",
+      "departure_raw": "16:35",
+      "destination": "BSB",
+      "arrival_raw": "19:20",
+      "release_raw": "19:50",
+      "row_preview": "     LA3425  OP  REC 16:35 BSB 19:20 19:50 00:00   31R   "
+    },
+    {
+      "source_date": "2026-05-09",
+      "pairing": "DO",
+      "pairing_start_date": "2026-05-09",
+      "report_raw": null,
+      "activity": null,
+      "condition": null,
+      "origin": "BSB",
+      "departure_raw": "09:51",
+      "destination": "BSB",
+      "arrival_raw": "09:50(+1)",
+      "release_raw": null,
+      "row_preview": "09-May-2026 Sat DO       BSB 09:51 BSB 09:50(+1)  00:00 00:00     "
+    },
+    {
+      "source_date": "2026-05-10",
+      "pairing": "DO",
+      "pairing_start_date": "2026-05-10",
+      "report_raw": null,
+      "activity": null,
+      "condition": "BSB 09:51",
+      "origin": null,
+      "departure_raw": null,
+      "destination": null,
+      "arrival_raw": null,
+      "release_raw": "00:00",
+      "row_preview": "10-May-2026 Sun DO     BSB 09:51 BSB 09:50(+1)  00:00 00:00    "
+    },
+    {
+      "source_date": "2026-05-11",
+      "pairing": "LA3001/110526/ JJCC320-P",
+      "pairing_start_date": "2026-05-11",
+      "report_raw": "LA3001",
+      "activity": null,
+      "condition": "BSB 11:00",
+      "origin": null,
+      "departure_raw": null,
+      "destination": null,
+      "arrival_raw": null,
+      "release_raw": "00:00",
+      "row_preview": "11-May-2026 Mon LA3001/110526/ JJCC320-P 10:10 LA3001  OP BSB 11:00 CGH 12:45  00:00 00:00  328  "
+    },
+    {
+      "source_date": "2026-05-11",
+      "pairing": "LA3001/110526/ JJCC320-P",
+      "pairing_start_date": "2026-05-11",
+      "report_raw": "LA3174",
+      "activity": null,
+      "condition": "CGH 14:35",
+      "origin": null,
+      "departure_raw": null,
+      "destination": null,
+      "arrival_raw": null,
+      "release_raw": null,
+      "row_preview": "    LA3174  OP CGH 14:35 MGF 15:55  00:00   328  "
+    },
+    {
+      "source_date": "2026-05-11",
+      "pairing": "LA3001/110526/ JJCC320-P",
+      "pairing_start_date": "2026-05-11",
+      "report_raw": "LA3175",
+      "activity": null,
+      "condition": "MGF 16:40",
+      "origin": null,
+      "departure_raw": null,
+      "destination": null,
+      "arrival_raw": null,
+      "release_raw": null,
+      "row_preview": "    LA3175  PS MGF 16:40 CGH 18:00  00:00   328  "
+    },
+    {
+      "source_date": "2026-05-11",
+      "pairing": "LA3001/110526/ JJCC320-P",
+      "pairing_start_date": "2026-05-11",
+      "report_raw": "LA3074",
+      "activity": null,
+      "condition": "CGH 19:40",
+      "origin": null,
+      "departure_raw": null,
+      "destination": null,
+      "arrival_raw": null,
+      "release_raw": null,
+      "row_preview": "    LA3074  OP CGH 19:40 FLN 20:55 21:25 00:00   328  "
+    },
+    {
+      "source_date": "2026-05-11",
+      "pairing": "LA3001/110526/ JJCC320-P",
+      "pairing_start_date": "2026-05-11",
+      "report_raw": "LA3303",
+      "activity": null,
+      "condition": "FLN 15:20(+1)",
+      "origin": null,
+      "departure_raw": null,
+      "destination": null,
+      "arrival_raw": null,
+      "release_raw": "00:00",
+      "row_preview": "   14:50(+1) LA3303  OP FLN 15:20(+1) GRU 16:50(+1)  00:00 00:00  32S  "
+    },
+    {
+      "source_date": "2026-05-11",
+      "pairing": "LA3001/110526/ JJCC320-P",
+      "pairing_start_date": "2026-05-11",
+      "report_raw": "LA3346",
+      "activity": null,
+      "condition": "GRU 18:15(+1)",
+      "origin": null,
+      "departure_raw": null,
+      "destination": null,
+      "arrival_raw": null,
+      "release_raw": null,
+      "row_preview": "    LA3346  OP GRU 18:15(+1) SSA 20:35(+1)  00:00   32S  "
+    },
+    {
+      "source_date": "2026-05-11",
+      "pairing": "LA3001/110526/ JJCC320-P",
+      "pairing_start_date": "2026-05-11",
+      "report_raw": "LA3381",
+      "activity": null,
+      "condition": "SSA 21:25(+1)",
+      "origin": null,
+      "departure_raw": null,
+      "destination": null,
+      "arrival_raw": null,
+      "release_raw": null,
+      "row_preview": "    LA3381  OP SSA 21:25(+1) GRU 23:55(+1) 00:25(+2) 00:00   32S  "
+    },
+    {
+      "source_date": "2026-05-11",
+      "pairing": "LA3001/110526/ JJCC320-P",
+      "pairing_start_date": "2026-05-11",
+      "report_raw": "LA8138",
+      "activity": null,
+      "condition": "GRU 16:55(+2)",
+      "origin": null,
+      "departure_raw": null,
+      "destination": null,
+      "arrival_raw": null,
+      "release_raw": "00:00",
+      "row_preview": "   15:55(+2) LA8138  OP GRU 16:55(+2) AEP 19:50(+2)  00:00 00:00  328  "
+    }
+  ]
+}
