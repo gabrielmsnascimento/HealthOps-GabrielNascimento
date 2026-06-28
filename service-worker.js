@@ -1,4 +1,4 @@
-const CACHE_NAME='healthops-v6-2-2-cache-reset';
+const CACHE_NAME='healthops-v6-3-parser-columns';
 const ASSETS=['./','./index.html','./manifest.json','./app.js','./css/styles.css','./data/medications.json'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(()=>self.skipWaiting()));

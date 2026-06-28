@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HealthOps Aeronautas v6.2.2 Cache Reset</title>
+<title>HealthOps Aeronautas v6.3 Parser Columns</title>
 <style>
 :root{--bg:#f4f1eb;--card:#fff;--ink:#0f1d2a;--muted:#68727d;--line:#ddd6cb;--brand:#23404a;--copper:#b06d42;--ok:#2e7d52;--warn:#b97910;--bad:#a33a3a;--blue:#2f6f9f;--green:#eaf7ee;--yellow:#fff4cd;--red:#faeaea;--bluebg:#eaf4fb;--gray:#f1f1ee}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.version{position:fixed;right:12px;top:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:999px;font-weight:900;font-size:12px;z-index:30}header{max-width:1180px;margin:auto;padding:24px 18px 8px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.14em;color:var(--copper);text-transform:uppercase}h1{font-size:clamp(34px,5vw,60px);line-height:.95;margin:8px 0 8px}h2{margin-top:0}p,.muted{color:var(--muted)}.wrap{max-width:1180px;margin:auto;padding:0 16px 96px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(244,241,235,.96);backdrop-filter:blur(10px);display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);z-index:20}.tab{flex:1;border:0;background:#e9e6df;color:#67635d;border-radius:16px;padding:14px 8px;font-weight:900;cursor:pointer}.tab.active{background:var(--brand);color:#fff}.section{display:none}.section.active{display:block}.card{background:var(--card);border-radius:22px;padding:18px;border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{font-size:34px;font-weight:900;color:#153846}.btn{border:0;background:var(--brand);color:#fff;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:44px}.btn.secondary{background:#e9e6df;color:var(--ink)}.btn.danger{background:#a83d3d}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.input,textarea,select,input[type=file]{width:100%;border:1px solid #cfc8bd;border-radius:14px;padding:12px;font:inherit;background:#fff}textarea{min-height:150px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:12px}details>summary{font-size:22px;font-weight:900;cursor:pointer;margin-bottom:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;margin:2px;background:#eef0ef}.pill.blue{background:var(--bluebg);color:var(--blue)}.pill.green{background:var(--green);color:var(--ok)}.pill.yellow{background:var(--yellow);color:var(--warn)}.pill.red{background:var(--red);color:var(--bad)}.pill.gray{background:var(--gray);color:#777}.listrow{display:grid;grid-template-columns:110px 1.4fr 90px 90px 1.8fr;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 0}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.dow{text-align:center;font-weight:900;font-size:12px;color:var(--muted)}.day{min-height:82px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}.tag{display:inline-flex;margin-top:6px;border-radius:999px;padding:4px 7px;font-size:11px;font-weight:900}.tag.flight{background:var(--bluebg);color:var(--blue)}.tag.rest{background:var(--green);color:var(--ok)}.tag.none{background:var(--gray);color:#777}.alert{border-left:5px solid var(--warn);background:var(--yellow);padding:14px;border-radius:16px}.alert.bad{border-color:var(--bad);background:var(--red)}pre{white-space:pre-wrap;background:#0f1d2a;color:#e9f3f5;border-radius:14px;padding:14px;overflow:auto}.checkrow{display:flex;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.checkrow input{width:22px;height:22px}.medcard{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}.modal{position:fixed;inset:0;background:rgba(15,29,42,.45);display:none;align-items:flex-end;justify-content:center;z-index:99;padding:14px}.modal.show{display:flex}.modalCard{background:#fff;width:min(620px,100%);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.listrow{grid-template-columns:1fr}.calendar{gap:5px}.day{min-height:68px;padding:6px}.tabs{overflow-x:auto}.tab{min-width:120px}.wrap{padding-bottom:105px}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
-<div class="version">v6.2.2-cache-reset</div>
+<div class="version">v6.3-parser-columns</div>
 <header><div class="eyebrow">HealthOps Aeronautas</div><h1 id="pageTitle">Início operacional</h1><p id="pageSub">Parser por coordenadas: PDF → linhas visuais costuradas → 10 colunas essenciais → jornadas.</p></header>
 <main class="wrap">
 <section id="inicio" class="section active"></section>
@@ -25,7 +25,7 @@
 <div class="modal" id="modal"><div class="modalCard"><div class="between"><h3 id="modalTitle">Detalhes</h3><button class="btn secondary small" id="modalClose">Fechar</button></div><div id="modalBody"></div></div></div>
 <script>
 'use strict';
-const VERSION='v6.2.2-cache-reset';
+const VERSION='v6.3-parser-columns';
 const STORAGE_KEY='healthops.v6.state';
 const WEEK=new Set(['Mon','Tue','Wed','Thu','Fri','Sat','Sun']);
 const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
@@ -58,13 +58,77 @@ function parseTimeToken(tok,base){if(!tok||!base)return null;const m=String(tok)
 function tokensClean(tokens){return tokens.filter(t=>t && !['Date','Pairing/Activity','Report','Item','Opt','Rank','WT','ACY','Rep','Dep','Arr','Deb','Debrief','FH','DH','SDC','A/C','Type','Hotel','Assignment','Comments','Roster','Report'].includes(t))}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 async function ensurePdf(){if(!window.pdfjsLib)throw new Error('PDF.js não carregou. Verifique conexão/cache.');pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'}
-async function extractPdfRows(file){await ensurePdf();const buf=await file.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:buf}).promise;let all=[];for(let p=1;p<=pdf.numPages;p++){const page=await pdf.getPage(p);const content=await page.getTextContent();const items=content.items.map(it=>({x:it.transform[4],y:it.transform[5],str:String(it.str||'').trim()})).filter(it=>it.str);const candidates=[clusterRows(items,'x','y',true),clusterRows(items,'y','x',false)];const scored=candidates.map(rows=>({rows,score:scoreRows(rows)}));scored.sort((a,b)=>b.score-a.score);all.push(...scored[0].rows.map(r=>Object.assign(r,{page:p})));}return all}
-function clusterRows(items,primary,secondary,desc){const body=items.filter(it=>it[primary]>40);body.sort((a,b)=>a[primary]-b[primary]);const clusters=[];const tol=14;for(const it of body){let c=clusters.find(c=>Math.abs(c.p-it[primary])<tol);if(!c){c={p:it[primary],items:[]};clusters.push(c)}c.items.push(it);c.p=(c.p*(c.items.length-1)+it[primary])/c.items.length;}return clusters.map(c=>{const sorted=c.items.slice().sort((a,b)=>desc?b[secondary]-a[secondary]:a[secondary]-b[secondary]);const tokens=sorted.map(it=>it.str).filter(Boolean);return{p:c.p,tokens,text:tokens.join(' ')}}).filter(r=>isUsefulRow(r.tokens));}
-function isUsefulRow(tokens){const t=tokensClean(tokens);return t.some(x=>DATE_RE.test(x)||ACT_RE.test(x)||x.includes('/'))}
-function scoreRows(rows){let n=0;for(const r of rows){const t=tokensClean(r.tokens);if(t.some(x=>DATE_RE.test(x)))n+=2;if(t.some(x=>FLIGHT_RE.test(x)))n+=3;if(t.some(x=>['HSB','HSBE','ASB','DO','DR','VC','OFF'].includes(x)))n+=2;if(t.some(x=>TIME_RE.test(x)))n+=1;if(t.some(x=>AIR_RE.test(x)))n+=1;}return n}
+async function extractPdfRows(file){
+  await ensurePdf();
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  let all=[];
+  for(let p=1;p<=pdf.numPages;p++){
+    const page=await pdf.getPage(p);
+    const content=await page.getTextContent();
+    const items=content.items.map(it=>({x:it.transform[4],y:it.transform[5],str:String(it.str||'').trim()})).filter(it=>it.str);
+    all.push(...layoutRowsFromItems(items,p));
+  }
+  return all;
+}
+function layoutRowsFromItems(items,pageNo){
+  // Parser por coordenadas: agrupa por eixo Y (linha visual) e depois separa por faixas X.
+  // Isso evita o erro anterior em que o PDF era lido por colunas ou texto achatado.
+  const body=items.filter(it=>it.y>35 && it.str && !['Roster','Report'].includes(it.str));
+  body.sort((a,b)=>b.y-a.y || a.x-b.x); // PDF.js: Y maior geralmente fica mais acima na página.
+  const clusters=[]; const tol=8;
+  for(const it of body){
+    let c=clusters.find(c=>Math.abs(c.y-it.y)<=tol);
+    if(!c){c={y:it.y,items:[]};clusters.push(c)}
+    c.items.push(it); c.y=(c.y*(c.items.length-1)+it.y)/c.items.length;
+  }
+  return clusters.map(c=>{
+    c.items.sort((a,b)=>a.x-b.x);
+    const cells={date:[],dow:[],pairing:[],report:[],activity:[],condition:[],dep:[],arr:[],release:[],raw:[]};
+    for(const it of c.items){
+      const x=it.x, str=it.str;
+      cells.raw.push(str);
+      if(x<92)cells.date.push(str);
+      else if(x<168)cells.dow.push(str);
+      else if(x<276)cells.pairing.push(str);
+      else if(x<340)cells.report.push(str);
+      else if(x<472)cells.activity.push(str);
+      else if(x<560)cells.condition.push(str);
+      else if(x<655)cells.dep.push(str);
+      else if(x<738)cells.arr.push(str);
+      else if(x<825)cells.release.push(str);
+    }
+    const text=cells.raw.join(' ');
+    return {page:pageNo,y:c.y,tokens:cells.raw.slice(),text,cells};
+  }).filter(r=>isUsefulLayoutRow(r));
+}
+function cellText(row,key){return (row.cells&&row.cells[key]?row.cells[key]:[]).join(' ').trim()}
+function cellTokens(row,key){return (row.cells&&row.cells[key]?row.cells[key]:[]).slice()}
+function isUsefulLayoutRow(row){
+  const all=row.tokens||[];
+  if(!all.length)return false;
+  if(all.some(t=>DATE_RE.test(t)||ACT_RE.test(t)||/\/\d{6}\/?/.test(t)))return true;
+  if((cellTokens(row,'dep').some(t=>AIR_RE.test(t))&&cellTokens(row,'dep').some(t=>TIME_RE.test(t))) || (cellTokens(row,'arr').some(t=>AIR_RE.test(t))&&cellTokens(row,'arr').some(t=>TIME_RE.test(t))))return true;
+  return false;
+}
 async function extractPlainText(file){if(file.type.includes('pdf')||file.name.toLowerCase().endsWith('.pdf')){const rows=await extractPdfRows(file);return rows.map(r=>r.text).join('\n')}return await file.text()}
-function plainRows(text){return text.split(/\n+/).map(x=>({tokens:x.trim().split(/\s+/),text:x.trim(),p:0,page:0})).filter(r=>r.text)}
-
+function plainRows(text){return text.split(/\n+/).map(x=>({tokens:x.trim().split(/\s+/),text:x.trim(),p:0,page:0,cells:null})).filter(r=>r.text)}
+function firstTokenMatching(tokens,re){return (tokens||[]).find(t=>re.test(t))||null}
+function firstNonZeroTime(tokens){return (tokens||[]).find(t=>TIME_RE.test(t)&&!isZeroTime(t))||null}
+function findActivityInTokens(tokens){return (tokens||[]).find(t=>ACT_RE.test(t))||null}
+function normalizePairing(tokens){return (tokens||[]).filter(Boolean).join('').replace(/\s+/g,'')}
+function parseRouteCells(row){
+  const depT=cellTokens(row,'dep').filter(t=>AIR_RE.test(t)||TIME_RE.test(t));
+  const arrT=cellTokens(row,'arr').filter(t=>AIR_RE.test(t)||TIME_RE.test(t));
+  const releaseT=cellTokens(row,'release').filter(t=>TIME_RE.test(t));
+  let origin=null,depTok=null,destination=null,arrTok=null,releaseTok=null;
+  const depAir=depT.find(t=>AIR_RE.test(t)); const depTime=depT.find(t=>TIME_RE.test(t));
+  const arrAir=arrT.find(t=>AIR_RE.test(t)); const arrTime=arrT.find(t=>TIME_RE.test(t));
+  if(depAir&&depTime){origin=depAir; depTok=depTime}
+  if(arrAir&&arrTime){destination=arrAir; arrTok=arrTime}
+  releaseTok=firstNonZeroTime(releaseT);
+  return {origin,depTok,destination,arrTok,releaseTok};
+}
 function hasActToken(tokens){return tokens.some(t=>ACT_RE.test(t))}
 function countAirTime(tokens){return tokens.filter(t=>AIR_RE.test(t)||TIME_RE.test(t)).length}
 function isColumnFragment(tokens){
@@ -172,75 +236,67 @@ function isRouteFragmentLine(tokens){
   return pairs.length>=1;
 }
 function parseRowsToEvents(rows){
+  // Consome linhas já separadas por colunas. Quando o PDF vem de TXT colado, cai em parseTextRowToEvent.
   let currentDate=null,currentPairing='',pairingBase=null;
-  let pendingRoute=[];
   const events=[];
   for(const row of rows){
-    let toks=usefulTokensFromText(row.text||row.tokens?.join(' ')||'');
-    if(!toks.length)continue;
-
-    // Datas e dia da semana
-    const dIdx=toks.findIndex(t=>DATE_RE.test(t));
-    if(dIdx>=0){currentDate=parseDateToken(toks[dIdx]);toks.splice(dIdx,1)}
-    toks=toks.filter(t=>!WEEK.has(t));
-
-    // Pairing/chave: pode aparecer sozinho numa linha ou junto da primeira atividade
-    const pIdx=toks.findIndex(t=>/\/\d{6}\//.test(t)||/\/\d{6}$/.test(t));
-    if(pIdx>=0){
-      const parts=[toks[pIdx]];
-      if(toks[pIdx+1]&&/JJCC|^\d{2}-P$|-P$/.test(toks[pIdx+1]))parts.push(toks[pIdx+1]);
-      if(toks[pIdx+2]&&/JJCC|^\d{2}-P$|-P$/.test(toks[pIdx+2]))parts.push(toks[pIdx+2]);
-      currentPairing=parts.join('');
-      pairingBase=parsePairingBase(currentPairing,currentDate)||currentDate;
-      toks=toks.filter((_,i)=>i!==pIdx&&i!==pIdx+1&&i!==pIdx+2);
-      if(!toks.some(t=>ACT_RE.test(t)))continue;
-    }
-    if(!pairingBase&&currentDate)pairingBase=new Date(currentDate);
-
-    // Linhas que são apenas rota quebrada pertencem à próxima atividade
-    if(isRouteFragmentLine(toks)){
-      pendingRoute=toks.filter(t=>AIR_RE.test(t)||TIME_RE.test(t));
-      continue;
-    }
-
-    const actIdx=toks.findIndex(t=>ACT_RE.test(t));
-    if(actIdx<0)continue;
-    const activity=toks[actIdx];
-
-    // Descansos e férias: atualizar estado, mas não criar jornada
-    if(REST_ACTIVITIES.has(activity)){
-      pendingRoute=[];
-      continue;
-    }
-
-    const pre=toks.slice(0,actIdx);
-    let post=toks.slice(actIdx+1);
-    const report=[...pre].reverse().find(t=>TIME_RE.test(t))||null;
-
-    post=post.filter(t=>!['CC','CCM'].includes(t));
-    let condition=null;
-    const condIdx=post.findIndex(t=>t==='OP'||t==='PS');
-    if(condIdx>=0){condition=post[condIdx];post.splice(condIdx,1)}
-    post=post.filter(t=>!['CC','CCM','OP','PS'].includes(t)&&!isAircraftToken(t));
-
-    const route=routeFromTokens(post,pendingRoute);
-    // se a linha principal trouxe rota completa, o fragmento anterior já foi usado ou não era necessário
-    pendingRoute=[];
-
-    const base=pairingBase?new Date(pairingBase):(currentDate?new Date(currentDate):null);
-    const ev={
-      sourceRow:row.text,page:row.page,currentDate:currentDate?new Date(currentDate):null,
-      pairing:currentPairing,base,
-      reportTok:report,report:parseTimeToken(report,base),
-      activity,condition,
-      origin:route.origin,depTok:route.dep,dep:parseTimeToken(route.dep,base),
-      destination:route.destination,arrTok:route.arrival,arr:parseTimeToken(route.arrival,base),
-      releaseTok:route.release,release:parseTimeToken(route.release,base),
-      routeSource:route.source
-    };
-    events.push(ev);
+    let ev=null;
+    if(row.cells) ev=parseLayoutRowToEvent(row,{currentDate,currentPairing,pairingBase});
+    else ev=parseTextRowToEvent(row,{currentDate,currentPairing,pairingBase});
+    if(ev&&ev._state){currentDate=ev._state.currentDate;currentPairing=ev._state.currentPairing;pairingBase=ev._state.pairingBase;delete ev._state}
+    if(ev&&ev.activity)events.push(ev);
   }
   return events;
+}
+function parseLayoutRowToEvent(row,ctx){
+  let {currentDate,currentPairing,pairingBase}=ctx;
+  const dateTok=firstTokenMatching(cellTokens(row,'date'),DATE_RE);
+  if(dateTok)currentDate=parseDateToken(dateTok);
+
+  const pairingRaw=normalizePairing(cellTokens(row,'pairing'));
+  if(pairingRaw){
+    if(/\/\d{6}\/?/.test(pairingRaw)||/^LA\d{4}/.test(pairingRaw)){currentPairing=pairingRaw; pairingBase=parsePairingBase(currentPairing,currentDate)||currentDate}
+  }
+  if(!pairingBase&&currentDate)pairingBase=new Date(currentDate);
+
+  let activity=findActivityInTokens(cellTokens(row,'activity'));
+  if(!activity){
+    // DO/DR/VC/OFF podem aparecer na coluna Pairing/Activity, não na coluna Item.
+    const pAct=findActivityInTokens(cellTokens(row,'pairing'));
+    if(pAct && !/^LA\d{4}$/.test(pAct)) activity=pAct;
+  }
+  if(!activity)return {_state:{currentDate,currentPairing,pairingBase}};
+
+  const base=pairingBase?new Date(pairingBase):(currentDate?new Date(currentDate):null);
+  const reportTok=firstNonZeroTime(cellTokens(row,'report'));
+  const condition=cellTokens(row,'condition').find(t=>t==='OP'||t==='PS')||null;
+  const route=parseRouteCells(row);
+
+  const ev={
+    sourceRow:row.text,page:row.page,currentDate:currentDate?new Date(currentDate):null,
+    pairing:currentPairing,base,
+    reportTok,report:parseTimeToken(reportTok,base),
+    activity,condition,
+    origin:route.origin,depTok:route.depTok,dep:parseTimeToken(route.depTok,base),
+    destination:route.destination,arrTok:route.arrTok,arr:parseTimeToken(route.arrTok,base),
+    releaseTok:route.releaseTok,release:parseTimeToken(route.releaseTok,base),
+    routeSource:'layout',
+    _state:{currentDate,currentPairing,pairingBase}
+  };
+  return ev;
+}
+function parseTextRowToEvent(row,ctx){
+  // fallback para TXT colado: simples, não substitui o parser por layout.
+  let {currentDate,currentPairing,pairingBase}=ctx;
+  let toks=usefulTokensFromText(row.text||row.tokens?.join(' ')||'');
+  const d=toks.find(t=>DATE_RE.test(t)); if(d)currentDate=parseDateToken(d);
+  const p=toks.find(t=>/\/\d{6}\//.test(t)); if(p){currentPairing=p; pairingBase=parsePairingBase(p,currentDate)||currentDate}
+  if(!pairingBase&&currentDate)pairingBase=new Date(currentDate);
+  const act=toks.find(t=>ACT_RE.test(t)); if(!act)return {_state:{currentDate,currentPairing,pairingBase}};
+  const idx=toks.indexOf(act); const reportTok=[...toks.slice(0,idx)].reverse().find(t=>TIME_RE.test(t)&&!isZeroTime(t))||null;
+  const post=toks.slice(idx+1); const route=routeFromTokens(post,[]);
+  const base=pairingBase?new Date(pairingBase):(currentDate?new Date(currentDate):null);
+  return {sourceRow:row.text,page:row.page,currentDate:currentDate?new Date(currentDate):null,pairing:currentPairing,base,reportTok,report:parseTimeToken(reportTok,base),activity:act,condition:post.find(t=>t==='OP'||t==='PS')||null,origin:route.origin,depTok:route.dep,dep:parseTimeToken(route.dep,base),destination:route.destination,arrTok:route.arrival,arr:parseTimeToken(route.arrival,base),releaseTok:route.release,release:parseTimeToken(route.release,base),routeSource:'text',_state:{currentDate,currentPairing,pairingBase}};
 }
 function buildJourneys(events){
   const journeys=[]; let cur=null;
@@ -265,7 +321,7 @@ function buildJourneys(events){
 }
 function finalizeJourney(j){if(!j.release){const last=j.flights[j.flights.length-1];if(last?.arr){const intl=j.flights.some(f=>/^LA8/.test(f.activity));j.release=new Date(last.arr.getTime()+(intl?45:30)*60000);j.releaseEstimated=true}}
  j.date=j.report?new Date(j.report):new Date(j.date);j.flightHours=j.flights.reduce((s,f)=>s+(hours(f.dep,f.arr)||0),0);j.dutyHours=hours(j.report,j.release);j.steps=j.flights.length;j.isInternational=j.flights.some(f=>/^LA8/.test(f.activity));j.hotelEstimated=null;}
-function parseAllRows(rows){const stitched=stitchVisualRows(rows);const events=parseRowsToEvents(stitched);const journeys=buildJourneys(events);return{events,journeys,rows:stitched}}
+function parseAllRows(rows){const events=parseRowsToEvents(rows);const journeys=buildJourneys(events);return{events,journeys,rows}}
 function monthKeyFromJourneys(journeys){const d=journeys.find(j=>j.report)?.report||new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}`}
 async function importFiles(files){let rows=[];let imported=0;for(const file of [...files]){try{debug('import',`Lendo ${file.name}`);let fileRows;if(file.type.includes('pdf')||file.name.toLowerCase().endsWith('.pdf'))fileRows=await extractPdfRows(file);else fileRows=plainRows(await file.text());rows.push(...fileRows);imported++;debug('import',`${file.name}: ${fileRows.length} linhas visuais`,fileRows.slice(0,8).map(r=>r.text));}catch(e){debug('import',`Erro em ${file.name}`,String(e&&e.stack?e.stack:e))}}
  const parsed=parseAllRows(rows);state.rows=parsed.rows;state.events=parsed.events;state.journeys=parsed.journeys;const mk=monthKeyFromJourneys(parsed.journeys);state.imports[mk]={updated:new Date().toISOString(),files:imported,journeys:parsed.journeys.length};saveState();return parsed.journeys.length}
